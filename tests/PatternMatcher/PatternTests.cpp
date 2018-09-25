@@ -42,7 +42,7 @@ BOOST_AUTO_TEST_CASE(equality)
     PatternMatcher::Pattern obj(testing_string);
     PatternMatcher::Pattern other(other_string);
     
-    BOOST_CHECK(other > obj);
+    BOOST_CHECK(obj < other);
     BOOST_CHECK(obj != other);
     obj = other;
     BOOST_CHECK(obj == other); 
