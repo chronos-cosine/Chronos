@@ -1,5 +1,5 @@
 # finds boost, triggers an error otherwise
-find_package(Boost 1.65.1 REQUIRED)
+find_package(Boost REQUIRED)
 if(Boost_FOUND)
     file(GLOB PatternMatcher_src
         "${CMAKE_CURRENT_LIST_DIR}/*.cpp"

@@ -15,7 +15,7 @@ jobs:
           name: Install CMAKE
           command: 'apt-get update && sudo apt-get install -y cmake'
       - run:
-          name: Install CMAKE
+          name: Install BOOST
           command: 'apt-get update && sudo apt-get install -y libboost-all-dev'
       - run:
           name: Creating Build Files
@@ -25,4 +25,4 @@ jobs:
           command: 'cmake --build build'
       - run:
           name: Point Unit Testing
-          command: './bin/point_test'
+          command: './tests/PatternMatcher/Pattern-Matcher-Test'
