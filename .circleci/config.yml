@@ -16,7 +16,7 @@ jobs:
           command: 'apt-get update && sudo apt-get install -y cmake'
       - run:
           name: Install CMAKE
-          command: 'apt-get update && sudo apt-get install -y boost'
+          command: 'apt-get update && sudo apt-get install -y libboost-all-dev'
       - run:
           name: Creating Build Files
           command: 'cmake -H. -Bbuild'
