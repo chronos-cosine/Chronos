@@ -31,7 +31,7 @@ jobs:
           command: 'cmake --build build'
       - run:
           name: List directory files
-          command: 'ls ./build/'
+          command: 'ls ./build/tests/PatternMatcher/'
       - run:
           name: Pattern Matcher Unit Tests
-          command: './Pattern-Matcher-Test'
+          command: './build/tests/PatternMatcher/Pattern-Matcher-Test'
