@@ -1,2 +1,2 @@
-add_subdirectory (PatternMatcher)
+add_subdirectory(PatternMatcher)
 

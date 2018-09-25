@@ -1,19 +1,13 @@
-file(GLOB PatternMatcher_src
-        "${CMAKE_CURRENT_LIST_DIR}/CompletedSignalArgs.cpp"
-        "${CMAKE_CURRENT_LIST_DIR}/CompletedSignalArgs.hpp"
-        "${CMAKE_CURRENT_LIST_DIR}/IdeablePattern.cpp"
-        "${CMAKE_CURRENT_LIST_DIR}/IdeablePattern.hpp"
-        "${CMAKE_CURRENT_LIST_DIR}/MatchFoundSignalArgs.cpp"
-        "${CMAKE_CURRENT_LIST_DIR}/MatchFoundSignalArgs.hpp"
-        "${CMAKE_CURRENT_LIST_DIR}/Node.cpp"
-        "${CMAKE_CURRENT_LIST_DIR}/Node.hpp"
-        "${CMAKE_CURRENT_LIST_DIR}/Pattern.cpp"
-        "${CMAKE_CURRENT_LIST_DIR}/Pattern.hpp"
-        "${CMAKE_CURRENT_LIST_DIR}/PatternMatchingMachine.cpp"
-        "${CMAKE_CURRENT_LIST_DIR}/PatternMatchingMachine.hpp"
-        "${CMAKE_CURRENT_LIST_DIR}/Program.cpp"
-        "${CMAKE_CURRENT_LIST_DIR}/RootNode.cpp"
-        "${CMAKE_CURRENT_LIST_DIR}/RootNode.hpp"
-)
-
-add_executable (Chronos-PatternMatcher ${PatternMatcher_src})
+# finds boost, triggers an error otherwise
+find_package(Boost 1.65.1 REQUIRED)
+if(Boost_FOUND)
+    file(GLOB PatternMatcher_src
+        "${CMAKE_CURRENT_LIST_DIR}/*.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/*.hpp" 
+    )
+    include_directories(${Boost_INCLUDE_DIRS})
+ 
+    # creates the executable
+    add_executable("PatternMatcher" ${PatternMatcher_src}) 
+    add_library("Chronos-PatternMatcher" ${PatternMatcher_src})  
+endif()
