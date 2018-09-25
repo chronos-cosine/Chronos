@@ -48,28 +48,4 @@ BOOST_AUTO_TEST_CASE(equality)
     BOOST_CHECK(obj == other); 
 }
 
-BOOST_AUTO_TEST_CASE(equality)
-{
-    std::string testing_string("TEST");
-    std::string other_string("OTHER");
-    
-    PatternMatcher::Pattern obj(testing_string);
-    PatternMatcher::Pattern other(other_string);
-     
-    BOOST_CHECK(obj != other);
-    obj = other;
-    BOOST_CHECK(obj == other); 
-}
-
-
-BOOST_AUTO_TEST_CASE(iterators)
-{
-    std::string testing_string("TEST"); 
-    
-    PatternMatcher::Pattern obj(testing_string); 
-     
-    BOOST_CHECK(obj.begin() != nullptr); 
-    BOOST_CHECK(obj.end() != nullptr); 
-}
-
 BOOST_AUTO_TEST_SUITE_END()
