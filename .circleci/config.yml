@@ -3,8 +3,14 @@ jobs:
   build:
     docker:
       - image: mickare/cmake-clang
-    steps: 
+    steps:
       - checkout 
+      - run:
+          name: Who am I
+          command: 'whoami' 
+      - run:
+          name: Install BOOST
+          command: 'apt-get update && sudo apt-get install -y libboost-all-dev'
       - run:
           name: Creating Build Files
           command: 'cmake -H. -Bbuild'
