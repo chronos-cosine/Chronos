@@ -13,6 +13,7 @@
 
 #include "MatchFoundSignalArgs.hpp"
 #include "Pattern.hpp"
+#include <exception>
 
 namespace PatternMatcher
 {
@@ -23,6 +24,10 @@ MatchFoundSignalArgs<PATTERN_TYPE>::MatchFoundSignalArgs(int position,
         std::set<PATTERN_TYPE>* patterns) 
     : __position(position), __input(input)
 { 
+    if (nullptr == patterns)
+    {
+        throw std::invalid_argument("patterns cannot be nullptr.");
+    }
     __patterns = patterns;
 }
  

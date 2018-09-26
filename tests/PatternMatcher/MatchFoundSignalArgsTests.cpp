@@ -17,6 +17,7 @@
 #include <string>
 #include <set>
 #include <boost/test/unit_test.hpp>
+#include <exception>
  
 void 
 MatchFoundSignalArgsTests::test_matchfoundsignalargs_constructors()
@@ -28,7 +29,7 @@ MatchFoundSignalArgsTests::test_matchfoundsignalargs_constructors()
     BOOST_REQUIRE_THROW(PatternMatcher::MatchFoundSignalArgs<PatternMatcher::Pattern>(testing_position, 
                 testing_input, 
                 testing_patterns), 
-            std::runtime_error); 
+            std::invalid_argument); 
 }
 
 void 
