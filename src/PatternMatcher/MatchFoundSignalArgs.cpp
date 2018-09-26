@@ -18,7 +18,9 @@ namespace PatternMatcher
 {
 
 template <typename PATTERN_TYPE>
-MatchFoundSignalArgs<PATTERN_TYPE>::MatchFoundSignalArgs(int position, const std::string& input, std::set<PATTERN_TYPE>* patterns) 
+MatchFoundSignalArgs<PATTERN_TYPE>::MatchFoundSignalArgs(int position, 
+        const std::string& input, 
+        std::set<PATTERN_TYPE>* patterns) 
     : __position(position), __input(input)
 { 
     __patterns = patterns;

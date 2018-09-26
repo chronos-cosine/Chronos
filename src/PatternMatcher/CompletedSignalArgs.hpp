@@ -21,7 +21,7 @@ namespace PatternMatcher
  
 class CompletedSignalArgs {
 public:
-    CompletedSignalArgs(const int& patterns_found, 
+    CompletedSignalArgs(int patterns_found, 
                         const std::string& input);
     virtual ~CompletedSignalArgs();
     

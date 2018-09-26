@@ -16,7 +16,7 @@
 namespace PatternMatcher
 {
 
-CompletedSignalArgs::CompletedSignalArgs(const int& patterns_found, 
+CompletedSignalArgs::CompletedSignalArgs(int patterns_found, 
         const std::string& input)
     : __patterns_found(patterns_found), __input(input)
 { }

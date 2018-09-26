@@ -7,10 +7,11 @@ if(Boost_FOUND)
         "${CMAKE_CURRENT_LIST_DIR}/*.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/*.hpp" 
         "../../src/PatternMatcher/Pattern.cpp"
-        "../../src/PatternMatcher/Pattern.hpp" 
+        "../../src/PatternMatcher/Pattern.hpp"  
+        "../../src/PatternMatcher/MatchFoundSignalArgs.cpp"
+        "../../src/PatternMatcher/MatchFoundSignalArgs.hpp"  
     )
     add_executable("Pattern-Matcher-Test" ${PatternMatcher_test}) 
     target_link_libraries("Pattern-Matcher-Test" ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY})
     add_test("Pattern-Matcher-Test" "Pattern-Matcher-Test")
 endif()
- 

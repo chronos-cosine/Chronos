@@ -1,13 +1,10 @@
-#include "../../src/PatternMatcher/Pattern.hpp"
+#include "PatternTests.hpp" 
+#include "../../src/PatternMatcher/Pattern.hpp" 
 #include <string>
-
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE "Chronos::PatternMatcher::Pattern Tests"
 #include <boost/test/unit_test.hpp>
-
-BOOST_AUTO_TEST_SUITE(PatternMatcherSuite)
-
-BOOST_AUTO_TEST_CASE(constructors)
+ 
+void 
+PatternTests::test_pattern_constructors()
 {
     std::string testing_string("TEST");
     PatternMatcher::Pattern obj(testing_string);
@@ -17,7 +14,8 @@ BOOST_AUTO_TEST_CASE(constructors)
     BOOST_CHECK(obj == other);
 }
 
-BOOST_AUTO_TEST_CASE(assignments)
+void 
+PatternTests::test_pattern_assignment_operators()
 {
     std::string testing_string("TEST");
     std::string other_string("OTHER");
@@ -34,7 +32,8 @@ BOOST_AUTO_TEST_CASE(assignments)
     BOOST_CHECK(obj.get_value() != other_string);
 }
 
-BOOST_AUTO_TEST_CASE(equality)
+void 
+PatternTests::test_pattern_equality_operators()
 {
     std::string testing_string("TEST");
     std::string other_string("OTHER");
@@ -45,7 +44,5 @@ BOOST_AUTO_TEST_CASE(equality)
     BOOST_CHECK(other < obj);
     BOOST_CHECK(obj != other);
     obj = other;
-    BOOST_CHECK(obj == other); 
-}
-
-BOOST_AUTO_TEST_SUITE_END()
+    BOOST_CHECK(obj == other);  
+}   
