@@ -44,4 +44,9 @@ BOOST_AUTO_TEST_CASE(test_pattern_equality_operators)
     BOOST_CHECK(obj != other);
     obj = other;
     BOOST_CHECK(obj == other);  
-}   
+}
+
+BOOST_AUTO_TEST_CASE(test_failure)
+{
+    BOOST_CHECK(false);
+}
