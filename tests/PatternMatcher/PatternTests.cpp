@@ -1,10 +1,11 @@
-#include "PatternTests.hpp" 
+#define BOOST_TEST_DYN_LINK
+#include <boost/test/unit_test.hpp>
+
 #include "../../src/PatternMatcher/Pattern.hpp" 
 #include <string>
 #include <boost/test/unit_test.hpp>
  
-void 
-PatternTests::test_pattern_constructors()
+BOOST_AUTO_TEST_CASE(test_pattern_constructors)
 {
     std::string testing_string("TEST");
     PatternMatcher::Pattern obj(testing_string);
@@ -14,8 +15,7 @@ PatternTests::test_pattern_constructors()
     BOOST_CHECK(obj == other);
 }
 
-void 
-PatternTests::test_pattern_assignment_operators()
+BOOST_AUTO_TEST_CASE(test_pattern_assignment_operators)
 {
     std::string testing_string("TEST");
     std::string other_string("OTHER");
@@ -32,8 +32,7 @@ PatternTests::test_pattern_assignment_operators()
     BOOST_CHECK(obj.get_value() != other_string);
 }
 
-void 
-PatternTests::test_pattern_equality_operators()
+BOOST_AUTO_TEST_CASE(test_pattern_equality_operators)
 {
     std::string testing_string("TEST");
     std::string other_string("OTHER");

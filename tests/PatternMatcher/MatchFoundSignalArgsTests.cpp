@@ -1,26 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+#define BOOST_TEST_DYN_LINK
+#include <boost/test/unit_test.hpp>
 
-/* 
- * File:   MatchFoundSignalArgsTests.cpp
- * Author: user
- * 
- * Created on 26 September 2018, 10:02 AM
- */
-
-#include "MatchFoundSignalArgsTests.hpp" 
 #include "../../src/PatternMatcher/MatchFoundSignalArgs.hpp" 
 #include "../../src/PatternMatcher/Pattern.hpp" 
 #include <string>
-#include <set>
-#include <boost/test/unit_test.hpp>
+#include <set> 
 #include <exception>
  
-void 
-MatchFoundSignalArgsTests::test_matchfoundsignalargs_constructors()
+BOOST_AUTO_TEST_CASE(test_matchfoundsignalargs_constructors)
 {
     std::string testing_input("TEST");
     std::set<PatternMatcher::Pattern>* testing_patterns = nullptr;
@@ -32,8 +19,7 @@ MatchFoundSignalArgsTests::test_matchfoundsignalargs_constructors()
             std::invalid_argument); 
 }
 
-void 
-MatchFoundSignalArgsTests::test_matchfoundsignalargs_input()
+BOOST_AUTO_TEST_CASE(test_matchfoundsignalargs_input)
 {
     std::string testing_input("TEST");
     std::set<PatternMatcher::Pattern> testing_patterns;
@@ -44,8 +30,7 @@ MatchFoundSignalArgsTests::test_matchfoundsignalargs_input()
     BOOST_CHECK(obj.get_input() == testing_input); 
 }
 
-void 
-MatchFoundSignalArgsTests::test_matchfoundsignalargs_position()
+BOOST_AUTO_TEST_CASE(test_matchfoundsignalargs_position)
 {
     std::string testing_input("TEST");
     std::set<PatternMatcher::Pattern> testing_patterns;
@@ -57,8 +42,7 @@ MatchFoundSignalArgsTests::test_matchfoundsignalargs_position()
     BOOST_CHECK(obj.get_position() == testing_position); 
 }
 
-void 
-MatchFoundSignalArgsTests::test_matchfoundsignalargs_patterns()
+BOOST_AUTO_TEST_CASE(test_matchfoundsignalargs_patterns)
 {
     std::string testing_input("TEST");
     std::set<PatternMatcher::Pattern> testing_patterns;

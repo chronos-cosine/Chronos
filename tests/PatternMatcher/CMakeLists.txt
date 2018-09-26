@@ -4,8 +4,7 @@ if(Boost_FOUND)
     set(Boost_USE_STATIC_LIBS ON)
     include_directories(${Boost_INCLUDE_PATH}) 
     file(GLOB PatternMatcher_test
-        "${CMAKE_CURRENT_LIST_DIR}/*.cpp"
-        "${CMAKE_CURRENT_LIST_DIR}/*.hpp" 
+        "${CMAKE_CURRENT_LIST_DIR}/*.cpp" 
         "../../src/PatternMatcher/Pattern.cpp"
         "../../src/PatternMatcher/Pattern.hpp"  
         "../../src/PatternMatcher/MatchFoundSignalArgs.cpp"
