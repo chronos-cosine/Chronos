@@ -3,8 +3,7 @@ jobs:
   build:
     docker:
       - image: mickare/cmake-clang
-    steps:
-      - restore_cache:
+    steps: 
       - checkout 
       - run:
           name: Creating Build Files
