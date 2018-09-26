@@ -2,7 +2,7 @@ version: 2
 jobs:
   build:
     docker:
-      - image: teeks99/boost-cpp-docker
+      - image: frewdis/debian-boost-clang
     steps:
       - checkout 
       - run:
