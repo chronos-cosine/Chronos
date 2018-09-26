@@ -1,4 +1,5 @@
 #define BOOST_TEST_NO_MAIN
+
 #include <boost/test/included/unit_test.hpp>
 #include "PatternTests.hpp"
 #include "MatchFoundSignalArgsTests.hpp"
@@ -42,19 +43,18 @@ init_matchfoundsignalargs_tests(boost::unit_test::test_suite* pattern_matcher_su
 static boost::unit_test::test_suite*
 init_unit_test_suite(int argc, char* argv[])
 {
-    boost::unit_test::test_suite* pattern_matcher_suite = BOOST_TEST_SUITE("Chronos::PatternMatcher::TestSuite");
-    
+    boost::unit_test::test_suite* pattern_matcher_suite = BOOST_TEST_SUITE("Chronos::PatternMatcher::TestSuite"); 
+     
     init_pattern_tests(pattern_matcher_suite); 
     init_matchfoundsignalargs_tests(pattern_matcher_suite); 
     
     boost::unit_test::framework::master_test_suite().add(pattern_matcher_suite);
     
-    return 0;
+    return pattern_matcher_suite;
 }
 
 int 
 main(int argc, char* argv[])
 {
-    int asnwer = boost::unit_test::unit_test_main(init_unit_test_suite, argc, argv);
-    return 0;
+    return boost::unit_test::unit_test_main(init_unit_test_suite, argc, argv); 
 }
