@@ -5,9 +5,14 @@ jobs:
       - image: frewdis/debian-boost-clang
     steps:
       - checkout 
+      - setup_remote_docker: 
+         docker_layer_caching: true 
+      # DLC will explicitly cache layers here and try to avoid rebuilding.
+      - run: docker build . 
       - run:
           name: Who am I
           command: 'whoami' 
+      - run:
           name: Creating Build Files
           command: 'cmake -H. -Bbuild'
       - run:
