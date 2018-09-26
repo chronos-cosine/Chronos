@@ -9,6 +9,18 @@ jobs:
           name: Who am I
           command: 'whoami' 
       - run:
+          name: Installing SUDO
+          command: 'apt-get update && apt-get install -y sudo && rm -rf /var/lib/apt/lists/*'
+      - run:
+          name: Installing GCC
+          command: 'apt-get update && apt-get install -y gcc g++'
+      - run:
+          name: Install CMAKE
+          command: 'apt-get update && sudo apt-get install -y cmake'
+      - run:
+          name: Install BOOST
+          command: 'apt-get update && sudo apt-get install -y libboost-all-dev'
+      - run:
           name: Creating Build Files
           command: 'cmake -H. -Bbuild'
       - run:
