@@ -83,7 +83,7 @@ PatternMatchingMachine<PATTERN_TYPE>::construct_failure_function()
         }
     }
 }
- 
+
 template <typename PATTERN_TYPE>
 void 
 PatternMatchingMachine<PATTERN_TYPE>::enter(const PATTERN_TYPE& pattern)
@@ -158,9 +158,8 @@ PatternMatchingMachine<PATTERN_TYPE>::match_found()
 {
     return __match_found;
 }
-    
+
 //This section is to ensure that we keep the source code separate in a .cpp for templates
-template class PatternMatchingMachine<Pattern>;
-template class PatternMatchingMachine<int>;
+template class PatternMatchingMachine<Pattern>; 
 
 } /* namespace PatternMatcher */
