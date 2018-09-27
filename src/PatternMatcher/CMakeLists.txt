@@ -8,6 +8,6 @@ if(Boost_FOUND)
     include_directories(${Boost_INCLUDE_DIRS})
  
     # creates the executable
-    add_executable("PatternMatcher" ${PatternMatcher_src}) 
-    add_library("Chronos-PatternMatcher" ${PatternMatcher_src})  
+    add_executable("Chronos-PatternMatcher" ${PatternMatcher_src}) 
+    add_library("libChronos-PatternMatcher" ${PatternMatcher_src})  
 endif()

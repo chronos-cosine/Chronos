@@ -22,6 +22,7 @@ namespace PatternMatcher
 
 class Pattern {
 public:
+    Pattern(const char* pattern);
     Pattern(const std::string& pattern);
     Pattern(const Pattern& orig);
     virtual ~Pattern();
@@ -34,6 +35,9 @@ public:
     //Operators
     Pattern& operator=(const std::string& rhs);
     Pattern& operator=(const Pattern& rhs); 
+    Pattern& operator=(const char* rhs); 
+    bool operator==(const std::string& rhs);
+    bool operator!=(const std::string& rhs);
     bool operator==(const Pattern& rhs);
     bool operator!=(const Pattern& rhs);
     bool operator<(const Pattern& rhs) const;

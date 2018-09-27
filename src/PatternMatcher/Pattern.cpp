@@ -16,6 +16,10 @@
 namespace PatternMatcher
 {
      
+Pattern::Pattern(const char* pattern)
+    : __pattern(pattern)
+{ }
+     
 Pattern::Pattern(const std::string& pattern)
     : __pattern(pattern)
 { }
@@ -64,7 +68,14 @@ Pattern::operator=(const Pattern& rhs)
     return *this;
 }
 
-bool 
+Pattern& 
+Pattern::operator=(const char* rhs)
+{
+    __pattern = rhs;
+    return *this;
+}
+
+bool
 Pattern::operator<(const Pattern& rhs) const
 {
     return __pattern < rhs.__pattern;
@@ -80,6 +91,18 @@ bool
 Pattern::operator!=(const Pattern& rhs)
 {
     return __pattern != rhs.__pattern;
+}
+
+bool 
+Pattern::operator==(const std::string& rhs)
+{
+   return __pattern == rhs; 
+}
+
+bool 
+Pattern::operator!=(const std::string& rhs)
+{
+   return __pattern != rhs; 
 }
 
 } /* namespace PatternMatcher */

@@ -14,34 +14,44 @@
 #ifndef PATTERNMATCHER_PATTERNMATCHINGMACHINE_HPP
 #define PATTERNMATCHER_PATTERNMATCHINGMACHINE_HPP
 
-#include "Node.hpp"
-#include "CompletedSignalArgs.hpp"
-#include "MatchFoundSignalArgs.hpp"
-
 #include <boost/signals2.hpp>
 #include <string>
 #include <set>
+
+#include "Node.hpp" 
 
 namespace PatternMatcher
 {
 
 template <typename PATTERN_TYPE>
-class PatternMatchingMachine {
-public:
-    typedef boost::signals2::signal<void(PatternMatchingMachine<PATTERN_TYPE>*, const CompletedSignalArgs&)> signal_completed;
-    typedef boost::signals2::signal<void(PatternMatchingMachine<PATTERN_TYPE>*, const MatchFoundSignalArgs<PATTERN_TYPE>&)> signal_match_found;
+class PatternMatchingMachine { 
 public:
     PatternMatchingMachine(const std::set<PATTERN_TYPE>& patterns); 
     virtual ~PatternMatchingMachine(); 
     
     void match(const std::string& input);
+    void match(const char* input);
     
-    signal_completed& completed();
-    signal_match_found& match_found();
+    boost::signals2::signal<
+        void(PatternMatchingMachine<PATTERN_TYPE>*, 
+             const unsigned long long&,
+             const std::string&)>& completed();
+    boost::signals2::signal<
+        void(PatternMatchingMachine<PATTERN_TYPE>*, 
+             const unsigned long long&,
+             const std::string&,
+             const std::set<PATTERN_TYPE>&)>& match_found();
 private:
     Node<PATTERN_TYPE>* __root;
-    signal_completed __completed;
-    signal_match_found __match_found;
+    boost::signals2::signal<
+        void(PatternMatchingMachine<PATTERN_TYPE>*, 
+             const unsigned long long&,
+             const std::string&)> __completed;
+    boost::signals2::signal<
+        void(PatternMatchingMachine<PATTERN_TYPE>*, 
+             const unsigned long long&,
+             const std::string&,
+             const std::set<PATTERN_TYPE>&)> __match_found;
      
     void enter(const PATTERN_TYPE& pattern);
     void construct_goto_function(const std::set<PATTERN_TYPE>& patterns);

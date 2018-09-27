@@ -24,7 +24,7 @@ template <typename PATTERN_TYPE>
 class Node {
 public:
     //ctor
-    Node(char value); 
+    Node(const char& value); 
     virtual ~Node();
     
     //failure

@@ -11,6 +11,10 @@
  * Created on 21 September 2018, 8:10 AM
  */
 
+#include <type_traits>
+#include <map>
+#include <set>
+
 #include "Node.hpp"
 #include "Pattern.hpp"
 
@@ -18,10 +22,10 @@ namespace PatternMatcher
 {
 
 template <typename PATTERN_TYPE>
-Node<PATTERN_TYPE>::Node(char value)
+Node<PATTERN_TYPE>::Node(const char& value)
     : __value(value)
 {
-    static_assert(std::is_base_of<Pattern, PATTERN_TYPE>::value, "<T> must derive from PatternMatcher::Pattern");
+    static_assert(std::is_base_of<Pattern, PATTERN_TYPE>::value, "<PATTERN_TYPE> must derive from PatternMatcher::Pattern");
     
     __failure = nullptr;
 }

@@ -15,6 +15,7 @@ set(CHRONOS_VERSION_PATCH 1)
 
 # ================ MAIN OBJECTS ==================
 set(CMAKE_CXX_FLAGS "-std=c++14")
+set(CMAKE_STATIC_LIBRARY_PREFIX "")
 add_subdirectory(src)
  
 # ================ TESTS =========================
