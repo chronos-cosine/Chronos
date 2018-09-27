@@ -11,6 +11,8 @@
  * Created on 21 September 2018, 9:25 AM
  */
 
+#include <type_traits>
+
 #include "RootNode.hpp"
 #include "Pattern.hpp"
 
@@ -21,6 +23,8 @@ template <typename PATTERN_TYPE>
 RootNode<PATTERN_TYPE>::RootNode()
     : Node<PATTERN_TYPE>('~')
 {
+    static_assert(std::is_base_of<Pattern, PATTERN_TYPE>::value, "<PATTERN_TYPE> must derive from PatternMatcher::Pattern");
+    
     // a RootNode fails towards itself
     Node<PATTERN_TYPE>::set_failure(this);
 }

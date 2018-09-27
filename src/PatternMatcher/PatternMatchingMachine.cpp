@@ -11,15 +11,13 @@
  * Created on 21 September 2018, 9:40 AM
  */
 
-#include "CompletedSignalArgs.hpp"
-#include "MatchFoundSignalArgs.hpp"
 #include "Pattern.hpp"
 #include "PatternMatchingMachine.hpp"
 #include "RootNode.hpp"
 
-
-#include <queue>
 #include <map>
+#include <queue>
+#include <type_traits>
 
 namespace PatternMatcher
 {
@@ -27,6 +25,8 @@ namespace PatternMatcher
 template <typename PATTERN_TYPE>
 PatternMatchingMachine<PATTERN_TYPE>::PatternMatchingMachine(const std::set<PATTERN_TYPE>& patterns) 
 {
+    static_assert(std::is_base_of<Pattern, PATTERN_TYPE>::value, "<PATTERN_TYPE> must derive from PatternMatcher::Pattern");
+    
     __root = new RootNode<PATTERN_TYPE>();
     construct_goto_function(patterns);
     construct_failure_function();
@@ -105,39 +105,55 @@ PatternMatchingMachine<PATTERN_TYPE>::enter(const PATTERN_TYPE& pattern)
 
 template <typename PATTERN_TYPE>
 void 
-PatternMatchingMachine<PATTERN_TYPE>::match(const std::string& input)
+PatternMatchingMachine<PATTERN_TYPE>::match(const char* input)
 {
-    int patterns_found = 0;
-    int position = 0;
+    std::string temp(input);
+    match(temp);
+}
+
+template <typename PATTERN_TYPE>
+void 
+PatternMatchingMachine<PATTERN_TYPE>::match(const std::string& input)
+{ 
+    unsigned long long patterns_found = 0;
+    unsigned long long position = 0;
     Node<PATTERN_TYPE>* state = __root;
     
     for (const char& a: input)
     {
         ++position;
-        while (nullptr == state->g(a)) state = state->get_failure();
+        while (nullptr == state->g(a)) 
+        {
+            state = state->get_failure();
+        }
         state = state->g(a);
         
         if (!state->get_output().empty())
-        {
-            PatternMatcher::MatchFoundSignalArgs<PATTERN_TYPE> match_found_args(position, input, &state->get_output());
-            __match_found(this, match_found_args);
+        { 
+            __match_found(this, position, input, state->get_output());
             patterns_found += state->get_output().size();
         } 
     }
-    
-    PatternMatcher::CompletedSignalArgs completed_args(patterns_found, input);
-    __completed(this, completed_args);
+     
+    __completed(this, patterns_found, input); 
 }
 
 template <typename PATTERN_TYPE>
-typename PatternMatchingMachine<PATTERN_TYPE>::signal_completed& 
+boost::signals2::signal<
+        void(PatternMatchingMachine<PATTERN_TYPE>*, 
+             const unsigned long long&,
+             const std::string&)>& 
 PatternMatchingMachine<PATTERN_TYPE>::completed()
 {
     return __completed;
 }
 
 template <typename PATTERN_TYPE>
-typename PatternMatchingMachine<PATTERN_TYPE>::signal_match_found& 
+boost::signals2::signal<
+        void(PatternMatchingMachine<PATTERN_TYPE>*, 
+             const unsigned long long&,
+             const std::string&,
+             const std::set<PATTERN_TYPE>&)>& 
 PatternMatchingMachine<PATTERN_TYPE>::match_found()
 {
     return __match_found;
@@ -145,5 +161,6 @@ PatternMatchingMachine<PATTERN_TYPE>::match_found()
     
 //This section is to ensure that we keep the source code separate in a .cpp for templates
 template class PatternMatchingMachine<Pattern>;
+template class PatternMatchingMachine<int>;
 
 } /* namespace PatternMatcher */
