@@ -16,7 +16,7 @@ set(CHRONOS_VERSION_PATCH 1)
 # ================ MAIN OBJECTS ==================
 set(CMAKE_CXX_FLAGS "-std=c++14")
 set(CMAKE_STATIC_LIBRARY_PREFIX "")
-set(CHRONOS_OUTPUT_DIRECTORY "/home/user/Chronos/")
+set(CHRONOS_OUTPUT_DIRECTORY "/Chronos/")
 
 # ================ MAIN SOURCE =========================
 add_subdirectory(src)
