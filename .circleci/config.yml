@@ -7,7 +7,7 @@ jobs:
       - checkout
       - run:
           name: Make destination directory 
-          command: 'mkdir /home/user/Chronos' 
+          command: 'sudo mkdir /home/user/Chronos/' 
       - run:
           name: Installing clang
           command: 'apt-get update && apt-get install -y clang'
