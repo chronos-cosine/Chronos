@@ -44,9 +44,7 @@ public:
     
     friend std::ostream& operator<<(std::ostream& stream, Pattern& pattern)
     {
-        stream << pattern.get_value();
-
-        return stream;
+        return stream << pattern.get_value();
     }
 protected:
     std::string __pattern;

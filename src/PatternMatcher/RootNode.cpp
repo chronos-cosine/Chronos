@@ -51,6 +51,6 @@ RootNode<PATTERN_TYPE>::g(const char& a)
 }
 
 //This section is to ensure that we keep the source code separate in a .cpp for templates
-template class RootNode<Pattern>;
+template class RootNode<Pattern>; 
 
 } /* namespace PatternMatcher */

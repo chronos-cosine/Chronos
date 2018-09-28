@@ -1,13 +1,17 @@
 # finds boost, triggers an error otherwise
-find_package(Boost REQUIRED)
+find_package(Boost REQUIRED filesystem)
 if(Boost_FOUND)
-    file(GLOB PatternMatcher_src
+    set(PATTERN_MATCHER_OUTPUT_NAME "Chronos-PatternMatcher")
+    file(GLOB PatternMatcher_SOURCES
         "${CMAKE_CURRENT_LIST_DIR}/*.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/*.hpp" 
     )
-    include_directories(${Boost_INCLUDE_DIRS})
- 
+
     # creates the executable
-    add_executable("Chronos-PatternMatcher" ${PatternMatcher_src}) 
-    add_library("libChronos-PatternMatcher" ${PatternMatcher_src})  
+    include_directories(${Boost_INCLUDE_DIRS}) 
+    add_executable(${PATTERN_MATCHER_OUTPUT_NAME} ${PatternMatcher_SOURCES})
+     
+    # creates the library
+    list(REMOVE_ITEM PatternMatcher_SOURCES "Program.cpp")
+    add_library("lib${PATTERN_MATCHER_OUTPUT_NAME}" STATIC ${PatternMatcher_SOURCES})
 endif()
