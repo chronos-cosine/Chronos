@@ -6,6 +6,9 @@ jobs:
     steps:
       - checkout
       - run:
+          name: Make destination directory 
+          command: 'mkdir /home/user/Chronos' 
+      - run:
           name: Installing clang
           command: 'apt-get update && apt-get install -y clang'
       - run:
@@ -14,9 +17,6 @@ jobs:
       - run:
           name: Install BOOST
           command: 'apt-get update && apt-get install -y libboost-all-dev'
-      - run:
-          name: Make destination directory
-          command: 'mkdir /home/user/Chronos/'
       - run:
           name: Creating Build Files
           command: 'cmake -H. -Bbuild'
