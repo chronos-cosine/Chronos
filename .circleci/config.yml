@@ -21,5 +21,11 @@ jobs:
           name: Creating Binary Files
           command: 'cmake --build build'
       - run:
+          name: PTEST
+          command: 'ls ./build'
+      - run:
+          name: Pattern Matcher Unit Tests
+          command: 'ls ./build/bin/'
+      - run:
           name: Pattern Matcher Unit Tests
           command: './build/bin/Pattern-Matcher-Test --log_level=all'
