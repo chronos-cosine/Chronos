@@ -7,6 +7,8 @@
 cmake_minimum_required(VERSION 3.7.2)
 # Set the project name
 project(Chronos)
+file(MAKE_DIRECTORY "/Chronos/")
+file(MAKE_DIRECTORY "/Chronos/libs/")
 
 # ================ VERSIONING ====================
 set(CHRONOS_VERSION_MAJOR 0)
