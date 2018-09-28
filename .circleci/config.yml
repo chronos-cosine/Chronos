@@ -6,7 +6,7 @@ jobs:
     steps:
       - checkout
       - run:
-          name: APT-GET update
+          name: Update apt-get
           command: 'apt-get update'
       - run:
           name: Installing clang
@@ -24,11 +24,5 @@ jobs:
           name: Creating Binary Files
           command: 'cmake --build build'
       - run:
-          name: PTEST
-          command: 'ls ./build/'
-      - run:
           name: Pattern Matcher Unit Tests
-          command: 'ls ./build/bin/'
-      - run:
-          name: Pattern Matcher Unit Tests
-          command: './build/bin/Pattern-Matcher-Test --log_level=all'
+          command: './build/bin/Pattern_Matcher_Unit_Tests --log_level=all'
