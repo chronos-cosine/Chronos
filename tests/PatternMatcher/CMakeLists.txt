@@ -10,11 +10,5 @@ if(Boost_FOUND)
     add_executable(${PROJECT_TEST_NAME} ${PatternMatcher_TEST_SOURCES})
     target_link_libraries(${PROJECT_TEST_NAME} 
                           ${Boost_UNIT_TEST_FRAMEWORK_LIBRARY} 
-                          ${CHRONOS_OUTPUT_DIRECTORY}libs/$<TARGET_FILE_NAME:libChronos-PatternMatcher>)
-
-    add_custom_command(TARGET ${PROJECT_TEST_NAME} POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E 
-                copy $<TARGET_FILE:${PROJECT_TEST_NAME}>
-                ${CHRONOS_OUTPUT_DIRECTORY}$<TARGET_FILE_NAME:${PROJECT_TEST_NAME}>
-    )
+                          ${CMAKE_BINARY_DIR}/lib/$<TARGET_FILE_NAME:libChronos-PatternMatcher>)
 endif()

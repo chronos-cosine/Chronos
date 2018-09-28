@@ -14,9 +14,4 @@ if(Boost_FOUND)
     # creates the library
     list(REMOVE_ITEM PatternMatcher_SOURCES "Program.cpp")
     add_library("lib${PATTERN_MATCHER_OUTPUT_NAME}" STATIC ${PatternMatcher_SOURCES})
-    add_custom_command(TARGET "lib${PATTERN_MATCHER_OUTPUT_NAME}" POST_BUILD
-        COMMAND ${CMAKE_COMMAND} -E 
-                copy $<TARGET_FILE:lib${PATTERN_MATCHER_OUTPUT_NAME}>
-                ${CHRONOS_OUTPUT_DIRECTORY}libs/$<TARGET_FILE_NAME:lib${PATTERN_MATCHER_OUTPUT_NAME}>
-    )
 endif()
