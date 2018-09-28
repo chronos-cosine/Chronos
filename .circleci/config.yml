@@ -25,7 +25,7 @@ jobs:
           command: 'cmake --build build'
       - run:
           name: PTEST
-          command: 'ls ./'
+          command: 'ls ./build/'
       - run:
           name: Pattern Matcher Unit Tests
           command: 'ls ./build/bin/'
