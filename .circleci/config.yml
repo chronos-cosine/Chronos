@@ -6,14 +6,17 @@ jobs:
     steps:
       - checkout
       - run:
+          name: APT-GET update
+          command: 'apt-get update'
+      - run:
           name: Installing clang
-          command: 'apt-get update && apt-get install -y clang'
+          command: 'apt-get install -y clang'
       - run:
           name: Install CMAKE
-          command: 'apt-get update && apt-get install -y cmake'
+          command: 'apt-get install -y cmake'
       - run:
           name: Install BOOST
-          command: 'apt-get update && apt-get install -y libboost-all-dev'
+          command: 'apt-get install -y libboost-all-dev'
       - run:
           name: Creating Build Files
           command: 'cmake -H. -Bbuild'
@@ -22,7 +25,7 @@ jobs:
           command: 'cmake --build build'
       - run:
           name: PTEST
-          command: 'ls ./build'
+          command: 'ls ./'
       - run:
           name: Pattern Matcher Unit Tests
           command: 'ls ./build/bin/'
