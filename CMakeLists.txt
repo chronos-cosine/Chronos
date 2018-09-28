@@ -4,7 +4,7 @@
 
 # ================ CMAKE SETTINGS ================
 # Minimum allowed version of CMake is 2.8
-cmake_minimum_required(VERSION 3.10.2)
+cmake_minimum_required(VERSION 3.7.2)
 # Set the project name
 project(Chronos)
 
