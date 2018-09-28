@@ -10,7 +10,7 @@ jobs:
           command: 'apt-get update && apt-get install -y sudo && rm -rf /var/lib/apt/lists/*'
       - run:
           name: Make destination directory 
-          command: 'sudo mkdir /home/user/Chronos/' 
+          command: 'sudo mkdir /Chronos/' 
       - run:
           name: Installing clang
           command: 'apt-get update && apt-get install -y clang'
@@ -28,4 +28,4 @@ jobs:
           command: 'cmake --build build'
       - run:
           name: Pattern Matcher Unit Tests
-          command: '/home/user/Chronos/Pattern-Matcher-Test --log_level=all'
+          command: '/Chronos/Pattern-Matcher-Test --log_level=all'
