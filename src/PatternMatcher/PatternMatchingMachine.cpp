@@ -89,7 +89,7 @@ void
 PatternMatchingMachine<PATTERN_TYPE>::enter(const PATTERN_TYPE& pattern)
 {
     Node<PATTERN_TYPE>* current = __root;
-    for (const char& a: pattern.get_value())
+    for (const char& a: ((Pattern)pattern).get_value())
     {
         Node<PATTERN_TYPE>* new_node = current->g(a);
         if (nullptr == new_node
@@ -160,6 +160,6 @@ PatternMatchingMachine<PATTERN_TYPE>::match_found()
 }
 
 //This section is to ensure that we keep the source code separate in a .cpp for templates
-template class PatternMatchingMachine<Pattern>; 
+template class PatternMatchingMachine<Pattern>;  
 
 } /* namespace PatternMatcher */

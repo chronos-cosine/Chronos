@@ -10,8 +10,7 @@
  * 
  * Created on 21 September 2018, 8:10 AM
  */
-
-#include <type_traits>
+ 
 #include <map>
 #include <set>
 
@@ -24,9 +23,7 @@ namespace PatternMatcher
 template <typename PATTERN_TYPE>
 Node<PATTERN_TYPE>::Node(const char& value)
     : __value(value)
-{
-    static_assert(std::is_base_of<Pattern, PATTERN_TYPE>::value, "<PATTERN_TYPE> must derive from PatternMatcher::Pattern");
-    
+{ 
     __failure = nullptr;
 }
  
@@ -171,6 +168,6 @@ Node<PATTERN_TYPE>::operator<(const Node<PATTERN_TYPE>& rhs) const
 }
 
 //This section is to ensure that we keep the source code separate in a .cpp for templates
-template class Node<Pattern>;
+template class Node<Pattern>; 
  
 } /* namespace PatternMatcher */
