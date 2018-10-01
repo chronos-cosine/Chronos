@@ -5,8 +5,8 @@
  * Created on 01 October 2018, 7:16 AM
  */
 
-#ifndef INPUT_HPP
-#define INPUT_HPP
+#ifndef WEBHOOK_INPUT_HPP
+#define WEBHOOK_INPUT_HPP
 
 namespace WebHook 
 {
@@ -20,10 +20,19 @@ public:
     const unsigned long long& get_id() const;
     const std::string& get_data() const;
     
+    friend std::ostream& operator<<(std::ostream& stream, Input& input)
+    {
+        return stream << "{"
+                      << "\"id\":\""
+                      << input.get_id()
+                      << "\",\"data\":\""
+                      << input.get_data() 
+                      << "\"}" << std::endl;
+    }
 private:
     unsigned long long __id;
     std::string __data;
 };
 
-#endif /* INPUT_HPP */
+#endif /* WEBHOOK_INPUT_HPP */
 

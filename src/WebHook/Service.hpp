@@ -5,8 +5,8 @@
  * Created on 01 October 2018, 6:57 AM
  */
 
-#ifndef SERVICE_HPP
-#define SERVICE_HPP
+#ifndef WEBHOOK_SERVICE_HPP
+#define WEBHOOK_SERVICE_HPP
 
 #include <ctime>
 #include <string>
@@ -44,5 +44,5 @@ private:
 
 } /* namespace WebHook */
 
-#endif /* SERVICE_HPP */
+#endif /* WEBHOOK_SERVICE_HPP */
 

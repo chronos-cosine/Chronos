@@ -5,8 +5,8 @@
  * Created on 01 October 2018, 6:53 AM
  */
 
-#ifndef JOB_HPP
-#define JOB_HPP
+#ifndef WEBHOOK_JOB_HPP
+#define WEBHOOK_JOB_HPP
 
 #include <ctime>
 #include <string>
@@ -40,5 +40,5 @@ private:
  
 } /* namespace WebHook */
 
-#endif /* JOB_HPP */
+#endif /* WEBHOOK_JOB_HPP */
 

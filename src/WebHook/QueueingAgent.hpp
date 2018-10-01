@@ -5,8 +5,8 @@
  * Created on 01 October 2018, 6:52 AM
  */
 
-#ifndef QUEUEINGAGENT_HPP
-#define QUEUEINGAGENT_HPP
+#ifndef WEBHOOK_QUEUEINGAGENT_HPP
+#define WEBHOOK_QUEUEINGAGENT_HPP
 
 namespace WebHook 
 {
@@ -22,5 +22,5 @@ private:
 
 } /* namespace WebHook */
 
-#endif /* QUEUEINGAGENT_HPP */
+#endif /* WEBHOOK_QUEUEINGAGENT_HPP */
 
