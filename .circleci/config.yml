@@ -22,7 +22,7 @@ jobs:
           command: 'apt-get install -y libgtest-dev'
       - run:
           name: Install GTEST
-          command: 'cd /usr/src/gtest/ && sudo cmake CMakeLists.txt && sudo make && sudo cp *.a /usr/lib'
+          command: 'cd /usr/src/gtest/ && cmake CMakeLists.txt && make && cp *.a /usr/lib'
       - run:
           name: Creating Build Files
           command: 'cmake -H. -Bbuild'
