@@ -1,0 +1,3 @@
+[submodule "tests/CMake-codecov"]
+	path = tests/CMake-codecov
+	url = git://github.com/RWTH-HPC/CMake-codecov.git

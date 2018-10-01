@@ -1,14 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /* 
- * File:   PatternMatchingMachine.cpp
+ * File:   Bin.hpp
  * Author: user
- * 
- * Created on 21 September 2018, 9:40 AM
+ *
+ * Created on 28 September 2018, 10:38 AM
  */
 
 #include "Pattern.hpp"
@@ -70,7 +64,7 @@ PatternMatchingMachine<PATTERN_TYPE>::construct_failure_function()
         for (typename std::map<char, Node<PATTERN_TYPE>*>::iterator s = r->get_states().begin();
              s != r->get_states().end();
              ++s)
-        { 
+        {
             char a = s->first;
             queue.push(s->second);
             Node<PATTERN_TYPE>* state = r->get_failure();
@@ -105,15 +99,15 @@ PatternMatchingMachine<PATTERN_TYPE>::enter(const PATTERN_TYPE& pattern)
 
 template <typename PATTERN_TYPE>
 void 
-PatternMatchingMachine<PATTERN_TYPE>::match(const char* input)
+PatternMatchingMachine<PATTERN_TYPE>::match(const char* input, void* sender) const
 {
     std::string temp(input);
-    match(temp);
+    match(temp, sender);
 }
 
 template <typename PATTERN_TYPE>
 void 
-PatternMatchingMachine<PATTERN_TYPE>::match(const std::string& input)
+PatternMatchingMachine<PATTERN_TYPE>::match(const std::string& input, void* sender) const
 { 
     unsigned long long patterns_found = 0;
     unsigned long long position = 0;
@@ -130,17 +124,17 @@ PatternMatchingMachine<PATTERN_TYPE>::match(const std::string& input)
         
         if (!state->get_output().empty())
         { 
-            __match_found(this, position, input, state->get_output());
+            __match_found(sender, position, input, state->get_output());
             patterns_found += state->get_output().size();
         } 
     }
      
-    __completed(this, patterns_found, input); 
+    __completed(sender, patterns_found, input); 
 }
 
 template <typename PATTERN_TYPE>
 boost::signals2::signal<
-        void(PatternMatchingMachine<PATTERN_TYPE>*, 
+        void(void*, 
              const unsigned long long&,
              const std::string&)>& 
 PatternMatchingMachine<PATTERN_TYPE>::completed()
@@ -150,7 +144,7 @@ PatternMatchingMachine<PATTERN_TYPE>::completed()
 
 template <typename PATTERN_TYPE>
 boost::signals2::signal<
-        void(PatternMatchingMachine<PATTERN_TYPE>*, 
+        void(void*, 
              const unsigned long long&,
              const std::string&,
              const std::set<PATTERN_TYPE>&)>& 

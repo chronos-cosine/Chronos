@@ -1,14 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /* 
- * File:   RootNode.cpp
+ * File:   Bin.hpp
  * Author: user
- * 
- * Created on 21 September 2018, 9:25 AM
+ *
+ * Created on 28 September 2018, 10:38 AM
  */
 
 #include <type_traits>

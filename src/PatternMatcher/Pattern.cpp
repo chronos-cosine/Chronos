@@ -1,14 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /* 
- * File:   Pattern.cpp
+ * File:   Bin.hpp
  * Author: user
- * 
- * Created on 20 September 2018, 2:42 PM
+ *
+ * Created on 28 September 2018, 10:38 AM
  */
 
 #include "Pattern.hpp"
@@ -82,25 +76,25 @@ Pattern::operator<(const Pattern& rhs) const
 }
 
 bool 
-Pattern::operator==(const Pattern& rhs)
+Pattern::operator==(const Pattern& rhs) const
 {
     return __pattern == rhs.__pattern;
 }
 
 bool 
-Pattern::operator!=(const Pattern& rhs)
+Pattern::operator!=(const Pattern& rhs) const
 {
     return __pattern != rhs.__pattern;
 }
 
 bool 
-Pattern::operator==(const std::string& rhs)
+Pattern::operator==(const std::string& rhs) const
 {
    return __pattern == rhs; 
 }
 
 bool 
-Pattern::operator!=(const std::string& rhs)
+Pattern::operator!=(const std::string& rhs) const
 {
    return __pattern != rhs; 
 }

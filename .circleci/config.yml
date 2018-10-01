@@ -18,6 +18,12 @@ jobs:
           name: Install BOOST
           command: 'apt-get install -y libboost-all-dev'
       - run:
+          name: Download GTEST
+          command: 'apt-get install -y libgtest-dev'
+      - run:
+          name: Install GTEST
+          command: 'cd /usr/src/gtest/ && cmake CMakeLists.txt && make && cp *.a /usr/lib'
+      - run:
           name: Creating Build Files
           command: 'cmake -H. -Bbuild'
       - run:
@@ -25,4 +31,4 @@ jobs:
           command: 'cmake --build build'
       - run:
           name: Pattern Matcher Unit Tests
-          command: './build/bin/Pattern_Matcher_Unit_Tests --log_level=all'
+          command: './build/bin/Pattern_Matcher_Unit_Tests'

@@ -1,14 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /* 
- * File:   Node.cpp
+ * File:   Bin.hpp
  * Author: user
- * 
- * Created on 21 September 2018, 8:10 AM
+ *
+ * Created on 28 September 2018, 10:38 AM
  */
  
 #include <map>
@@ -113,7 +107,7 @@ Node<PATTERN_TYPE>::clear()
          iter != __states.end();
          ++iter)
     {
-        iter->second->clear();
+        iter->second->clear(); 
         delete iter->second;
     }
     
