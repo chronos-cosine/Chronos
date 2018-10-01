@@ -18,6 +18,12 @@ jobs:
           name: Install BOOST
           command: 'apt-get install -y libboost-all-dev'
       - run:
+          name: Download GTEST
+          command: 'apt-get install -y libgtest-dev'
+      - run:
+          name: Install GTEST
+          command: 'cd /usr/src/gtest/ && sudo cmake CMakeLists.txt && sudo make && sudo cp *.a /usr/lib'
+      - run:
           name: Creating Build Files
           command: 'cmake -H. -Bbuild'
       - run:
