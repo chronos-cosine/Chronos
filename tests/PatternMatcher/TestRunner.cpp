@@ -5,17 +5,14 @@
  * Created on 28 September 2018, 10:38 AM
  */
 
-#define BOOST_TEST_DYN_LINK
-#include <boost/test/unit_test.hpp> 
+#ifndef TESTS_PATTERNMATCHER_TESTRUNNER_CPP
+#define TESTS_PATTERNMATCHER_TESTRUNNER_CPP
 
-// initialization function:
-bool init_unit_test()
-{
-  return true;
+#include <gtest/gtest.h>
+
+int main(int argc, char **argv) {
+    testing::InitGoogleTest(&argc, argv);
+    return RUN_ALL_TESTS();
 }
 
-// entry point:
-int main(int argc, char* argv[])
-{
-  return boost::unit_test::unit_test_main( &init_unit_test, argc, argv );
-}
+#endif /* TESTS_PATTERNMATCHER_TESTRUNNER_CPP */
