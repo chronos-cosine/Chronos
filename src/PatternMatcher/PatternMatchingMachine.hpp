@@ -1,14 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /* 
- * File:   PatternMatchingMachine.hpp
+ * File:   Bin.hpp
  * Author: user
  *
- * Created on 21 September 2018, 9:40 AM
+ * Created on 28 September 2018, 10:38 AM
  */
 
 #ifndef PATTERNMATCHER_PATTERNMATCHINGMACHINE_HPP
@@ -29,26 +23,26 @@ public:
     PatternMatchingMachine(const std::set<PATTERN_TYPE>& patterns); 
     virtual ~PatternMatchingMachine(); 
     
-    void match(const std::string& input);
-    void match(const char* input);
+    void match(const std::string& input, void* sender);
+    void match(const char* input, void* sender);
     
     boost::signals2::signal<
-        void(PatternMatchingMachine<PATTERN_TYPE>*, 
-             const unsigned long long&,
-             const std::string&)>& completed();
+        void(void* /* sender */, 
+             const unsigned long long& /* total_matches */,
+             const std::string& /* input */)>& completed();
     boost::signals2::signal<
-        void(PatternMatchingMachine<PATTERN_TYPE>*, 
-             const unsigned long long&,
-             const std::string&,
-             const std::set<PATTERN_TYPE>&)>& match_found();
+        void(void* /* sender */, 
+             const unsigned long long& /* position */,
+             const std::string& /* input */,
+             const std::set<PATTERN_TYPE>& /* patterns */)>& match_found();
 private:
     Node<PATTERN_TYPE>* __root;
     boost::signals2::signal<
-        void(PatternMatchingMachine<PATTERN_TYPE>*, 
+        void(void*, 
              const unsigned long long&,
              const std::string&)> __completed;
     boost::signals2::signal<
-        void(PatternMatchingMachine<PATTERN_TYPE>*, 
+        void(void*, 
              const unsigned long long&,
              const std::string&,
              const std::set<PATTERN_TYPE>&)> __match_found;

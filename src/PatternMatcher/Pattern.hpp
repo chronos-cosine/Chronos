@@ -1,19 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /* 
- * File:   Pattern.hpp
+ * File:   Bin.hpp
  * Author: user
  *
- * Created on 20 September 2018, 2:42 PM
+ * Created on 28 September 2018, 10:38 AM
  */
 
 #ifndef PATTERNMATCHER_PATTERN_HPP
 #define PATTERNMATCHER_PATTERN_HPP
 
+#include <boost/functional/hash.hpp>
 #include <string>
 #include <iostream>
 
@@ -21,6 +16,15 @@ namespace PatternMatcher
 {
 
 class Pattern {
+public: 
+    struct Hasher
+    {
+        std::size_t operator()(const Pattern& pattern) const
+        {
+            boost::hash<std::string> hash;
+            return hash(pattern.get_value());
+        }
+    };
 public:
     Pattern(const char* pattern);
     Pattern(const std::string& pattern);
