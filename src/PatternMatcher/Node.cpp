@@ -107,7 +107,7 @@ Node<PATTERN_TYPE>::clear()
          iter != __states.end();
          ++iter)
     {
-        iter->second->clear();
+        iter->second->clear(); 
         delete iter->second;
     }
     

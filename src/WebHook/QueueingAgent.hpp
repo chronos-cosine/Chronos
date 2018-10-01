@@ -17,7 +17,7 @@ public:
     QueueingAgent(const QueueingAgent& orig);
     virtual ~QueueingAgent();
 private:
-
+    
 };
 
 } /* namespace WebHook */

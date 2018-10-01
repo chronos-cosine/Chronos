@@ -59,13 +59,13 @@ Pattern::operator=(const Pattern& rhs)
 }
 
 bool 
-Pattern::operator==(const std::string& rhs)
+Pattern::operator==(const std::string& rhs) const
 {
     return __pattern == rhs;
 }
 
 bool 
-Pattern::operator!=(const std::string& rhs)
+Pattern::operator!=(const std::string& rhs) const
 {
     return __pattern != rhs;
 }
@@ -77,19 +77,19 @@ Pattern::operator==(const unsigned long long& rhs)
 }
 
 bool 
-Pattern::operator!=(const unsigned long long& rhs)
+Pattern::operator!=(const unsigned long long& rhs) const
 {
     return __id != rhs;
 }
 
 bool 
-Pattern::operator==(const Pattern& rhs)
+Pattern::operator==(const Pattern& rhs) const
 {
     return __id == rhs.get_id();
 }
 
 bool 
-Pattern::operator!=(const Pattern& rhs)
+Pattern::operator!=(const Pattern& rhs) const
 {
     return __id != rhs.get_id();
 }

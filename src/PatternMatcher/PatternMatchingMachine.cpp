@@ -99,7 +99,7 @@ PatternMatchingMachine<PATTERN_TYPE>::enter(const PATTERN_TYPE& pattern)
 
 template <typename PATTERN_TYPE>
 void 
-PatternMatchingMachine<PATTERN_TYPE>::match(const char* input, void* sender)
+PatternMatchingMachine<PATTERN_TYPE>::match(const char* input, void* sender) const
 {
     std::string temp(input);
     match(temp, sender);
@@ -107,7 +107,7 @@ PatternMatchingMachine<PATTERN_TYPE>::match(const char* input, void* sender)
 
 template <typename PATTERN_TYPE>
 void 
-PatternMatchingMachine<PATTERN_TYPE>::match(const std::string& input, void* sender)
+PatternMatchingMachine<PATTERN_TYPE>::match(const std::string& input, void* sender) const
 { 
     unsigned long long patterns_found = 0;
     unsigned long long position = 0;

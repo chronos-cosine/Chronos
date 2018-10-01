@@ -76,25 +76,25 @@ Pattern::operator<(const Pattern& rhs) const
 }
 
 bool 
-Pattern::operator==(const Pattern& rhs)
+Pattern::operator==(const Pattern& rhs) const
 {
     return __pattern == rhs.__pattern;
 }
 
 bool 
-Pattern::operator!=(const Pattern& rhs)
+Pattern::operator!=(const Pattern& rhs) const
 {
     return __pattern != rhs.__pattern;
 }
 
 bool 
-Pattern::operator==(const std::string& rhs)
+Pattern::operator==(const std::string& rhs) const
 {
    return __pattern == rhs; 
 }
 
 bool 
-Pattern::operator!=(const std::string& rhs)
+Pattern::operator!=(const std::string& rhs) const
 {
    return __pattern != rhs; 
 }

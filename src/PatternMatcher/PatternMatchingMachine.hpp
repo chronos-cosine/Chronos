@@ -23,8 +23,8 @@ public:
     PatternMatchingMachine(const std::set<PATTERN_TYPE>& patterns); 
     virtual ~PatternMatchingMachine(); 
     
-    void match(const std::string& input, void* sender);
-    void match(const char* input, void* sender);
+    void match(const std::string& input, void* sender) const;
+    void match(const char* input, void* sender) const;
     
     boost::signals2::signal<
         void(void* /* sender */, 

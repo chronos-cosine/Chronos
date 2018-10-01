@@ -40,10 +40,10 @@ public:
     Pattern& operator=(const std::string& rhs);
     Pattern& operator=(const Pattern& rhs); 
     Pattern& operator=(const char* rhs); 
-    bool operator==(const std::string& rhs);
-    bool operator!=(const std::string& rhs);
-    bool operator==(const Pattern& rhs);
-    bool operator!=(const Pattern& rhs);
+    bool operator==(const std::string& rhs) const;
+    bool operator!=(const std::string& rhs) const;
+    bool operator==(const Pattern& rhs) const;
+    bool operator!=(const Pattern& rhs) const;
     bool operator<(const Pattern& rhs) const;
     
     friend std::ostream& operator<<(std::ostream& stream, Pattern& pattern)

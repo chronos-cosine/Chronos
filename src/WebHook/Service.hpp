@@ -15,6 +15,17 @@ namespace WebHook
 {
 
 class Service {
+public: 
+    struct Hasher
+    {
+        std::size_t operator()(const Service& service) const
+        {
+            std::string temp = service.get_type() + service.get_posting_url();
+            
+            boost::hash<std::string> hash;
+            return hash(temp);
+        }
+    };
 public:
     Service(const std::string& type, const std::string& posting_url);
     Service(const Service& orig);
@@ -24,6 +35,12 @@ public:
     const std::string& get_posting_url() const;
     const std::time_t& get_sleep_until() const;
     void set_sleep_until(const std::time_t& sleep_until);
+     
+    //Operators 
+    Service& operator=(const Service& rhs) const;   
+    bool operator==(const Service& rhs) const;
+    bool operator!=(const Service& rhs) const;
+    bool operator<(const Service& rhs) const;
      
     friend std::ostream& operator<<(std::ostream& stream, Service& service)
     {

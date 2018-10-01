@@ -19,5 +19,4 @@ QueueingAgent::QueueingAgent(const QueueingAgent& orig) {
 QueueingAgent::~QueueingAgent() {
 }
 
-
 } /* namespace WebHook */
