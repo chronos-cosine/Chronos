@@ -2,6 +2,7 @@ build/
 bin/
 nbproject/
 CMakeFiles/
+CodeCoverage/
 **CMakeCache.txt
 **Makefile
 **cmake_install.cmake

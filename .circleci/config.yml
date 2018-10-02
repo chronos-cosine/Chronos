@@ -31,4 +31,4 @@ jobs:
           command: 'cmake --build build'
       - run:
           name: Pattern Matcher Unit Tests
-          command: './build/bin/Pattern_Matcher_Unit_Tests'
+          command: './build/bin/Chronos_Unit_Tests'
