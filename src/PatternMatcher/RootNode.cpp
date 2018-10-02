@@ -5,8 +5,6 @@
  * Created on 28 September 2018, 10:38 AM
  */
 
-#include <type_traits>
-
 #include "RootNode.hpp"
 #include "Pattern.hpp"
 
@@ -17,9 +15,6 @@ template <typename T>
 RootNode<T>::RootNode()
     : Node<T>('~')
 {
-    static_assert(std::is_base_of<Pattern, T>::value, "<T> must derive from PatternMatcher::Pattern");
-    
-    // a RootNode fails towards itself
     Node<T>::set_failure(this);
 }
 

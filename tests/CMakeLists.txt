@@ -18,7 +18,3 @@ add_executable("Chronos_Unit_Tests" ${Chronos_UnitTests_SOURCES})
 
 target_link_libraries("Chronos_Unit_Tests"
                       ${GTEST_LIBRARIES} -lpthread)
-
-#target_link_libraries("Chronos_Unit_Tests"
-#                      ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/$<TARGET_FILE_NAME:libChronos-PatternMatcher>
-#                      ${GTEST_LIBRARIES} -lpthread)
