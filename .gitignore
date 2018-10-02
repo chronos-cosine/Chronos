@@ -1,2 +1,8 @@
-/build/
-/nbproject/
+build/
+bin/
+nbproject/
+CMakeFiles/
+**CMakeCache.txt
+**Makefile
+**cmake_install.cmake
+**compile_commands.json
