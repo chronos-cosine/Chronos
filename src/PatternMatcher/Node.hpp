@@ -15,16 +15,16 @@
 namespace PatternMatcher
 {
 
-template <typename PATTERN_TYPE>
+template <typename T>
 class Node 
 {
 public:
     struct Hasher
     {
-        std::size_t operator()(const Node<PATTERN_TYPE>& node) const
+        std::size_t operator()(const Node<T>& node) const
         {
             boost::hash<char> hash;
-            return hash(node.get_value());
+            return hash(node.__value);
         }
     };
 public:
@@ -33,22 +33,18 @@ public:
     virtual ~Node();
     
     //failure
-    Node* get_failure();
-    const Node* get_failure() const;
+    Node* get_failure(); 
     void set_failure(Node* failure);
     
     //value
     char get_value();
-    const char get_value() const;
     
     //output
-    void add_output(const PATTERN_TYPE& output);
-    void add_output(const std::set<PATTERN_TYPE>& outputs);
-    const std::set<PATTERN_TYPE>& get_output() const;
-    std::set<PATTERN_TYPE>& get_output();
+    void add_output(const T& output);
+    void add_output(const std::set<T>& outputs);
+    std::set<T>& get_output();
     
     //states
-    const std::map<char, Node*>& get_states() const;
     std::map<char, Node*>& get_states();
     void add_state(Node* state);
     
@@ -62,7 +58,7 @@ private:
     char __value;
     Node* __failure;
     std::map<char, Node*> __states;
-    std::set<PATTERN_TYPE> __output;
+    std::set<T> __output;
 };
 
 } /* namespace PatternMatcher */

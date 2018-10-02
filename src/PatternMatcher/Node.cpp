@@ -14,59 +14,43 @@
 namespace PatternMatcher
 {
 
-template <typename PATTERN_TYPE>
-Node<PATTERN_TYPE>::Node(const char& value)
-    : __value(value)
-{ 
-    __failure = nullptr;
-}
+template <typename T>
+Node<T>::Node(const char& value)
+    : __value(value), __failure(nullptr)
+{ }
  
-template <typename PATTERN_TYPE>
-Node<PATTERN_TYPE>::~Node() 
+template <typename T>
+Node<T>::~Node()
 {
     clear();
 }
 
-template <typename PATTERN_TYPE>
-Node<PATTERN_TYPE>* 
-Node<PATTERN_TYPE>::get_failure()
+template <typename T>
+Node<T>*
+Node<T>::get_failure()
 {
     return __failure;
 }
 
-template <typename PATTERN_TYPE>
-const Node<PATTERN_TYPE>* 
-Node<PATTERN_TYPE>::get_failure() const
-{
-    return __failure;
-}
-
-template <typename PATTERN_TYPE>
-void 
-Node<PATTERN_TYPE>::set_failure(Node<PATTERN_TYPE>* failure)
+template <typename T>
+void
+Node<T>::set_failure(Node<T>* failure)
 {
     __failure = failure;
 }
- 
-template <typename PATTERN_TYPE>
-char 
-Node<PATTERN_TYPE>::get_value()
+
+template <typename T>
+char
+Node<T>::get_value()
 {
     return __value;
 }
 
-template <typename PATTERN_TYPE>
-const char 
-Node<PATTERN_TYPE>::get_value() const
+template <typename T>
+Node<T>*
+Node<T>::g(const char& a)
 {
-    return __value;
-}
-
-template <typename PATTERN_TYPE>
-Node<PATTERN_TYPE>* 
-Node<PATTERN_TYPE>::g(const char& a)
-{
-    typename std::map<char, Node<PATTERN_TYPE>*>::iterator result = __states.find(a);
+    typename std::map<char, Node<T>*>::iterator result = __states.find(a);
     if (__states.end() == result)
     {
         return nullptr;
@@ -77,33 +61,28 @@ Node<PATTERN_TYPE>::g(const char& a)
     }
 }
 
-template <typename PATTERN_TYPE>
-void 
-Node<PATTERN_TYPE>::add_output(const PATTERN_TYPE& output)
+template <typename T>
+void
+Node<T>::add_output(const T& output)
 {
     __output.insert(output);
 }
 
-template <typename PATTERN_TYPE>
-void 
-Node<PATTERN_TYPE>::add_output(const std::set<PATTERN_TYPE>& outputs)
+template <typename T>
+void
+Node<T>::add_output(const std::set<T>& outputs)
 {
-    for (const PATTERN_TYPE& output: outputs)
+    for (const T& output: outputs)
     {
         add_output(output);
     }
 }
 
-template <typename PATTERN_TYPE>
-void 
-Node<PATTERN_TYPE>::clear()
+template <typename T>
+void
+Node<T>::clear()
 {
-    /*
-     * This section is very important because 
-     * the PatternMatchingMachine is dynamically 
-     * creating Nodes.
-     */
-    for (typename std::map<char, Node<PATTERN_TYPE>*>::iterator iter = __states.begin();
+    for (typename std::map<char, Node<T>*>::iterator iter = __states.begin();
          iter != __states.end();
          ++iter)
     {
@@ -114,54 +93,39 @@ Node<PATTERN_TYPE>::clear()
     __states.clear();
 }
 
-template <typename PATTERN_TYPE>
-const std::set<PATTERN_TYPE>& 
-Node<PATTERN_TYPE>::get_output() const
+template <typename T>
+std::set<T>&
+Node<T>::get_output()
 {
     return __output;
 }
 
-template <typename PATTERN_TYPE>
-std::set<PATTERN_TYPE>& 
-Node<PATTERN_TYPE>::get_output()
-{
-    return __output;
-}
-
-
-template <typename PATTERN_TYPE>
-const std::map<char, Node<PATTERN_TYPE>*>& 
-Node<PATTERN_TYPE>::get_states() const
+template <typename T>
+std::map<char, Node<T>*>&
+Node<T>::get_states()
 {
     return __states;
 }
 
-template <typename PATTERN_TYPE>
-std::map<char, Node<PATTERN_TYPE>*>& 
-Node<PATTERN_TYPE>::get_states()
+template <typename T>
+void
+Node<T>::add_state(Node<T>* state)
 {
-    return __states;
-}
-
-template <typename PATTERN_TYPE>
-void 
-Node<PATTERN_TYPE>::add_state(Node<PATTERN_TYPE>* state)
-{
-    typename std::map<char, Node<PATTERN_TYPE>*>::const_iterator result = __states.find(state->get_value());
+    typename std::map<char, Node<T>*>::const_iterator result = __states.find(state->get_value());
     if (__states.end() == result)
     {
         __states[state->get_value()] = state;
     } 
 }
 
-template <typename PATTERN_TYPE>
-bool 
-Node<PATTERN_TYPE>::operator<(const Node<PATTERN_TYPE>& rhs) const
+template <typename T>
+bool
+Node<T>::operator<(const Node<T>& rhs) const
 {
     return __value < rhs.__value;
 }
 
 //This section is to ensure that we keep the source code separate in a .cpp for templates
-template class Node<Pattern>; 
+template class Node<Pattern>;
  
 } /* namespace PatternMatcher */

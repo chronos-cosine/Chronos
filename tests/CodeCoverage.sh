@@ -1,3 +1,5 @@
+sudo rm -R ./CodeCoverage/
+sudo rm ./CMakeFiles/Chronos_Unit_Tests.dir/TestRunner.info
 sudo ../bin/Chronos_Unit_Tests
 sudo gcov ./CMakeFiles/Chronos_Unit_Tests.dir/TestRunner.gcno
 sudo lcov --capture --directory . --output-file ./CMakeFiles/Chronos_Unit_Tests.dir/TestRunner.info

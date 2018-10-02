@@ -8,7 +8,7 @@ This is the Chronos C++ project
 `sudo apt-get install -y clang`
 
 ## Install cmake
-`sudo apt-get install cmake`
+`sudo apt-get install -y cmake`
 
 ## Install boost
 `sudo apt-get install -y libboost-all-dev`

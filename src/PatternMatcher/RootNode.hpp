@@ -13,14 +13,14 @@
 namespace PatternMatcher
 {
 
-template <typename PATTERN_TYPE>
-class RootNode : public Node<PATTERN_TYPE> 
+template <typename T>
+class RootNode : public Node<T> 
 {
 public:
     RootNode(); 
     virtual ~RootNode();
     
-    virtual Node<PATTERN_TYPE>* g(const char& a); 
+    virtual Node<T>* g(const char& a); 
 };
 
 } /* namespace PatternMatcher */
