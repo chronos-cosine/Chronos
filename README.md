@@ -15,7 +15,11 @@ This is the Chronos C++ project
 
 ## Install gtest
 `sudo apt-get install -y libgtest-dev`
+
 `cd /usr/src/gtest/`
+
 `sudo cmake CMakeLists.txt`
+
 `sudo make`
-`sudo cp *.a /usr/lib
+
+`sudo cp *.a /usr/lib`
