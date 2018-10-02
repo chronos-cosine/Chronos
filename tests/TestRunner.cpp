@@ -5,8 +5,8 @@
  * Created on 28 September 2018, 10:38 AM
  */
 
-#ifndef TESTS_PATTERNMATCHER_TESTRUNNER_CPP
-#define TESTS_PATTERNMATCHER_TESTRUNNER_CPP
+#ifndef TESTS_TESTRUNNER_CPP
+#define TESTS_TESTRUNNER_CPP
 
 #include <gtest/gtest.h>
 
@@ -15,4 +15,4 @@ int main(int argc, char **argv) {
     return RUN_ALL_TESTS();
 }
 
-#endif /* TESTS_PATTERNMATCHER_TESTRUNNER_CPP */
+#endif /* TESTS_TESTRUNNER_CPP */
