@@ -16,40 +16,40 @@
 namespace PatternMatcher
 {
 
-template <typename PATTERN_TYPE>
-PatternMatchingMachine<PATTERN_TYPE>::PatternMatchingMachine(const std::set<PATTERN_TYPE>& patterns) 
+template <typename T>
+PatternMatchingMachine<T>::PatternMatchingMachine(const std::set<T>& patterns) 
 {
-    static_assert(std::is_base_of<Pattern, PATTERN_TYPE>::value, "<PATTERN_TYPE> must derive from PatternMatcher::Pattern");
+    static_assert(std::is_base_of<Pattern, T>::value, "<T> must derive from PatternMatcher::Pattern");
     
-    __root = new RootNode<PATTERN_TYPE>();
+    __root = new RootNode<T>();
     construct_goto_function(patterns);
     construct_failure_function();
 }
 
-template <typename PATTERN_TYPE>
-PatternMatchingMachine<PATTERN_TYPE>::~PatternMatchingMachine() 
+template <typename T>
+PatternMatchingMachine<T>::~PatternMatchingMachine() 
 {
     __root->clear();
     delete __root;
 }
 
-template <typename PATTERN_TYPE>
+template <typename T>
 void 
-PatternMatchingMachine<PATTERN_TYPE>::construct_goto_function(const std::set<PATTERN_TYPE>& patterns)
+PatternMatchingMachine<T>::construct_goto_function(const std::set<T>& patterns)
 {
     __root->clear();
-    for (const PATTERN_TYPE& pattern: patterns)
+    for (const T& pattern: patterns)
     {
         enter(pattern);
     }
 }
 
-template <typename PATTERN_TYPE>
+template <typename T>
 void 
-PatternMatchingMachine<PATTERN_TYPE>::construct_failure_function()
+PatternMatchingMachine<T>::construct_failure_function()
 {
-    std::queue<Node<PATTERN_TYPE>*> queue;
-    for (typename std::map<char, Node<PATTERN_TYPE>*>::iterator a = __root->get_states().begin();
+    std::queue<Node<T>*> queue;
+    for (typename std::map<char, Node<T>*>::iterator a = __root->get_states().begin();
          a != __root->get_states().end();
          ++a)
     {
@@ -59,15 +59,15 @@ PatternMatchingMachine<PATTERN_TYPE>::construct_failure_function()
     
     while (!queue.empty())
     {
-        Node<PATTERN_TYPE>* r = queue.front();
+        Node<T>* r = queue.front();
         queue.pop();
-        for (typename std::map<char, Node<PATTERN_TYPE>*>::iterator s = r->get_states().begin();
+        for (typename std::map<char, Node<T>*>::iterator s = r->get_states().begin();
              s != r->get_states().end();
              ++s)
         {
             char a = s->first;
             queue.push(s->second);
-            Node<PATTERN_TYPE>* state = r->get_failure();
+            Node<T>* state = r->get_failure();
             while (nullptr == state->g(a)) 
             {
                 state = state->get_failure(); 
@@ -78,18 +78,18 @@ PatternMatchingMachine<PATTERN_TYPE>::construct_failure_function()
     }
 }
 
-template <typename PATTERN_TYPE>
+template <typename T>
 void 
-PatternMatchingMachine<PATTERN_TYPE>::enter(const PATTERN_TYPE& pattern)
+PatternMatchingMachine<T>::enter(const T& pattern)
 {
-    Node<PATTERN_TYPE>* current = __root;
+    Node<T>* current = __root;
     for (const char& a: ((Pattern)pattern).get_value())
     {
-        Node<PATTERN_TYPE>* new_node = current->g(a);
+        Node<T>* new_node = current->g(a);
         if (nullptr == new_node
             || __root == new_node)
         {
-            new_node = new Node<PATTERN_TYPE>(a);
+            new_node = new Node<T>(a);
             current->add_state(new_node);
         }
         current = new_node;
@@ -97,23 +97,15 @@ PatternMatchingMachine<PATTERN_TYPE>::enter(const PATTERN_TYPE& pattern)
     current->add_output(pattern);
 }
 
-template <typename PATTERN_TYPE>
+template <typename T>
 void 
-PatternMatchingMachine<PATTERN_TYPE>::match(const char* input, void* sender) const
-{
-    std::string temp(input);
-    match(temp, sender);
-}
-
-template <typename PATTERN_TYPE>
-void 
-PatternMatchingMachine<PATTERN_TYPE>::match(const std::string& input, void* sender) const
+PatternMatchingMachine<T>::match(const T& input, void* sender) const
 { 
     unsigned long long patterns_found = 0;
     unsigned long long position = 0;
-    Node<PATTERN_TYPE>* state = __root;
+    Node<T>* state = __root;
     
-    for (const char& a: input)
+    for (const char& a: ((Pattern)input).get_value())
     {
         ++position;
         while (nullptr == state->g(a)) 
@@ -132,23 +124,23 @@ PatternMatchingMachine<PATTERN_TYPE>::match(const std::string& input, void* send
     __completed(sender, patterns_found, input); 
 }
 
-template <typename PATTERN_TYPE>
+template <typename T>
 boost::signals2::signal<
         void(void*, 
              const unsigned long long&,
-             const std::string&)>& 
-PatternMatchingMachine<PATTERN_TYPE>::completed()
+             const T&)>& 
+PatternMatchingMachine<T>::completed()
 {
     return __completed;
 }
 
-template <typename PATTERN_TYPE>
+template <typename T>
 boost::signals2::signal<
         void(void*, 
              const unsigned long long&,
-             const std::string&,
-             const std::set<PATTERN_TYPE>&)>& 
-PatternMatchingMachine<PATTERN_TYPE>::match_found()
+             const T&,
+             const std::set<T>&)>& 
+PatternMatchingMachine<T>::match_found()
 {
     return __match_found;
 }

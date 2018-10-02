@@ -13,27 +13,27 @@
 namespace PatternMatcher
 {
 
-template <typename PATTERN_TYPE>
-RootNode<PATTERN_TYPE>::RootNode()
-    : Node<PATTERN_TYPE>('~')
+template <typename T>
+RootNode<T>::RootNode()
+    : Node<T>('~')
 {
-    static_assert(std::is_base_of<Pattern, PATTERN_TYPE>::value, "<PATTERN_TYPE> must derive from PatternMatcher::Pattern");
+    static_assert(std::is_base_of<Pattern, T>::value, "<T> must derive from PatternMatcher::Pattern");
     
     // a RootNode fails towards itself
-    Node<PATTERN_TYPE>::set_failure(this);
+    Node<T>::set_failure(this);
 }
 
-template <typename PATTERN_TYPE>
-RootNode<PATTERN_TYPE>::~RootNode() 
+template <typename T>
+RootNode<T>::~RootNode() 
 {
-    Node<PATTERN_TYPE>::clear();
+    Node<T>::clear();
 }
 
-template <typename PATTERN_TYPE>
-Node<PATTERN_TYPE>* 
-RootNode<PATTERN_TYPE>::g(const char& a)
+template <typename T>
+Node<T>* 
+RootNode<T>::g(const char& a)
 {
-    Node<PATTERN_TYPE>* state = Node<PATTERN_TYPE>::g(a);
+    Node<T>* state = Node<T>::g(a);
     if (nullptr == state)
     {
         return this;

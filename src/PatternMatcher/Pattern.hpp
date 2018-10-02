@@ -44,12 +44,7 @@ public:
     bool operator!=(const std::string& rhs) const;
     bool operator==(const Pattern& rhs) const;
     bool operator!=(const Pattern& rhs) const;
-    bool operator<(const Pattern& rhs) const;
-    
-    friend std::ostream& operator<<(std::ostream& stream, Pattern& pattern)
-    {
-        return stream << pattern.get_value();
-    }
+    bool operator<(const Pattern& rhs) const; 
 protected:
     std::string __pattern;
 };
