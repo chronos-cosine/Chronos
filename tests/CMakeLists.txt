@@ -10,7 +10,7 @@ file(GLOB Chronos_UnitTests_SOURCES
     "${CMAKE_CURRENT_LIST_DIR}/../src/PatternMatcher/*.cpp"
     "${CMAKE_CURRENT_LIST_DIR}/../src/PatternMatcher/*.hpp"
     "${CMAKE_CURRENT_LIST_DIR}/PatternMatcher/*.cpp"
-    "${CMAKE_CURRENT_LIST_DIR}/PatternMatcher/*.hpp"
+    "${CMAKE_CURRENT_LIST_DIR}/PatternMatcher/*.hpp" 
 )
 
 # Link runTests with what we want to test and the GTest and pthread library
@@ -18,7 +18,3 @@ add_executable("Chronos_Unit_Tests" ${Chronos_UnitTests_SOURCES})
 
 target_link_libraries("Chronos_Unit_Tests"
                       ${GTEST_LIBRARIES} -lpthread)
-
-#target_link_libraries("Chronos_Unit_Tests"
-#                      ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/$<TARGET_FILE_NAME:libChronos-PatternMatcher>
-#                      ${GTEST_LIBRARIES} -lpthread)

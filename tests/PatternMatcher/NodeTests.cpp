@@ -1,6 +1,6 @@
 /* 
- * File:   Bin.hpp
- * Author: user
+ * File:   NodeTests.cpp
+ * Author: Chronos Cosine
  *
  * Created on 28 September 2018, 10:38 AM
  */
@@ -45,23 +45,6 @@ TEST(PatternMatcherTests, test_node_value) {
     ASSERT_EQ(b.get_value(), 'b');
     PatternMatcher::Node<PatternMatcher::Pattern> c('c'); 
     ASSERT_EQ(c.get_value(), 'c');
-}
-
-TEST(PatternMatcherTests, test_node_output) {
-    PatternMatcher::Pattern pattern_1("pattern_1");
-    std::set<PatternMatcher::Pattern> set;
-    PatternMatcher::Pattern pattern_2("pattern_2");
-    PatternMatcher::Pattern pattern_3("pattern_3");
-    set.insert(pattern_2);
-    set.insert(pattern_3);
-    
-    PatternMatcher::Node<PatternMatcher::Pattern> a('a');
-    a.add_output(pattern_1);
-    ASSERT_EQ(a.get_output().size(), 1);
-    a.add_output(set);
-    ASSERT_EQ(a.get_output().size(), 3);
-    a.add_output(pattern_1);
-    ASSERT_EQ(a.get_output().size(), 3);
 }
 
 TEST(PatternMatcherTests, test_node_states) {
