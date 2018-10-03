@@ -1,5 +1,5 @@
 /* 
- * File:   Pattern.hpp
+ * File:   Pattern.h
  * Author: Chronos Cosine
  *
  * Created on 28 September 2018, 10:38 AM

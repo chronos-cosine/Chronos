@@ -23,6 +23,4 @@ set(CMAKE_STATIC_LIBRARY_PREFIX "")
 
 # ================ MAIN SOURCE =========================
 add_subdirectory(src)
- 
-# ================ TESTS =========================
-add_subdirectory(tests)
+include_directories(${CMAKE_CURRENT_LIST_DIR}/src) 
