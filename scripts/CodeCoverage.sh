@@ -1,3 +1,4 @@
+cd ../tests/
 sudo rm -R ./CodeCoverage/
 sudo rm ./CMakeFiles/Chronos_Unit_Tests.dir/TestRunner.info
 sudo ../bin/Chronos_Unit_Tests
@@ -8,4 +9,5 @@ sudo lcov --remove ./CMakeFiles/Chronos_Unit_Tests.dir/TestRunner.info "*gtest*"
 sudo lcov --remove ./CMakeFiles/Chronos_Unit_Tests.dir/TestRunner.info "*c++/*" -o ./CMakeFiles/Chronos_Unit_Tests.dir/TestRunner.info
 sudo lcov --remove ./CMakeFiles/Chronos_Unit_Tests.dir/TestRunner.info "*Chronos/tests*" -o ./CMakeFiles/Chronos_Unit_Tests.dir/TestRunner.info
 sudo genhtml ./CMakeFiles/Chronos_Unit_Tests.dir/TestRunner.info --output-directory CodeCoverage
-firefox "./CodeCoverage/index.html"
+cd ../scripts
+firefox "../tests/CodeCoverage/index.html"

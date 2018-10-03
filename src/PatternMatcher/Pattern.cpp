@@ -1,6 +1,6 @@
 /* 
- * File:   Bin.hpp
- * Author: user
+ * File:   Pattern.cpp
+ * Author: Chronos Cosine
  *
  * Created on 28 September 2018, 10:38 AM
  */
@@ -24,13 +24,13 @@ Pattern::Pattern(const Pattern& orig)
 
 Pattern::~Pattern() { }
 
-std::string::const_iterator 
+std::string::iterator 
 Pattern::begin()
 {
     return __pattern.begin();
 }
 
-std::string::const_iterator 
+std::string::iterator 
 Pattern::end()
 {
     return __pattern.end();
@@ -84,7 +84,7 @@ Pattern::operator==(const Pattern& rhs) const
 bool 
 Pattern::operator!=(const Pattern& rhs) const
 {
-    return __pattern != rhs.__pattern;
+    return !(__pattern == rhs.__pattern);
 }
 
 bool 
@@ -96,7 +96,7 @@ Pattern::operator==(const std::string& rhs) const
 bool 
 Pattern::operator!=(const std::string& rhs) const
 {
-   return __pattern != rhs; 
+   return !(__pattern == rhs); 
 }
 
 } /* namespace PatternMatcher */

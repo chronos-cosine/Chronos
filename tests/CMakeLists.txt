@@ -10,7 +10,7 @@ file(GLOB Chronos_UnitTests_SOURCES
     "${CMAKE_CURRENT_LIST_DIR}/../src/PatternMatcher/*.cpp"
     "${CMAKE_CURRENT_LIST_DIR}/../src/PatternMatcher/*.hpp"
     "${CMAKE_CURRENT_LIST_DIR}/PatternMatcher/*.cpp"
-    "${CMAKE_CURRENT_LIST_DIR}/PatternMatcher/*.hpp"
+    "${CMAKE_CURRENT_LIST_DIR}/PatternMatcher/*.hpp" 
 )
 
 # Link runTests with what we want to test and the GTest and pthread library

@@ -1,6 +1,6 @@
 /* 
- * File:   Bin.hpp
- * Author: user
+ * File:   RootNodeTests.cpp
+ * Author: Chronos Cosine
  *
  * Created on 28 September 2018, 10:38 AM
  */
@@ -26,11 +26,11 @@ TEST(PatternMatcherTests, test_rootnode_g) {
     
     ASSERT_EQ(a->g('a'), a); 
     
-    ((PatternMatcher::Node<PatternMatcher::Pattern>*)a)->add_state(b);
+    a->add_state(b);
     
     ASSERT_EQ(a->g('a'), b);
-    
-    delete b;
+     
+    a->clear();
     delete a;
 }
 

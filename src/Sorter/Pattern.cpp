@@ -1,8 +1,8 @@
 /* 
  * File:   Pattern.cpp
- * Author: user
- * 
- * Created on 28 September 2018, 10:47 AM
+ * Author: Chronos Cosine
+ *
+ * Created on 28 September 2018, 10:38 AM
  */
 
 #include "Pattern.hpp"

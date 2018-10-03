@@ -1,6 +1,6 @@
 /* 
- * File:   Bin.hpp
- * Author: user
+ * File:   Pattern.hpp
+ * Author: Chronos Cosine
  *
  * Created on 28 September 2018, 10:38 AM
  */
@@ -31,8 +31,8 @@ public:
     Pattern(const Pattern& orig);
     virtual ~Pattern();
     
-    std::string::const_iterator begin();
-    std::string::const_iterator end();
+    std::string::iterator begin();
+    std::string::iterator end();
     const std::string& get_value() const;
     std::string& get_value();
     

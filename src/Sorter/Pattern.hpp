@@ -1,8 +1,8 @@
 /* 
  * File:   Pattern.hpp
- * Author: user
+ * Author: Chronos Cosine
  *
- * Created on 28 September 2018, 10:47 AM
+ * Created on 28 September 2018, 10:38 AM
  */
 
 #ifndef SORTER_PATTERN_HPP
