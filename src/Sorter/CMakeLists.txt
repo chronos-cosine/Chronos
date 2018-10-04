@@ -5,3 +5,6 @@ file(GLOB Sorter_SOURCES
 
 # creates the library 
 add_executable(Chronos-Sorter ${Sorter_SOURCES})
+
+target_link_libraries(Chronos-Sorter
+                      ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/$<TARGET_FILE_NAME:libChronos-PatternMatcher>)

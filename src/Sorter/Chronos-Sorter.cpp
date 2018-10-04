@@ -12,12 +12,34 @@
  */
 
 #include <iostream>
+#include <set>
+
+#include "Pattern.h"
+#include "PatternFileReader.h"
+#include "PatternMatcher/PatternMatchingMachine.h"
+#include "PatternMatcher/IPattern.h"
+#include "PatternMatcher/IPatternReader.h"
 
 /*
  * 
  */
 int main(int argc, char** argv) {
-    std::cout << "Hello World" << std::endl;
+    
+    if (argc < 3)
+    {
+        std::cerr << "Incorrect number of parameters supplied" << std::endl;
+        return 1;
+    }
+    
+    Sorter::PatternFileReader patternFileReader;
+    std::set<PatternMatcher::IPattern> patterns(patternFileReader.read(argv[1]));
+    PatternMatcher::PatternMatchingMachine pattern_matcher(patterns);
+    
+    for (auto& pattern: patterns)
+    {
+        std::cout << pattern;
+    }
+    
     return 0;
 }
 

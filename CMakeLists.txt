@@ -8,7 +8,7 @@ cmake_minimum_required(VERSION 3.7.2)
 
 # Set the project name
 project(Chronos)
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
@@ -18,9 +18,8 @@ set(CHRONOS_VERSION_MINOR 1)
 set(CHRONOS_VERSION_PATCH 1)
 
 # ================ MAIN OBJECTS ==================
-set(CMAKE_CXX_FLAGS "-std=c++14")
+set(CMAKE_CXX_FLAGS "-std=c++17")
 set(CMAKE_STATIC_LIBRARY_PREFIX "")
 
 # ================ MAIN SOURCE =========================
 add_subdirectory(src)
-include_directories(${CMAKE_CURRENT_LIST_DIR}/src)

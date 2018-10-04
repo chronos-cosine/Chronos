@@ -8,5 +8,5 @@ if(Boost_FOUND)
  
     include_directories(${Boost_INCLUDE_DIRS}) 
     # creates the library 
-    add_library("libChronos-PatternMatcher" STATIC ${PatternMatcher_SOURCES})
+    add_library(libChronos-PatternMatcher STATIC ${PatternMatcher_SOURCES})
 endif()

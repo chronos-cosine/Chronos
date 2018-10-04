@@ -12,7 +12,7 @@
  */
 
 #include "Pattern.h"
-
+#include "PatternMatcher/IPattern.h"
 
 namespace Sorter {
 
@@ -68,7 +68,7 @@ namespace Sorter {
     std::ostream& 
     operator<<(std::ostream& lhs, const Pattern& rhs)
     {
-        lhs << "{\"Id\":\"" << __id
+        lhs << "{\"Id\":\"" << rhs.__id
             << "\",\"Value\":\"" << rhs.get_value()
             << "\"}" << std::endl;
     }
