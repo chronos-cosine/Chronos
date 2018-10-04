@@ -1,31 +1,50 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 /* 
- * File:   IPattern.h
- * Author: user
+ * File:   RootNode.h
+ * Author: Chronos Cosine
  *
- * Created on 04 October 2018, 7:11 AM
+ * Created on 28 September 2018, 10:38 AM
  */
 
 #ifndef PATTERNMATCHER_IPATTERN_H
 #define PATTERNMATCHER_IPATTERN_H
 
 #include <string>
-
-class IPattern {
-public:
-    virtual ~IPattern() = 0; 
+#include <iostream>
+ 
+namespace PatternMatcher
+{
+ 
+class IPattern
+{
+public: 
+    //constructors
+    IPattern(const char* value);
+    IPattern(const std::string& value); 
+    IPattern(const IPattern& value); 
+    virtual ~IPattern();
     
-    std::string::iterator begin() = 0 noexcept;
-    std::string::const_iterator begin() const = 0 noexcept;
+    //member functions
+    virtual const std::string& get_value() const;
+    virtual std::string::iterator begin();
+    virtual std::string::const_iterator begin() const; 
+    virtual std::string::iterator end();
+    virtual std::string::const_iterator end() const;
     
-    std::string::iterator end() = 0 noexcept;
-    std::string::const_iterator end() const = 0 noexcept; 
+    //operators
+    virtual IPattern& operator=(const IPattern& rhs);
+    virtual IPattern& operator=(const std::string& rhs);
+    virtual IPattern& operator=(const char* rhs);
+    virtual bool operator==(const IPattern& rhs) const;
+    virtual bool operator!=(const IPattern& rhs) const;
+    virtual bool operator<(const IPattern& rhs) const;
+    virtual bool operator>(const IPattern& rhs) const;
+    
+    //friend operators
+    friend std::ostream& operator<<(std::ostream& lhs, const IPattern& rhs);
+private:
+    std::string __value;
 };
 
-#endif /* PATTERNMATCHER_IPATTERN_H */
+} /* namespace PatternMatcher */
 
+#endif /* PATTERNMATCHER_IPATTERN_H */
