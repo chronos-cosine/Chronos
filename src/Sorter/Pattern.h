@@ -11,17 +11,47 @@
  * Created on 04 October 2018, 9:17 AM
  */
 
-#ifndef PATTERN_H
-#define PATTERN_H
+#ifndef SORTER_PATTERN_H
+#define SORTER_PATTERN_H
 
-class Pattern {
-public:
-    Pattern();
-    Pattern(const Pattern& orig);
-    virtual ~Pattern();
-private:
+#include "PatternMatcher/IPattern.h"
 
-};
+#include <functional>
+#include <iostream>
 
-#endif /* PATTERN_H */
+namespace Sorter {
+
+    class Pattern : public PatternMatcher::IPattern {
+        struct hash
+        {
+            std::size_t operator()(const Pattern& pattern) const noexcept
+            {
+                return std::hash<unsigned long long>{}(pattern.__id);
+            }
+        };  /* struct Pattern::hash */
+    public:
+        //constructors
+        Pattern(const unsigned long long& id, const char* value);
+        Pattern(const unsigned long long& id, const std::string& value);
+        Pattern(const Pattern& orig);
+        virtual ~Pattern();
+
+        //member functions
+        virtual const unsigned long long& get_id() const;
+
+        //operators
+        virtual bool operator==(const Pattern& rhs) const;
+        virtual bool operator!=(const Pattern& rhs) const;
+        virtual bool operator<(const Pattern& rhs) const;
+        virtual bool operator>(const Pattern& rhs) const;
+
+        //friend operators
+        friend std::ostream& operator<<(std::ostream& lhs, const Pattern& rhs);
+    private:
+        unsigned long long __id;
+    }; /* class Pattern */
+
+} /* namespace Sorter */
+
+#endif /* SORTER_PATTERN_H */
 

@@ -8,102 +8,102 @@
 
 namespace PatternMatcher
 {
-//constructors
-IPattern::IPattern(const char* value)
-    : __value(value)
-{ }
+    //constructors
+    IPattern::IPattern(const char* value)
+        : __value(value)
+    { }
 
-IPattern::IPattern(const std::string& value)
-    : __value(value)
-{ }
+    IPattern::IPattern(const std::string& value)
+        : __value(value)
+    { }
 
-IPattern::IPattern(const IPattern& value)
-    : __value(value.__value)
-{ }
- 
-IPattern::~IPattern()
-{ }
+    IPattern::IPattern(const IPattern& value)
+        : __value(value.__value)
+    { }
 
-//member functions
-const std::string& 
-IPattern::get_value() const
-{
-    return __value;
-}
+    IPattern::~IPattern()
+    { }
 
-std::string::iterator 
-IPattern::begin()
-{
-    return __value.begin();
-}
+    //member functions
+    const std::string& 
+    IPattern::get_value() const
+    {
+        return __value;
+    }
 
-std::string::const_iterator 
-IPattern::begin() const
-{
-    return __value.begin();
-}
- 
-std::string::iterator 
-IPattern::end()
-{
-    return __value.end();
-}
+    std::string::iterator 
+    IPattern::begin()
+    {
+        return __value.begin();
+    }
 
-std::string::const_iterator 
-IPattern::end() const
-{
-    return __value.end();
-}
+    std::string::const_iterator 
+    IPattern::begin() const
+    {
+        return __value.begin();
+    }
 
-//operators
-IPattern& 
-IPattern::operator=(const IPattern& rhs)
-{
-    __value = rhs.__value;
-}
+    std::string::iterator 
+    IPattern::end()
+    {
+        return __value.end();
+    }
 
-IPattern& 
-IPattern::operator=(const std::string& rhs)
-{ 
-    __value = rhs;
-}
+    std::string::const_iterator 
+    IPattern::end() const
+    {
+        return __value.end();
+    }
 
-IPattern& 
-IPattern::operator=(const char* rhs)
-{ 
-    __value = rhs;
-}
+    //operators
+    IPattern& 
+    IPattern::operator=(const IPattern& rhs)
+    {
+        __value = rhs.__value;
+    }
 
-bool 
-IPattern::operator==(const IPattern& rhs) const
-{
-    return __value == rhs.__value;
-}
+    IPattern& 
+    IPattern::operator=(const std::string& rhs)
+    { 
+        __value = rhs;
+    }
 
-bool 
-IPattern::operator!=(const IPattern& rhs) const
-{
-    return __value != rhs.__value;
-}
+    IPattern& 
+    IPattern::operator=(const char* rhs)
+    { 
+        __value = rhs;
+    }
 
-bool 
-IPattern::operator<(const IPattern& rhs) const
-{
-    return __value < rhs.__value;
-}
+    bool 
+    IPattern::operator==(const IPattern& rhs) const
+    {
+        return __value == rhs.__value;
+    }
 
-bool 
-IPattern::operator>(const IPattern& rhs) const
-{
-    return __value > rhs.__value;
-}
+    bool 
+    IPattern::operator!=(const IPattern& rhs) const
+    {
+        return __value != rhs.__value;
+    }
 
-//friend operators
-std::ostream& 
-operator<<(std::ostream& lhs, const IPattern& rhs)
-{
-    lhs << rhs.__value;
-    return lhs;
-}
+    bool 
+    IPattern::operator<(const IPattern& rhs) const
+    {
+        return __value < rhs.__value;
+    }
+
+    bool 
+    IPattern::operator>(const IPattern& rhs) const
+    {
+        return __value > rhs.__value;
+    }
+
+    //friend operators
+    std::ostream& 
+    operator<<(std::ostream& lhs, const IPattern& rhs)
+    {
+        lhs << rhs.__value;
+        return lhs;
+    }
 
 } /* namespace PatternMatcher */

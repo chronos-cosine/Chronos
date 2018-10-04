@@ -9,106 +9,106 @@
 namespace PatternMatcher
 {
 
-Node::Node(const char& value)
-    : __value(value), __failure(nullptr)
-{ }
+    Node::Node(const char& value)
+        : __value(value), __failure(nullptr)
+    { }
 
-Node::~Node()
-{
-    clear();
-}
-
-Node*
-Node::get_failure()
-{
-    return __failure;
-}
-
-void
-Node::set_failure(Node* failure)
-{
-    __failure = failure;
-}
-
-char
-Node::get_value()
-{
-    return __value;
-}
-
-Node*
-Node::g(const char& a)
-{
-    typename std::map<char, Node*>::iterator result = __states.find(a);
-    if (__states.end() == result)
+    Node::~Node()
     {
-        return nullptr;
+        clear();
     }
-    else 
+
+    Node*
+    Node::get_failure()
     {
-        return result->second;
+        return __failure;
     }
-}
 
-void
-Node::add_output(const IPattern& output)
-{
-    __output.insert(output);
-}
-
-void
-Node::add_output(const std::set<IPattern>& outputs)
-{
-    for (const IPattern& output: outputs)
+    void
+    Node::set_failure(Node* failure)
     {
-        add_output(output);
+        __failure = failure;
     }
-}
 
-void
-Node::clear()
-{
-    for (auto& tuple: __states)
+    char
+    Node::get_value()
     {
-        tuple.second->clear(); 
-        delete tuple.second;
+        return __value;
     }
-    
-    __states.clear();
-}
 
-std::set<IPattern>&
-Node::get_output()
-{
-    return __output;
-}
-
-std::map<char, Node*>&
-Node::get_states()
-{
-    return __states;
-}
-
-void
-Node::add_state(Node* state)
-{
-    typename std::map<char, Node*>::iterator result = __states.find(state->get_value());
-    if (__states.end() == result)
+    Node*
+    Node::g(const char& a)
     {
-        __states[state->get_value()] = state;
-    } 
-}
+        typename std::map<char, Node*>::iterator result = __states.find(a);
+        if (__states.end() == result)
+        {
+            return nullptr;
+        }
+        else 
+        {
+            return result->second;
+        }
+    }
 
-bool
-Node::operator<(const Node& rhs) const
-{
-    return __value < rhs.__value;
-}
+    void
+    Node::add_output(const IPattern& output)
+    {
+        __output.insert(output);
+    }
 
-bool
-Node::operator>(const Node& rhs) const
-{
-    return __value > rhs.__value;
-}
+    void
+    Node::add_output(const std::set<IPattern>& outputs)
+    {
+        for (const IPattern& output: outputs)
+        {
+            add_output(output);
+        }
+    }
+
+    void
+    Node::clear()
+    {
+        for (auto& tuple: __states)
+        {
+            tuple.second->clear(); 
+            delete tuple.second;
+        }
+
+        __states.clear();
+    }
+
+    std::set<IPattern>&
+    Node::get_output()
+    {
+        return __output;
+    }
+
+    std::map<char, Node*>&
+    Node::get_states()
+    {
+        return __states;
+    }
+
+    void
+    Node::add_state(Node* state)
+    {
+        typename std::map<char, Node*>::iterator result = __states.find(state->get_value());
+        if (__states.end() == result)
+        {
+            __states[state->get_value()] = state;
+        } 
+    }
+
+    bool
+    Node::operator<(const Node& rhs) const
+    {
+        return __value < rhs.__value;
+    }
+
+    bool
+    Node::operator>(const Node& rhs) const
+    {
+        return __value > rhs.__value;
+    }
 
 } /* namespace PatternMatcher */

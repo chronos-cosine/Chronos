@@ -13,14 +13,14 @@
 namespace PatternMatcher
 {
 
-class RootNode : public Node
-{
-public:
-    RootNode(); 
-    virtual ~RootNode();
-    
-    virtual Node* g(const char& a); 
-};
+    class RootNode : public Node
+    {
+    public:
+        RootNode(); 
+        virtual ~RootNode();
+
+        virtual Node* g(const char& a); 
+    }; /* class RootNode */
 
 } /* namespace PatternMatcher */
 

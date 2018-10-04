@@ -13,12 +13,64 @@
 
 #include "Pattern.h"
 
-Pattern::Pattern() {
-}
 
-Pattern::Pattern(const Pattern& orig) {
-}
+namespace Sorter {
 
-Pattern::~Pattern() {
-}
+    //constructors
+    Pattern::Pattern(const unsigned long long& id, const char* value)
+        : PatternMatcher::IPattern(value), __id(id)
+    { }
 
+    Pattern::Pattern(const unsigned long long& id, const std::string& value)
+        : PatternMatcher::IPattern(value), __id(id)
+    { }
+
+    Pattern::Pattern(const Pattern& orig)
+        : PatternMatcher::IPattern(orig), __id(orig.__id)
+    { }
+
+    Pattern::~Pattern()
+    { }
+
+    //member functions
+    const unsigned long long& 
+    Pattern::get_id() const
+    {
+        return __id;
+    }
+
+    //operators
+    bool 
+    Pattern::operator==(const Pattern& rhs) const
+    {
+        return __id == rhs.__id;
+    }
+
+    bool 
+    Pattern::operator!=(const Pattern& rhs) const
+    {
+        return __id != rhs.__id;
+    }
+
+    bool 
+    Pattern::operator<(const Pattern& rhs) const
+    {
+        return __id < rhs.__id;
+    }
+
+    bool 
+    Pattern::operator>(const Pattern& rhs) const
+    {
+        return __id > rhs.__id;
+    }
+
+    //friend operators
+    std::ostream& 
+    operator<<(std::ostream& lhs, const Pattern& rhs)
+    {
+        lhs << "{\"Id\":\"" << __id
+            << "\",\"Value\":\"" << rhs.get_value()
+            << "\"}" << std::endl;
+    }
+
+} /* namespace Sorter */

@@ -10,27 +10,27 @@
 namespace PatternMatcher
 {
 
-RootNode::RootNode()
-    : Node('~')
-{
-    Node::set_failure(this);
-}
-
-RootNode::~RootNode() 
-{ }
-
-Node* 
-RootNode::g(const char& a)
-{
-    Node* state = Node::g(a);
-    if (nullptr == state)
+    RootNode::RootNode()
+        : Node('~')
     {
-        return this;
+        Node::set_failure(this);
     }
-    else 
+
+    RootNode::~RootNode() 
+    { }
+
+    Node* 
+    RootNode::g(const char& a)
     {
-        return state;
+        Node* state = Node::g(a);
+        if (nullptr == state)
+        {
+            return this;
+        }
+        else 
+        {
+            return state;
+        }
     }
-}
 
 } /* namespace PatternMatcher */

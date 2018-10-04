@@ -17,52 +17,52 @@
 namespace PatternMatcher
 {
 
-class Node 
-{
-public:
-    struct Hasher
+    class Node 
     {
-        std::size_t operator()(const Node& node) const
+    public:
+        struct Hasher
         {
-            boost::hash<char> hash;
-            return hash(node.__value);
-        }
-    };
-public:
-    //ctor
-    Node(const char& value); 
-    virtual ~Node();
-    
-    //failure
-    Node* get_failure(); 
-    void set_failure(Node* failure);
-    
-    //value
-    char get_value();
-    
-    //output
-    void add_output(const IPattern& output);
-    void add_output(const std::set<IPattern>& outputs);
-    std::set<IPattern>& get_output();
-    
-    //states
-    std::map<char, Node*>& get_states();
-    void add_state(Node* state);
-    
-    virtual Node* g(const char& a);
-    void clear();
-    
-    //operators
-    bool operator<(const Node& rhs) const;
-    bool operator>(const Node& rhs) const;
-    
-private:
-    char __value;
-    Node* __failure;
-    std::map<char, Node*> __states;
-    std::set<IPattern> __output;
-};
+            std::size_t operator()(const Node& node) const
+            {
+                boost::hash<char> hash;
+                return hash(node.__value);
+            }
+        };
+    public:
+        //ctor
+        Node(const char& value); 
+        virtual ~Node();
 
+        //failure
+        Node* get_failure(); 
+        void set_failure(Node* failure);
+
+        //value
+        char get_value();
+
+        //output
+        void add_output(const IPattern& output);
+        void add_output(const std::set<IPattern>& outputs);
+        std::set<IPattern>& get_output();
+
+        //states
+        std::map<char, Node*>& get_states();
+        void add_state(Node* state);
+
+        virtual Node* g(const char& a);
+        void clear();
+
+        //operators
+        bool operator<(const Node& rhs) const;
+        bool operator>(const Node& rhs) const;
+
+    private:
+        char __value;
+        Node* __failure;
+        std::map<char, Node*> __states;
+        std::set<IPattern> __output;
+    }; /* class Node */
+    
 } /* namespace PatternMatcher */
  
 #endif /* PATTERNMATCHER_NODE_H */
