@@ -5,7 +5,7 @@
  * Created on 28 September 2018, 10:38 AM
  */
 
-#include "Pattern.hpp"
+#include "Pattern.h"
  
 namespace PatternMatcher
 {
