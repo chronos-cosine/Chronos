@@ -34,6 +34,7 @@ namespace Sorter {
     Sorter::link_pattern_bin() {
         for (auto& p: __patterns) {
             Pattern* pattern = dynamic_cast<Pattern*>(p);
+            //TODO: This will be much faster if a map was implemented to search by id.
             for (auto& bin: __bins) {
                 if (bin->get_id() == pattern->get_bin_id())
                 {
