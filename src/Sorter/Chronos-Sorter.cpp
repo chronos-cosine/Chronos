@@ -14,9 +14,7 @@
 #include <iostream>
 #include <set>
  
-#include "PatternMatcher/IPattern.h"
-#include "Sorter/PatternFileReader.h"
-#include "Sorter/BinFileReader.h"
+#include "Sorter/Sorter.h"
 #include "Sorter/Pattern.h"
 
 /*
@@ -30,19 +28,12 @@ int main(int argc, char** argv) {
         return 1;
     }
     
-    Sorter::PatternFileReader pattern_file_reader;
-    Sorter::BinFileReader bin_file_reader;
-    std::set<PatternMatcher::IPattern*> patterns(pattern_file_reader.read(argv[1]));
-    std::set<Sorter::Bin*> bins(bin_file_reader.read(argv[2]));
+    Sorter::Sorter sorter(argv[1], argv[2]);
     
-    for (auto& p: patterns)
+    for (auto& p: sorter.__patterns)
     {
         std::cout << *dynamic_cast<Sorter::Pattern*>(p) << std::endl;
-    }
-    for (auto& b: bins)
-    {
-        std::cout << *b << std::endl;
-    }
+    } 
          
     return 0;
 }

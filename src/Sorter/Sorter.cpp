@@ -12,13 +12,34 @@
  */
 
 #include "Sorter.h"
+#include "Pattern.h"
 
-Sorter::Sorter() {
-}
+namespace Sorter {
 
-Sorter::Sorter(const Sorter& orig) {
-}
+    Sorter::Sorter(char* pattern_file, char* bin_file) 
+        : __bins(__bin_file_reader.read(bin_file)),
+          __patterns(__pattern_file_reader.read(pattern_file)) {
+        link_pattern_bin();
+        __pattern_matching_machine(__patterns);
+    }
 
-Sorter::~Sorter() {
-}
+    Sorter::~Sorter() { 
+        __memory_management.free_bins(__bins);
+        __memory_management.free_patterns(__patterns);
+    }
 
+    void 
+    Sorter::link_pattern_bin() {
+        for (auto& p: __patterns) {
+            Pattern* pattern = dynamic_cast<Pattern*>(p);
+            for (auto& bin: __bins) {
+                if (bin->get_id() == pattern->get_bin_id())
+                {
+                    pattern->set_bin(bin);
+                    continue;
+                }
+            }
+        }
+    }
+
+} /* namespace Sorter */

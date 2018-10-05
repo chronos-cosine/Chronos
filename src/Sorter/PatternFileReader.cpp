@@ -48,7 +48,8 @@ namespace Sorter {
             
             unsigned long long ulong_id = std::stoull(id);
             if (__added.find(ulong_id) == __added.end())
-            { 
+            {
+                __added.insert(ulong_id);
                 *pattern = dynamic_cast<PatternMatcher::IPattern*>(new Pattern(ulong_id, value, std::stoull(bin_id)));
             } 
         } catch (const std::exception&)
