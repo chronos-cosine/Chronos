@@ -26,10 +26,9 @@ namespace Sorter {
     { }
 
     //member functions
-    std::map<unsigned long long, Bin*> 
+    std::map<unsigned long long, Bin*>&
     BinFileReader::read(const char* path)
-    {
-        std::map<unsigned long long, Bin*> bins;
+    { 
         std::ifstream file(path);
         if (file)
         {
@@ -40,13 +39,13 @@ namespace Sorter {
             
             while (getline(file, line))
             {
-                Bin* bin = get_bin(line, separator, bins);
-                bins[bin->get_id()] = bin;
+                Bin* bin = get_bin(line, separator);
+                __bins[bin->get_id()] = bin;
             }
         }
         file.close();
         
-        return bins;
+        return __bins;
     }
 
     char 
@@ -64,26 +63,36 @@ namespace Sorter {
     }
     
     Bin* 
+    BinFileReader::get_parent_bin(const unsigned long long& parent_id)
+    {
+        std::map<unsigned long long, Bin*>::const_iterator b = __bins.find(parent_id);
+        if (b != __bins.end())
+        { 
+            return b->second;
+        }
+        else 
+        {
+            return nullptr;
+        }
+    }
+    
+    Bin* 
     BinFileReader::get_bin(const std::string& line, 
-                           const char& separator, 
-                           const std::map<unsigned long long, Bin*>& bins)
+                           const char& separator)
     {
         try {
             std::string id;
             std::string value;
             std::string parent_id;
-            Bin* parent_bin = nullptr;
             
             std::istringstream stream(line);
             getline(stream, id, separator);
             getline(stream, value, separator);
-            getline(stream, parent_id, separator);
-            if (parent_id.length() > 0)
-            {
-                parent_bin = bins.find(std::stoull(id))->second;
-            }
+            getline(stream, parent_id, separator); 
             
-            Sorter::Bin* obj = new Sorter::Bin(std::stoull(id), value, parent_bin);
+            Sorter::Bin* obj = new Sorter::Bin(std::stoull(id), value, get_parent_bin(std::stoull(parent_id)));
+            __bins[obj->get_id()] = obj;
+            
             return obj;
         } catch (const std::invalid_argument&)
         {

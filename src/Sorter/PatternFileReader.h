@@ -16,6 +16,8 @@
  
 #include "PatternMatcher/IPattern.h"
 #include "PatternMatcher/IPatternReader.h"
+#include "Bin.h"
+#include <map>
 #include <set>
 #include <sstream>
 
@@ -23,7 +25,7 @@ namespace Sorter {
     class PatternFileReader : public PatternMatcher::IPatternReader {
     public:
         //constructors
-        PatternFileReader(); 
+        PatternFileReader(std::map<unsigned long long, Bin*>* bins); 
         virtual ~PatternFileReader();
         
         //member functions
@@ -31,6 +33,9 @@ namespace Sorter {
     private:
         char get_separator(const std::string& line);
         PatternMatcher::IPattern* get_pattern(const std::string& line, const char& separator);
+        Sorter::Bin* get_bin(const unsigned long long& bin_id);
+    private:
+        std::map<unsigned long long, Bin*>* __bins;
     }; /* class PatternFileReader */ 
 } /* namespace Sorter */
 

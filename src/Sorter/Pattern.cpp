@@ -80,7 +80,17 @@ namespace Sorter {
     {
         lhs << "{\"Id\":\"" << rhs.__id
             << "\",\"Value\":\"" << rhs.get_value()
-            << "\"}";
+            << "\",\"Bin\":";
+        
+        if (nullptr == rhs.__bin)
+        {
+            lhs << "null";
+        }
+        else 
+        {
+            lhs << *rhs.__bin;
+        }
+        lhs << "}";
         return lhs;
     }
 

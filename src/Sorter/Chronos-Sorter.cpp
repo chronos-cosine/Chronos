@@ -14,12 +14,14 @@
 #include <iostream>
 #include <set>
  
+#include "Bin.h"
 #include "MemoryManagement.h" 
 #include "Pattern.h"
 #include "PatternFileReader.h"
 #include "PatternMatcher/PatternMatchingMachine.h"
 #include "PatternMatcher/IPattern.h"
 #include "PatternMatcher/IPatternReader.h"
+#include "BinFileReader.h"
 
 /*
  * 
@@ -32,15 +34,24 @@ int main(int argc, char** argv) {
         return 1;
     }
      
+    Sorter::BinFileReader binFileReader;
+    std::map<unsigned long long, Sorter::Bin*> bins(binFileReader.read(argv[2]));
     Sorter::MemoryManagement memory_management;
-    Sorter::PatternFileReader patternFileReader;
+    Sorter::PatternFileReader patternFileReader(&bins);
+    
     std::set<PatternMatcher::IPattern*> patterns(patternFileReader.read(argv[1]));
     PatternMatcher::PatternMatchingMachine pattern_matcher(patterns);
     
+    std::cout << "<PATTERNS>" << std::endl;
     for (auto* p: patterns)
-    { 
-        std::cout << *p << std::endl;
+    {  
         std::cout << *dynamic_cast<Sorter::Pattern*>(p) << std::endl;
+    }
+    
+    std::cout << "<BINS>" << std::endl;
+    for (auto& b: bins)
+    { 
+        std::cout << *b.second << std::endl;
     }
          
     return 0;

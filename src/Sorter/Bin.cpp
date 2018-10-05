@@ -89,7 +89,7 @@ namespace Sorter {
             lhs << "null";
         }
         
-        lhs << "\"}";
+        lhs << "}";
         
         return lhs;
     }

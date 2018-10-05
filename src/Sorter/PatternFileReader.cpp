@@ -21,11 +21,13 @@
 #include <sstream>
 #include <string>
 #include <exception>
+#include <map>
 
 namespace Sorter {
     
     //constructors
-    PatternFileReader::PatternFileReader()
+    PatternFileReader::PatternFileReader(std::map<unsigned long long, Bin*>* bins)
+        : __bins(bins)
     { }
     
     PatternFileReader::~PatternFileReader()
@@ -45,6 +47,20 @@ namespace Sorter {
         return line[4];
     }
     
+    Sorter::Bin*
+    PatternFileReader::get_bin(const unsigned long long& bin_id)
+    {
+        std::map<unsigned long long, Bin*>::iterator bin_iterator = __bins->find(bin_id);
+        if (bin_iterator != __bins->end())
+        {
+            return bin_iterator->second;
+        }
+        else 
+        {
+            return nullptr;
+        }
+    }
+    
     PatternMatcher::IPattern*
     PatternFileReader::get_pattern(const std::string& line, const char& separator)
     {
@@ -52,13 +68,15 @@ namespace Sorter {
             std::string id;
             std::string value;
             std::string bin_id;
+            Bin* bin = nullptr;
             
             std::istringstream stream(line);
             getline(stream, id, separator);
             getline(stream, value, separator);
-            getline(stream, bin_id, separator);
+            getline(stream, bin_id, separator); 
 
-            PatternMatcher::IPattern* obj = new Sorter::Pattern(std::stoull(id), value, nullptr);
+            PatternMatcher::IPattern* obj = new Sorter::Pattern(std::stoull(id), value, get_bin(std::stoull(bin_id)));
+            
             return obj;
         } catch (const std::invalid_argument&)
         {
