@@ -32,14 +32,16 @@ namespace Sorter {
         };  /* struct Pattern::hash */
     public:
         //constructors
-        Pattern(const unsigned long long& id, const char* value, Bin* bin);
-        Pattern(const unsigned long long& id, const std::string& value, Bin* bin);
+        Pattern(const unsigned long long& id, const char* value, const unsigned long long& bin_id);
+        Pattern(const unsigned long long& id, const std::string& value, const unsigned long long& bin_id);
         Pattern(const Pattern& orig);
         virtual ~Pattern();
 
         //member functions
-        virtual const unsigned long long& get_id() const;
-        virtual Bin* get_bin() const;
+        const unsigned long long& get_id() const;
+        const unsigned long long& get_bin_id() const;
+        Bin* get_bin() const; 
+        void set_bin(Bin* bin);
 
         //operators
         virtual bool operator==(const Pattern& rhs) const;
@@ -51,6 +53,7 @@ namespace Sorter {
         friend std::ostream& operator<<(std::ostream& lhs, const Pattern& rhs);
     private:
         unsigned long long __id;
+        unsigned long long __bin_id;
         Bin* __bin;
     }; /* class Pattern */
 

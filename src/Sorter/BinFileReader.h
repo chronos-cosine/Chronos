@@ -14,29 +14,20 @@
 #ifndef SORTER_BINFILEREADER_H
 #define SORTER_BINFILEREADER_H
 
-#include "Bin.h"
-
-#include <map>
+#include "Sorter/Bin.h"
+#include "Core/ICsvFileReader.h" 
 
 namespace Sorter {
     
-    class BinFileReader {
+    class BinFileReader : public Core::ICsvFileReader<Sorter::Bin> {
     public: 
-        //constructors
-        BinFileReader(); 
+        BinFileReader();
         virtual ~BinFileReader();
-        
-        //member functions
-        virtual std::map<unsigned long long, Bin*>& read(const char* path);
-    private:
-        char get_separator(const std::string& line);
-        Bin* get_bin(const std::string& line, 
-                     const char& separator);
-        Bin* get_parent_bin(const unsigned long long& parent_id);
-    private:
-        std::map<unsigned long long, Bin*> __bins;
+        virtual bool read_line(const std::string& line, 
+                               const char& separator,
+                               Sorter::Bin** bin);
 
-    };
+    }; /* class BinFileReader */
 
 } /* namespace Sorter */
 

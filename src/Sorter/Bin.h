@@ -29,14 +29,16 @@ namespace Sorter {
     public:
         Bin(const unsigned long long& id, 
             const std::string& name,
-            Bin* parent);
+            const unsigned long long& parent_id);
         Bin(const Bin& orig);
         virtual ~Bin();
 
         //member functions
-        virtual Bin* get_parent() const;
-        virtual const unsigned long long& get_id() const;
-        virtual const std::string& get_name() const;
+        Bin* get_parent() const;
+        void set_parent(Bin* parent);
+        const unsigned long long& get_id() const;
+        const std::string& get_name() const;
+        const unsigned long long& get_parent_id() const;
          
         //operators
         virtual bool operator==(const Bin& rhs) const;
@@ -47,9 +49,10 @@ namespace Sorter {
         //friend operators
         friend std::ostream& operator<<(std::ostream& lhs, const Bin& rhs);
     private:
-        Bin* __parent;
+        unsigned long long __parent_id;
         unsigned long long __id;
         std::string __name;
+        Bin* __parent;
     }; /* class Bin */
 
 } /* namespace Sorter */

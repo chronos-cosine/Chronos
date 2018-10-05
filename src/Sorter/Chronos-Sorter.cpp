@@ -14,14 +14,10 @@
 #include <iostream>
 #include <set>
  
-#include "Bin.h"
-#include "MemoryManagement.h" 
-#include "Pattern.h"
-#include "PatternFileReader.h"
-#include "PatternMatcher/PatternMatchingMachine.h"
 #include "PatternMatcher/IPattern.h"
-#include "PatternMatcher/IPatternReader.h"
-#include "BinFileReader.h"
+#include "Sorter/PatternFileReader.h"
+#include "Sorter/BinFileReader.h"
+#include "Sorter/Pattern.h"
 
 /*
  * 
@@ -33,25 +29,19 @@ int main(int argc, char** argv) {
         std::cerr << "Incorrect number of parameters supplied" << std::endl;
         return 1;
     }
-     
-    Sorter::BinFileReader binFileReader;
-    std::map<unsigned long long, Sorter::Bin*> bins(binFileReader.read(argv[2]));
-    Sorter::MemoryManagement memory_management;
-    Sorter::PatternFileReader patternFileReader(&bins);
     
-    std::set<PatternMatcher::IPattern*> patterns(patternFileReader.read(argv[1]));
-    PatternMatcher::PatternMatchingMachine pattern_matcher(patterns);
+    Sorter::PatternFileReader pattern_file_reader;
+    Sorter::BinFileReader bin_file_reader;
+    std::set<PatternMatcher::IPattern*> patterns(pattern_file_reader.read(argv[1]));
+    std::set<Sorter::Bin*> bins(bin_file_reader.read(argv[2]));
     
-    std::cout << "<PATTERNS>" << std::endl;
-    for (auto* p: patterns)
-    {  
+    for (auto& p: patterns)
+    {
         std::cout << *dynamic_cast<Sorter::Pattern*>(p) << std::endl;
     }
-    
-    std::cout << "<BINS>" << std::endl;
     for (auto& b: bins)
-    { 
-        std::cout << *b.second << std::endl;
+    {
+        std::cout << *b << std::endl;
     }
          
     return 0;

@@ -18,12 +18,14 @@ namespace Sorter {
 
     Bin::Bin(const unsigned long long& id, 
         const std::string& name,
-        Bin* parent)
-        : __id(id), __name(name), __parent(parent)
+        const unsigned long long& parent_id)
+        : __id(id), __name(name), __parent_id(parent_id), 
+            __parent(nullptr)
     { }
     
     Bin::Bin(const Bin& orig)
-        : __id(orig.__id), __name(orig.__name), __parent(orig.__parent)
+        : __id(orig.__id), __name(orig.__name), 
+            __parent_id(orig.__parent_id), __parent(orig.__parent)
     { }
     
     Bin::~Bin()
@@ -36,10 +38,22 @@ namespace Sorter {
         return __parent;
     }
     
+    void
+    Bin::set_parent(Bin* parent)
+    {
+        __parent = parent;
+    }
+    
     const unsigned long long& 
     Bin::get_id() const
     {
         return __id;
+    }
+    
+    const unsigned long long& 
+    Bin::get_parent_id() const
+    {
+        return __parent_id;
     }
     
     const std::string& 
@@ -55,19 +69,36 @@ namespace Sorter {
         return __id == rhs.__id;
     }
     
-    bool Bin::operator!=(const Bin& rhs) const
+    bool 
+    Bin::operator!=(const Bin& rhs) const
     {
         return __id != rhs.__id;
     }
     
-    bool Bin::operator<(const Bin& rhs) const
+    bool 
+    Bin::operator<(const Bin& rhs) const
     {
-        return __id < rhs.__id;
+        if (__parent_id == rhs.__parent_id)
+        {
+            return __id < rhs.__id;
+        }
+        else 
+        {
+            return __parent_id < rhs.__parent_id;
+        }
     }
     
-    bool Bin::operator>(const Bin& rhs) const
+    bool 
+    Bin::operator>(const Bin& rhs) const
     {
-        return __id > rhs.__id;
+        if (__parent_id == rhs.__parent_id)
+        {
+            return __id > rhs.__id;
+        }
+        else 
+        {
+            return __parent_id > rhs.__parent_id;
+        }
     }
     
     //friend operators

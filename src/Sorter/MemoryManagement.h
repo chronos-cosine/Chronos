@@ -15,7 +15,7 @@
 #define SORTER_MEMORYMANAGEMENT_H
 
 #include <set>
-#include "Bin.h"
+#include "Sorter/Bin.h"
 #include "PatternMatcher/IPattern.h"
 
 namespace Sorter {

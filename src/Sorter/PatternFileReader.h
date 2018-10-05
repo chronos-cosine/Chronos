@@ -13,29 +13,18 @@
 
 #ifndef SORTER_PATTERNFILEREADER_H
 #define SORTER_PATTERNFILEREADER_H
- 
+
+#include "Core/ICsvFileReader.h"
 #include "PatternMatcher/IPattern.h"
-#include "PatternMatcher/IPatternReader.h"
-#include "Bin.h"
-#include <map>
-#include <set>
-#include <sstream>
 
 namespace Sorter {
-    class PatternFileReader : public PatternMatcher::IPatternReader {
-    public:
-        //constructors
-        PatternFileReader(std::map<unsigned long long, Bin*>* bins); 
+    class PatternFileReader : public Core::ICsvFileReader<PatternMatcher::IPattern> {
+    public: 
+        PatternFileReader();
         virtual ~PatternFileReader();
-        
-        //member functions
-        virtual std::set<PatternMatcher::IPattern*> read(const char* path);
-    private:
-        char get_separator(const std::string& line);
-        PatternMatcher::IPattern* get_pattern(const std::string& line, const char& separator);
-        Sorter::Bin* get_bin(const unsigned long long& bin_id);
-    private:
-        std::map<unsigned long long, Bin*>* __bins;
+        virtual bool read_line(const std::string& line, 
+                               const char& separator,
+                               PatternMatcher::IPattern** pattern);
     }; /* class PatternFileReader */ 
 } /* namespace Sorter */
 

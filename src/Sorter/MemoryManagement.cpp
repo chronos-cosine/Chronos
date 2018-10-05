@@ -11,7 +11,7 @@
  * Created on 04 October 2018, 2:10 PM
  */
 
-#include "MemoryManagement.h"
+#include "Sorter/MemoryManagement.h"
 
 namespace Sorter {
     
