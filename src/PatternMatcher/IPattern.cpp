@@ -60,18 +60,21 @@ namespace PatternMatcher
     IPattern::operator=(const IPattern& rhs)
     {
         __value = rhs.__value;
+        return *this;
     }
 
     IPattern& 
     IPattern::operator=(const std::string& rhs)
     { 
         __value = rhs;
+        return *this;
     }
 
     IPattern& 
     IPattern::operator=(const char* rhs)
     { 
         __value = rhs;
+        return *this;
     }
 
     bool 

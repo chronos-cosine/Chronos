@@ -27,12 +27,12 @@ namespace Sorter {
         virtual ~BinFileReader();
         
         //member functions
-        virtual std::set<Bin*> read(const char* path);
+        virtual std::map<unsigned long long, Bin*> read(const char* path);
     private:
         char get_separator(const std::string& line);
         Bin* get_bin(const std::string& line, 
                      const char& separator,
-                     const std::map<unsigned long long, Bin*> bins);
+                     const std::map<unsigned long long, Bin*>& bins);
 
     };
 

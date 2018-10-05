@@ -25,7 +25,7 @@ namespace Sorter {
         MemoryManagement();
         virtual ~MemoryManagement();
         
-        void free_patterns( std::set<PatternMatcher::IPattern*>& patterns);
+        void free_patterns(std::set<PatternMatcher::IPattern*>& patterns);
         void free_bins(std::set<Bin*>& bin);
     };
 

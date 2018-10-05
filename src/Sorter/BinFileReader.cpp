@@ -12,6 +12,9 @@
  */
 
 #include "BinFileReader.h"
+#include <sstream>
+#include <fstream>
+#include <iostream>
 
 namespace Sorter {
 
@@ -23,10 +26,10 @@ namespace Sorter {
     { }
 
     //member functions
-    std::set<Bin*> 
+    std::map<unsigned long long, Bin*> 
     BinFileReader::read(const char* path)
     {
-        std::set<Bin*> bins;
+        std::map<unsigned long long, Bin*> bins;
         std::ifstream file(path);
         if (file)
         {
@@ -37,7 +40,8 @@ namespace Sorter {
             
             while (getline(file, line))
             {
-                bins.insert(get_bin(line, separator, bins));
+                Bin* bin = get_bin(line, separator, bins);
+                bins[bin->get_id()] = bin;
             }
         }
         file.close();
@@ -62,7 +66,7 @@ namespace Sorter {
     Bin* 
     BinFileReader::get_bin(const std::string& line, 
                            const char& separator, 
-                           const std::map<unsigned long long, Bin*> bins)
+                           const std::map<unsigned long long, Bin*>& bins)
     {
         try {
             std::string id;
@@ -76,14 +80,15 @@ namespace Sorter {
             getline(stream, parent_id, separator);
             if (parent_id.length() > 0)
             {
-                parent_bin = *bins.find(std::stoull(id));
+                parent_bin = bins.find(std::stoull(id))->second;
             }
             
-            PatternMatcher::IPattern* obj = new Sorter::Pattern(std::stoull(id), value, parent_bin);
+            Sorter::Bin* obj = new Sorter::Bin(std::stoull(id), value, parent_bin);
             return obj;
         } catch (const std::invalid_argument&)
         {
-            std::cerr << std::endl << "ERROR: The line to read is not in the format <ID>" <<  separator << "<PATTERN>"
+            std::cerr << std::endl << "ERROR: The line to read is not in the format " 
+                      << "<ID>" <<  separator << "<BIN NAME>" <<  separator << "<PARENT ID>"
                       << std::endl << "Application will close..." << std::endl;
             exit(1);
         }
