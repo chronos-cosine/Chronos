@@ -18,9 +18,11 @@ namespace Sorter {
 
     Sorter::Sorter(char* pattern_file, char* bin_file) 
         : __bins(__bin_file_reader.read(bin_file)),
-          __patterns(__pattern_file_reader.read(pattern_file)) {
-        link_pattern_bin();
-        __pattern_matching_machine(__patterns);
+          __patterns(__pattern_file_reader.read(pattern_file)),
+          __pattern_matching_machine(__patterns) { 
+        link_pattern_bin(); 
+        __pattern_matching_machine.completed().connect(__completed);
+        __pattern_matching_machine.match_found().connect(__match_found);
     }
 
     Sorter::~Sorter() { 

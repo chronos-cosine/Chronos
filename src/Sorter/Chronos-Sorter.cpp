@@ -29,12 +29,7 @@ int main(int argc, char** argv) {
     }
     
     Sorter::Sorter sorter(argv[1], argv[2]);
-    
-    for (auto& p: sorter.__patterns)
-    {
-        std::cout << *dynamic_cast<Sorter::Pattern*>(p) << std::endl;
-    } 
-         
+             
     return 0;
 }
 

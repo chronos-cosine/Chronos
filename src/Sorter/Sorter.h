@@ -23,10 +23,29 @@
 
 #include <string>
 #include <set>
+#include <map>
 
 namespace Sorter {
 
     class Sorter {
+    public:
+        struct match_found {
+            void operator()(void* sender, 
+                 const unsigned long long& position,
+                 PatternMatcher::IPattern* input,
+                 const std::set<PatternMatcher::IPattern*>& patterns)
+            {
+                //TODO: Add match found code in here
+            }
+        };
+        struct completed {
+            void operator()(void* sender , 
+                 const unsigned long long& total_matches,
+                 PatternMatcher::IPattern*  input)
+            {
+                //TODO: Add completed code in here
+            }
+        };
     public:
         Sorter(char* pattern_file, char* bin_file);
         virtual ~Sorter();
@@ -39,6 +58,8 @@ namespace Sorter {
         std::set<Bin*> __bins;
         std::set<PatternMatcher::IPattern*> __patterns;
         PatternMatcher::PatternMatchingMachine __pattern_matching_machine;
+        Sorter::match_found __match_found;
+        Sorter::completed __completed;
     };
 
 } /* namespace Sorter */
