@@ -15,6 +15,7 @@
 #define SORTER_PATTERN_H
 
 #include "PatternMatcher/IPattern.h"
+#include "Sorter/Bin.h"
 
 #include <functional>
 #include <iostream>
@@ -31,13 +32,14 @@ namespace Sorter {
         };  /* struct Pattern::hash */
     public:
         //constructors
-        Pattern(const unsigned long long& id, const char* value);
-        Pattern(const unsigned long long& id, const std::string& value);
+        Pattern(const unsigned long long& id, const char* value, Bin* bin);
+        Pattern(const unsigned long long& id, const std::string& value, Bin* bin);
         Pattern(const Pattern& orig);
         virtual ~Pattern();
 
         //member functions
         virtual const unsigned long long& get_id() const;
+        virtual Bin* get_bin() const;
 
         //operators
         virtual bool operator==(const Pattern& rhs) const;
@@ -49,6 +51,7 @@ namespace Sorter {
         friend std::ostream& operator<<(std::ostream& lhs, const Pattern& rhs);
     private:
         unsigned long long __id;
+        Bin* __bin;
     }; /* class Pattern */
 
 } /* namespace Sorter */

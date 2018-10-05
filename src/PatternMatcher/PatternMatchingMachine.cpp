@@ -12,7 +12,7 @@
 namespace PatternMatcher
 {
 
-    PatternMatchingMachine::PatternMatchingMachine(const std::set<IPattern>& patterns) 
+    PatternMatchingMachine::PatternMatchingMachine(const std::set<IPattern*>& patterns) 
     {
         __root = new RootNode();
         construct_goto_function(patterns);
@@ -26,10 +26,10 @@ namespace PatternMatcher
     }
 
     void 
-    PatternMatchingMachine::construct_goto_function(const std::set<IPattern>& patterns)
+    PatternMatchingMachine::construct_goto_function(const std::set<IPattern*>& patterns)
     {
         __root->clear();
-        for (const IPattern& pattern: patterns)
+        for (IPattern* pattern: patterns)
         {
             enter(pattern);
         }
@@ -67,10 +67,10 @@ namespace PatternMatcher
     }
 
     void 
-    PatternMatchingMachine::enter(const IPattern& pattern)
+    PatternMatchingMachine::enter(IPattern* pattern)
     {
         Node* current = __root;
-        for (const char& a: pattern)
+        for (const char& a: *pattern)
         {
             Node* new_node = current->g(a);
             if (nullptr == new_node
@@ -86,13 +86,13 @@ namespace PatternMatcher
     }
 
     void 
-    PatternMatchingMachine::match(const IPattern& input, void* sender) const
+    PatternMatchingMachine::match(IPattern* input, void* sender) const
     { 
         unsigned long long patterns_found = 0;
         unsigned long long position = 0;
         Node* state = __root;
 
-        for (const char a: input)
+        for (const char a: *input)
         { 
             ++position;
             while (nullptr == state->g(a)) 
@@ -114,7 +114,7 @@ namespace PatternMatcher
     boost::signals2::signal<
             void(void*, 
                  const unsigned long long&,
-                 const IPattern&)>& 
+                 IPattern*)>& 
     PatternMatchingMachine::completed()
     {
         return __completed;
@@ -123,8 +123,8 @@ namespace PatternMatcher
     boost::signals2::signal<
             void(void*, 
                  const unsigned long long&,
-                 const IPattern&,
-                 const std::set<IPattern>&)>& 
+                 IPattern*,
+                 const std::set<IPattern*>&)>& 
     PatternMatchingMachine::match_found()
     {
         return __match_found;

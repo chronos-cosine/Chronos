@@ -29,28 +29,25 @@ namespace PatternMatcher
             }
         };
     public:
-        //ctor
+        //constructors
         Node(const char& value); 
         virtual ~Node();
 
-        //failure
+        //member functions
         Node* get_failure(); 
-        void set_failure(Node* failure);
-
-        //value
-        char get_value();
-
-        //output
-        void add_output(const IPattern& output);
-        void add_output(const std::set<IPattern>& outputs);
-        std::set<IPattern>& get_output();
-
-        //states
+        void set_failure(Node* failure); 
+        char get_value(); 
+        void add_output(IPattern* output);
+        void add_output(const std::set<IPattern*>& outputs);
+        std::set<IPattern*>& get_output(); 
         std::map<char, Node*>& get_states();
-        void add_state(Node* state);
-
+        void add_state(Node* state); 
         virtual Node* g(const char& a);
         void clear();
+        std::map<char, Node*>::iterator begin() noexcept;
+        std::map<char, Node*>::const_iterator begin() const noexcept;
+        std::map<char, Node*>::iterator end() noexcept;
+        std::map<char, Node*>::const_iterator end() const noexcept;
 
         //operators
         bool operator<(const Node& rhs) const;
@@ -60,7 +57,7 @@ namespace PatternMatcher
         char __value;
         Node* __failure;
         std::map<char, Node*> __states;
-        std::set<IPattern> __output;
+        std::set<IPattern*> __output; 
     }; /* class Node */
     
 } /* namespace PatternMatcher */

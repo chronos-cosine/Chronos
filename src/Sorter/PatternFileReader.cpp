@@ -14,6 +14,67 @@
 #include "PatternFileReader.h"
 #include "PatternMatcher/IPattern.h"
 #include "Sorter/Pattern.h"
+<<<<<<< HEAD
+#include "Sorter/Bin.h"
+
+#include <fstream>
+#include <iostream>
+#include <sstream>
+#include <string>
+#include <exception>
+
+namespace Sorter {
+    
+    //constructors
+    PatternFileReader::PatternFileReader()
+    { }
+    
+    PatternFileReader::~PatternFileReader()
+    { }
+    
+    char 
+    PatternFileReader::get_separator(const std::string& line)
+    {
+        if (line.length() != 5
+            || line.find("sep=") == std::string::npos)
+        {
+            std::cerr << std::endl << "ERROR: The first line of the Pattern file must specify the separator to use." 
+                      << std::endl << "sep=<SEPARATOR> where <SEPARATOR> is a character to separate with. Example of a first line:" << std::endl
+                      << "sep=," << std::endl << std::endl;
+            exit(1);
+        }
+        return line[4];
+    }
+    
+    PatternMatcher::IPattern*
+    PatternFileReader::get_pattern(const std::string& line, const char& separator)
+    {
+        try {
+            std::string id;
+            std::string value;
+            std::string bin_id;
+            
+            std::istringstream stream(line);
+            getline(stream, id, separator);
+            getline(stream, value, separator);
+            getline(stream, bin_id, separator);
+
+            PatternMatcher::IPattern* obj = new Sorter::Pattern(std::stoull(id), value, nullptr);
+            return obj;
+        } catch (const std::invalid_argument&)
+        {
+            std::cerr << std::endl << "ERROR: The line to read is not in the format <ID>" <<  separator << "<PATTERN>"
+                      << std::endl << "Application will close..." << std::endl;
+            exit(1);
+        }
+    }
+
+    //member functions
+    std::set<PatternMatcher::IPattern*>
+    PatternFileReader::read(const char* path)
+    {
+        std::set<PatternMatcher::IPattern*> patterns;
+=======
 
 #include <fstream>
 #include <iostream>
@@ -69,6 +130,7 @@ namespace Sorter {
     PatternFileReader::read(const char* path)
     {
         std::set<PatternMatcher::IPattern> patterns;
+>>>>>>> origin/master
         std::ifstream file(path);
         if (file)
         {

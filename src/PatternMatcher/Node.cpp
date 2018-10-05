@@ -51,15 +51,15 @@ namespace PatternMatcher
     }
 
     void
-    Node::add_output(const IPattern& output)
+    Node::add_output(IPattern* output)
     {
         __output.insert(output);
     }
 
     void
-    Node::add_output(const std::set<IPattern>& outputs)
+    Node::add_output(const std::set<IPattern*>& outputs)
     {
-        for (const IPattern& output: outputs)
+        for (IPattern* output: outputs)
         {
             add_output(output);
         }
@@ -72,12 +72,11 @@ namespace PatternMatcher
         {
             tuple.second->clear(); 
             delete tuple.second;
-        }
-
+        } 
         __states.clear();
     }
 
-    std::set<IPattern>&
+    std::set<IPattern*>&
     Node::get_output()
     {
         return __output;
@@ -97,6 +96,30 @@ namespace PatternMatcher
         {
             __states[state->get_value()] = state;
         } 
+    }
+    
+    std::map<char, Node*>::iterator 
+    Node::begin() noexcept
+    {
+        return __states.begin();
+    }
+    
+    std::map<char, Node*>::const_iterator 
+    Node::begin() const noexcept
+    {
+        return __states.begin();
+    }
+    
+    std::map<char, Node*>::iterator 
+    Node::end() noexcept
+    {
+        return __states.end();
+    }
+    
+    std::map<char, Node*>::const_iterator 
+    Node::end() const noexcept
+    {
+        return __states.end();
     }
 
     bool

@@ -22,7 +22,11 @@ namespace PatternMatcher {
     class IPatternReader {
     public:
         virtual ~IPatternReader() { };
+<<<<<<< HEAD
+        virtual std::set<IPattern*> read(const char* path) = 0;
+=======
         virtual std::set<IPattern> read(const char* path) = 0;
+>>>>>>> origin/master
     }; /* class IPatternReader */
     
 } /* namespace PatternMatcher */

@@ -17,16 +17,20 @@
 namespace Sorter {
 
     //constructors
-    Pattern::Pattern(const unsigned long long& id, const char* value)
-        : PatternMatcher::IPattern(value), __id(id)
+    Pattern::Pattern(const unsigned long long& id, 
+                     const char* value,
+                     Bin* bin)
+        : PatternMatcher::IPattern(value), __id(id), __bin(bin)
     { }
 
-    Pattern::Pattern(const unsigned long long& id, const std::string& value)
-        : PatternMatcher::IPattern(value), __id(id)
+    Pattern::Pattern(const unsigned long long& id, 
+                     const std::string& value,
+                     Bin* bin)
+        : PatternMatcher::IPattern(value), __id(id), __bin(bin)
     { }
 
     Pattern::Pattern(const Pattern& orig)
-        : PatternMatcher::IPattern(orig), __id(orig.__id)
+        : PatternMatcher::IPattern(orig), __id(orig.__id), __bin(orig.__bin)
     { }
 
     Pattern::~Pattern()
@@ -37,6 +41,12 @@ namespace Sorter {
     Pattern::get_id() const
     {
         return __id;
+    }
+    
+    Bin* 
+    Pattern::get_bin() const
+    {
+        return __bin;
     }
 
     //operators
@@ -70,7 +80,8 @@ namespace Sorter {
     {
         lhs << "{\"Id\":\"" << rhs.__id
             << "\",\"Value\":\"" << rhs.get_value()
-            << "\"}" << std::endl;
+            << "\"}";
+        return lhs;
     }
 
 } /* namespace Sorter */

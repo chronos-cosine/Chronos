@@ -27,10 +27,10 @@ namespace Sorter {
         virtual ~PatternFileReader();
         
         //member functions
-        virtual std::set<PatternMatcher::IPattern> read(const char* path);
+        virtual std::set<PatternMatcher::IPattern*> read(const char* path);
     private:
         char get_separator(const std::string& line);
-        PatternMatcher::IPattern get_pattern(const std::string& line, const char& separator);
+        PatternMatcher::IPattern* get_pattern(const std::string& line, const char& separator);
     }; /* class PatternFileReader */ 
 } /* namespace Sorter */
 

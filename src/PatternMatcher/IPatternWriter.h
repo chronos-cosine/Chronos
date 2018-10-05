@@ -22,7 +22,11 @@ namespace PatternMatcher {
     class IPatternWriter {
     public:
         virtual ~IPatternWriter() { };
+<<<<<<< HEAD
+        virtual void write(const std::set<IPattern*>& patterns) = 0;
+=======
         virtual void write(const std::set<IPattern>& patterns) = 0;
+>>>>>>> origin/master
     }; /* class IPatternWriter */
     
 } /* namespace PatternMatcher */

@@ -14,6 +14,10 @@
 #include <iostream>
 #include <set>
 
+<<<<<<< HEAD
+#include "MemoryManagement.h"
+=======
+>>>>>>> origin/master
 #include "Pattern.h"
 #include "PatternFileReader.h"
 #include "PatternMatcher/PatternMatchingMachine.h"
@@ -31,6 +35,20 @@ int main(int argc, char** argv) {
         return 1;
     }
     
+<<<<<<< HEAD
+    Sorter::MemoryManagement memory_management;
+    Sorter::PatternFileReader patternFileReader;
+    std::set<PatternMatcher::IPattern*> patterns(patternFileReader.read(argv[1]));
+    PatternMatcher::PatternMatchingMachine pattern_matcher(patterns);
+    
+    for (auto* p: patterns)
+    { 
+        std::cout << *p << std::endl;
+        std::cout << *dynamic_cast<Sorter::Pattern*>(p) << std::endl;
+    }
+    
+    memory_management.free_patterns(patterns);
+=======
     Sorter::PatternFileReader patternFileReader;
     std::set<PatternMatcher::IPattern> patterns(patternFileReader.read(argv[1]));
     PatternMatcher::PatternMatchingMachine pattern_matcher(patterns);
@@ -40,6 +58,7 @@ int main(int argc, char** argv) {
         std::cout << pattern;
     }
     
+>>>>>>> origin/master
     return 0;
 }
 
