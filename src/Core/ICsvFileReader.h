@@ -85,7 +85,10 @@ namespace Core {
                     exit(1);
                 }
                 
-                return_object.insert(object);
+                if (nullptr != object)
+                {
+                    return_object.insert(object);
+                }
             }
             file.close();
         }

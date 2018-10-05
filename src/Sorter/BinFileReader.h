@@ -26,7 +26,9 @@ namespace Sorter {
         virtual bool read_line(const std::string& line, 
                                const char& separator,
                                Sorter::Bin** bin);
-
+        virtual std::set<Sorter::Bin*> read(const char* filename);
+    private:
+        std::set<unsigned long long> __added;
     }; /* class BinFileReader */
 
 } /* namespace Sorter */
