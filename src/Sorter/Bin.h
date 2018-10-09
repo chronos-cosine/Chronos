@@ -19,10 +19,8 @@
 namespace Sorter {
 
     class Bin {
-        struct hash
-        {
-            std::size_t operator()(const Bin& bin) const noexcept
-            {
+        struct hash {
+            std::size_t operator()(const Bin& bin) const noexcept {
                 return std::hash<unsigned long long>{}(bin.__id);
             }
         };  /* struct Bin::hash */
@@ -53,6 +51,7 @@ namespace Sorter {
         unsigned long long __id;
         std::string __name;
         Bin* __parent;
+        
     }; /* class Bin */
 
 } /* namespace Sorter */

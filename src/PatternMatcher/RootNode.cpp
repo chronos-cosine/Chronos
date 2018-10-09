@@ -11,24 +11,19 @@ namespace PatternMatcher
 {
 
     RootNode::RootNode()
-        : Node('~')
-    {
+        : Node('~') {
         Node::set_failure(this);
     }
 
-    RootNode::~RootNode() 
-    { }
+    RootNode::~RootNode() { }
 
     Node* 
-    RootNode::g(const char& a)
-    {
+    RootNode::g(const char& a) {
         Node* state = Node::g(a);
-        if (nullptr == state)
-        {
+        if (nullptr == state) {
             return this;
         }
-        else 
-        {
+        else {
             return state;
         }
     }

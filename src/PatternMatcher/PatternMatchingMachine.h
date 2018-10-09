@@ -22,7 +22,6 @@
 
 namespace PatternMatcher
 {
- 
     class PatternMatchingMachine {
     public:
         typedef boost::signals2::signal<

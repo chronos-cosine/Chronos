@@ -10,66 +10,53 @@ namespace PatternMatcher
 {
 
     Node::Node(const char& value)
-        : __value(value), __failure(nullptr)
-    { }
+        : __value(value), __failure(nullptr) { }
 
-    Node::~Node()
-    {
+    Node::~Node() {
         clear();
     }
 
     Node*
-    Node::get_failure()
-    {
+    Node::get_failure() {
         return __failure;
     }
 
     void
-    Node::set_failure(Node* failure)
-    {
+    Node::set_failure(Node* failure) {
         __failure = failure;
     }
 
     char
-    Node::get_value()
-    {
+    Node::get_value() {
         return __value;
     }
 
     Node*
-    Node::g(const char& a)
-    {
+    Node::g(const char& a) {
         typename std::map<char, Node*>::iterator result = __states.find(a);
-        if (__states.end() == result)
-        {
+        if (__states.end() == result) {
             return nullptr;
         }
-        else 
-        {
+        else {
             return result->second;
         }
     }
 
     void
-    Node::add_output(IPattern* output)
-    {
+    Node::add_output(IPattern* output) {
         __output.insert(output);
     }
 
     void
-    Node::add_output(const std::set<IPattern*>& outputs)
-    {
-        for (IPattern* output: outputs)
-        {
+    Node::add_output(const std::set<IPattern*>& outputs) {
+        for (IPattern* output: outputs) {
             add_output(output);
         }
     }
 
     void
-    Node::clear()
-    {
-        for (auto& tuple: __states)
-        {
+    Node::clear() {
+        for (auto& tuple: __states) {
             tuple.second->clear(); 
             delete tuple.second;
         } 
@@ -77,60 +64,50 @@ namespace PatternMatcher
     }
 
     std::set<IPattern*>&
-    Node::get_output()
-    {
+    Node::get_output() {
         return __output;
     }
 
     std::map<char, Node*>&
-    Node::get_states()
-    {
+    Node::get_states() {
         return __states;
     }
 
     void
-    Node::add_state(Node* state)
-    {
+    Node::add_state(Node* state) {
         typename std::map<char, Node*>::iterator result = __states.find(state->get_value());
-        if (__states.end() == result)
-        {
+        if (__states.end() == result) {
             __states[state->get_value()] = state;
         } 
     }
     
     std::map<char, Node*>::iterator 
-    Node::begin() noexcept
-    {
+    Node::begin() noexcept {
         return __states.begin();
     }
     
     std::map<char, Node*>::const_iterator 
-    Node::begin() const noexcept
-    {
+    Node::begin() const noexcept {
         return __states.begin();
     }
     
     std::map<char, Node*>::iterator 
-    Node::end() noexcept
-    {
+    Node::end() noexcept {
         return __states.end();
     }
     
     std::map<char, Node*>::const_iterator 
-    Node::end() const noexcept
-    {
+    Node::end() const noexcept {
         return __states.end();
     }
 
     bool
-    Node::operator<(const Node& rhs) const
-    {
+    Node::operator<(const Node& rhs) const {
         return __value < rhs.__value;
     }
 
     bool
-    Node::operator>(const Node& rhs) const
-    {
+    Node::operator>(const Node& rhs) const {
         return __value > rhs.__value;
     }
 

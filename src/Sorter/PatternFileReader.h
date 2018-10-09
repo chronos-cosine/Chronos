@@ -25,7 +25,9 @@ namespace Sorter {
         virtual bool read_line(const std::string& line, 
                                const char& separator,
                                std::map<unsigned long long, PatternMatcher::IPattern*>* patterns);
+        
     }; /* class PatternFileReader */ 
+    
 } /* namespace Sorter */
 
 #endif /* SORTER_PATTERNFILEREADER_H */

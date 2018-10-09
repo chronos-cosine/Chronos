@@ -38,11 +38,9 @@ namespace Core {
      
     template <typename T>
     bool 
-    ICsvFileReader<T>::get_separator(const std::string& line, char& separator)
-    {
+    ICsvFileReader<T>::get_separator(const std::string& line, char& separator) {
         if (line.length() != 5
-            || line.find(CORE_CSVFILEREADER_SEPARATOR_PATTERN) == std::string::npos)
-        {
+            || line.find(CORE_CSVFILEREADER_SEPARATOR_PATTERN) == std::string::npos) {
             return false;
         }
         separator = line[4];
@@ -51,18 +49,15 @@ namespace Core {
 
     template <typename T>
     std::map<unsigned long long, T*> 
-    ICsvFileReader<T>::read(const char* filename)
-    { 
+    ICsvFileReader<T>::read(const char* filename) { 
         std::map<unsigned long long, T*> return_object;
         std::ifstream file(filename);
-        if (file)
-        {
+        if (file) {
             std::string line;
             
             getline(file, line);
             char separator;
-            if (!get_separator(line, separator))
-            {
+            if (!get_separator(line, separator)) {
                 file.close();
                 std::cerr << "ERROR: The first line of the Pattern file must specify the separator to use." 
                           << std::endl << CORE_CSVFILEREADER_SEPARATOR_PATTERN 
@@ -72,11 +67,9 @@ namespace Core {
             }
             
             unsigned long long position = 1;
-            while (getline(file, line))
-            {
+            while (getline(file, line)) {
                 ++position;
-                if (!read_line(line, separator, &return_object))
-                {
+                if (!read_line(line, separator, &return_object)) {
                     file.close();
                     std::cerr << "ERROR: Could not create objects from the line that was read." << std::endl
                               << "Line Number: " << position << std::endl
@@ -91,5 +84,6 @@ namespace Core {
     }
     
 } /* namespace Core */
+
 #endif /* CORE_CSVFILEREADER_H */
 

@@ -20,52 +20,43 @@
 namespace PatternMatcher
 {
 
-    PatternMatchingMachine::PatternMatchingMachine(const std::set<IPattern*>& patterns) 
-    {
+    PatternMatchingMachine::PatternMatchingMachine(const std::set<IPattern*>& patterns) {
         __root = new RootNode();
         construct_goto_function(patterns);
         construct_failure_function();
     }
 
-    PatternMatchingMachine::~PatternMatchingMachine() 
-    {
+    PatternMatchingMachine::~PatternMatchingMachine() {
         __root->clear();
         delete __root;
     }
 
     void 
-    PatternMatchingMachine::construct_goto_function(const std::set<IPattern*>& patterns)
-    {
+    PatternMatchingMachine::construct_goto_function(const std::set<IPattern*>& patterns) {
         __root->clear();
-        for (IPattern* pattern: patterns)
-        {
+        for (IPattern* pattern: patterns) {
             enter(pattern);
         }
     }
 
     void 
-    PatternMatchingMachine::construct_failure_function()
-    {
+    PatternMatchingMachine::construct_failure_function() {
         std::queue<Node*> queue;
 
-        for (auto& a: __root->get_states())
-        {
+        for (auto& a: __root->get_states()) {
             queue.push(a.second);
             a.second->set_failure(__root);
         }
 
-        while (!queue.empty())
-        {
+        while (!queue.empty()) {
             Node* r = queue.front();
             queue.pop();
 
-            for (auto& s: r->get_states())
-            {
+            for (auto& s: r->get_states()) {
                 char a = s.first;
                 queue.push(s.second);
                 Node* state = r->get_failure();
-                while (nullptr == state->g(a)) 
-                {
+                while (nullptr == state->g(a)) {
                     state = state->get_failure(); 
                 }
                 s.second->set_failure(state->g(a));
@@ -75,15 +66,12 @@ namespace PatternMatcher
     }
 
     void 
-    PatternMatchingMachine::enter(IPattern* pattern)
-    {
+    PatternMatchingMachine::enter(IPattern* pattern) {
         Node* current = __root;
-        for (const char& a: *pattern)
-        {
+        for (const char& a: *pattern) {
             Node* new_node = current->g(a);
             if (nullptr == new_node
-                || __root == new_node)
-            {
+                || __root == new_node) {
                 new_node = new Node(a);
                 current->add_state(new_node);
             }
@@ -94,23 +82,19 @@ namespace PatternMatcher
     }
 
     void 
-    PatternMatchingMachine::match(IPattern* input, void* sender) const
-    { 
+    PatternMatchingMachine::match(IPattern* input, void* sender) const { 
         unsigned long long patterns_found = 0;
         unsigned long long position = 0;
         Node* state = __root;
 
-        for (const char a: *input)
-        { 
+        for (const char a: *input) { 
             ++position;
-            while (nullptr == state->g(a)) 
-            {
+            while (nullptr == state->g(a)) {
                 state = state->get_failure();
             }
             state = state->g(a);
 
-            if (!state->get_output().empty())
-            { 
+            if (!state->get_output().empty()) { 
                 __match_found(sender, position, input, state->get_output());
                 patterns_found += state->get_output().size();
             } 
@@ -120,14 +104,12 @@ namespace PatternMatcher
     }
 
     PatternMatchingMachine::completed_signal& 
-    PatternMatchingMachine::completed()
-    {
+    PatternMatchingMachine::completed() {
         return __completed;
     }
 
     PatternMatchingMachine::match_found_signal& 
-    PatternMatchingMachine::match_found()
-    {
+    PatternMatchingMachine::match_found() {
         return __match_found;
     }
 

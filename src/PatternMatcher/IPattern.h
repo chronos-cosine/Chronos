@@ -13,8 +13,7 @@
  
 namespace PatternMatcher
 {
-    class IPattern
-    {
+    class IPattern {
     public: 
         //constructors
         IPattern(const char* value);
@@ -42,7 +41,9 @@ namespace PatternMatcher
         friend std::ostream& operator<<(std::ostream& lhs, const IPattern& rhs);
     private:
         std::string __value;
+        
     }; /* class IPattern */
+    
 } /* namespace PatternMatcher */
 
 #endif /* PATTERNMATCHER_IPATTERN_H */

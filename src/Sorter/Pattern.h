@@ -23,10 +23,8 @@
 namespace Sorter {
 
     class Pattern : public PatternMatcher::IPattern {
-        struct hash
-        {
-            std::size_t operator()(const Pattern& pattern) const noexcept
-            {
+        struct hash {
+            std::size_t operator()(const Pattern& pattern) const noexcept {
                 return std::hash<unsigned long long>{}(pattern.__id);
             }
         };  /* struct Pattern::hash */

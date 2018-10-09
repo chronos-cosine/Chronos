@@ -15,27 +15,21 @@
 
 namespace Sorter {
     
-    MemoryManagement::MemoryManagement() 
-    { }
+    MemoryManagement::MemoryManagement() { }
 
-    MemoryManagement::~MemoryManagement() 
-    { }
+    MemoryManagement::~MemoryManagement() { }
     
     void 
-    MemoryManagement::free_patterns(std::map<unsigned long long, PatternMatcher::IPattern*>& patterns)
-    {
-        for (auto& pair: patterns)
-        {
+    MemoryManagement::free_patterns(std::map<unsigned long long, PatternMatcher::IPattern*>& patterns) {
+        for (auto& pair: patterns) {
             delete pair.second;
         }
         patterns.clear();
     }
     
     void 
-    MemoryManagement::free_bins(std::map<unsigned long long, Bin*>& bins)
-    {
-        for (auto& pair: bins)
-        {
+    MemoryManagement::free_bins(std::map<unsigned long long, Bin*>& bins) {
+        for (auto& pair: bins) {
             delete pair.second;
         }
         bins.clear();

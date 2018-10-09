@@ -37,8 +37,7 @@ namespace Sorter {
             getline(stream, parent_id, separator); 
 
             unsigned long long ulong_id = std::stoull(id); 
-            if (bins->find(ulong_id) == bins->end())
-            {
+            if (bins->find(ulong_id) == bins->end()) {
                 (*bins)[ulong_id] = new Sorter::Bin(ulong_id, value, std::stoull(parent_id));
             }
         } 

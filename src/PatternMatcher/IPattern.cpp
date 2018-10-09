@@ -10,101 +10,84 @@ namespace PatternMatcher
 {
     //constructors
     IPattern::IPattern(const char* value)
-        : __value(value)
-    { }
+        : __value(value) { }
 
     IPattern::IPattern(const std::string& value)
-        : __value(value)
-    { }
+        : __value(value) { }
 
     IPattern::IPattern(const IPattern& value)
-        : __value(value.__value)
-    { }
+        : __value(value.__value) { }
 
-    IPattern::~IPattern()
-    { }
+    IPattern::~IPattern() { }
 
     //member functions
     const std::string& 
-    IPattern::get_value() const
-    {
+    IPattern::get_value() const {
         return __value;
     }
 
     std::string::iterator 
-    IPattern::begin()
-    {
+    IPattern::begin() {
         return __value.begin();
     }
 
     std::string::const_iterator 
-    IPattern::begin() const
-    {
+    IPattern::begin() const {
         return __value.begin();
     }
 
     std::string::iterator 
-    IPattern::end()
-    {
+    IPattern::end() {
         return __value.end();
     }
 
     std::string::const_iterator 
-    IPattern::end() const
-    {
+    IPattern::end() const {
         return __value.end();
     }
 
     //operators
     IPattern& 
-    IPattern::operator=(const IPattern& rhs)
-    {
+    IPattern::operator=(const IPattern& rhs) {
         __value = rhs.__value;
         return *this;
     }
 
     IPattern& 
-    IPattern::operator=(const std::string& rhs)
-    { 
+    IPattern::operator=(const std::string& rhs) { 
         __value = rhs;
         return *this;
     }
 
     IPattern& 
-    IPattern::operator=(const char* rhs)
-    { 
+    IPattern::operator=(const char* rhs) { 
         __value = rhs;
         return *this;
     }
 
     bool 
-    IPattern::operator==(const IPattern& rhs) const
-    {
+    IPattern::operator==(const IPattern& rhs) const {
         return __value == rhs.__value;
     }
 
     bool 
-    IPattern::operator!=(const IPattern& rhs) const
-    {
+    IPattern::operator!=(const IPattern& rhs) const {
         return __value != rhs.__value;
     }
 
     bool 
-    IPattern::operator<(const IPattern& rhs) const
-    {
+    IPattern::operator<(const IPattern& rhs) const {
         return __value < rhs.__value;
     }
 
     bool 
-    IPattern::operator>(const IPattern& rhs) const
-    {
+    IPattern::operator>(const IPattern& rhs) const {
         return __value > rhs.__value;
     }
 
     //friend operators
     std::ostream& 
-    operator<<(std::ostream& lhs, const IPattern& rhs)
-    {
+    operator<<(std::ostream& lhs, const IPattern& rhs) {
         lhs << rhs.__value;
         return lhs;
     }

@@ -16,14 +16,10 @@
 
 namespace PatternMatcher
 {
-
-    class Node 
-    {
+    class Node {
     public:
-        struct Hasher
-        {
-            std::size_t operator()(const Node& node) const
-            {
+        struct Hasher {
+            std::size_t operator()(const Node& node) const {
                 boost::hash<char> hash;
                 return hash(node.__value);
             }
@@ -57,7 +53,8 @@ namespace PatternMatcher
         char __value;
         Node* __failure;
         std::map<char, Node*> __states;
-        std::set<IPattern*> __output; 
+        std::set<IPattern*> __output;
+        
     }; /* class Node */
     
 } /* namespace PatternMatcher */
