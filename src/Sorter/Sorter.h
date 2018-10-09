@@ -14,6 +14,8 @@
 #ifndef SORTER_SORTER_H
 #define SORTER_SORTER_H
 
+
+#include "Core/IProcessor.h"
 #include "PatternMatcher/IPattern.h"
 #include "PatternMatcher/PatternMatchingMachine.h"
 #include "Sorter/Bin.h"
@@ -29,7 +31,7 @@
 
 namespace Sorter {
 
-    class Sorter {
+    class Sorter : public Core::IProcessor {
     private:
         struct completed_functor {
             Sorter* __sorter;
@@ -66,15 +68,14 @@ namespace Sorter {
         };
     public:
         Sorter(char* pattern_file, char* bin_file);
+        Sorter(char* pattern_file, char* bin_file, Core::INotifier* notifier);
         virtual ~Sorter();
-        
-        void Match_TEST(PatternMatcher::IPattern* input) {
-            __pattern_matching_machine.match(input, this);
-        }
     private:
+        void initialise_sorter();
         void link_pattern_bin();
-        template <typename T>
-        std::set<T*> map_values_to_set(const std::map<unsigned long long, T*> map);
+        template <typename T> std::set<T*> map_values_to_set(const std::map<unsigned long long, T*> map);
+    protected:
+        virtual bool process();
     private:
         PatternFileReader __pattern_file_reader;
         BinFileReader __bin_file_reader;
@@ -87,6 +88,17 @@ namespace Sorter {
         std::map<PatternMatcher::IPattern*, std::map<Pattern*, std::set<unsigned long long>>> __matches;
         
     }; /* class Sorter */
+    
+    template <typename T>
+    std::set<T*>
+    Sorter::map_values_to_set(const std::map<unsigned long long, T*> map) {
+        std::set<T*> set;
+        for (const auto& pair: map) {
+            set.insert(pair.second);
+        }
+        
+        return set;
+    }
     
 } /* namespace Sorter */
 

@@ -14,6 +14,7 @@
 #include <iostream>
 #include <set>
  
+#include "Core/Notifier_cout.h"
 #include "Sorter/Sorter.h"
 #include "Sorter/Pattern.h"
 
@@ -21,14 +22,16 @@
  * 
  */
 int main(int argc, char** argv) {
+    PatternMatcher::IPattern input("This is another test to test if her picks up!");
+    
     if (argc < 3) {
         std::cerr << "Incorrect number of parameters supplied" << std::endl;
         return 1;
     }
     
-    Sorter::Sorter sorter(argv[1], argv[2]);
-    PatternMatcher::IPattern input("This is another test to test if her picks up!");
-    sorter.Match_TEST(&input);
+    Core::Notifier_cout notifier;
+    Sorter::Sorter sorter(argv[1], argv[2], &notifier);
+    sorter.start();
              
     return 0;
 }
