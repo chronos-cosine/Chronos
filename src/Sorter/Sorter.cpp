@@ -14,15 +14,27 @@
 #include "Sorter.h"
 #include "Pattern.h"
 
+#include <boost/signals2.hpp>
+#include <iostream>
+
 namespace Sorter {
 
     Sorter::Sorter(char* pattern_file, char* bin_file) 
         : __bins(__bin_file_reader.read(bin_file)),
           __patterns(__pattern_file_reader.read(pattern_file)),
-          __pattern_matching_machine(__patterns) { 
-        link_pattern_bin(); 
-        __pattern_matching_machine.completed().connect(__completed);
-        __pattern_matching_machine.match_found().connect(__match_found);
+          __pattern_matching_machine(__patterns) 
+    { 
+        link_pattern_bin();  
+        __pattern_matching_machine.completed().connect(
+                boost::bind(
+                    &Sorter::pattern_match_completed, 
+                    this, 
+                    _1));
+        __pattern_matching_machine.match_found().connect(
+                boost::bind(
+                    &Sorter::pattern_match_found, 
+                    this, 
+                    _1));
     }
 
     Sorter::~Sorter() { 
@@ -42,6 +54,23 @@ namespace Sorter {
                 }
             }
         }
+    }
+        
+    void 
+    Sorter::pattern_match_completed(void* sender, 
+             const unsigned long long& total_matches,
+             PatternMatcher::IPattern* input)
+    {
+        std::cout << "completed" << std::endl;
+    }
+    
+    void 
+    Sorter::pattern_match_found(void* sender , 
+             const unsigned long long& position,
+             PatternMatcher::IPattern* input ,
+             const std::set<PatternMatcher::IPattern*>& patterns)
+    {
+        std::cout << "match found" << std::endl;
     }
 
 } /* namespace Sorter */

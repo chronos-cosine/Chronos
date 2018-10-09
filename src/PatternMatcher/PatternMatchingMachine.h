@@ -27,12 +27,12 @@ namespace PatternMatcher
         boost::signals2::signal<
             void(void* /* sender */, 
                  const unsigned long long& /* total_matches */,
-                 IPattern* /* input */)>& completed();
+                 PatternMatcher::IPattern* /* input */)>& completed();
         boost::signals2::signal<
             void(void* /* sender */, 
                  const unsigned long long& /* position */,
-                 IPattern* /* input */,
-                 const std::set<IPattern*>& /* patterns */)>& match_found();
+                 PatternMatcher::IPattern* /* input */,
+                 const std::set<PatternMatcher::IPattern*>& /* patterns */)>& match_found();
     private:
         Node* __root;
         boost::signals2::signal<

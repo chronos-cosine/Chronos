@@ -29,28 +29,18 @@ namespace Sorter {
 
     class Sorter {
     public:
-        struct match_found {
-            void operator()(void* sender, 
-                 const unsigned long long& position,
-                 PatternMatcher::IPattern* input,
-                 const std::set<PatternMatcher::IPattern*>& patterns)
-            {
-                //TODO: Add match found code in here
-            }
-        };
-        struct completed {
-            void operator()(void* sender , 
-                 const unsigned long long& total_matches,
-                 PatternMatcher::IPattern*  input)
-            {
-                //TODO: Add completed code in here
-            }
-        };
-    public:
         Sorter(char* pattern_file, char* bin_file);
         virtual ~Sorter();
     private:
-        void link_pattern_bin();
+        void link_pattern_bin(); 
+    private:
+        void pattern_match_completed(void* sender, 
+                 const unsigned long long& total_matches,
+                 PatternMatcher::IPattern* input);
+        void pattern_match_found(void* sender , 
+                 const unsigned long long& position,
+                 PatternMatcher::IPattern* input ,
+                 const std::set<PatternMatcher::IPattern*>& patterns);
     private:
         PatternFileReader __pattern_file_reader;
         BinFileReader __bin_file_reader;
@@ -58,8 +48,6 @@ namespace Sorter {
         std::set<Bin*> __bins;
         std::set<PatternMatcher::IPattern*> __patterns;
         PatternMatcher::PatternMatchingMachine __pattern_matching_machine;
-        Sorter::match_found __match_found;
-        Sorter::completed __completed;
     };
 
 } /* namespace Sorter */
