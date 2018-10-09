@@ -22,21 +22,21 @@ namespace Sorter {
     { }
     
     void 
-    MemoryManagement::free_patterns(std::set<PatternMatcher::IPattern*>& patterns)
+    MemoryManagement::free_patterns(std::map<unsigned long long, PatternMatcher::IPattern*>& patterns)
     {
-        for (auto* pattern: patterns)
+        for (auto& pair: patterns)
         {
-            delete pattern;
+            delete pair.second;
         }
         patterns.clear();
     }
     
     void 
-    MemoryManagement::free_bins(std::set<Bin*>& bins)
+    MemoryManagement::free_bins(std::map<unsigned long long, Bin*>& bins)
     {
-        for (auto* bin: bins)
+        for (auto& pair: bins)
         {
-            delete bin;
+            delete pair.second;
         }
         bins.clear();
     } 

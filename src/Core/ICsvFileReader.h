@@ -18,19 +18,19 @@
 
 #include <iostream>
 #include <fstream>
-#include <set>
+#include <map>
 #include <string>
 
 namespace Core {
 
     template <typename T>
     class ICsvFileReader {
-    public:
+    protected:
         virtual bool read_line(const std::string& line, 
                                const char& separator,
-                               T** return_object) = 0;
+                               std::map<unsigned long long, T*>* return_object) = 0;
     public:
-        virtual std::set<T*> read(const char* filename);
+        virtual std::map<unsigned long long, T*> read(const char* filename);
     private:
         bool get_separator(const std::string& line, char& separator);
         
@@ -50,10 +50,10 @@ namespace Core {
     }
 
     template <typename T>
-    std::set<T*> 
+    std::map<unsigned long long, T*> 
     ICsvFileReader<T>::read(const char* filename)
     { 
-        std::set<T*> return_object;
+        std::map<unsigned long long, T*> return_object;
         std::ifstream file(filename);
         if (file)
         {
@@ -75,19 +75,13 @@ namespace Core {
             while (getline(file, line))
             {
                 ++position;
-                T* object = nullptr;
-                if (!read_line(line, separator, &object))
+                if (!read_line(line, separator, &return_object))
                 {
                     file.close();
                     std::cerr << "ERROR: Could not create objects from the line that was read." << std::endl
                               << "Line Number: " << position << std::endl
                               << "Line: " << line; 
                     exit(1);
-                }
-                
-                if (nullptr != object)
-                {
-                    return_object.insert(object);
                 }
             }
             file.close();

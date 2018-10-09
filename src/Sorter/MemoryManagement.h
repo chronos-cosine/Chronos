@@ -14,7 +14,7 @@
 #ifndef SORTER_MEMORYMANAGEMENT_H
 #define SORTER_MEMORYMANAGEMENT_H
 
-#include <set>
+#include <map>
 #include "Sorter/Bin.h"
 #include "PatternMatcher/IPattern.h"
 
@@ -25,8 +25,8 @@ namespace Sorter {
         MemoryManagement();
         virtual ~MemoryManagement();
         
-        void free_patterns(std::set<PatternMatcher::IPattern*>& patterns);
-        void free_bins(std::set<Bin*>& bin);
+        void free_patterns(std::map<unsigned long long, PatternMatcher::IPattern*>& patterns);
+        void free_bins(std::map<unsigned long long, Bin*>& bins);
     };
 
 } /* namespace Sorter */

@@ -26,16 +26,10 @@ namespace Sorter {
     
     PatternFileReader::~PatternFileReader() { }
     
-    std::set<PatternMatcher::IPattern*> 
-    PatternFileReader::read(const char* filename) {
-        __added.clear();
-        return Core::ICsvFileReader<PatternMatcher::IPattern>::read(filename);
-    }
-
     bool 
     PatternFileReader::read_line(const std::string& line, 
                                  const char& separator,
-                                 PatternMatcher::IPattern** pattern) {
+                                 std::map<unsigned long long, PatternMatcher::IPattern*>* patterns) {
         try {
             std::string id;
             std::string value;
@@ -47,12 +41,11 @@ namespace Sorter {
             getline(stream, bin_id, separator); 
             
             unsigned long long ulong_id = std::stoull(id);
-            if (__added.find(ulong_id) == __added.end())
+            if (patterns->find(ulong_id) == patterns->end())
             {
-                __added.insert(ulong_id);
-                *pattern = dynamic_cast<PatternMatcher::IPattern*>(new Pattern(ulong_id, value, std::stoull(bin_id)));
+                (*patterns)[ulong_id] = dynamic_cast<PatternMatcher::IPattern*>(new Pattern(ulong_id, value, std::stoull(bin_id)));
             } 
-        } catch (const std::exception&)
+        } catch (...)
         {
             return false;
         }

@@ -3,6 +3,14 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
+/* 
+ * File:   PatternMatchingMachine.cpp
+ * Author: user
+ *
+ * Created on 05 October 2018, 8:53 AM
+ */
+
 #include "PatternMatchingMachine.h"
 #include "IPattern.h"
 #include "RootNode.h"
@@ -111,20 +119,13 @@ namespace PatternMatcher
         __completed(sender, patterns_found, input); 
     }
 
-    boost::signals2::signal<
-            void(void*, 
-                 const unsigned long long&,
-                 IPattern*)>& 
+    PatternMatchingMachine::completed_signal& 
     PatternMatchingMachine::completed()
     {
         return __completed;
     }
 
-    boost::signals2::signal<
-            void(void*, 
-                 const unsigned long long&,
-                 IPattern*,
-                 const std::set<IPattern*>&)>& 
+    PatternMatchingMachine::match_found_signal& 
     PatternMatchingMachine::match_found()
     {
         return __match_found;

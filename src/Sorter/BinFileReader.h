@@ -15,7 +15,9 @@
 #define SORTER_BINFILEREADER_H
 
 #include "Sorter/Bin.h"
-#include "Core/ICsvFileReader.h" 
+#include "Core/ICsvFileReader.h"
+
+#include <map>
 
 namespace Sorter {
     
@@ -25,10 +27,8 @@ namespace Sorter {
         virtual ~BinFileReader();
         virtual bool read_line(const std::string& line, 
                                const char& separator,
-                               Sorter::Bin** bin);
-        virtual std::set<Sorter::Bin*> read(const char* filename);
-    private:
-        std::set<unsigned long long> __added;
+                               std::map<unsigned long long, Sorter::Bin*>* bins);
+        
     }; /* class BinFileReader */
 
 } /* namespace Sorter */

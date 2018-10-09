@@ -22,16 +22,10 @@ namespace Sorter {
     
     BinFileReader::~BinFileReader() { }
 
-    std::set<Sorter::Bin*> 
-    BinFileReader::read(const char* filename) {
-        __added.clear();
-        return Core::ICsvFileReader<Sorter::Bin>::read(filename);
-    }
-    
     bool 
     BinFileReader::read_line(const std::string& line, 
                                  const char& separator,
-                                 Sorter::Bin** bin) {
+                                 std::map<unsigned long long, Sorter::Bin*>* bins) {
         try {
             std::string id;
             std::string value;
@@ -43,13 +37,12 @@ namespace Sorter {
             getline(stream, parent_id, separator); 
 
             unsigned long long ulong_id = std::stoull(id); 
-            if (__added.find(ulong_id) == __added.end())
+            if (bins->find(ulong_id) == bins->end())
             {
-                __added.insert(ulong_id);
-                *bin = new Sorter::Bin(ulong_id, value, std::stoull(parent_id));;
+                (*bins)[ulong_id] = new Sorter::Bin(ulong_id, value, std::stoull(parent_id));
             }
         } 
-        catch (const std::exception&) {
+        catch (...) {
             return false;
         }
         
