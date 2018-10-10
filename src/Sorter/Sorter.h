@@ -20,9 +20,12 @@
 #include "PatternMatcher/PatternMatchingMachine.h"
 #include "Sorter/Bin.h"
 #include "Sorter/BinFileReader.h"
+#include "Sorter/Job.h"
+#include "Sorter/JobFileReader.h"
 #include "Sorter/MemoryManagement.h"
 #include "Sorter/Pattern.h"
 #include "Sorter/PatternFileReader.h"
+#include "Sorter/ResultFileWriter.h"
 
 #include <iostream>
 #include <map>
@@ -33,27 +36,6 @@ namespace Sorter {
 
     class Sorter : public Core::IProcessor {
     private:
-        struct completed_functor {
-            Sorter* __sorter;
-            void operator()(void* sender, 
-                            const unsigned long long& total_matches,
-                            PatternMatcher::IPattern* input) const {
-                std::cout << "Input: " << std::endl << *input 
-                          << " found : " << total_matches 
-                          << " matchers.  These include: " << std::endl;
-                for (auto& pair: __sorter->__matches[input])
-                {
-                    std::cout << *(pair.first) << std::endl << "at positions: ";
-                    for (const auto& position: __sorter->__matches[input][pair.first])
-                    {
-                        std::cout << position << ", ";
-                    }
-                    std::cout << "\b\b" << std::endl;
-                }
-                
-                __sorter->__matches.erase(input);
-            }
-        };
         struct match_found_functor {
             Sorter* __sorter;
             void operator()(void* sender , 
@@ -67,23 +49,25 @@ namespace Sorter {
             }
         };
     public:
-        Sorter(char* pattern_file, char* bin_file);
-        Sorter(char* pattern_file, char* bin_file, Core::INotifier* notifier);
+        Sorter(const char* pattern_file, const char* bin_file, const char* job_path);
+        Sorter(const char* pattern_file, const char* bin_file, const char* job_path, Core::INotifier* notifier);
         virtual ~Sorter();
-    private:
+    private: 
         void initialise_sorter();
         void link_pattern_bin();
         template <typename T> std::set<T*> map_values_to_set(const std::map<unsigned long long, T*> map);
     protected:
         virtual bool process();
     private:
+        std::string __job_path;
         PatternFileReader __pattern_file_reader;
         BinFileReader __bin_file_reader;
         MemoryManagement __memory_management;
         std::map<unsigned long long, Bin*> __bins;
         std::map<unsigned long long, PatternMatcher::IPattern*> __patterns;
         PatternMatcher::PatternMatchingMachine __pattern_matching_machine;
-        Sorter::completed_functor __completed_functor;
+        JobFileReader __job_file_reader;
+        ResultFileWriter __result_file_writer;
         Sorter::match_found_functor __match_found_functor;
         std::map<PatternMatcher::IPattern*, std::map<Pattern*, std::set<unsigned long long>>> __matches;
         

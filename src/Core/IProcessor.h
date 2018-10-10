@@ -38,6 +38,7 @@ namespace Core {
     protected:
         virtual bool process() = 0;
         virtual void notify(const char* message);
+        virtual void clear_notifications();
     private:
         bool __is_running;
         bool __is_executing;

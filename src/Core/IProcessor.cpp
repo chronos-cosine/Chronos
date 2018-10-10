@@ -70,6 +70,13 @@ namespace Core {
     }
     
     void 
+    IProcessor::clear_notifications() {
+        if (nullptr != __notifier) {
+            __notifier->clear();
+        }
+    }
+    
+    void 
     IProcessor::stop() {
         std::lock_guard<std::mutex> lock (__mutex);
         set_is_running(false);
@@ -84,6 +91,7 @@ namespace Core {
         while (__is_running) {
             set_is_executing(true);
             ++__cycle;
+            clear_notifications();
             notify("cycling...");
             
             if (!process()
