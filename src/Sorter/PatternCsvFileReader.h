@@ -11,8 +11,8 @@
  * Created on 04 October 2018, 9:48 AM
  */
 
-#ifndef SORTER_PATTERNFILEREADER_H
-#define SORTER_PATTERNFILEREADER_H
+#ifndef SORTER_PATTERNCSVFILEREADER_H
+#define SORTER_PATTERNCSVFILEREADER_H
 
 #include "Core/CsvFileReader.h"
 #include "Sorter/Pattern.h"
@@ -20,21 +20,22 @@
 #include <map>
 
 namespace Sorter {
-    class PatternFileReader {
+    
+    class PatternCsvFileReader {
     public:
-        PatternFileReader(const PatternFileReader&) = delete;
-        PatternFileReader& operator=(const PatternFileReader&) = delete;
+        PatternCsvFileReader(const PatternCsvFileReader&) = delete;
+        PatternCsvFileReader& operator=(const PatternCsvFileReader&) = delete;
     public: 
-        PatternFileReader();
-        virtual ~PatternFileReader();
+        PatternCsvFileReader();
+        virtual ~PatternCsvFileReader();
         
         std::map<unsigned long long, Pattern*> read(const char* filename) const;
     private:
         Core::CsvFileReader __csv_file_reader;
         
-    }; /* class PatternFileReader */ 
+    };
     
 } /* namespace Sorter */
 
-#endif /* SORTER_PATTERNFILEREADER_H */
+#endif /* SORTER_PATTERNCSVFILEREADER_H */
 

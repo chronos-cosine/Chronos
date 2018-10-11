@@ -11,7 +11,7 @@
  * Created on 04 October 2018, 2:48 PM
  */
 
-#include "Sorter/BinFileReader.h"
+#include "Sorter/BinCsvFileReader.h"
 #include "Sorter/Bin.h" 
 
 #include <map>
@@ -19,12 +19,12 @@
 
 namespace Sorter {
     
-    BinFileReader::BinFileReader() { }
+    BinCsvFileReader::BinCsvFileReader() { }
     
-    BinFileReader::~BinFileReader() { }
+    BinCsvFileReader::~BinCsvFileReader() { }
     
     std::map<unsigned long long, Bin*>
-    BinFileReader::read(const char* filename) const {
+    BinCsvFileReader::read(const char* filename) const {
         std::map<unsigned long long, Bin*> bins;
         std::vector<std::vector<std::string>> data(__csv_file_reader.read(filename));
         

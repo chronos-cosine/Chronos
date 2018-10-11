@@ -16,13 +16,13 @@
 #include <set>
  
 #include "Sorter/Bin.h"
-#include "Sorter/BinFileReader.h"
+#include "Sorter/BinCsvFileReader.h"
 #include "Sorter/Job.h"
 #include "Sorter/JobFileReader.h"
 #include "Sorter/MemoryManagement.h"
 #include "Sorter/Pattern.h"
 #include "Sorter/PatternBinLinker.h"
-#include "Sorter/PatternFileReader.h"
+#include "Sorter/PatternCsvFileReader.h"
 #include "Sorter/ResultFileWriter.h"
 
 static std::map<unsigned long long, Sorter::Bin*> bins;
@@ -39,7 +39,7 @@ static void test_job_file_reader() {
 
 static void test_bin_file_reader() { 
     std::cout << "TESTING BIN FILE READER " << std::endl;
-    Sorter::BinFileReader bin_file_reader;
+    Sorter::BinCsvFileReader bin_file_reader;
     bins = bin_file_reader.read("/home/user/bins.dat");
     
     for (auto& pair: bins) {
@@ -49,7 +49,7 @@ static void test_bin_file_reader() {
 
 static void test_pattern_file_reader() {
     std::cout << "TESTING PATTERN FILE READER " << std::endl;
-    Sorter::PatternFileReader pattern_file_reader;
+    Sorter::PatternCsvFileReader pattern_file_reader;
     patterns = pattern_file_reader.read("/home/user/patterns.dat");
     
     for (auto& pair: patterns) {

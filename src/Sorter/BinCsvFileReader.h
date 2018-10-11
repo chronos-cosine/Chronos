@@ -11,8 +11,8 @@
  * Created on 04 October 2018, 2:48 PM
  */
 
-#ifndef SORTER_BINFILEREADER_H
-#define SORTER_BINFILEREADER_H
+#ifndef SORTER_BINCSVFILEREADER_H
+#define SORTER_BINCSVFILEREADER_H
 
 #include "Sorter/Bin.h"
 #include "Core/CsvFileReader.h"
@@ -21,13 +21,13 @@
 
 namespace Sorter {
     
-    class BinFileReader {
+    class BinCsvFileReader {
     public:
-        BinFileReader(const BinFileReader&) = delete;
-        BinFileReader& operator=(const BinFileReader&) = delete;
+        BinCsvFileReader(const BinCsvFileReader&) = delete;
+        BinCsvFileReader& operator=(const BinCsvFileReader&) = delete;
     public: 
-        BinFileReader();
-        virtual ~BinFileReader();
+        BinCsvFileReader();
+        virtual ~BinCsvFileReader();
         
         std::map<unsigned long long, Bin*> read(const char* filename) const;
     private:
@@ -37,5 +37,5 @@ namespace Sorter {
 
 } /* namespace Sorter */
 
-#endif /* SORTER_BINFILEREADER_H */
+#endif /* SORTER_BINCSVFILEREADER_H */
 

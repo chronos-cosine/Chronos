@@ -11,18 +11,18 @@
  * Created on 04 October 2018, 9:48 AM
  */
 #include "Sorter/Pattern.h"
-#include "Sorter/PatternFileReader.h"
+#include "Sorter/PatternCsvFileReader.h"
 
 #include <map>
 
 namespace Sorter {
     
-    PatternFileReader::PatternFileReader() { }
+    PatternCsvFileReader::PatternCsvFileReader() { }
     
-    PatternFileReader::~PatternFileReader() { }
+    PatternCsvFileReader::~PatternCsvFileReader() { }
     
     std::map<unsigned long long, Pattern*> 
-    PatternFileReader::read(const char* filename) const {
+    PatternCsvFileReader::read(const char* filename) const {
         std::map<unsigned long long, Pattern*> patterns;
         std::vector<std::vector<std::string>> data(__csv_file_reader.read(filename));
         
