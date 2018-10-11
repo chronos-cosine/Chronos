@@ -14,19 +14,26 @@
 #ifndef SORTER_MEMORYMANAGEMENT_H
 #define SORTER_MEMORYMANAGEMENT_H
 
-#include <map>
 #include "Sorter/Bin.h"
-#include "PatternMatcher/IPattern.h"
+#include "Sorter/Pattern.h"
+
+#include <map>
+#include <mutex>
 
 namespace Sorter {
     
     class MemoryManagement {
     public:
+        MemoryManagement(const MemoryManagement&) = delete;
+        MemoryManagement& operator=(const MemoryManagement&) = delete;
+    public:
         MemoryManagement();
         virtual ~MemoryManagement();
         
-        void free_patterns(std::map<unsigned long long, PatternMatcher::IPattern*>& patterns);
+        void free_patterns(std::map<unsigned long long, Pattern*>& patterns);
         void free_bins(std::map<unsigned long long, Bin*>& bins);
+    private:
+        std::mutex __mutex;
     };
 
 } /* namespace Sorter */

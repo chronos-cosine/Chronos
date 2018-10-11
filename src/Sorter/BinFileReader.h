@@ -15,19 +15,23 @@
 #define SORTER_BINFILEREADER_H
 
 #include "Sorter/Bin.h"
-#include "Core/ICsvFileReader.h"
+#include "Core/CsvFileReader.h"
 
 #include <map>
 
 namespace Sorter {
     
-    class BinFileReader : public Core::ICsvFileReader<Sorter::Bin> {
+    class BinFileReader {
+    public:
+        BinFileReader(const BinFileReader&) = delete;
+        BinFileReader& operator=(const BinFileReader&) = delete;
     public: 
         BinFileReader();
         virtual ~BinFileReader();
-        virtual bool read_line(const std::string& line, 
-                               const char& separator,
-                               std::map<unsigned long long, Sorter::Bin*>* bins);
+        
+        std::map<unsigned long long, Bin*> read(const char* filename) const;
+    private:
+        Core::CsvFileReader __csv_file_reader;
         
     }; /* class BinFileReader */
 

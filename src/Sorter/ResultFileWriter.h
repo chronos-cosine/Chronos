@@ -14,16 +14,28 @@
 #ifndef SORTER_RESULTFILEWRITER_H
 #define SORTER_RESULTFILEWRITER_H
 
-#include "Sorter/Result.h"
+#include "Sorter/Job.h"
+#include "Sorter/Pattern.h"
+
+#include <map> 
+#include <mutex>
+#include <set>
+#include <string>
 
 namespace Sorter {
 
     class ResultFileWriter {
     public:
+        ResultFileWriter(const ResultFileWriter&) = delete;
+        ResultFileWriter& operator=(const ResultFileWriter&) = delete;
+    public:
         ResultFileWriter();
         virtual ~ResultFileWriter();
         
-        void write(const Result& result, const char* output_filename);
+        void write(const Job& job, 
+                   const std::map<Pattern*, std::set<unsigned long long>>& matches);
+    private:
+        std::mutex __mutex;
 
     }; /* class ResultFileWriter */
 

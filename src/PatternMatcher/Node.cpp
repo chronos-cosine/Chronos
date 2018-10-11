@@ -33,7 +33,7 @@ namespace PatternMatcher
 
     Node*
     Node::g(const char& a) {
-        typename std::map<char, Node*>::iterator result = __states.find(a);
+        std::map<char, Node*>::iterator result = __states.find(a);
         if (__states.end() == result) {
             return nullptr;
         }
@@ -75,29 +75,29 @@ namespace PatternMatcher
 
     void
     Node::add_state(Node* state) {
-        typename std::map<char, Node*>::iterator result = __states.find(state->get_value());
+        std::map<char, Node*>::iterator result = __states.find(state->get_value());
         if (__states.end() == result) {
             __states[state->get_value()] = state;
         } 
     }
     
     std::map<char, Node*>::iterator 
-    Node::begin() noexcept {
+    Node::begin() {
         return __states.begin();
     }
     
     std::map<char, Node*>::const_iterator 
-    Node::begin() const noexcept {
+    Node::begin() const {
         return __states.begin();
     }
     
     std::map<char, Node*>::iterator 
-    Node::end() noexcept {
+    Node::end() {
         return __states.end();
     }
     
     std::map<char, Node*>::const_iterator 
-    Node::end() const noexcept {
+    Node::end() const {
         return __states.end();
     }
 

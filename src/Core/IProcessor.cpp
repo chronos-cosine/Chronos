@@ -12,7 +12,6 @@
  */
 
 #include "Core/IProcessor.h"
-#include "Core/INotifier.h"
 
 #include <thread>
 #include <chrono>
@@ -20,15 +19,9 @@
 namespace Core {
 
     IProcessor::IProcessor(const int& sleep_time) 
-        : __notifier(nullptr), __sleep_time(sleep_time) {
-    }
+              : __sleep_time(sleep_time) { }
 
-    IProcessor::IProcessor(const int& sleep_time, INotifier* notifier) 
-        : __notifier(notifier), __sleep_time(sleep_time) {
-    }
-    
-    IProcessor::~IProcessor() { 
-    }
+    IProcessor::~IProcessor() { }
     
     bool 
     IProcessor::get_is_running() const {
@@ -50,35 +43,9 @@ namespace Core {
     IProcessor::get_is_executing() const {
         return __is_running;
     }
-    
-    bool 
-    IProcessor::set_is_executing(const bool& value) {
-        std::lock_guard<std::mutex> lock (__mutex);
-        if (__is_executing != value) {
-            __is_executing = value;
-            return true;
-        }
         
-        return false;
-    }
-    
-    void
-    IProcessor::notify(const char* message) {
-        if (nullptr != __notifier) {
-            __notifier->notify(message);
-        }
-    }
-    
-    void 
-    IProcessor::clear_notifications() {
-        if (nullptr != __notifier) {
-            __notifier->clear();
-        }
-    }
-    
     void 
     IProcessor::stop() {
-        std::lock_guard<std::mutex> lock (__mutex);
         set_is_running(false);
     }
     
@@ -89,18 +56,14 @@ namespace Core {
         }
         
         while (__is_running) {
-            set_is_executing(true);
-            ++__cycle;
-            clear_notifications();
-            notify("cycling...");
+            __is_executing = true;
             
             if (!process()
                 && __is_running) {
-                notify("sleeping...");
                 std::this_thread::sleep_for(std::chrono::seconds(__sleep_time));
             }
             
-            set_is_executing(false);
+            __is_executing = false;
         }
     }
 

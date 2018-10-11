@@ -14,24 +14,45 @@
 #ifndef SORTER_JOB_H
 #define SORTER_JOB_H
 
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/json_parser.hpp>
 #include <string>
 #include <iostream>
+#include <mutex>
 
 namespace Sorter {
 
     class Job {
     public:
-        Job(const unsigned long long& id, const char* document);
+        struct Hasher {
+            std::size_t operator()(const Job& job) const noexcept {
+                return std::hash<unsigned long long>{}(job.__id);
+            }
+        };
+    public:
+        Job(const Job& other);
+        Job(const unsigned long long& id, const char* document, const char* filename);
         virtual ~Job();
         
         const unsigned long long& get_id() const;
         const std::string& get_document() const;
+        const std::string& get_filename() const;
+        
+        //operators 
+        virtual Job& operator=(const Job& rhs);
+        virtual bool operator==(const Job& rhs) const;
+        virtual bool operator!=(const Job& rhs) const;
+        virtual bool operator<(const Job& rhs) const;
+        virtual bool operator>(const Job& rhs) const;
         
         //friend operators
-        friend std::ostream& operator<<(std::ostream& lhs, const Job& rhs);
+        friend boost::property_tree::ptree& operator<<(boost::property_tree::ptree& lhs, const Job& rhs);
     private:
         unsigned long long __id;
         std::string __document;
+        std::string __filename;
+        std::mutex __mutex;
+        
     }; /* class Job */
 
 } /* namespace Sorter */

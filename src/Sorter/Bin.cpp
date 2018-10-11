@@ -11,7 +11,10 @@
  * Created on 04 October 2018, 12:19 PM
  */
 
-#include "Bin.h"
+#include "Sorter/Bin.h"
+
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/json_parser.hpp>
 #include <iostream>
 
 namespace Sorter {
@@ -19,12 +22,12 @@ namespace Sorter {
     Bin::Bin(const unsigned long long& id, 
              const std::string& name,
              const unsigned long long& parent_id)
-        : __id(id), __name(name), __parent_id(parent_id), 
-          __parent(nullptr) { }
+       : __id(id), __name(name), __parent_id(parent_id), 
+         __parent(nullptr) { }
     
     Bin::Bin(const Bin& orig)
-        : __id(orig.__id), __name(orig.__name), 
-          __parent_id(orig.__parent_id), __parent(orig.__parent) { }
+       : __id(orig.__id), __name(orig.__name), 
+         __parent_id(orig.__parent_id), __parent(orig.__parent) { }
     
     Bin::~Bin() { }
     
@@ -36,6 +39,7 @@ namespace Sorter {
     
     void
     Bin::set_parent(Bin* parent) {
+        std::lock_guard<std::mutex> lock(__mutex);
         __parent = parent;
     }
     
@@ -55,6 +59,17 @@ namespace Sorter {
     }
 
     //operators
+    Bin& 
+    Bin::operator=(const Bin& rhs) {
+        std::lock_guard<std::mutex> lock(__mutex);
+        __id = rhs.__id;
+        __name = rhs.__name;
+        __parent_id = rhs.__parent_id;
+        __parent = rhs.__parent;
+        
+        return *this;
+    }
+    
     bool 
     Bin::operator==(const Bin& rhs) const {
         return __id == rhs.__id;
@@ -80,29 +95,24 @@ namespace Sorter {
         if (__parent_id == rhs.__parent_id) {
             return __id > rhs.__id;
         }
-        else  {
+        else {
             return __parent_id > rhs.__parent_id;
         }
     }
     
     //friend operators
-    std::ostream& 
-    operator<<(std::ostream& lhs, const Bin& rhs) {
-        lhs << "{\"Id\":\"" << rhs.__id
-            << "\",\"Name\":\"" << rhs.__name
-            << "\",\"Parent\":";
-        
-        if (nullptr != rhs.__parent) {
-            lhs << "{\"Id\":\"" << rhs.__parent->__id
-                << "\",\"Name\":\"" << rhs.__parent->__name
-                << "\"}" ;
+    boost::property_tree::ptree& 
+    operator<<(boost::property_tree::ptree& lhs, const Bin& rhs) {
+        lhs.put("Id", rhs.__id);
+        lhs.put("Name", rhs.__name);
+        if (nullptr == rhs.__parent) { 
+            lhs.put("Parent", "null");
+        } else {
+            boost::property_tree::ptree parent;
+            parent << *rhs.__parent;
+            lhs.add_child("Parent", parent);
         }
-        else {
-            lhs << "null";
-        }
-        
-        lhs << "}";
-        
+                
         return lhs;
     }
     

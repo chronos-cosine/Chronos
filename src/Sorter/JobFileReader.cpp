@@ -11,10 +11,8 @@
  * Created on 10 October 2018, 9:15 AM
  */
 
-#define SORTER_ID_KEY "Id"
-#define SORTER_DOCUMENT_KEY "Document"
 
-#include "JobFileReader.h"
+#include "Sorter/JobFileReader.h"
 
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
@@ -25,22 +23,23 @@ namespace Sorter {
 
     JobFileReader::~JobFileReader() { }
     
-    Job* 
-    JobFileReader::read(const char* job_file_name)
+    Job*
+    JobFileReader::read(const char* filename) const
     { 
         Job* object = nullptr;
-        std::ifstream file(job_file_name);
-        if (file) {
+        std::ifstream file(filename);
+        if (file.is_open()) {
             std::stringstream buffer;
             buffer << file.rdbuf();
 
             boost::property_tree::ptree ptree;
             boost::property_tree::read_json(buffer, ptree);
             
-            object = new Job(ptree.get<unsigned long long>(SORTER_ID_KEY),
-                             ptree.get<std::string>(SORTER_DOCUMENT_KEY).c_str());
-
-            file.close(); 
+            object = new Job(ptree.get<unsigned long long>("Id"),
+                             ptree.get<std::string>("Document").c_str(),
+                             filename);
+        } else {
+            throw std::runtime_error("Could not open job file.");
         }
         
         return object;

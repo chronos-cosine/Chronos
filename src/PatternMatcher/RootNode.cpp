@@ -11,7 +11,7 @@ namespace PatternMatcher
 {
 
     RootNode::RootNode()
-        : Node('~') {
+            : Node('~') {
         Node::set_failure(this);
     }
 

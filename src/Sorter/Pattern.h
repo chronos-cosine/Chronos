@@ -17,8 +17,11 @@
 #include "PatternMatcher/IPattern.h"
 #include "Sorter/Bin.h"
 
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/json_parser.hpp>
 #include <functional>
 #include <iostream>
+#include <set>
 
 namespace Sorter {
 
@@ -42,13 +45,14 @@ namespace Sorter {
         void set_bin(Bin* bin);
 
         //operators
+        virtual Pattern& operator=(const Pattern& rhs);
         virtual bool operator==(const Pattern& rhs) const;
         virtual bool operator!=(const Pattern& rhs) const;
         virtual bool operator<(const Pattern& rhs) const;
         virtual bool operator>(const Pattern& rhs) const;
 
         //friend operators
-        friend std::ostream& operator<<(std::ostream& lhs, const Pattern& rhs);
+        friend boost::property_tree::ptree& operator<<(boost::property_tree::ptree& lhs, const Pattern& rhs); 
     private:
         unsigned long long __id;
         unsigned long long __bin_id;

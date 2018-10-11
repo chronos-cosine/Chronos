@@ -10,7 +10,6 @@
 
 #include "IPattern.h"
 
-#include <boost/functional/hash.hpp>
 #include <map>
 #include <set>
 
@@ -19,11 +18,15 @@ namespace PatternMatcher
     class Node {
     public:
         struct Hasher {
-            std::size_t operator()(const Node& node) const {
-                boost::hash<char> hash;
-                return hash(node.__value);
+            std::size_t operator()(const Node& node) const noexcept {
+                return std::hash<char>{}(node.__value);
             }
         };
+    public:
+        Node(Node&) = delete;
+        Node& operator=(Node&) = delete;
+        bool operator==(Node&) = delete;
+        bool operator!=(Node&) = delete;
     public:
         //constructors
         Node(const char& value); 
@@ -40,15 +43,14 @@ namespace PatternMatcher
         void add_state(Node* state); 
         virtual Node* g(const char& a);
         void clear();
-        std::map<char, Node*>::iterator begin() noexcept;
-        std::map<char, Node*>::const_iterator begin() const noexcept;
-        std::map<char, Node*>::iterator end() noexcept;
-        std::map<char, Node*>::const_iterator end() const noexcept;
+        std::map<char, Node*>::iterator begin();
+        std::map<char, Node*>::const_iterator begin() const;
+        std::map<char, Node*>::iterator end();
+        std::map<char, Node*>::const_iterator end() const;
 
         //operators
-        bool operator<(const Node& rhs) const;
-        bool operator>(const Node& rhs) const;
-
+        virtual bool operator<(const Node& rhs) const;
+        virtual bool operator>(const Node& rhs) const;
     private:
         char __value;
         Node* __failure;

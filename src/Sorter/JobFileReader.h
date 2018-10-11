@@ -16,19 +16,17 @@
 
 #include "Sorter/Job.h"
 
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/json_parser.hpp>
-
 namespace Sorter {
 
     class JobFileReader {
     public:
+        JobFileReader(const JobFileReader&) = delete;
+        JobFileReader& operator=(const JobFileReader&) = delete;
+    public:
         JobFileReader();
         virtual ~JobFileReader();
         
-        Job* read(const char* job_file_name);
-    private:
-        // void print(boost::property_tree::ptree const& pt);
+        Job* read(const char* filename) const;
     };
 
 } /* namespace Sorter */

@@ -14,16 +14,20 @@
 #ifndef SORTER_BIN_H
 #define SORTER_BIN_H
 
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/json_parser.hpp>
+#include <mutex>
 #include <string>
 
 namespace Sorter {
 
     class Bin {
-        struct hash {
+    public:
+        struct Hasher {
             std::size_t operator()(const Bin& bin) const noexcept {
                 return std::hash<unsigned long long>{}(bin.__id);
             }
-        };  /* struct Bin::hash */
+        };
     public:
         Bin(const unsigned long long& id, 
             const std::string& name,
@@ -39,18 +43,20 @@ namespace Sorter {
         const unsigned long long& get_parent_id() const;
          
         //operators
+        virtual Bin& operator=(const Bin& rhs);
         virtual bool operator==(const Bin& rhs) const;
         virtual bool operator!=(const Bin& rhs) const;
         virtual bool operator<(const Bin& rhs) const;
         virtual bool operator>(const Bin& rhs) const;
 
         //friend operators
-        friend std::ostream& operator<<(std::ostream& lhs, const Bin& rhs);
+        friend boost::property_tree::ptree& operator<<(boost::property_tree::ptree& lhs, const Bin& rhs);
     private:
         unsigned long long __parent_id;
         unsigned long long __id;
         std::string __name;
         Bin* __parent;
+        std::mutex __mutex;
         
     }; /* class Bin */
 

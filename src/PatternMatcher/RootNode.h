@@ -14,6 +14,9 @@ namespace PatternMatcher
 {
     class RootNode : public Node {
     public:
+        RootNode(RootNode&) = delete;
+        RootNode& operator=(RootNode&) = delete;
+    public:
         RootNode(); 
         virtual ~RootNode();
 

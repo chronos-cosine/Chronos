@@ -12,6 +12,7 @@
  */
 
 #include "Sorter/MemoryManagement.h"
+#include <mutex>
 
 namespace Sorter {
     
@@ -20,7 +21,8 @@ namespace Sorter {
     MemoryManagement::~MemoryManagement() { }
     
     void 
-    MemoryManagement::free_patterns(std::map<unsigned long long, PatternMatcher::IPattern*>& patterns) {
+    MemoryManagement::free_patterns(std::map<unsigned long long, Pattern*>& patterns) {
+        std::lock_guard<std::mutex> lock(__mutex);
         for (auto& pair: patterns) {
             delete pair.second;
         }
@@ -29,6 +31,7 @@ namespace Sorter {
     
     void 
     MemoryManagement::free_bins(std::map<unsigned long long, Bin*>& bins) {
+        std::lock_guard<std::mutex> lock(__mutex);
         for (auto& pair: bins) {
             delete pair.second;
         }

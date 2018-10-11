@@ -14,17 +14,23 @@
 #ifndef SORTER_PATTERNFILEREADER_H
 #define SORTER_PATTERNFILEREADER_H
 
-#include "Core/ICsvFileReader.h"
-#include "PatternMatcher/IPattern.h"
+#include "Core/CsvFileReader.h"
+#include "Sorter/Pattern.h"
+
+#include <map>
 
 namespace Sorter {
-    class PatternFileReader : public Core::ICsvFileReader<PatternMatcher::IPattern> {
+    class PatternFileReader {
+    public:
+        PatternFileReader(const PatternFileReader&) = delete;
+        PatternFileReader& operator=(const PatternFileReader&) = delete;
     public: 
         PatternFileReader();
         virtual ~PatternFileReader();
-        virtual bool read_line(const std::string& line, 
-                               const char& separator,
-                               std::map<unsigned long long, PatternMatcher::IPattern*>* patterns);
+        
+        std::map<unsigned long long, Pattern*> read(const char* filename) const;
+    private:
+        Core::CsvFileReader __csv_file_reader;
         
     }; /* class PatternFileReader */ 
     

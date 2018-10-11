@@ -12,49 +12,95 @@
  */
 #include <boost/filesystem.hpp>
 #include <iostream>
+#include <map>
 #include <set>
-
-#include "Core/Notifier_cout.h"
-#include "Sorter/Sorter.h"
+ 
+#include "Sorter/Bin.h"
+#include "Sorter/BinFileReader.h"
+#include "Sorter/Job.h"
+#include "Sorter/JobFileReader.h"
+#include "Sorter/MemoryManagement.h"
 #include "Sorter/Pattern.h"
+#include "Sorter/PatternBinLinker.h"
+#include "Sorter/PatternFileReader.h"
+#include "Sorter/ResultFileWriter.h"
 
-void
-check_paths_valid(const char* pattern_file, const char* bin_file, const char* job_path)
-{
-    if (!boost::filesystem::exists(boost::filesystem::path(pattern_file)))
-    {
-        std::cerr << "Supplied pattern file does not exist.\nExiting..." << std::endl;
-        exit(1);
+static std::map<unsigned long long, Sorter::Bin*> bins;
+static std::map<unsigned long long, Sorter::Pattern*> patterns;
+static Sorter::Job* job = nullptr;
+
+static void test_job_file_reader() { 
+    std::cout << "TESTING JOB FILE READER " << std::endl;
+    Sorter::JobFileReader job_file_reader;
+    job = job_file_reader.read("/home/user/stest.sjobd");
+    std::cout << job->get_id() << std::endl;
+    
+}
+
+static void test_bin_file_reader() { 
+    std::cout << "TESTING BIN FILE READER " << std::endl;
+    Sorter::BinFileReader bin_file_reader;
+    bins = bin_file_reader.read("/home/user/bins.dat");
+    
+    for (auto& pair: bins) {
+        std::cout << "ID: " << pair.first << " Bin: " << pair.second << std::endl;
+    }
+}
+
+static void test_pattern_file_reader() {
+    std::cout << "TESTING PATTERN FILE READER " << std::endl;
+    Sorter::PatternFileReader pattern_file_reader;
+    patterns = pattern_file_reader.read("/home/user/patterns.dat");
+    
+    for (auto& pair: patterns) {
+        std::cout << "ID: " << pair.first << " Pattern: " << pair.second << std::endl;
     }
     
-    if (!boost::filesystem::exists(boost::filesystem::path(bin_file)))
-    {
-        std::cerr << "Supplied bin file does not exist.\nExiting..." << std::endl;
-        exit(1);
-    }
+}
+
+static void test_pattern_bin_linking() {
+    Sorter::PatternBinLinker pattern_bin_linker;
+    pattern_bin_linker.link(patterns, bins);
     
-    if (!boost::filesystem::exists(boost::filesystem::path(job_path)))
-    {
-        std::cerr << "Supplied job directory " << job_path 
-                  << " does not exist.\nExiting..." << std::endl;
-        exit(1);
+    for (auto& pair: patterns) {
+        std::cout << "ID: " << pair.first << " Pattern: " << pair.second << std::endl;
     }
+}
+
+static void test_result_file_writer() { 
+    std::cout << "TESTING RESULT FILE WRITER " << std::endl; 
+    Sorter::ResultFileWriter result_file_writer;
+    std::map<Sorter::Pattern*, std::set<unsigned long long>> results;
+    std::set<unsigned long long> positions;
+    positions.insert(34);
+    positions.insert(23);
+    positions.insert(2323);
+    positions.insert(232323);
+    results[patterns.begin()->second] = positions;
+    result_file_writer.write(*job, results);
+}
+
+static void test_memory_management() {
+    
+    std::cout << "TESTING MEMORY MANAGEMENT BINS " << std::endl;
+    Sorter::MemoryManagement memory_management;
+    memory_management.free_bins(bins);
+    
+    std::cout << "TESTING MEMORY MANAGEMENT PATTERNS " << std::endl; 
+    memory_management.free_patterns(patterns);
+    delete job;
 }
 
 /*
  * 
  */
-int main(int argc, char** argv) { 
-    if (argc < 4) {
-        std::cerr << "Incorrect number of parameters supplied" << std::endl;
-        return 1;
-    }
-    check_paths_valid(argv[1], argv[2], argv[3]);
-        
-    Core::Notifier_cout notifier;
-    Sorter::Sorter sorter(argv[1], argv[2], argv[3], &notifier);
-    sorter.start();
-             
+int main(int argc, char** argv) {
+    test_bin_file_reader();
+    test_job_file_reader();
+    test_pattern_file_reader();
+    test_pattern_bin_linking();
+    test_result_file_writer();
+    
+    test_memory_management();
     return 0;
 }
-

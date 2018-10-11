@@ -14,38 +14,38 @@
 #include "Sorter/BinFileReader.h"
 #include "Sorter/Bin.h" 
 
-#include <sstream>  
+#include <map>
+#include <vector>
 
 namespace Sorter {
     
     BinFileReader::BinFileReader() { }
     
     BinFileReader::~BinFileReader() { }
-
-    bool 
-    BinFileReader::read_line(const std::string& line, 
-                                 const char& separator,
-                                 std::map<unsigned long long, Sorter::Bin*>* bins) {
-        try {
-            std::string id;
-            std::string value;
-            std::string parent_id;
-
-            std::istringstream stream(line);
-            getline(stream, id, separator);
-            getline(stream, value, separator);
-            getline(stream, parent_id, separator); 
-
-            unsigned long long ulong_id = std::stoull(id); 
-            if (bins->find(ulong_id) == bins->end()) {
-                (*bins)[ulong_id] = new Sorter::Bin(ulong_id, value, std::stoull(parent_id));
+    
+    std::map<unsigned long long, Bin*>
+    BinFileReader::read(const char* filename) const {
+        std::map<unsigned long long, Bin*> bins;
+        std::vector<std::vector<std::string>> data(__csv_file_reader.read(filename));
+        
+        for (const std::vector<std::string>& row: data) {
+            if (row.size() != 3) {
+                throw std::runtime_error("Bin document not in the correct format.");
             }
-        } 
-        catch (...) {
-            return false;
+            
+            unsigned long long id = std::stoull(row[0]);
+            if (bins.find(id) == bins.end()) {
+                bins[id] = new Bin(id, row[1], std::stoull(row[2]));
+            }
         }
         
-        return true;
+        for (auto& pair: bins) {
+            if (bins.find(pair.second->get_parent_id()) != bins.end()) {
+                pair.second->set_parent(bins[pair.second->get_parent_id()]);
+            }
+        }
+        
+        return bins;
     }
 
 } /* namespace Sorter */

@@ -34,6 +34,9 @@ namespace PatternMatcher
                  PatternMatcher::IPattern* /* input */,
                  const std::set<PatternMatcher::IPattern*>& /* patterns */)> match_found_signal;
     public:
+        PatternMatchingMachine(const PatternMatchingMachine&) = delete;
+        PatternMatchingMachine& operator=(PatternMatchingMachine&) = delete;
+    public:
         PatternMatchingMachine(const std::set<IPattern*>& patterns); 
         virtual ~PatternMatchingMachine(); 
  

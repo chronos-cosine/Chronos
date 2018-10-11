@@ -10,13 +10,13 @@ namespace PatternMatcher
 {
     //constructors
     IPattern::IPattern(const char* value)
-        : __value(value) { }
+            : __value(value) { }
 
     IPattern::IPattern(const std::string& value)
-        : __value(value) { }
+            : __value(value) { }
 
     IPattern::IPattern(const IPattern& value)
-        : __value(value.__value) { }
+            : __value(value.__value) { }
 
     IPattern::~IPattern() { }
 
@@ -49,18 +49,21 @@ namespace PatternMatcher
     //operators
     IPattern& 
     IPattern::operator=(const IPattern& rhs) {
+        std::lock_guard<std::mutex> lock(__mutex);
         __value = rhs.__value;
         return *this;
     }
 
     IPattern& 
-    IPattern::operator=(const std::string& rhs) { 
+    IPattern::operator=(const std::string& rhs) {
+        std::lock_guard<std::mutex> lock(__mutex);
         __value = rhs;
         return *this;
     }
 
     IPattern& 
-    IPattern::operator=(const char* rhs) { 
+    IPattern::operator=(const char* rhs) {
+        std::lock_guard<std::mutex> lock(__mutex);
         __value = rhs;
         return *this;
     }

@@ -8,5 +8,5 @@ if(Boost_FOUND)
  
     include_directories(${Boost_INCLUDE_DIRS}) 
     # creates the library 
-    add_library(libChronos-Core STATIC ${Core_SOURCES})
+    add_library(libChronos-Core ${Core_SOURCES})
 endif()

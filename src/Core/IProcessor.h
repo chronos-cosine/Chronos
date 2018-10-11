@@ -14,17 +14,16 @@
 #ifndef CORE_IPROCESSOR_H
 #define CORE_IPROCESSOR_H
 
-#include "Core/INotifier.h"
-
-#include <boost/signals2.hpp>
 #include <mutex>
 
 namespace Core {
 
     class IProcessor {
     public:
+        IProcessor(const IProcessor&) = delete;
+        IProcessor& operator=(const IProcessor&) = delete;
+    public:
         IProcessor(const int& sleep_time);
-        IProcessor(const int& sleep_time, INotifier* notifier);
         virtual ~IProcessor();
         
         virtual void start();
@@ -37,14 +36,10 @@ namespace Core {
         bool set_is_executing(const bool& value);
     protected:
         virtual bool process() = 0;
-        virtual void notify(const char* message);
-        virtual void clear_notifications();
     private:
         bool __is_running;
         bool __is_executing;
-        unsigned long long __cycle;
         std::mutex __mutex;
-        INotifier* __notifier;
         int __sleep_time;
     };
 

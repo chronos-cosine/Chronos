@@ -14,26 +14,8 @@
 #ifndef SORTER_SORTER_H
 #define SORTER_SORTER_H
 
-
-#include "Core/IProcessor.h"
-#include "PatternMatcher/IPattern.h"
-#include "PatternMatcher/PatternMatchingMachine.h"
-#include "Sorter/Bin.h"
-#include "Sorter/BinFileReader.h"
-#include "Sorter/Job.h"
-#include "Sorter/JobFileReader.h"
-#include "Sorter/MemoryManagement.h"
-#include "Sorter/Pattern.h"
-#include "Sorter/PatternFileReader.h"
-#include "Sorter/ResultFileWriter.h"
-
-#include <iostream>
-#include <map>
-#include <set>
-#include <string>
-
 namespace Sorter {
-
+/*
     class Sorter : public Core::IProcessor {
     private:
         struct match_found_functor {
@@ -49,8 +31,10 @@ namespace Sorter {
             }
         };
     public:
+        Sorter(const Sorter&) = delete;
+        Sorter& operator=(const Sorter&) = delete;
+    public:
         Sorter(const char* pattern_file, const char* bin_file, const char* job_path);
-        Sorter(const char* pattern_file, const char* bin_file, const char* job_path, Core::INotifier* notifier);
         virtual ~Sorter();
     private: 
         void initialise_sorter();
@@ -71,7 +55,7 @@ namespace Sorter {
         Sorter::match_found_functor __match_found_functor;
         std::map<PatternMatcher::IPattern*, std::map<Pattern*, std::set<unsigned long long>>> __matches;
         
-    }; /* class Sorter */
+    };  
     
     template <typename T>
     std::set<T*>
@@ -83,7 +67,7 @@ namespace Sorter {
         
         return set;
     }
-    
+     */
 } /* namespace Sorter */
 
 #endif /* SORTER_SORTER_H */

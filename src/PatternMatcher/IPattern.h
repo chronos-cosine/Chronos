@@ -8,12 +8,19 @@
 #ifndef PATTERNMATCHER_IPATTERN_H
 #define PATTERNMATCHER_IPATTERN_H
 
-#include <string>
 #include <iostream>
+#include <mutex>
+#include <string>
  
 namespace PatternMatcher
 {
     class IPattern {
+    public:
+        struct Hasher {
+            std::size_t operator()(const IPattern& pattern) const noexcept {
+                return std::hash<std::string>{}(pattern.__value);
+            }
+        };
     public: 
         //constructors
         IPattern(const char* value);
@@ -39,8 +46,9 @@ namespace PatternMatcher
 
         //friend operators
         friend std::ostream& operator<<(std::ostream& lhs, const IPattern& rhs);
-    private:
+    protected:
         std::string __value;
+        std::mutex __mutex;
         
     }; /* class IPattern */
     
