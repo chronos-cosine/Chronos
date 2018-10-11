@@ -52,7 +52,8 @@ namespace Sorter {
         virtual bool operator>(const Pattern& rhs) const;
 
         //friend operators
-        friend boost::property_tree::ptree& operator<<(boost::property_tree::ptree& lhs, const Pattern& rhs); 
+        friend boost::property_tree::ptree& operator<<(boost::property_tree::ptree& lhs, const Pattern& rhs);
+        friend std::ostream& operator<<(std::ostream& lhs, const Pattern& rhs);
     private:
         unsigned long long __id;
         unsigned long long __bin_id;

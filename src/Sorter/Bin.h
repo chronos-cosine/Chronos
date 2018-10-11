@@ -51,6 +51,7 @@ namespace Sorter {
 
         //friend operators
         friend boost::property_tree::ptree& operator<<(boost::property_tree::ptree& lhs, const Bin& rhs);
+        friend std::ostream& operator<<(std::ostream& lhs, const Bin& rhs);
     private:
         unsigned long long __parent_id;
         unsigned long long __id;

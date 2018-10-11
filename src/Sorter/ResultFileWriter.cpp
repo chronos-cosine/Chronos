@@ -55,7 +55,7 @@ namespace Sorter {
                 
                 ptree_matches.add_child("Positions", positions);
             }
-            ptree.add_child("Pattern-Matches", ptree_matches);
+            ptree.add_child("PatternMatches", ptree_matches);
             
             std::ofstream output(job.get_filename());
             boost::property_tree::write_json(output, ptree);

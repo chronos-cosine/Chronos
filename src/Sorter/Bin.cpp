@@ -116,4 +116,13 @@ namespace Sorter {
         return lhs;
     }
     
+    std::ostream& 
+    operator<<(std::ostream& lhs, const Bin& rhs) {
+        boost::property_tree::ptree ptree;
+        ptree << rhs;
+
+        boost::property_tree::write_json(lhs, ptree);
+        return lhs;
+    }
+    
 } /* namespace Sorter */
