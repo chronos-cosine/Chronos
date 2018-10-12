@@ -20,7 +20,7 @@ namespace Core {
 
     FileSpooler::FileSpooler(const char* directory, const char* extension,
                     Core::ConcurrentQueue<boost::filesystem::path>& concurrent_queue) 
-        : Core::IProcessor(5), __directory(directory), __extension(extension), 
+        : Core::IProcessor(30), __directory(directory), __extension(extension), 
           __concurrent_queue(concurrent_queue) { }
  
     FileSpooler::~FileSpooler() { }

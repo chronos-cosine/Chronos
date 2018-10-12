@@ -26,14 +26,14 @@ namespace Sorter {
     Pattern::Pattern(const unsigned long long& id, 
                      const char* value,
                      const unsigned long long& bin_id,
-                     const Sorter::BooleanOperator& boolean_operator)
+                     const BooleanOperator& boolean_operator)
         : PatternMatcher::IPattern(value), 
           __id(id), __bin_id(bin_id), __bin(nullptr), __boolean_operator(boolean_operator) { }
 
     Pattern::Pattern(const unsigned long long& id, 
                      const std::string& value,
                      const unsigned long long& bin_id,
-                     const Sorter::BooleanOperator& boolean_operator)
+                     const BooleanOperator& boolean_operator)
         : PatternMatcher::IPattern(value), 
           __id(id), __bin_id(bin_id), __bin(nullptr), __boolean_operator(boolean_operator) { }
 
@@ -58,6 +58,12 @@ namespace Sorter {
     const unsigned long long& 
     Pattern::get_bin_id() const {
         return __bin_id;
+    }
+    
+    
+    const BooleanOperator& 
+    Pattern::get_boolean_operator() const {
+        return __boolean_operator;
     }
     
     const std::shared_ptr<Bin> &

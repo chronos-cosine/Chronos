@@ -16,10 +16,23 @@
 
 namespace Sorter { 
     enum BooleanOperator {
-        OR,
-        NOT,
-        AND
+        OR = 1,
+        NOT = 2,
+        AND = 4
     };
+    
+    static BooleanOperator to_boolean_operator(int value) {
+        switch (value) {
+            case 1:
+                return BooleanOperator::OR;
+            case 2:
+                return BooleanOperator::NOT;
+            case 4:
+                return BooleanOperator::AND;
+            default:
+                return BooleanOperator::OR;
+        }
+    }
 }
 
 #endif /* BOOLEANOPERATOR_H */
