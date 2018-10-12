@@ -21,6 +21,7 @@
 #include <boost/property_tree/json_parser.hpp>
 #include <functional>
 #include <iostream>
+#include <memory>
 #include <set>
 
 namespace Sorter {
@@ -36,16 +37,18 @@ namespace Sorter {
         Pattern(const unsigned long long& id, const char* value, const unsigned long long& bin_id);
         Pattern(const unsigned long long& id, const std::string& value, const unsigned long long& bin_id);
         Pattern(const Pattern& orig);
+        Pattern(Pattern&& orig);
         virtual ~Pattern();
 
         //member functions
         const unsigned long long& get_id() const;
         const unsigned long long& get_bin_id() const;
-        Bin* get_bin() const; 
-        void set_bin(Bin* bin);
+        const std::shared_ptr<Bin>& get_bin() const; 
+        void set_bin(const std::shared_ptr<Bin>& bin);
 
         //operators
         virtual Pattern& operator=(const Pattern& rhs);
+        virtual Pattern& operator=(Pattern&& rhs);
         virtual bool operator==(const Pattern& rhs) const;
         virtual bool operator!=(const Pattern& rhs) const;
         virtual bool operator<(const Pattern& rhs) const;
@@ -57,7 +60,8 @@ namespace Sorter {
     private:
         unsigned long long __id;
         unsigned long long __bin_id;
-        Bin* __bin;
+        std::shared_ptr<Bin> __bin;
+        
     }; /* class Pattern */
 
 } /* namespace Sorter */

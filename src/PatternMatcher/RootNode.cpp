@@ -7,21 +7,23 @@
 #include "RootNode.h"
 #include "Node.h"
 
+#include <memory>
+
 namespace PatternMatcher
 {
 
     RootNode::RootNode()
             : Node('~') {
-        Node::set_failure(this);
+        Node::set_failure(std::shared_ptr<Node>(this));
     }
 
     RootNode::~RootNode() { }
 
-    Node* 
+    std::shared_ptr<Node>
     RootNode::g(const char& a) {
-        Node* state = Node::g(a);
+        std::shared_ptr<Node> state = Node::g(a);
         if (nullptr == state) {
-            return this;
+            return std::shared_ptr<Node>(this);
         }
         else {
             return state;

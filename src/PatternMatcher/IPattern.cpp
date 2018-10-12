@@ -17,6 +17,9 @@ namespace PatternMatcher
 
     IPattern::IPattern(const IPattern& value)
             : __value(value.__value) { }
+    
+    IPattern::IPattern(const IPattern&& move)
+            : __value(std::move(move.__value)) { }
 
     IPattern::~IPattern() { }
 
@@ -51,6 +54,14 @@ namespace PatternMatcher
     IPattern::operator=(const IPattern& rhs) {
         std::lock_guard<std::mutex> lock(__mutex);
         __value = rhs.__value;
+        
+        return *this;
+    }
+    
+    IPattern& 
+    IPattern::operator=(const IPattern&& rhs) {
+        __value = std::move(rhs.__value);
+        
         return *this;
     }
 
@@ -58,6 +69,7 @@ namespace PatternMatcher
     IPattern::operator=(const std::string& rhs) {
         std::lock_guard<std::mutex> lock(__mutex);
         __value = rhs;
+        
         return *this;
     }
 
@@ -92,6 +104,7 @@ namespace PatternMatcher
     std::ostream& 
     operator<<(std::ostream& lhs, const IPattern& rhs) {
         lhs << rhs.__value;
+        
         return lhs;
     }
 

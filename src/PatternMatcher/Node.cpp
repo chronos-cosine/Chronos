@@ -11,18 +11,22 @@ namespace PatternMatcher
 
     Node::Node(const char& value)
         : __value(value), __failure(nullptr) { }
+    
+    Node::Node(Node&& move)
+        : __value(std::move(move.__value)), __failure(std::move(move.__failure)),
+          __states(std::move(move.__states)), __output(std::move(move.__output)) { }
 
     Node::~Node() {
         clear();
     }
 
-    Node*
+    std::shared_ptr<Node>
     Node::get_failure() {
         return __failure;
     }
 
     void
-    Node::set_failure(Node* failure) {
+    Node::set_failure(const std::shared_ptr<Node>& failure) {
         __failure = failure;
     }
 
@@ -31,9 +35,9 @@ namespace PatternMatcher
         return __value;
     }
 
-    Node*
+    std::shared_ptr<Node>
     Node::g(const char& a) {
-        std::map<char, Node*>::iterator result = __states.find(a);
+        auto result = __states.find(a);
         if (__states.end() == result) {
             return nullptr;
         }
@@ -43,13 +47,13 @@ namespace PatternMatcher
     }
 
     void
-    Node::add_output(IPattern* output) {
+    Node::add_output(const std::shared_ptr<IPattern>& output) {
         __output.insert(output);
     }
 
     void
-    Node::add_output(const std::set<IPattern*>& outputs) {
-        for (IPattern* output: outputs) {
+    Node::add_output(const std::set<std::shared_ptr<IPattern>>& outputs) {
+        for (const auto& output: outputs) {
             add_output(output);
         }
     }
@@ -57,46 +61,45 @@ namespace PatternMatcher
     void
     Node::clear() {
         for (auto& tuple: __states) {
-            tuple.second->clear(); 
-            delete tuple.second;
+            tuple.second->clear();
         } 
         __states.clear();
     }
 
-    std::set<IPattern*>&
+    std::set<std::shared_ptr<IPattern>>&
     Node::get_output() {
         return __output;
     }
 
-    std::map<char, Node*>&
+    std::map<char, std::shared_ptr<Node>>&
     Node::get_states() {
         return __states;
     }
 
     void
-    Node::add_state(Node* state) {
-        std::map<char, Node*>::iterator result = __states.find(state->get_value());
+    Node::add_state(const std::shared_ptr<Node>& state) {
+        auto result = __states.find(state->get_value());
         if (__states.end() == result) {
             __states[state->get_value()] = state;
         } 
     }
     
-    std::map<char, Node*>::iterator 
+    std::map<char, std::shared_ptr<Node>>::iterator 
     Node::begin() {
         return __states.begin();
     }
     
-    std::map<char, Node*>::const_iterator 
+    std::map<char, std::shared_ptr<Node>>::const_iterator 
     Node::begin() const {
         return __states.begin();
     }
     
-    std::map<char, Node*>::iterator 
+    std::map<char, std::shared_ptr<Node>>::iterator 
     Node::end() {
         return __states.end();
     }
     
-    std::map<char, Node*>::const_iterator 
+    std::map<char, std::shared_ptr<Node>>::const_iterator 
     Node::end() const {
         return __states.end();
     }
@@ -111,4 +114,14 @@ namespace PatternMatcher
         return __value > rhs.__value;
     }
 
+    Node& 
+    Node::operator=(Node&& move) {
+        __value = std::move(move.__value); 
+        __failure = std::move(move.__failure);
+        __states = std::move(move.__states);
+        __output = std::move(move.__output);
+        
+        return *this;
+    }
+    
 } /* namespace PatternMatcher */

@@ -23,11 +23,11 @@ namespace Sorter {
     PatternBinLinker::~PatternBinLinker() { }
     
     void 
-    PatternBinLinker::link(const std::map<unsigned long long, Pattern*>& patterns, 
-                           const std::map<unsigned long long, Bin*>& bins) {
+    PatternBinLinker::link(const std::map<unsigned long long, std::shared_ptr<Pattern>>& patterns, 
+                           const std::map<unsigned long long, std::shared_ptr<Bin>>& bins) {
         std::lock_guard<std::mutex> lock(__mutex);
         for (auto& pair: patterns) {
-            std::map<unsigned long long, Bin*>::const_iterator bin = bins.find(pair.second->get_bin_id());
+            auto bin = bins.find(pair.second->get_bin_id());
             if (bin != bins.end()) {
                 pair.second->set_bin(bin->second);
             }

@@ -23,6 +23,7 @@ namespace Core {
         IProcessor(const IProcessor&) = delete;
         IProcessor& operator=(const IProcessor&) = delete;
     public:
+        IProcessor(const IProcessor&& move);
         IProcessor(const int& sleep_time);
         virtual ~IProcessor();
         
@@ -31,6 +32,8 @@ namespace Core {
         
         virtual bool get_is_running() const; 
         virtual bool get_is_executing() const; 
+        
+        virtual IProcessor& operator=(const IProcessor&& move);
     private:
         bool set_is_running(const bool& value);
         bool set_is_executing(const bool& value);

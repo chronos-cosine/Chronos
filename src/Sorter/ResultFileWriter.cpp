@@ -30,7 +30,7 @@ namespace Sorter {
         
     void 
     ResultFileWriter::write(const Job& job, 
-                            const std::map<Pattern*, std::set<unsigned long long>>& matches) {
+                            const std::map<std::shared_ptr<Pattern>, std::set<unsigned long long>>& matches) {
         std::lock_guard<std::mutex> lock(__mutex);
         std::ifstream file(job.get_filename());
         if (file.is_open()) {

@@ -11,6 +11,7 @@
 #include "IPattern.h"
 
 #include <map>
+#include <memory>
 #include <set>
 
 namespace PatternMatcher
@@ -29,33 +30,35 @@ namespace PatternMatcher
         bool operator!=(Node&) = delete;
     public:
         //constructors
-        Node(const char& value); 
+        Node(const char& value);
+        Node(Node&& move);
         virtual ~Node();
 
         //member functions
-        Node* get_failure(); 
-        void set_failure(Node* failure); 
+        std::shared_ptr<Node> get_failure(); 
+        void set_failure(const std::shared_ptr<Node>& failure); 
         char get_value(); 
-        void add_output(IPattern* output);
-        void add_output(const std::set<IPattern*>& outputs);
-        std::set<IPattern*>& get_output(); 
-        std::map<char, Node*>& get_states();
-        void add_state(Node* state); 
-        virtual Node* g(const char& a);
+        void add_output(const std::shared_ptr<IPattern>& output);
+        void add_output(const std::set<std::shared_ptr<IPattern>>& outputs);
+        std::set<std::shared_ptr<IPattern>>& get_output(); 
+        std::map<char, std::shared_ptr<Node>>& get_states();
+        void add_state(const std::shared_ptr<Node>& state); 
+        virtual std::shared_ptr<Node> g(const char& a);
         void clear();
-        std::map<char, Node*>::iterator begin();
-        std::map<char, Node*>::const_iterator begin() const;
-        std::map<char, Node*>::iterator end();
-        std::map<char, Node*>::const_iterator end() const;
+        std::map<char, std::shared_ptr<Node>>::iterator begin();
+        std::map<char, std::shared_ptr<Node>>::const_iterator begin() const;
+        std::map<char, std::shared_ptr<Node>>::iterator end();
+        std::map<char, std::shared_ptr<Node>>::const_iterator end() const;
 
         //operators
         virtual bool operator<(const Node& rhs) const;
         virtual bool operator>(const Node& rhs) const;
+        virtual Node& operator=(Node&& move);
     private:
         char __value;
-        Node* __failure;
-        std::map<char, Node*> __states;
-        std::set<IPattern*> __output;
+        std::shared_ptr<Node> __failure;
+        std::map<char, std::shared_ptr<Node>> __states;
+        std::set<std::shared_ptr<IPattern>> __output;
         
     }; /* class Node */
     

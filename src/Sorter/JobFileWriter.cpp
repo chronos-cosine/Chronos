@@ -16,6 +16,7 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include <fstream>
+#include <mutex>
 
 namespace Sorter {
 
@@ -24,7 +25,7 @@ namespace Sorter {
     JobFileWriter::~JobFileWriter() { }
     
     void 
-    JobFileWriter::write(const Job& job) const {
+    JobFileWriter::write(const Job& job) {
         std::lock_guard<std::mutex> lock(__mutex);
         
         std::ofstream output(job.get_filename());

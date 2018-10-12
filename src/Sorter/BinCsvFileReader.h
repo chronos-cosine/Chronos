@@ -18,6 +18,7 @@
 #include "Core/CsvFileReader.h"
 
 #include <map>
+#include <memory>
 
 namespace Sorter {
     
@@ -29,7 +30,7 @@ namespace Sorter {
         BinCsvFileReader();
         virtual ~BinCsvFileReader();
         
-        std::map<unsigned long long, Bin*> read(const char* filename) const;
+        std::map<unsigned long long, std::shared_ptr<Bin>> read(const char* filename) const;
     private:
         Core::CsvFileReader __csv_file_reader;
         

@@ -23,10 +23,9 @@ namespace Sorter {
 
     JobFileReader::~JobFileReader() { }
     
-    Job*
+    std::unique_ptr<Job>
     JobFileReader::read(const char* filename) const
     { 
-        Job* object = nullptr;
         std::ifstream file(filename);
         if (file.is_open()) {
             std::stringstream buffer;
@@ -35,14 +34,14 @@ namespace Sorter {
             boost::property_tree::ptree ptree;
             boost::property_tree::read_json(buffer, ptree);
             
-            object = new Job(ptree.get<unsigned long long>("Id"),
+            return std::unique_ptr<Job>(new Job(ptree.get<unsigned long long>("Id"),
                              ptree.get<std::string>("Document").c_str(),
-                             filename);
+                             filename));
         } else {
             throw std::runtime_error("Could not open job file.");
         }
         
-        return object;
+        return std::unique_ptr<Job>(nullptr);
     }
         
 } /* namespace Sorter */

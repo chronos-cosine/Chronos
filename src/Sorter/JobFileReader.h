@@ -15,6 +15,7 @@
 #define SORTER_JOBFILEREADER_H
 
 #include "Sorter/Job.h"
+#include <memory>
 
 namespace Sorter {
 
@@ -26,7 +27,7 @@ namespace Sorter {
         JobFileReader();
         virtual ~JobFileReader();
         
-        Job* read(const char* filename) const;
+        std::unique_ptr<Job> read(const char* filename) const;
     };
 
 } /* namespace Sorter */

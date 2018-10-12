@@ -18,6 +18,7 @@
 #include "Sorter/Bin.h"
 
 #include <map>
+#include <memory>
 #include <mutex>
 
 namespace Sorter {
@@ -30,8 +31,8 @@ namespace Sorter {
         PatternBinLinker();
         virtual ~PatternBinLinker();
         
-        void link(const std::map<unsigned long long, Pattern*>& patterns, 
-                  const std::map<unsigned long long, Bin*>& bins);
+        void link(const std::map<unsigned long long, std::shared_ptr<Pattern>>& patterns, 
+                  const std::map<unsigned long long, std::shared_ptr<Bin>>& bins);
     private:
         std::mutex __mutex;
     };

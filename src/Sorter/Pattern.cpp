@@ -37,6 +37,11 @@ namespace Sorter {
     Pattern::Pattern(const Pattern& orig)
         : PatternMatcher::IPattern(orig), 
           __id(orig.__id), __bin_id(orig.__bin_id), __bin(orig.__bin) { }
+    
+    Pattern::Pattern(Pattern&& orig)
+        : PatternMatcher::IPattern(orig), 
+          __id(std::move(orig.__id)), __bin_id(std::move(orig.__bin_id)), 
+          __bin(std::move(orig.__bin)) { }
 
     Pattern::~Pattern() { }
 
@@ -51,18 +56,29 @@ namespace Sorter {
         return __bin_id;
     }
     
-    Bin* 
+    const std::shared_ptr<Bin> &
     Pattern::get_bin() const {
         return __bin;
     }
     
     void 
-    Pattern::set_bin(Bin* bin) {
+    Pattern::set_bin(const std::shared_ptr<Bin>& bin) {
         std::lock_guard<std::mutex> lock(__mutex);
         __bin = bin;
     }
 
     //operators
+    Pattern& 
+    Pattern::operator=(Pattern&& rhs) {
+        std::lock_guard<std::mutex> lock(__mutex);
+        __id = std::move(rhs.__id);
+        __bin_id = std::move(rhs.__bin_id);
+        __bin = std::move(rhs.__bin);
+        __value = std::move(rhs.__value);
+        
+        return *this;
+    }
+    
     Pattern& 
     Pattern::operator=(const Pattern& rhs) {
         std::lock_guard<std::mutex> lock(__mutex);

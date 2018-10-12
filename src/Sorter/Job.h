@@ -31,6 +31,7 @@ namespace Sorter {
         };
     public:
         Job(const Job& other);
+        Job(Job&& other);
         Job(const unsigned long long& id, const char* document, const char* filename);
         virtual ~Job();
         
@@ -40,6 +41,7 @@ namespace Sorter {
         
         //operators 
         virtual Job& operator=(const Job& rhs);
+        virtual Job& operator=(Job&& rhs);
         virtual bool operator==(const Job& rhs) const;
         virtual bool operator!=(const Job& rhs) const;
         virtual bool operator<(const Job& rhs) const;

@@ -10,6 +10,8 @@
 
 #include "Node.h"
 
+#include <memory>
+
 namespace PatternMatcher
 {
     class RootNode : public Node {
@@ -20,7 +22,7 @@ namespace PatternMatcher
         RootNode(); 
         virtual ~RootNode();
 
-        virtual Node* g(const char& a); 
+        virtual std::shared_ptr<Node> g(const char& a); 
         
     }; /* class RootNode */
 

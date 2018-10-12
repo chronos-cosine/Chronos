@@ -29,16 +29,19 @@ namespace Sorter {
        : __id(orig.__id), __name(orig.__name), 
          __parent_id(orig.__parent_id), __parent(orig.__parent) { }
     
+    Bin::Bin(Bin&& move)
+    { }
+    
     Bin::~Bin() { }
     
     //member functions
-    Bin* 
+    const std::shared_ptr<Bin>&
     Bin::get_parent() const {
         return __parent;
     }
     
     void
-    Bin::set_parent(Bin* parent) {
+    Bin::set_parent(const std::shared_ptr<Bin>& parent) {
         std::lock_guard<std::mutex> lock(__mutex);
         __parent = parent;
     }
@@ -59,6 +62,18 @@ namespace Sorter {
     }
 
     //operators
+    Bin& 
+    Bin::operator=(Bin&& rhs) {
+        std::lock_guard<std::mutex> lock(__mutex);
+        
+        __id = std::move(rhs.__id);
+        __name = std::move(rhs.__name);
+        __parent_id = std::move(rhs.__parent_id);
+        __parent = std::move(rhs.__parent);
+        
+        return *this;
+    }
+    
     Bin& 
     Bin::operator=(const Bin& rhs) {
         std::lock_guard<std::mutex> lock(__mutex);

@@ -18,6 +18,7 @@
 #include "Sorter/Pattern.h"
 
 #include <map> 
+#include <memory>
 #include <mutex>
 #include <set>
 #include <string>
@@ -33,7 +34,7 @@ namespace Sorter {
         virtual ~ResultFileWriter();
         
         void write(const Job& job, 
-                   const std::map<Pattern*, std::set<unsigned long long>>& matches);
+                   const std::map<std::shared_ptr<Pattern>, std::set<unsigned long long>>& matches);
     private:
         std::mutex __mutex;
 

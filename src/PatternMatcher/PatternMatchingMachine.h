@@ -15,6 +15,7 @@
 #define PATTERNMATCHER_PATTERNMATCHINGMACHINE_H
 
 #include <boost/signals2.hpp>
+#include <memory>
 #include <set>
 
 #include "IPattern.h"
@@ -25,32 +26,35 @@ namespace PatternMatcher
     class PatternMatchingMachine {
     public:
         typedef boost::signals2::signal<
-            void(void* /* sender */, 
+            void(const std::shared_ptr<void>& /* sender */, 
                  const unsigned long long& /* total_matches */,
-                 PatternMatcher::IPattern* /* input */)> completed_signal;
+                 const std::shared_ptr<PatternMatcher::IPattern>& /* input */)> completed_signal;
         typedef boost::signals2::signal<
-            void(void* /* sender */, 
+            void(const std::shared_ptr<void>& /* sender */, 
                  const unsigned long long& /* position */,
-                 PatternMatcher::IPattern* /* input */,
-                 const std::set<PatternMatcher::IPattern*>& /* patterns */)> match_found_signal;
+                 const std::shared_ptr<PatternMatcher::IPattern>& /* input */,
+                 const std::set<std::shared_ptr<PatternMatcher::IPattern>>& /* patterns */)> match_found_signal;
     public:
         PatternMatchingMachine(const PatternMatchingMachine&) = delete;
         PatternMatchingMachine& operator=(PatternMatchingMachine&) = delete;
+        PatternMatchingMachine(PatternMatchingMachine&& move) = delete;
+        PatternMatchingMachine& operator=(PatternMatchingMachine&& move) = delete;
     public:
-        PatternMatchingMachine(const std::set<IPattern*>& patterns); 
+        PatternMatchingMachine(const std::set<std::shared_ptr<IPattern>>& patterns); 
         virtual ~PatternMatchingMachine(); 
  
-        void match(IPattern* input, void* sender) const; 
+        void match(const std::shared_ptr<PatternMatcher::IPattern>& input, 
+                   const std::shared_ptr<void>& sender) const; 
 
         completed_signal& completed();
         match_found_signal& match_found();
-
+        
     private:
-        void enter(IPattern* pattern);
-        void construct_goto_function(const std::set<IPattern*>& patterns);
+        void enter(const std::shared_ptr<PatternMatcher::IPattern>& pattern);
+        void construct_goto_function(const std::set<std::shared_ptr<IPattern>>& patterns);
         void construct_failure_function();
     private:
-        Node* __root;
+        std::shared_ptr<Node> __root;
         completed_signal __completed;
         match_found_signal __match_found;
         

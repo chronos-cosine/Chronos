@@ -23,9 +23,9 @@ namespace Sorter {
     
     BinCsvFileReader::~BinCsvFileReader() { }
     
-    std::map<unsigned long long, Bin*>
+    std::map<unsigned long long, std::shared_ptr<Bin>>
     BinCsvFileReader::read(const char* filename) const {
-        std::map<unsigned long long, Bin*> bins;
+        std::map<unsigned long long, std::shared_ptr<Bin>> bins;
         std::vector<std::vector<std::string>> data(__csv_file_reader.read(filename));
         
         for (const std::vector<std::string>& row: data) {
@@ -35,7 +35,7 @@ namespace Sorter {
             
             unsigned long long id = std::stoull(row[0]);
             if (bins.find(id) == bins.end()) {
-                bins[id] = new Bin(id, row[1], std::stoull(row[2]));
+                bins[id] = std::shared_ptr<Bin>(new Bin(id, row[1], std::stoull(row[2])));
             }
         }
         

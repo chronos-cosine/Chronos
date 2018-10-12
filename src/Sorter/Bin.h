@@ -16,6 +16,7 @@
 
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
+#include <memory>
 #include <mutex>
 #include <string>
 
@@ -33,16 +34,18 @@ namespace Sorter {
             const std::string& name,
             const unsigned long long& parent_id);
         Bin(const Bin& orig);
+        Bin(Bin&& move);
         virtual ~Bin();
 
         //member functions
-        Bin* get_parent() const;
-        void set_parent(Bin* parent);
+        const std::shared_ptr<Bin>& get_parent() const;
+        void set_parent(const std::shared_ptr<Bin>& parent);
         const unsigned long long& get_id() const;
         const std::string& get_name() const;
         const unsigned long long& get_parent_id() const;
          
         //operators
+        virtual Bin& operator=(Bin&& rhs);
         virtual Bin& operator=(const Bin& rhs);
         virtual bool operator==(const Bin& rhs) const;
         virtual bool operator!=(const Bin& rhs) const;
@@ -56,7 +59,7 @@ namespace Sorter {
         unsigned long long __parent_id;
         unsigned long long __id;
         std::string __name;
-        Bin* __parent;
+        std::shared_ptr<Bin> __parent;
         std::mutex __mutex;
         
     }; /* class Bin */

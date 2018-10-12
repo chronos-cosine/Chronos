@@ -11,9 +11,11 @@
  * Created on 10 October 2018, 8:52 AM
  */
 
+#include "Sorter/Job.h"
+
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
-#include "Sorter/Job.h"
+#include <memory>
 
 namespace Sorter {
 
@@ -25,6 +27,10 @@ namespace Sorter {
     Job::Job(const Job& other) 
        : __id(other.__id), __document(other.__document), __filename(other.__filename) { }
         
+    Job::Job(Job&& other) 
+       : __id(std::move(other.__id)), __document(std::move(other.__document)), 
+         __filename(std::move(other.__filename)) { }
+    
     const unsigned long long& 
     Job::get_id() const
     {
@@ -49,6 +55,16 @@ namespace Sorter {
         __id = job.__id;
         __document = job.__document;
         __filename = job.__filename;
+        
+        return *this;
+    }
+    
+    Job& 
+    Job::operator=(Job&& job) {
+        std::lock_guard<std::mutex> lock(__mutex);
+        __id = std::move(job.__id);
+        __document = std::move(job.__document);
+        __filename = std::move(job.__filename);
         
         return *this;
     }

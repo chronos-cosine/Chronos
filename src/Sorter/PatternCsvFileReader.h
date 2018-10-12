@@ -18,6 +18,7 @@
 #include "Sorter/Pattern.h"
 
 #include <map>
+#include <memory>
 
 namespace Sorter {
     
@@ -29,7 +30,7 @@ namespace Sorter {
         PatternCsvFileReader();
         virtual ~PatternCsvFileReader();
         
-        std::map<unsigned long long, Pattern*> read(const char* filename) const;
+        std::map<unsigned long long, std::shared_ptr<Pattern>> read(const char* filename) const;
     private:
         Core::CsvFileReader __csv_file_reader;
         

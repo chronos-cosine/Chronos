@@ -13,21 +13,21 @@
 #include <boost/filesystem.hpp>
 #include <iostream>
 #include <map>
+#include <memory>
 #include <set>
  
 #include "Sorter/Bin.h"
 #include "Sorter/BinCsvFileReader.h"
 #include "Sorter/Job.h"
-#include "Sorter/JobFileReader.h"
-#include "Sorter/MemoryManagement.h"
+#include "Sorter/JobFileReader.h" 
 #include "Sorter/Pattern.h"
 #include "Sorter/PatternBinLinker.h"
 #include "Sorter/PatternCsvFileReader.h"
 #include "Sorter/ResultFileWriter.h"
 
-static std::map<unsigned long long, Sorter::Bin*> bins;
-static std::map<unsigned long long, Sorter::Pattern*> patterns;
-static Sorter::Job* job = nullptr;
+static std::map<unsigned long long, std::shared_ptr<Sorter::Bin>> bins;
+static std::map<unsigned long long, std::shared_ptr<Sorter::Pattern>> patterns;
+static std::shared_ptr<Sorter::Job> job = nullptr;
 
 static void test_job_file_reader() { 
     std::cout << "TESTING JOB FILE READER " << std::endl;
@@ -43,7 +43,7 @@ static void test_bin_file_reader() {
     bins = bin_file_reader.read("/home/user/bins.dat");
     
     for (auto& pair: bins) {
-        std::cout << "ID: " << pair.first << " Bin: " << pair.second << std::endl;
+        std::cout << "ID: " << pair.first << " Bin: " << *pair.second << std::endl;
     }
 }
 
@@ -53,7 +53,7 @@ static void test_pattern_file_reader() {
     patterns = pattern_file_reader.read("/home/user/patterns.dat");
     
     for (auto& pair: patterns) {
-        std::cout << "ID: " << pair.first << " Pattern: " << pair.second << std::endl;
+        std::cout << "ID: " << pair.first << " Pattern: " << *pair.second << std::endl;
     }
     
 }
@@ -63,14 +63,14 @@ static void test_pattern_bin_linking() {
     pattern_bin_linker.link(patterns, bins);
     
     for (auto& pair: patterns) {
-        std::cout << "ID: " << pair.first << " Pattern: " << pair.second << std::endl;
+        std::cout << "ID: " << pair.first << " Pattern: " << *pair.second << std::endl;
     }
 }
 
 static void test_result_file_writer() { 
     std::cout << "TESTING RESULT FILE WRITER " << std::endl; 
     Sorter::ResultFileWriter result_file_writer;
-    std::map<Sorter::Pattern*, std::set<unsigned long long>> results;
+    std::map<std::shared_ptr<Sorter::Pattern>, std::set<unsigned long long>> results;
     std::set<unsigned long long> positions;
     positions.insert(34);
     positions.insert(23);
@@ -78,17 +78,6 @@ static void test_result_file_writer() {
     positions.insert(232323);
     results[patterns.begin()->second] = positions;
     result_file_writer.write(*job, results);
-}
-
-static void test_memory_management() {
-    
-    std::cout << "TESTING MEMORY MANAGEMENT BINS " << std::endl;
-    Sorter::MemoryManagement memory_management;
-    memory_management.free_bins(bins);
-    
-    std::cout << "TESTING MEMORY MANAGEMENT PATTERNS " << std::endl; 
-    memory_management.free_patterns(patterns);
-    delete job;
 }
 
 /*
@@ -101,6 +90,5 @@ int main(int argc, char** argv) {
     test_pattern_bin_linking();
     test_result_file_writer();
     
-    test_memory_management();
     return 0;
 }

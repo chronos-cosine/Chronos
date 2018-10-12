@@ -25,7 +25,8 @@ namespace PatternMatcher
         //constructors
         IPattern(const char* value);
         IPattern(const std::string& value); 
-        IPattern(const IPattern& value); 
+        IPattern(const IPattern& value);
+        IPattern(const IPattern&& value); 
         virtual ~IPattern();
 
         //member functions
@@ -37,6 +38,7 @@ namespace PatternMatcher
 
         //operators
         virtual IPattern& operator=(const IPattern& rhs);
+        virtual IPattern& operator=(const IPattern&& rhs);
         virtual IPattern& operator=(const std::string& rhs);
         virtual IPattern& operator=(const char* rhs);
         virtual bool operator==(const IPattern& rhs) const;

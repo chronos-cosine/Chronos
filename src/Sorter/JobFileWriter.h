@@ -28,7 +28,7 @@ namespace Sorter {
         JobFileWriter(); 
         virtual ~JobFileWriter();
         
-        void write(const Job& job) const;
+        void write(const Job& job);
     private:
         std::mutex __mutex;
 };

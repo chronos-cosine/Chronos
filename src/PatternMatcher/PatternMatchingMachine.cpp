@@ -20,28 +20,27 @@
 namespace PatternMatcher
 {
 
-    PatternMatchingMachine::PatternMatchingMachine(const std::set<IPattern*>& patterns) {
-        __root = new RootNode();
+    PatternMatchingMachine::PatternMatchingMachine(const std::set<std::shared_ptr<PatternMatcher::IPattern>>& patterns) 
+        : __root(new RootNode()) {
         construct_goto_function(patterns);
         construct_failure_function();
     }
-
+        
     PatternMatchingMachine::~PatternMatchingMachine() {
         __root->clear();
-        delete __root;
     }
 
     void 
-    PatternMatchingMachine::construct_goto_function(const std::set<IPattern*>& patterns) {
+    PatternMatchingMachine::construct_goto_function(const std::set<std::shared_ptr<PatternMatcher::IPattern>>& patterns) {
         __root->clear();
-        for (IPattern* pattern: patterns) {
+        for (const auto& pattern: patterns) {
             enter(pattern);
         }
     }
 
     void 
     PatternMatchingMachine::construct_failure_function() {
-        std::queue<Node*> queue;
+        std::queue<std::shared_ptr<Node>> queue;
 
         for (auto& a: __root->get_states()) {
             queue.push(a.second);
@@ -49,13 +48,13 @@ namespace PatternMatcher
         }
 
         while (!queue.empty()) {
-            Node* r = queue.front();
+            std::shared_ptr<Node> r = queue.front();
             queue.pop();
 
             for (auto& s: r->get_states()) {
                 char a = s.first;
                 queue.push(s.second);
-                Node* state = r->get_failure();
+                std::shared_ptr<Node> state = r->get_failure();
                 while (nullptr == state->g(a)) {
                     state = state->get_failure(); 
                 }
@@ -66,13 +65,14 @@ namespace PatternMatcher
     }
 
     void 
-    PatternMatchingMachine::enter(IPattern* pattern) {
-        Node* current = __root;
+    PatternMatchingMachine::enter(const std::shared_ptr<PatternMatcher::IPattern>& pattern) {
+        
+        std::shared_ptr<PatternMatcher::Node> current = __root;
         for (const char& a: *pattern) {
-            Node* new_node = current->g(a);
+            std::shared_ptr<PatternMatcher::Node> new_node = current->g(a);
             if (nullptr == new_node
                 || __root == new_node) {
-                new_node = new Node(a);
+                new_node = std::shared_ptr<Node>(new Node(a));
                 current->add_state(new_node);
             }
             current = new_node;
@@ -82,10 +82,11 @@ namespace PatternMatcher
     }
 
     void 
-    PatternMatchingMachine::match(IPattern* input, void* sender) const { 
+    PatternMatchingMachine::match(const std::shared_ptr<PatternMatcher::IPattern>& input, 
+                                  const std::shared_ptr<void>& sender) const { 
         unsigned long long patterns_found = 0;
         unsigned long long position = 0;
-        Node* state = __root;
+        std::shared_ptr<Node> state = __root;
 
         for (const char a: *input) { 
             ++position;
@@ -112,5 +113,5 @@ namespace PatternMatcher
     PatternMatchingMachine::match_found() {
         return __match_found;
     }
-
+    
 } /* namespace PatternMatcher */
