@@ -34,7 +34,7 @@ namespace Sorter {
             
             unsigned long long id = std::stoull(row[0]);
             if (patterns.find(id) == patterns.end()) {
-                patterns[id] = std::shared_ptr<Pattern>(new Pattern(id, row[1], std::stoull(row[2])));
+                patterns[id] = std::shared_ptr<Pattern>(new Pattern(id, row[1], std::stoull(row[2]), (Sorter::BooleanOperator)1));
             }
         }
         

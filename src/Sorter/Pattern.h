@@ -16,6 +16,7 @@
 
 #include "PatternMatcher/IPattern.h"
 #include "Sorter/Bin.h"
+#include "Sorter/BooleanOperator.h"
 
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
@@ -34,8 +35,10 @@ namespace Sorter {
         };  /* struct Pattern::hash */
     public:
         //constructors
-        Pattern(const unsigned long long& id, const char* value, const unsigned long long& bin_id);
-        Pattern(const unsigned long long& id, const std::string& value, const unsigned long long& bin_id);
+        Pattern(const unsigned long long& id, const char* value, 
+                const unsigned long long& bin_id, const Sorter::BooleanOperator& boolean_operator);
+        Pattern(const unsigned long long& id, const std::string& value, 
+                const unsigned long long& bin_id, const Sorter::BooleanOperator& boolean_operator);
         Pattern(const Pattern& orig);
         Pattern(Pattern&& orig);
         virtual ~Pattern();
@@ -58,6 +61,7 @@ namespace Sorter {
         friend boost::property_tree::ptree& operator<<(boost::property_tree::ptree& lhs, const Pattern& rhs);
         friend std::ostream& operator<<(std::ostream& lhs, const Pattern& rhs);
     private:
+        Sorter::BooleanOperator __boolean_operator;
         unsigned long long __id;
         unsigned long long __bin_id;
         std::shared_ptr<Bin> __bin;

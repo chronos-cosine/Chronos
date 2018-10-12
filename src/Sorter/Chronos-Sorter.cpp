@@ -114,11 +114,11 @@ static void test_file_spooler() {
 int main(int argc, char** argv) {
 //    test_bin_file_reader();
 //    test_job_file_reader();
-//    test_pattern_file_reader();
+    test_pattern_file_reader();
 //    test_pattern_bin_linking();
 //    test_result_file_writer();
     
-    test_file_spooler();
+ //   test_file_spooler();
     
     return 0;
 }

@@ -11,6 +11,7 @@
  * Created on 04 October 2018, 9:17 AM
  */
 
+#include "Sorter/BooleanOperator.h"
 #include "Sorter/Pattern.h" 
 #include "PatternMatcher/IPattern.h"
 
@@ -24,24 +25,27 @@ namespace Sorter {
     //constructors
     Pattern::Pattern(const unsigned long long& id, 
                      const char* value,
-                     const unsigned long long& bin_id)
+                     const unsigned long long& bin_id,
+                     const Sorter::BooleanOperator& boolean_operator)
         : PatternMatcher::IPattern(value), 
-          __id(id), __bin_id(bin_id), __bin(nullptr) { }
+          __id(id), __bin_id(bin_id), __bin(nullptr), __boolean_operator(boolean_operator) { }
 
     Pattern::Pattern(const unsigned long long& id, 
                      const std::string& value,
-                     const unsigned long long& bin_id)
+                     const unsigned long long& bin_id,
+                     const Sorter::BooleanOperator& boolean_operator)
         : PatternMatcher::IPattern(value), 
-          __id(id), __bin_id(bin_id), __bin(nullptr) { }
+          __id(id), __bin_id(bin_id), __bin(nullptr), __boolean_operator(boolean_operator) { }
 
     Pattern::Pattern(const Pattern& orig)
         : PatternMatcher::IPattern(orig), 
-          __id(orig.__id), __bin_id(orig.__bin_id), __bin(orig.__bin) { }
+          __id(orig.__id), __bin_id(orig.__bin_id), __bin(orig.__bin), 
+          __boolean_operator(orig.__boolean_operator){ }
     
     Pattern::Pattern(Pattern&& orig)
         : PatternMatcher::IPattern(orig), 
           __id(std::move(orig.__id)), __bin_id(std::move(orig.__bin_id)), 
-          __bin(std::move(orig.__bin)) { }
+          __bin(std::move(orig.__bin)), __boolean_operator(std::move(orig.__boolean_operator)) { }
 
     Pattern::~Pattern() { }
 
@@ -75,6 +79,7 @@ namespace Sorter {
         __bin_id = std::move(rhs.__bin_id);
         __bin = std::move(rhs.__bin);
         __value = std::move(rhs.__value);
+        __boolean_operator = std::move(rhs.__boolean_operator);
         
         return *this;
     }
@@ -86,6 +91,7 @@ namespace Sorter {
         __bin_id = rhs.__bin_id;
         __bin = rhs.__bin;
         __value = rhs.__value;
+        __boolean_operator = rhs.__boolean_operator;
         
         return *this;
     }
@@ -116,6 +122,7 @@ namespace Sorter {
         lhs.put("Id", rhs.__id);
         lhs.put("Value", rhs.__value);
         lhs.put("BinId", rhs.__bin_id);
+        lhs.put("BooleanOperator", rhs.__boolean_operator);
         
         if (nullptr == rhs.__bin) {
             lhs.put("Bin", "null");
