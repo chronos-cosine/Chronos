@@ -32,6 +32,7 @@ namespace Core {
         
         void push(T item);
         T pop();
+        typename std::queue<T>::size_type size() const;
         
         virtual ConcurrentQueue& operator=(ConcurrentQueue&& move);
     private:
@@ -45,8 +46,7 @@ namespace Core {
     
     template <typename T>
     ConcurrentQueue<T>::ConcurrentQueue(ConcurrentQueue&& move) 
-            : __mutex(std::move(move.__mutex)), __queue(std::move(move.__queue)), 
-              __condition_variable(std::move(move.__condition_variable)) { }
+            : __queue(std::move(move.__queue)) { }
     
     template <typename T>
     ConcurrentQueue<T>::~ConcurrentQueue() { }
@@ -61,7 +61,7 @@ namespace Core {
     
     template <typename T>
     T 
-    ConcurrentQueue::pop() {
+    ConcurrentQueue<T>::pop() {
         std::unique_lock<std::mutex> lock(__mutex);
         __condition_variable.wait(lock, [this] { return !__queue.empty(); });
         T item = std::move(__queue.front());
@@ -69,18 +69,22 @@ namespace Core {
         
         return item;
     }
+    
+    template <typename T>
+    typename std::queue<T>::size_type 
+    ConcurrentQueue<T>::size() const {
+        return __queue.size();
+    }
         
     template <typename T>
-    ConcurrentQueue& 
+    ConcurrentQueue<T>& 
     ConcurrentQueue<T>::operator=(ConcurrentQueue&& move) { 
-        __mutex = std::move(move.__mutex);
-        __queue = std::move(move.__queue); 
-        __condition_variable = std::move(move.__condition_variable);
+        __queue = std::move(move.__queue);
         
         return *this;
     }
 
-} /* namespace Core
+} /* namespace Core */
 
 #endif /* CORE_CONCURRENTQUEUE_H */
 
