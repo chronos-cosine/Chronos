@@ -22,7 +22,7 @@ namespace Core {
     namespace ArgumentReader {
         static std::map<std::string, std::string> read(int argc, char** argv) {
            std::map<std::string, std::string> values;
-           values[std::string("-app_name")] = std::string(argv[0]);
+           values[std::string("-a")] = std::string(argv[0]);
 
            for (int i = 1; i < argc; i += 2) {
                if (i == argc - 1) {

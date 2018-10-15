@@ -14,6 +14,7 @@
  */
 
 #include "Sorter/Pattern.h"
+#include "Core/Exception.h"
 
 #include <exception>
 #include <iostream>
@@ -26,14 +27,15 @@ namespace Sorter {
     
     PatternCsvFileReader::~PatternCsvFileReader() { }
     
-    std::map<unsigned long long,  std::shared_ptr<Pattern>>
-    PatternCsvFileReader::read(const std::string& filename) const {
+    std::map<unsigned long long, std::shared_ptr<Pattern>>
+    PatternCsvFileReader::read(const std::string& filename) const { 
+        
         std::map<unsigned long long,  std::shared_ptr<Pattern>> patterns;
         std::vector<std::vector<std::string>> data(__csv_file_reader.read(filename));
 
         for (const std::vector<std::string>& row: data) {
             if (row.size() != 4) {
-                throw std::runtime_error("Pattern document not in the correct format.");
+                thrower("Pattern document not in the correct format.");
             }
 
             unsigned long long id = std::stoull(row[0]);

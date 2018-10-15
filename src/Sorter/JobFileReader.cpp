@@ -13,6 +13,8 @@
  * Created on 10 October 2018, 9:15 AM
  */
 
+#include "Core/Exception.h"
+
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 
@@ -37,7 +39,7 @@ namespace Sorter {
                              ptree.get<std::string>("Document"),
                              filename));
         } else {
-            throw std::runtime_error("Could not open job file.");
+            thrower("Could not open job file.");
         }
         
         return std::unique_ptr<Job>(nullptr);

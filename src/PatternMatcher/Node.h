@@ -29,40 +29,38 @@ namespace PatternMatcher
         bool operator!=(Node<PATTERN>&) = delete;
     public:
         //constructors
-        Node(const char& value);
+        Node(const char& value); 
         virtual ~Node();
 
         //member functions
-        virtual std::shared_ptr<Node<PATTERN>> g(const char& a);
-        
-        std::shared_ptr<Node<PATTERN>> get_failure(); 
-        void set_failure(const std::shared_ptr<Node<PATTERN>>& failure); 
+        Node<PATTERN>* get_failure(); 
+        void set_failure(Node<PATTERN>* failure); 
         char get_value(); 
         void add_output(const std::shared_ptr<PATTERN>& output);
         void add_output(const std::set<std::shared_ptr<PATTERN>>& outputs);
         std::set<std::shared_ptr<PATTERN>>& get_output(); 
-        std::map<char, std::shared_ptr<Node<PATTERN>>>& get_states();
-        void add_state(const std::shared_ptr<Node<PATTERN>>& state); 
+        std::map<char, Node<PATTERN>*>& get_states();
+        void add_state(Node<PATTERN>* state); 
+        virtual Node<PATTERN>* g(const char& a);
         void clear();
-        typename std::map<char, std::shared_ptr<Node<PATTERN>>>::iterator begin();
-        typename std::map<char, std::shared_ptr<Node<PATTERN>>>::const_iterator begin() const;
-        typename std::map<char, std::shared_ptr<Node<PATTERN>>>::iterator end();
-        typename std::map<char, std::shared_ptr<Node<PATTERN>>>::const_iterator end() const;
+        typename std::map<char, Node<PATTERN>*>::const_iterator begin() const;
+        typename std::map<char, Node<PATTERN>*>::const_iterator end() const;
 
         //operators
-        bool operator<(const Node<PATTERN>& rhs) const;
-        bool operator>(const Node<PATTERN>& rhs) const;
+        virtual bool operator<(const Node<PATTERN>& rhs) const;
+        virtual bool operator>(const Node<PATTERN>& rhs) const;
     private:
         char __value;
-        std::shared_ptr<Node<PATTERN>> __failure;
-        std::map<char, std::shared_ptr<Node<PATTERN>>> __states;
+        Node<PATTERN>* __failure;
+        std::map<char, Node<PATTERN>*> __states;
         std::set<std::shared_ptr<PATTERN>> __output;
         
     }; /* class Node */
     
     template <typename PATTERN>
-    Node<PATTERN>::Node(const char& value)
-        : __value(value), __failure(nullptr) { }
+    Node<PATTERN>::Node(const char& value) 
+                  : __value(value), 
+                    __failure(nullptr) { }
     
     template <typename PATTERN>
     Node<PATTERN>::~Node() {
@@ -70,14 +68,14 @@ namespace PatternMatcher
     }
 
     template <typename PATTERN>
-    std::shared_ptr<Node<PATTERN>>
+    Node<PATTERN>*
     Node<PATTERN>::get_failure() {
         return __failure;
     }
 
     template <typename PATTERN>
     void
-    Node<PATTERN>::set_failure(const std::shared_ptr<Node>& failure) {
+    Node<PATTERN>::set_failure(Node<PATTERN>* failure) {
         __failure = failure;
     }
 
@@ -88,7 +86,7 @@ namespace PatternMatcher
     }
 
     template <typename PATTERN>
-    std::shared_ptr<Node<PATTERN>>
+    Node<PATTERN>*
     Node<PATTERN>::g(const char& a) {
         auto result = __states.find(a);
         if (__states.end() == result) {
@@ -116,8 +114,9 @@ namespace PatternMatcher
     template <typename PATTERN>
     void
     Node<PATTERN>::clear() {
-        for (auto& tuple: __states) {
+        for (auto& tuple: __states) { 
             tuple.second->clear();
+            delete tuple.second;
         } 
         __states.clear();
     }
@@ -129,14 +128,14 @@ namespace PatternMatcher
     }
 
     template <typename PATTERN>
-    typename std::map<char, std::shared_ptr<Node<PATTERN>>>&
+    typename std::map<char, Node<PATTERN>*>&
     Node<PATTERN>::get_states() {
         return __states;
     }
 
     template <typename PATTERN>
     void
-    Node<PATTERN>::add_state(const std::shared_ptr<Node<PATTERN>>& state) {
+    Node<PATTERN>::add_state(Node<PATTERN>* state) {
         auto result = __states.find(state->get_value());
         if (__states.end() == result) {
             __states[state->get_value()] = state;
@@ -144,25 +143,13 @@ namespace PatternMatcher
     }
     
     template <typename PATTERN>
-    typename std::map<char, std::shared_ptr<Node<PATTERN>>>::iterator 
-    Node<PATTERN>::begin() {
-        return __states.begin();
-    }
-    
-    template <typename PATTERN>
-    typename std::map<char, std::shared_ptr<Node<PATTERN>>>::const_iterator 
+    typename std::map<char, Node<PATTERN>*>::const_iterator 
     Node<PATTERN>::begin() const {
         return __states.begin();
     }
-    
+        
     template <typename PATTERN>
-    typename std::map<char, std::shared_ptr<Node<PATTERN>>>::iterator 
-    Node<PATTERN>::end() {
-        return __states.end();
-    }
-    
-    template <typename PATTERN>
-    typename std::map<char, std::shared_ptr<Node<PATTERN>>>::const_iterator 
+    typename std::map<char, Node<PATTERN>*>::const_iterator 
     Node<PATTERN>::end() const {
         return __states.end();
     }

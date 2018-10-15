@@ -13,8 +13,10 @@
  * Created on 04 October 2018, 2:48 PM
  */
 
-#include "Sorter/Bin.h" 
+#include "Sorter/Bin.h"
+#include "Core/Exception.h"
 
+#include <exception>
 #include <map>
 #include <vector>
 #include <string>
@@ -26,13 +28,13 @@ namespace Sorter {
     BinCsvFileReader::~BinCsvFileReader() { }
     
     std::map<unsigned long long, std::shared_ptr<Bin>>
-    BinCsvFileReader::read(const std::string& filename) const {
+    BinCsvFileReader::read(const std::string& filename) const { 
         std::map<unsigned long long, std::shared_ptr<Bin>> bins;
         std::vector<std::vector<std::string>> data(__csv_file_reader.read(filename));
         
         for (const std::vector<std::string>& row: data) {
             if (row.size() != 3) {
-                throw std::runtime_error("Bin document not in the correct format.");
+                thrower ("Bin document not in the correct format.");
             }
             
             unsigned long long id = std::stoull(row[0]);

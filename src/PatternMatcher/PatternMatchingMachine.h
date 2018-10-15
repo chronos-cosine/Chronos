@@ -18,9 +18,11 @@
 #include <memory>
 #include <queue>
 #include <set>
+#include <iostream>
  
 #include "PatternMatcher/Node.h"
 #include "PatternMatcher/RootNode.h"
+#include "Core/Exception.h"
 
 namespace PatternMatcher
 {
@@ -56,7 +58,7 @@ namespace PatternMatcher
         void construct_goto_function(const std::set<std::shared_ptr<PATTERN>>& patterns);
         void construct_failure_function();
     private:
-        std::shared_ptr<Node<PATTERN>> __root;
+        Node<PATTERN>* __root;
         completed_signal __completed;
         match_found_signal __match_found;
         
@@ -72,6 +74,7 @@ namespace PatternMatcher
     template <typename INPUT, typename PATTERN, typename SENDER>
     PatternMatchingMachine<INPUT, PATTERN, SENDER>::~PatternMatchingMachine() {
         __root->clear();
+        delete __root;
     }
 
     template <typename INPUT, typename PATTERN, typename SENDER>
@@ -86,7 +89,7 @@ namespace PatternMatcher
     template <typename INPUT, typename PATTERN, typename SENDER>
     void 
     PatternMatchingMachine<INPUT, PATTERN, SENDER>::construct_failure_function() {
-        std::queue<std::shared_ptr<Node<PATTERN>>> queue;
+        std::queue<Node<PATTERN>*> queue;
 
         for (auto& a: __root->get_states()) {
             queue.push(a.second);
@@ -94,13 +97,13 @@ namespace PatternMatcher
         }
 
         while (!queue.empty()) {
-            std::shared_ptr<Node<PATTERN>> r = queue.front();
+            Node<PATTERN>* r = queue.front();
             queue.pop();
 
             for (auto& s: r->get_states()) {
                 char a = s.first;
                 queue.push(s.second);
-                std::shared_ptr<Node<PATTERN>> state = r->get_failure();
+                Node<PATTERN>* state = r->get_failure();
                 while (nullptr == state->g(a)) {
                     state = state->get_failure(); 
                 }
@@ -113,13 +116,12 @@ namespace PatternMatcher
     template <typename INPUT, typename PATTERN, typename SENDER>
     void 
     PatternMatchingMachine<INPUT, PATTERN, SENDER>::enter(const std::shared_ptr<PATTERN>& pattern) {
-        
-        std::shared_ptr<Node<PATTERN>> current = __root;
+        Node<PATTERN>* current = __root;
         for (const char& a: *pattern) {
-            std::shared_ptr<Node<PATTERN>> new_node = current->g(a);
+            Node<PATTERN>* new_node = current->g(a);
             if (nullptr == new_node
                 || __root == new_node) {
-                new_node = std::shared_ptr<Node<PATTERN>>(new Node<PATTERN>(a));
+                new_node = new Node<PATTERN>(a);
                 current->add_state(new_node);
             }
             current = new_node;

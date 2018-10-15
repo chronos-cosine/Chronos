@@ -23,25 +23,25 @@ namespace PatternMatcher
         RootNode(); 
         virtual ~RootNode();
 
-        virtual std::shared_ptr<Node<PATTERN>> g(const char& a); 
+        virtual Node<PATTERN>* g(const char& a); 
         
     }; /* class RootNode */
     
     template <typename PATTERN>
     RootNode<PATTERN>::RootNode()
             : Node<PATTERN>('~') {
-        Node<PATTERN>::set_failure(std::shared_ptr<Node<PATTERN>>(this));
+        Node<PATTERN>::set_failure(this);
     }
 
     template <typename PATTERN>
     RootNode<PATTERN>::~RootNode() { }
 
     template <typename PATTERN>
-    std::shared_ptr<Node<PATTERN>>
+    Node<PATTERN>*
     RootNode<PATTERN>::g(const char& a) {
-        std::shared_ptr<Node<PATTERN>> state = Node<PATTERN>::g(a);
+        Node<PATTERN>* state = Node<PATTERN>::g(a);
         if (nullptr == state) {
-            return std::shared_ptr<Node<PATTERN>>(this);
+            return this;
         }
         else {
             return state;

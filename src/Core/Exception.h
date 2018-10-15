@@ -61,11 +61,10 @@ namespace Core {
             std::string __location;
 
     };
+     
+#define thrower(arg) std::throw_with_nested(Core::Exception(arg, __FILE__, __LINE__))
     
-    #define thrower(arg) std::throw_with_nested(Exception(arg, __FILE__, __LINE__))
-
 } /* namespace Core */
-
 
 #endif /* CORE_EXCEPTION_H */
 

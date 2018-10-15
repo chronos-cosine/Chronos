@@ -13,6 +13,7 @@
 
 #include "Core/ArgumentReader.h"
 #include "Core/Helpers.h" 
+#include "Core/Exception.h"
 #include "Sorter/SortingMachine.h"
 
 #include <iostream>
@@ -20,19 +21,23 @@
 #include <string>
 #include <vector>
 
-int main(int argc, char** argv) { 
-    std::map<std::string, std::string> arguments = Core::ArgumentReader::read(argc, argv);
-    Core::Helpers::print_map(std::cout, arguments);
+int main(int argc, char** argv) {
+    try { 
+        std::map<std::string, std::string> arguments = Core::ArgumentReader::read(argc, argv); 
+
+        std::vector<std::string> job_paths;
+        job_paths.push_back(arguments[std::string("-j")]);
+        
+        Sorter::SortingMachine sorting_machine(
+            arguments[std::string("-p")], 
+            arguments[std::string("-b")],
+            job_paths, 
+            1);
+
+        sorting_machine.start();
+    } catch (Core::Exception& e) { 
+        std::cout << Core::Exception::getErrorStack(e);
+    }
     
-    std::vector<std::string> job_paths;
-    job_paths.push_back(arguments[std::string("-j")]);
-    
-    Sorter::SortingMachine sorting_machine(
-        arguments[std::string("-p")], 
-        arguments[std::string("-b")],
-        job_paths, 
-        1);
-    
-    sorting_machine.start();
     return 0;
 }

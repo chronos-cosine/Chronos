@@ -15,6 +15,7 @@
 
 #include "Sorter/Job.h"
 #include "Sorter/Pattern.h"
+#include "Core/Exception.h"
 
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
@@ -61,7 +62,7 @@ namespace Sorter {
             std::ofstream output(job.get_filename());
             boost::property_tree::write_json(output, ptree);
         } else {
-            throw std::runtime_error("Could not open job file.");
+            thrower("Could not open job file.");
         }        
     }
      
