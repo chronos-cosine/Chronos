@@ -23,4 +23,3 @@ set(CMAKE_STATIC_LIBRARY_PREFIX "")
 
 # ================ MAIN SOURCE =========================
 add_subdirectory(src)
-

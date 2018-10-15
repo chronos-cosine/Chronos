@@ -13,11 +13,12 @@
 
 #ifndef SORTER_SORTER_H
 #define SORTER_SORTER_H
-
+ 
+#include "Core/ConcurrentQueue.h"
 #include "Core/IProcessor.h"
 #include "PatternMatcher/PatternMatchingMachine.h"
 #include "Sorter/JobFileReader.h"
-#include "Core/ConcurrentQueue.h"
+#include "Sorter/Pattern.h"
 
 #include <boost/filesystem/path.hpp>
 
@@ -25,13 +26,13 @@ namespace Sorter {
     
     class Sorter : public Core::IProcessor {
     public:
-        Sorter(PatternMatcher::PatternMatchingMachine& pattern_matching_machine,
+        Sorter(PatternMatcher::PatternMatchingMachine<std::string, Pattern, Sorter>& pattern_matching_machine,
                Core::ConcurrentQueue<boost::filesystem::path>& concurrent_queue);
         virtual ~Sorter();
     protected:
         virtual bool process();
     private:
-        PatternMatcher::PatternMatchingMachine& __pattern_matching_machine;
+        PatternMatcher::PatternMatchingMachine<std::string, Pattern, Sorter>& __pattern_matching_machine;
         Core::ConcurrentQueue<boost::filesystem::path>& __concurrent_queue;
         JobFileReader __job_file_reader;
     };

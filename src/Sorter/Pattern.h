@@ -14,7 +14,6 @@
 #ifndef SORTER_PATTERN_H
 #define SORTER_PATTERN_H
 
-#include "PatternMatcher/IPattern.h"
 #include "Sorter/Bin.h"
 #include "Sorter/BooleanOperator.h"
 
@@ -27,7 +26,7 @@
 
 namespace Sorter {
 
-    class Pattern : public PatternMatcher::IPattern {
+    class Pattern {
         struct hash {
             std::size_t operator()(const Pattern& pattern) const noexcept {
                 return std::hash<unsigned long long>{}(pattern.__id);
@@ -48,20 +47,27 @@ namespace Sorter {
         const unsigned long long& get_bin_id() const;
         const std::shared_ptr<Bin>& get_bin() const;
         const BooleanOperator& get_boolean_operator() const;
-        void set_bin(const std::shared_ptr<Bin>& bin);
+        void set_bin(const std::shared_ptr<Bin>& bin); 
+        const std::string& get_value() const;
+        std::string::iterator begin();
+        std::string::const_iterator begin() const; 
+        std::string::iterator end();
+        std::string::const_iterator end() const;
 
         //operators
-        virtual Pattern& operator=(const Pattern& rhs);
-        virtual Pattern& operator=(Pattern&& rhs);
-        virtual bool operator==(const Pattern& rhs) const;
-        virtual bool operator!=(const Pattern& rhs) const;
-        virtual bool operator<(const Pattern& rhs) const;
-        virtual bool operator>(const Pattern& rhs) const;
+        Pattern& operator=(const Pattern& rhs);
+        Pattern& operator=(Pattern&& rhs);
+        bool operator==(const Pattern& rhs) const;
+        bool operator!=(const Pattern& rhs) const;
+        bool operator<(const Pattern& rhs) const;
+        bool operator>(const Pattern& rhs) const;
 
         //friend operators
         friend boost::property_tree::ptree& operator<<(boost::property_tree::ptree& lhs, const Pattern& rhs);
         friend std::ostream& operator<<(std::ostream& lhs, const Pattern& rhs);
     private:
+        std::string __value;
+        std::mutex __mutex;
         BooleanOperator __boolean_operator;
         unsigned long long __id;
         unsigned long long __bin_id;

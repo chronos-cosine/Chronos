@@ -12,8 +12,7 @@
  */
 
 #include "Sorter/BooleanOperator.h"
-#include "Sorter/Pattern.h" 
-#include "PatternMatcher/IPattern.h"
+#include "Sorter/Pattern.h"
 
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
@@ -27,29 +26,54 @@ namespace Sorter {
                      const char* value,
                      const unsigned long long& bin_id,
                      const BooleanOperator& boolean_operator)
-        : PatternMatcher::IPattern(value), 
+        : __value(value), 
           __id(id), __bin_id(bin_id), __bin(nullptr), __boolean_operator(boolean_operator) { }
 
     Pattern::Pattern(const unsigned long long& id, 
                      const std::string& value,
                      const unsigned long long& bin_id,
                      const BooleanOperator& boolean_operator)
-        : PatternMatcher::IPattern(value), 
+        : __value(value), 
           __id(id), __bin_id(bin_id), __bin(nullptr), __boolean_operator(boolean_operator) { }
 
     Pattern::Pattern(const Pattern& orig)
-        : PatternMatcher::IPattern(orig), 
+        : __value(orig.__value), 
           __id(orig.__id), __bin_id(orig.__bin_id), __bin(orig.__bin), 
           __boolean_operator(orig.__boolean_operator){ }
     
     Pattern::Pattern(Pattern&& orig)
-        : PatternMatcher::IPattern(orig), 
+        : __value(std::move(orig.__value)), 
           __id(std::move(orig.__id)), __bin_id(std::move(orig.__bin_id)), 
           __bin(std::move(orig.__bin)), __boolean_operator(std::move(orig.__boolean_operator)) { }
 
     Pattern::~Pattern() { }
 
-    //member functions
+    //member functions 
+    const std::string& 
+    Pattern::get_value() const {
+        return __value;
+    }
+    
+    std::string::iterator 
+    Pattern::begin() {
+        return __value.begin();
+    }
+    
+    std::string::const_iterator 
+    Pattern::begin() const {
+        return __value.begin();
+    }
+    
+    std::string::iterator 
+    Pattern::end() {
+        return __value.end();
+    }
+    
+    std::string::const_iterator 
+    Pattern::end() const {
+        return __value.end();
+    }
+        
     const unsigned long long& 
     Pattern::get_id() const {
         return __id;

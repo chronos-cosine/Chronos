@@ -6,7 +6,6 @@
 
 #include "SortingMachine.h"
 
-
 /* 
  * File:   SortingMachine.cpp
  * Author: user
@@ -14,8 +13,7 @@
  * Created on 05 October 2018, 8:53 AM
  */
  
-#include "Core/Helpers.h"
-#include "PatternMatcher/IPattern.h"
+#include "Core/Helpers.h" 
 #include "Sorter/PatternCsvFileReader.h"
 #include "Sorter/BinCsvFileReader.h"
 #include <thread>
@@ -30,11 +28,13 @@ namespace Sorter {
           __pattern_matching_machine(Core::Helpers::get_value_set<unsigned long long, std::shared_ptr<Pattern>>(__patterns)) {
 
         for (char* job_path: job_paths) {
-            __file_spoolers.push_back(Core::FileSpooler(job_path ,".sjob", __job_queue));
+            std::shared_ptr<Core::FileSpooler> file_spooler(new Core::FileSpooler(job_path, ".sjob", __job_queue));
+            __file_spoolers.push_back(file_spooler);
         }
         
         for (int i = 0; i < sorter_count; ++i) {
-            __sorters.push_back(Sorter());
+            std::shared_ptr<Sorter> sorter(new Sorter(__pattern_matching_machine, __job_queue));
+            __sorters.push_back(sorter);
         }
     }
     
@@ -42,28 +42,29 @@ namespace Sorter {
     
     void 
     SortingMachine::start() {
-        for (auto& spooler: __file_spoolers) {
-            std::thread thread([&](Core::FileSpooler* s) {
-                    s->start();
-                }, &spooler);
-            thread.detach(); 
-        }
-        for (auto& sorter: __sorters) {
-            std::thread thread([&](Sorter::Sorter* s) {
-                    s->start();
-                }, &sorter);
-            thread.detach(); 
-        }
+//        for (auto& spooler: __file_spoolers) {
+//            std::thread thread([&]
+//                (std::shared_ptr<Core::FileSpooler>& s) {
+//                    s->start();
+//                }, spooler);
+//            thread.detach(); 
+//        }
+//        for (auto& sorter: __sorters) {
+//            std::thread thread([&](std::shared_ptr<Sorter>& s) {
+//                    s->start();
+//                }, sorter);
+//            thread.detach(); 
+//        }
     }
     
     void 
     SortingMachine::stop() {
-        for (auto& spooler: __file_spoolers) {
-            spooler.stop();
-        }
-        for (auto& sorter: __sorters) {
-            sorter.stop();
-        }
+//        for (auto& spooler: __file_spoolers) {
+//            *spooler.stop();
+//        }
+//        for (auto& sorter: __sorters) {
+//            *sorter.stop();
+//        }
     }
     
 } /* namespace Sorter */

@@ -8,13 +8,14 @@
 #ifndef PATTERNMATCHER_ROOTNODE_H
 #define PATTERNMATCHER_ROOTNODE_H
 
-#include "Node.h"
+#include "PatternMatcher/Node.h"
 
 #include <memory>
 
 namespace PatternMatcher
 {
-    class RootNode : public Node {
+    template <typename PATTERN>
+    class RootNode : public Node<PATTERN> {
     public:
         RootNode(RootNode&) = delete;
         RootNode& operator=(RootNode&) = delete;
@@ -22,9 +23,30 @@ namespace PatternMatcher
         RootNode(); 
         virtual ~RootNode();
 
-        virtual std::shared_ptr<Node> g(const char& a); 
+        virtual std::shared_ptr<Node<PATTERN>> g(const char& a); 
         
     }; /* class RootNode */
+    
+    template <typename PATTERN>
+    RootNode<PATTERN>::RootNode()
+            : Node<PATTERN>('~') {
+        Node<PATTERN>::set_failure(std::shared_ptr<Node<PATTERN>>(this));
+    }
+
+    template <typename PATTERN>
+    RootNode<PATTERN>::~RootNode() { }
+
+    template <typename PATTERN>
+    std::shared_ptr<Node<PATTERN>>
+    RootNode<PATTERN>::g(const char& a) {
+        std::shared_ptr<Node<PATTERN>> state = Node<PATTERN>::g(a);
+        if (nullptr == state) {
+            return std::shared_ptr<Node<PATTERN>>(this);
+        }
+        else {
+            return state;
+        }
+    }
 
 } /* namespace PatternMatcher */
 

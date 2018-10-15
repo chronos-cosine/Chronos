@@ -11,14 +11,16 @@
  * Created on 12 October 2018, 1:50 PM
  */
 
+#include "Core/ConcurrentQueue.h"
 #include "Sorter.h"
 #include "Sorter/JobFileReader.h"
-#include "Core/ConcurrentQueue.h"
+#include "Sorter/Pattern.h"
+
 #include <boost/filesystem/path.hpp>
 
 namespace Sorter {
     
-    Sorter::Sorter(PatternMatcher::PatternMatchingMachine& pattern_matching_machine,
+    Sorter::Sorter(PatternMatcher::PatternMatchingMachine<std::string, Pattern, Sorter>& pattern_matching_machine,
                Core::ConcurrentQueue<boost::filesystem::path>& concurrent_queue) 
         : Core::IProcessor(30), __pattern_matching_machine(pattern_matching_machine),
                __concurrent_queue(concurrent_queue) { 

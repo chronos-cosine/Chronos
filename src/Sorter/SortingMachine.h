@@ -21,7 +21,9 @@
 #include "Sorter/Pattern.h"
 #include "Sorter/Bin.h"
 
+#include <memory>
 #include <vector>
+#include <string>
 
 namespace Sorter {
 
@@ -40,9 +42,9 @@ namespace Sorter {
         std::map<unsigned long long, std::shared_ptr<Pattern>> __patterns;
         std::map<unsigned long long, std::shared_ptr<Bin>> __bins;
         Core::ConcurrentQueue<boost::filesystem::path> __job_queue;
-        PatternMatcher::PatternMatchingMachine __pattern_matching_machine;
-        std::vector<Core::FileSpooler> __file_spoolers;
-        std::vector<Sorter> __sorters;
+        PatternMatcher::PatternMatchingMachine<std::string, Pattern, Sorter> __pattern_matching_machine;
+        std::vector<std::shared_ptr<Core::FileSpooler>> __file_spoolers;
+        std::vector<std::shared_ptr<Sorter>> __sorters;
     };  
     
 } /* namespace Sorter */
