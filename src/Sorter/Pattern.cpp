@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 
+#include "Sorter/Pattern.h"
+
 /* 
  * File:   Pattern.cpp
  * Author: user
@@ -12,7 +14,6 @@
  */
 
 #include "Sorter/BooleanOperator.h"
-#include "Sorter/Pattern.h"
 
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>

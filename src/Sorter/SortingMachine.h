@@ -32,8 +32,8 @@ namespace Sorter {
         SortingMachine(const Sorter&) = delete;
         SortingMachine& operator=(const Sorter&) = delete;
     public:
-        SortingMachine(const char* pattern_file, const char* bin_file, 
-                std::vector<char*> job_paths, unsigned int sorter_count);
+        SortingMachine(const std::string& pattern_file, const std::string& bin_file, 
+                const std::vector<std::string>& job_paths, unsigned int sorter_count);
         virtual ~SortingMachine();
         
         void start();

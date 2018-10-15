@@ -17,9 +17,9 @@
 #include "Core/IProcessor.h"
 #include "Core/ConcurrentQueue.h"
 
+#include <boost/filesystem/path.hpp>
 #include <memory>
 #include <string>
-#include <boost/filesystem/path.hpp>
 
 namespace Core {
 

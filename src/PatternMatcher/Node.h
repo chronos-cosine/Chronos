@@ -33,6 +33,8 @@ namespace PatternMatcher
         virtual ~Node();
 
         //member functions
+        virtual std::shared_ptr<Node<PATTERN>> g(const char& a);
+        
         std::shared_ptr<Node<PATTERN>> get_failure(); 
         void set_failure(const std::shared_ptr<Node<PATTERN>>& failure); 
         char get_value(); 
@@ -41,7 +43,6 @@ namespace PatternMatcher
         std::set<std::shared_ptr<PATTERN>>& get_output(); 
         std::map<char, std::shared_ptr<Node<PATTERN>>>& get_states();
         void add_state(const std::shared_ptr<Node<PATTERN>>& state); 
-        virtual std::shared_ptr<Node<PATTERN>> g(const char& a);
         void clear();
         typename std::map<char, std::shared_ptr<Node<PATTERN>>>::iterator begin();
         typename std::map<char, std::shared_ptr<Node<PATTERN>>>::const_iterator begin() const;
@@ -49,8 +50,8 @@ namespace PatternMatcher
         typename std::map<char, std::shared_ptr<Node<PATTERN>>>::const_iterator end() const;
 
         //operators
-        virtual bool operator<(const Node<PATTERN>& rhs) const;
-        virtual bool operator>(const Node<PATTERN>& rhs) const;
+        bool operator<(const Node<PATTERN>& rhs) const;
+        bool operator>(const Node<PATTERN>& rhs) const;
     private:
         char __value;
         std::shared_ptr<Node<PATTERN>> __failure;

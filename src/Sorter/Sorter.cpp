@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 
+#include "Sorter/Sorter.h"
+
 /* 
  * File:   Sorter.cpp
  * Author: user
@@ -12,7 +14,6 @@
  */
 
 #include "Core/ConcurrentQueue.h"
-#include "Sorter.h"
 #include "Sorter/JobFileReader.h"
 #include "Sorter/Pattern.h"
 

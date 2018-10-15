@@ -23,26 +23,23 @@ namespace Core {
         IProcessor(const IProcessor&) = delete;
         IProcessor& operator=(const IProcessor&) = delete;
     public:
-        IProcessor(const IProcessor&& move);
         IProcessor(const int& sleep_time);
         virtual ~IProcessor();
         
-        virtual void start();
-        virtual void stop();
+        void start();
+        void stop();
         
-        virtual bool get_is_running() const; 
-        virtual bool get_is_executing() const; 
-        
-        virtual IProcessor& operator=(const IProcessor&& move);
+        bool get_is_running() const; 
+        bool get_is_executing() const;
     private:
         bool set_is_running(const bool& value);
         bool set_is_executing(const bool& value);
     protected:
         virtual bool process() = 0;
     private:
+        std::mutex __mutex;
         bool __is_running;
         bool __is_executing;
-        std::mutex __mutex;
         int __sleep_time;
     };
 

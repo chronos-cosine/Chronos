@@ -14,9 +14,9 @@
 #ifndef CORE_CONCURRENTQUEUE_H
 #define CORE_CONCURRENTQUEUE_H
 
+#include <condition_variable>
 #include <mutex>
 #include <queue>
-#include <condition_variable>
 
 namespace Core {
 

@@ -4,14 +4,14 @@
  * and open the template in the editor.
  */
 
+#include "Core/FileSpooler.h"
+
 /* 
  * File:   FileSpooler.cpp
  * Author: user
  * 
  * Created on 12 October 2018, 10:32 AM
  */
-
-#include "Core/FileSpooler.h"
 
 #include <boost/filesystem.hpp>
 #include <sstream>

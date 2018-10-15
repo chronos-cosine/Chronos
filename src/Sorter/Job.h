@@ -32,7 +32,7 @@ namespace Sorter {
     public:
         Job(const Job& other);
         Job(Job&& other);
-        Job(const unsigned long long& id, const char* document, const char* filename);
+        Job(const unsigned long long& id, const std::string& document, const std::string& filename);
         virtual ~Job();
         
         const unsigned long long& get_id() const;

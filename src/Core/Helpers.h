@@ -14,6 +14,11 @@
 #ifndef CORE_HELPERS_H
 #define CORE_HELPERS_H
 
+#include <algorithm>
+#include <iostream>
+#include <map>
+#include <set>
+
 namespace Core {
     namespace Helpers {
         template <typename KEY, typename VALUE>
@@ -24,6 +29,34 @@ namespace Core {
             }
 
             return values;
+        }
+        
+        template <typename KEY, typename VALUE>
+        static std::set<VALUE> get_key_set(const std::map<KEY, VALUE>& map) {
+            std::set<KEY> values;
+            for (auto& pair: map) {
+                values.insert(pair.first);
+            }
+
+            return values;
+        }
+        
+        template <typename KEY, typename VALUE>
+        static std::ostream& print_map(std::ostream& lhs, const std::map<KEY, VALUE>& rhs) {
+            lhs << std::endl << "[" << std::endl;
+            bool first = true;
+            for (auto& pair: rhs) {
+                if (first) { 
+                    first = false;
+                }
+                else {
+                    lhs << ",\n";
+                }
+                lhs << "\t{\"Key\": \"" << pair.first << "\", \"Value\": \"" << pair.second << "\"}";
+            }
+            lhs << std::endl << "]" << std::endl;
+        
+            return lhs;
         }
         
     } /* namespace Helpers */

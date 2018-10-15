@@ -27,7 +27,7 @@ namespace Sorter {
         JobFileReader();
         virtual ~JobFileReader();
         
-        std::unique_ptr<Job> read(const char* filename) const;
+        std::unique_ptr<Job> read(const std::string& filename) const;
     };
 
 } /* namespace Sorter */

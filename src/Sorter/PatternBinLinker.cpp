@@ -4,14 +4,14 @@
  * and open the template in the editor.
  */
 
+#include "Sorter/PatternBinLinker.h"
+
 /* 
  * File:   PatternBinLinker.cpp
  * Author: user
  * 
  * Created on 11 October 2018, 12:08 PM
  */
-
-#include "Sorter/PatternBinLinker.h"
 
 #include <map>
 #include <mutex>

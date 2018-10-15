@@ -4,15 +4,14 @@
  * and open the template in the editor.
  */
 
+#include "Sorter/JobFileReader.h"
+
 /* 
  * File:   JobFileReader.cpp
  * Author: user
  * 
  * Created on 10 October 2018, 9:15 AM
  */
-
-
-#include "Sorter/JobFileReader.h"
 
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
@@ -24,9 +23,9 @@ namespace Sorter {
     JobFileReader::~JobFileReader() { }
     
     std::unique_ptr<Job>
-    JobFileReader::read(const char* filename) const
+    JobFileReader::read(const std::string& filename) const
     { 
-        std::ifstream file(filename);
+        std::ifstream file(filename.c_str());
         if (file.is_open()) {
             std::stringstream buffer;
             buffer << file.rdbuf();
@@ -35,7 +34,7 @@ namespace Sorter {
             boost::property_tree::read_json(buffer, ptree);
             
             return std::unique_ptr<Job>(new Job(ptree.get<unsigned long long>("Id"),
-                             ptree.get<std::string>("Document").c_str(),
+                             ptree.get<std::string>("Document"),
                              filename));
         } else {
             throw std::runtime_error("Could not open job file.");

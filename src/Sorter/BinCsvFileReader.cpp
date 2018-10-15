@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 
+#include "Sorter/BinCsvFileReader.h"
+
 /* 
  * File:   BinFileReader.cpp
  * Author: user
@@ -11,11 +13,11 @@
  * Created on 04 October 2018, 2:48 PM
  */
 
-#include "Sorter/BinCsvFileReader.h"
 #include "Sorter/Bin.h" 
 
 #include <map>
 #include <vector>
+#include <string>
 
 namespace Sorter {
     
@@ -24,7 +26,7 @@ namespace Sorter {
     BinCsvFileReader::~BinCsvFileReader() { }
     
     std::map<unsigned long long, std::shared_ptr<Bin>>
-    BinCsvFileReader::read(const char* filename) const {
+    BinCsvFileReader::read(const std::string& filename) const {
         std::map<unsigned long long, std::shared_ptr<Bin>> bins;
         std::vector<std::vector<std::string>> data(__csv_file_reader.read(filename));
         

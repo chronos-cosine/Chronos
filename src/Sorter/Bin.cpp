@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 
+#include "Sorter/Bin.h"
+
 /* 
  * File:   Bin.cpp
  * Author: user
@@ -11,7 +13,6 @@
  * Created on 04 October 2018, 12:19 PM
  */
 
-#include "Sorter/Bin.h"
 
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>

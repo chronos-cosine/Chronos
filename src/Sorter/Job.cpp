@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 
+#include "Sorter/Job.h"
+
 /* 
  * File:   Job.cpp
  * Author: user
@@ -11,15 +13,13 @@
  * Created on 10 October 2018, 8:52 AM
  */
 
-#include "Sorter/Job.h"
-
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include <memory>
 
 namespace Sorter {
 
-    Job::Job(const unsigned long long& id, const char* document, const char* filename) 
+    Job::Job(const unsigned long long& id, const std::string& document, const std::string& filename) 
        : __id(id), __document(document), __filename(filename) { }
 
     Job::~Job() { }

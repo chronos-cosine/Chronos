@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 
+#include "Sorter/JobFileWriter.h"
+
 /* 
  * File:   JobFileWriter.cpp
  * Author: user
@@ -11,7 +13,6 @@
  * Created on 11 October 2018, 2:00 PM
  */
 
-#include "JobFileWriter.h"
 
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>

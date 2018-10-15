@@ -16,8 +16,8 @@
 
 #include <fstream>
 #include <iostream>
-#include <vector>
 #include <string>
+#include <vector>
 
 namespace Core {
 
@@ -28,7 +28,7 @@ namespace Core {
     public:
         CsvFileReader();
         virtual ~CsvFileReader();
-        virtual std::vector<std::vector<std::string>> read(const char* filename) const;
+        virtual std::vector<std::vector<std::string>> read(const std::string& filename) const;
     private:
         char get_separator(const std::string& line)  const;
         std::vector<std::string> get_row(const std::string& line, 
