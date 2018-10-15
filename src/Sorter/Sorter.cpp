@@ -24,7 +24,7 @@ namespace Sorter {
     Sorter::Sorter(PatternMatcher::PatternMatchingMachine<std::string, Pattern, Sorter>& pattern_matching_machine,
                Core::ConcurrentQueue<boost::filesystem::path>& concurrent_queue) 
         : Core::IProcessor(30), __pattern_matching_machine(pattern_matching_machine),
-               __concurrent_queue(concurrent_queue) { 
+          __concurrent_queue(concurrent_queue), __current(std::shared_ptr<Sorter>(this)) { 
         
     }
 
@@ -36,7 +36,8 @@ namespace Sorter {
         std::unique_ptr<Job> job = __job_file_reader.read(job_path.string().c_str());
         if (nullptr == job) {
             return false;
-        } else {
+        } else { 
+            __pattern_matching_machine.match(job->get_document(), __current);
             return true;
         }
     }

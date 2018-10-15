@@ -31,17 +31,19 @@ namespace Sorter {
           __pattern_matching_machine(Core::Helpers::get_value_set<unsigned long long, std::shared_ptr<Pattern>>(__patterns)) {
 
         for (auto& job_path: job_paths) {
-            std::shared_ptr<Core::FileSpooler> file_spooler(new Core::FileSpooler(job_path.c_str(), ".sjob", __job_queue));
-            __file_spoolers.push_back(file_spooler);
+            __file_spoolers.push_back(std::shared_ptr<Core::FileSpooler>(new Core::FileSpooler(job_path.c_str(), ".sjob", __job_queue)));
         }
         
         for (int i = 0; i < sorter_count; ++i) {
-            std::shared_ptr<Sorter> sorter(new Sorter(__pattern_matching_machine, __job_queue));
-            __sorters.push_back(sorter);
+            __sorters.push_back(std::shared_ptr<Sorter>(new Sorter(__pattern_matching_machine, __job_queue)));
         }
     }
     
-    SortingMachine::~SortingMachine() { }
+    SortingMachine::~SortingMachine() { 
+        stop();
+        __file_spoolers.clear();
+        __sorters.clear();
+    }
     
     void 
     SortingMachine::start() {

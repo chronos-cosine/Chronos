@@ -35,6 +35,7 @@ namespace Sorter {
         PatternMatcher::PatternMatchingMachine<std::string, Pattern, Sorter>& __pattern_matching_machine;
         Core::ConcurrentQueue<boost::filesystem::path>& __concurrent_queue;
         JobFileReader __job_file_reader;
+        std::shared_ptr<Sorter> __current;
     };
     
 } /* namespace Sorter */

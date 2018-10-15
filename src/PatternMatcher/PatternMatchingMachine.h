@@ -32,11 +32,11 @@ namespace PatternMatcher
         typedef boost::signals2::signal<
             void(const std::shared_ptr<SENDER>& /* sender */, 
                  const unsigned long long& /* total_matches */,
-                 const std::shared_ptr<INPUT>& /* input */)> completed_signal;
+                 const INPUT& /* input */)> completed_signal;
         typedef boost::signals2::signal<
             void(const std::shared_ptr<SENDER>& /* sender */, 
                  const unsigned long long& /* position */,
-                 const std::shared_ptr<INPUT>& /* input */,
+                 const INPUT& /* input */,
                  const std::set<std::shared_ptr<PATTERN>>& /* patterns */)> match_found_signal;
     public:
         PatternMatchingMachine(const PatternMatchingMachine&) = delete;
@@ -47,7 +47,7 @@ namespace PatternMatcher
         PatternMatchingMachine(const std::set<std::shared_ptr<PATTERN>>& patterns); 
         virtual ~PatternMatchingMachine(); 
  
-        void match(const std::shared_ptr<INPUT>& input, 
+        void match(const INPUT& input, 
                    const std::shared_ptr<SENDER>& sender) const; 
 
         completed_signal& completed();
@@ -132,13 +132,13 @@ namespace PatternMatcher
 
     template <typename INPUT, typename PATTERN, typename SENDER>
     void 
-    PatternMatchingMachine<INPUT, PATTERN, SENDER>::match(const std::shared_ptr<INPUT>& input, 
+    PatternMatchingMachine<INPUT, PATTERN, SENDER>::match(const INPUT& input, 
                                   const std::shared_ptr<SENDER>& sender) const { 
         unsigned long long patterns_found = 0;
         unsigned long long position = 0;
         std::shared_ptr<Node<PATTERN>> state = __root;
 
-        for (const char a: *input) { 
+        for (const char a: input) { 
             ++position;
             while (nullptr == state->g(a)) {
                 state = state->get_failure();
