@@ -27,9 +27,11 @@ namespace Sorter {
     
     Sorter::Sorter(PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter>& pattern_matching_machine,
                    Core::ConcurrentQueue<boost::filesystem::path>& concurrent_queue, 
-                   const std::string& output_directory) 
+                   const std::string& output_directory,
+                   const std::string& output_directory, std::map<std::shared_ptr<Bin>, std::set<std::shared_ptr<Pattern>>>& bin_patterns) 
             : Core::IProcessor(30), __pattern_matching_machine(pattern_matching_machine),
-              __concurrent_queue(concurrent_queue), __output_directory(output_directory) {
+              __concurrent_queue(concurrent_queue), __output_directory(output_directory),
+              __bin_patterns(bin_patterns) {
         __pattern_matching_machine.completed().connect(__completed);
         __pattern_matching_machine.match_found().connect(__match_found);
     }
@@ -42,7 +44,7 @@ namespace Sorter {
         KeywordBooleanMatcher keyword_boolean_matcher;
         
         std::cout << "1 Sorter::process_job" << std::endl;
-        keyword_boolean_matcher.match_boolean(__match_patterns[job], __match_bins[job]);
+        keyword_boolean_matcher.match_boolean(__match_patterns[job], __match_bins[job], __bin_patterns);
         std::cout << "2 Sorter::process_job" << std::endl;
         bin_parent_matcher.match_parents(__match_bins[job]);
         std::cout << "3 Sorter::process_job" << std::endl;

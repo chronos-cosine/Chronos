@@ -47,15 +47,6 @@ namespace Sorter {
                 }
             }
         };
-    public:
-        Sorter(PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter>& pattern_matching_machine,
-               Core::ConcurrentQueue<boost::filesystem::path>& concurrent_queue,
-               const std::string& output_directory);
-        virtual ~Sorter();
-    protected:
-        virtual bool process();
-    private:
-        void process_job(const Job& job);
     private:
         Sorter::completed __completed;
         Sorter::match_found __match_found;
@@ -66,6 +57,16 @@ namespace Sorter {
         JobFileReader __job_file_reader;
         std::map<Job, std::map<std::shared_ptr<Pattern>, std::set<unsigned long long>>> __match_patterns;
         std::map<Job, std::set<std::shared_ptr<Bin>>> __match_bins;
+        std::map<std::shared_ptr<Bin>, std::set<std::shared_ptr<Pattern>>>& __bin_patterns;
+    public:
+        Sorter(PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter>& pattern_matching_machine,
+               Core::ConcurrentQueue<boost::filesystem::path>& concurrent_queue,
+               const std::string& output_directory, std::map<std::shared_ptr<Bin>, std::set<std::shared_ptr<Pattern>>>& bin_patterns);
+        virtual ~Sorter();
+    protected:
+        virtual bool process();
+    private:
+        void process_job(const Job& job);
     };
     
 } /* namespace Sorter */

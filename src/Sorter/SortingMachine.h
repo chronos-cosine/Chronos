@@ -20,6 +20,7 @@
 #include "Sorter/Sorter.h"
 #include "Sorter/Pattern.h"
 #include "Sorter/Bin.h"
+#include "Sorter/PatternBinLinker.h"
 
 #include <memory>
 #include <vector>
@@ -40,6 +41,7 @@ namespace Sorter {
         void start();
         void stop();
     private:
+        PatternBinLinker __pattern_bin_linker;
         std::map<unsigned long long, std::shared_ptr<Pattern>> __patterns;
         std::map<unsigned long long, std::shared_ptr<Bin>> __bins;
         std::map<std::shared_ptr<Bin>, std::set<std::shared_ptr<Pattern>>> __bin_patterns;

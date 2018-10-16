@@ -30,7 +30,8 @@ namespace Sorter {
         : __patterns(PatternCsvFileReader().read(pattern_file)), 
           __bins(BinCsvFileReader().read(bin_file)),
           __pattern_matching_machine(Core::Helpers::get_value_set<unsigned long long, std::shared_ptr<Pattern>>(__patterns)) {
-
+        
+        __pattern_bin_linker.link(__patterns, __bins, __bin_patterns);
         for (auto& job_path: job_paths) {
             __file_spoolers.push_back(std::shared_ptr<Core::FileSpooler>(new Core::FileSpooler(job_path.c_str(), ".sjob", __job_queue)));
         }
