@@ -13,6 +13,10 @@
  * Created on 11 October 2018, 12:08 PM
  */
 
+#include "Sorter/Bin.h"
+#include "Sorter/Pattern.h"
+
+#include <set>
 #include <map>
 #include <mutex>
 
@@ -30,6 +34,7 @@ namespace Sorter {
             auto bin = bins.find(pair.second->get_bin_id());
             if (bin != bins.end()) {
                 pair.second->set_bin(bin->second);
+                bin->second->get_patterns().insert(pair.second);
             }
         }
     }

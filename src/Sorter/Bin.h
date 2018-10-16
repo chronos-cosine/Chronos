@@ -19,8 +19,11 @@
 #include <memory>
 #include <mutex>
 #include <string>
+#include <set>
 
 namespace Sorter {
+    
+    class Pattern;
 
     class Bin {
     public:
@@ -40,6 +43,7 @@ namespace Sorter {
         //member functions
         const std::shared_ptr<Bin>& get_parent() const;
         void set_parent(const std::shared_ptr<Bin>& parent);
+        std::set<std::shared_ptr<Pattern>>& get_patterns();
         const unsigned long long& get_id() const;
         const std::string& get_name() const;
         const unsigned long long& get_parent_id() const;
@@ -57,12 +61,15 @@ namespace Sorter {
         friend std::ostream& operator<<(std::ostream& lhs, const Bin& rhs);
         friend bool operator<(const std::shared_ptr<Bin>& lhs, const std::shared_ptr<Bin>& rhs);
         friend bool operator>(const std::shared_ptr<Bin>& lhs, const std::shared_ptr<Bin>& rhs);
+        friend bool operator==(const std::shared_ptr<Bin>& lhs, const std::shared_ptr<Bin>& rhs);
+        friend bool operator!=(const std::shared_ptr<Bin>& lhs, const std::shared_ptr<Bin>& rhs);
     private:
         unsigned long long __parent_id;
         unsigned long long __id;
         std::string __name;
         std::shared_ptr<Bin> __parent;
         std::mutex __mutex;
+        std::set<std::shared_ptr<Pattern>> __patterns;
         
     }; /* class Bin */
 

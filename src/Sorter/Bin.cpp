@@ -13,6 +13,7 @@
  * Created on 04 October 2018, 12:19 PM
  */
 
+#include "Sorter/Pattern.h"
 
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
@@ -45,6 +46,11 @@ namespace Sorter {
     Bin::set_parent(const std::shared_ptr<Bin>& parent) {
         std::lock_guard<std::mutex> lock(__mutex);
         __parent = parent;
+    }
+    
+    std::set<std::shared_ptr<Pattern>>& 
+    Bin::get_patterns() {
+        return __patterns;
     }
     
     const unsigned long long& 
@@ -145,6 +151,16 @@ namespace Sorter {
         } 
         
         return *lhs > *rhs;
+    }
+    
+    bool 
+    operator==(const std::shared_ptr<Bin>& lhs, const std::shared_ptr<Bin>& rhs) {
+        return *lhs == *rhs;
+    }
+    
+    bool 
+    operator!=(const std::shared_ptr<Bin>& lhs, const std::shared_ptr<Bin>& rhs) {
+        return *lhs != *rhs;
     }
     
     boost::property_tree::ptree& 

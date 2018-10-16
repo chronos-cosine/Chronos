@@ -24,10 +24,10 @@ namespace Sorter {
     public:
         BinParentMatcher();
         virtual ~BinParentMatcher();
-        void parents_exist(std::set<std::shared_ptr<Bin>>& bins);
+        void match_parents(std::set<std::shared_ptr<Bin>>& bins);
     };
 
 } /* namespace Sorter */
 
-#endif /* BINPARENTMATCHER_H */
+#endif /* SORTER_BINPARENTMATCHER_H */
 

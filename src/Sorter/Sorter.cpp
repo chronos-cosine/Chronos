@@ -18,6 +18,8 @@
 #include "Sorter/JobFileReader.h"
 #include "Sorter/Pattern.h"
 #include "Sorter/BinParentMatcher.h"
+#include "Sorter/KeywordBooleanMatcher.h"
+#include "KeywordBooleanMatcher.h"
 
 #include <boost/filesystem/path.hpp>
 
@@ -36,8 +38,10 @@ namespace Sorter {
     void 
     Sorter::process_job(const Job& job) {
         BinParentMatcher bin_parent_matcher;
+        KeywordBooleanMatcher keyword_boolean_matcher;
         
-        bin_parent_matcher.parents_exist(__match_bins[job]);
+        keyword_boolean_matcher.match_boolean(__match_patterns[job], __match_bins[job]);
+        bin_parent_matcher.match_parents(__match_bins[job]);
     }
     
     bool 

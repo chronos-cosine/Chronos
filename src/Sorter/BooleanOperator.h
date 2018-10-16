@@ -16,19 +16,19 @@
 
 namespace Sorter { 
     enum BooleanOperator {
-        OR = 1,
-        NOT = 2,
-        AND = 4
+        NOT = 1,
+        AND = 2,
+        OR = 4
     };
     
     static BooleanOperator to_boolean_operator(int value) {
         switch (value) {
             case 1:
-                return BooleanOperator::OR;
-            case 2:
                 return BooleanOperator::NOT;
-            case 4:
+            case 2:
                 return BooleanOperator::AND;
+            case 4:
+                return BooleanOperator::OR;
             default:
                 return BooleanOperator::OR;
         }

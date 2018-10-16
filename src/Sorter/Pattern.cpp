@@ -14,11 +14,12 @@
  */
 
 #include "Sorter/BooleanOperator.h"
-
+#include "Sorter/Bin.h"
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include <sstream>
 #include <string>
+#include <mutex>
 
 namespace Sorter {
 
@@ -129,12 +130,53 @@ namespace Sorter {
 
     bool 
     Pattern::operator<(const Pattern& rhs) const {
-        return __id < rhs.__id;
+        return __bin->get_id() < rhs.get_id()
+               && __boolean_operator < rhs.get_boolean_operator()
+               && __id < rhs.__id;
     }
 
     bool 
     Pattern::operator>(const Pattern& rhs) const {
-        return __id > rhs.__id;
+        return __bin->get_id() > rhs.get_id()
+               && __boolean_operator > rhs.get_boolean_operator()
+               && __id > rhs.__id;
+    }
+    
+    bool 
+    operator<(const std::shared_ptr<Pattern>& lhs, const std::shared_ptr<Pattern>& rhs) {
+        if (nullptr == lhs && nullptr == rhs) {
+            return false;
+        }
+        if (nullptr == lhs) { 
+            return true;
+        }
+        if (nullptr == rhs) {
+            return false;
+        } 
+        
+        return *lhs < *rhs;
+    }
+    
+    bool operator>(const std::shared_ptr<Pattern>& lhs, const std::shared_ptr<Pattern>& rhs) {
+        if (nullptr == lhs && nullptr == rhs) {
+            return false;
+        }
+        if (nullptr == lhs) { 
+            return false;
+        }
+        if (nullptr == rhs) {
+            return true;
+        } 
+        
+        return *lhs > *rhs;
+    }
+    
+    bool operator==(const std::shared_ptr<Pattern>& lhs, const std::shared_ptr<Pattern>& rhs) {
+        return *lhs == *rhs;
+    }
+    
+    bool operator!=(const std::shared_ptr<Pattern>& lhs, const std::shared_ptr<Pattern>& rhs) {
+        return *lhs != *rhs;
     }
     
     //friend operators

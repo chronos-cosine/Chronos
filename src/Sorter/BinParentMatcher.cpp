@@ -24,7 +24,7 @@ namespace Sorter {
     BinParentMatcher::~BinParentMatcher() { }
     
     void 
-    BinParentMatcher::parents_exist(std::set<std::shared_ptr<Bin>>& bins) {
+    BinParentMatcher::match_parents(std::set<std::shared_ptr<Bin>>& bins) {
         std::set<std::shared_ptr<Bin>> bins_temp(bins);
         for (auto& bin: bins_temp) {
             std::shared_ptr<Bin> b = bin;

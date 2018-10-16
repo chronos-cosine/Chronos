@@ -14,7 +14,6 @@
 #ifndef SORTER_PATTERN_H
 #define SORTER_PATTERN_H
 
-#include "Sorter/Bin.h"
 #include "Sorter/BooleanOperator.h"
 
 #include <boost/property_tree/ptree.hpp>
@@ -22,9 +21,12 @@
 #include <functional>
 #include <iostream>
 #include <memory>
+#include <mutex>
 #include <set>
 
 namespace Sorter {
+    
+    class Bin;
 
     class Pattern {
         struct hash {
@@ -64,6 +66,10 @@ namespace Sorter {
         //friend operators
         friend boost::property_tree::ptree& operator<<(boost::property_tree::ptree& lhs, const Pattern& rhs);
         friend std::ostream& operator<<(std::ostream& lhs, const Pattern& rhs);
+        friend bool operator<(const std::shared_ptr<Pattern>& lhs, const std::shared_ptr<Pattern>& rhs);
+        friend bool operator>(const std::shared_ptr<Pattern>& lhs, const std::shared_ptr<Pattern>& rhs);
+        friend bool operator==(const std::shared_ptr<Pattern>& lhs, const std::shared_ptr<Pattern>& rhs);
+        friend bool operator!=(const std::shared_ptr<Pattern>& lhs, const std::shared_ptr<Pattern>& rhs);
     private:
         std::string __value;
         std::mutex __mutex;
