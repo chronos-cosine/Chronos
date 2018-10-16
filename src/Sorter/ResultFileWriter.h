@@ -33,10 +33,11 @@ namespace Sorter {
         ResultFileWriter();
         virtual ~ResultFileWriter();
         
-        void write(const Job& job, 
-                   const std::map<std::shared_ptr<Pattern>, std::set<unsigned long long>>& matches);
-    private:
-        std::mutex __mutex;
+        boost::property_tree::ptree read_job_file(const Job& job);
+        void write(const Job& job,
+                   const std::map<std::shared_ptr<Pattern>, std::set<unsigned long long>>& patterns,
+                   const std::set<std::shared_ptr<Bin>>& bins,
+                   const std::string& output_directory);
 
     }; /* class ResultFileWriter */
 

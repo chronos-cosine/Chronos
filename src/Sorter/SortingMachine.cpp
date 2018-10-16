@@ -25,7 +25,8 @@
 namespace Sorter {
     
     SortingMachine::SortingMachine(const std::string& pattern_file, const std::string& bin_file, 
-            const std::vector<std::string>& job_paths, unsigned int sorter_count) 
+            const std::vector<std::string>& job_paths, unsigned int sorter_count,
+            const std::string& output_directory) 
         : __patterns(PatternCsvFileReader().read(pattern_file)), 
           __bins(BinCsvFileReader().read(bin_file)),
           __pattern_matching_machine(Core::Helpers::get_value_set<unsigned long long, std::shared_ptr<Pattern>>(__patterns)) {
@@ -35,7 +36,7 @@ namespace Sorter {
         }
         
         for (int i = 0; i < sorter_count; ++i) {
-            __sorters.push_back(std::shared_ptr<Sorter>(new Sorter(__pattern_matching_machine, __job_queue)));
+            __sorters.push_back(std::shared_ptr<Sorter>(new Sorter(__pattern_matching_machine, __job_queue, output_directory)));
         }
     }
     

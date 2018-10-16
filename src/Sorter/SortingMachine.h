@@ -33,7 +33,8 @@ namespace Sorter {
         SortingMachine& operator=(const Sorter&) = delete;
     public:
         SortingMachine(const std::string& pattern_file, const std::string& bin_file, 
-                const std::vector<std::string>& job_paths, unsigned int sorter_count);
+                const std::vector<std::string>& job_paths, unsigned int sorter_count,
+                const std::string& output_directory);
         virtual ~SortingMachine();
         
         void start();
@@ -41,6 +42,7 @@ namespace Sorter {
     private:
         std::map<unsigned long long, std::shared_ptr<Pattern>> __patterns;
         std::map<unsigned long long, std::shared_ptr<Bin>> __bins;
+        std::map<std::shared_ptr<Bin>, std::set<std::shared_ptr<Pattern>>> __bin_patterns;
         Core::ConcurrentQueue<boost::filesystem::path> __job_queue;
         PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter> __pattern_matching_machine;
         std::vector<std::shared_ptr<Core::FileSpooler>> __file_spoolers;

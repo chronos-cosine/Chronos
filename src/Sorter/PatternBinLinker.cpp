@@ -28,13 +28,14 @@ namespace Sorter {
     
     void 
     PatternBinLinker::link(const std::map<unsigned long long, std::shared_ptr<Pattern>>& patterns, 
-                           const std::map<unsigned long long, std::shared_ptr<Bin>>& bins) {
+                           const std::map<unsigned long long, std::shared_ptr<Bin>>& bins,
+                           std::map<std::shared_ptr<Bin>, std::set<std::shared_ptr<Pattern>>>& bin_keywords) {
         std::lock_guard<std::mutex> lock(__mutex);
         for (auto& pair: patterns) {
             auto bin = bins.find(pair.second->get_bin_id());
             if (bin != bins.end()) {
                 pair.second->set_bin(bin->second);
-                bin->second->get_patterns().insert(pair.second);
+                bin_keywords[bin->second].insert(pair.second);
             }
         }
     }

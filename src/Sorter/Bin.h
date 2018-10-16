@@ -23,34 +23,27 @@
 
 namespace Sorter {
     
-    class Pattern;
-
     class Bin {
-    public:
-        struct Hasher {
-            std::size_t operator()(const Bin& bin) const noexcept {
-                return std::hash<unsigned long long>{}(bin.__id);
-            }
-        };
+    private:
+        unsigned long long __parent_id;
+        unsigned long long __id;
+        std::string __name;
+        std::shared_ptr<Bin> __parent;
+        std::mutex __mutex;
     public:
         Bin(const unsigned long long& id, 
             const std::string& name,
             const unsigned long long& parent_id);
-        Bin(const Bin& orig);
-        Bin(Bin&& move);
         virtual ~Bin();
 
         //member functions
         const std::shared_ptr<Bin>& get_parent() const;
         void set_parent(const std::shared_ptr<Bin>& parent);
-        std::set<std::shared_ptr<Pattern>>& get_patterns();
         const unsigned long long& get_id() const;
         const std::string& get_name() const;
         const unsigned long long& get_parent_id() const;
          
         //operators
-        virtual Bin& operator=(Bin&& rhs);
-        virtual Bin& operator=(const Bin& rhs);
         virtual bool operator==(const Bin& rhs) const;
         virtual bool operator!=(const Bin& rhs) const;
         virtual bool operator<(const Bin& rhs) const;
@@ -63,13 +56,18 @@ namespace Sorter {
         friend bool operator>(const std::shared_ptr<Bin>& lhs, const std::shared_ptr<Bin>& rhs);
         friend bool operator==(const std::shared_ptr<Bin>& lhs, const std::shared_ptr<Bin>& rhs);
         friend bool operator!=(const std::shared_ptr<Bin>& lhs, const std::shared_ptr<Bin>& rhs);
-    private:
-        unsigned long long __parent_id;
-        unsigned long long __id;
-        std::string __name;
-        std::shared_ptr<Bin> __parent;
-        std::mutex __mutex;
-        std::set<std::shared_ptr<Pattern>> __patterns;
+    public:
+        struct Hasher {
+            std::size_t operator()(const Bin& bin) const noexcept {
+                return std::hash<unsigned long long>{}(bin.__id);
+            }
+        };
+    public:
+        Bin() = delete;
+        Bin(Bin&) = delete;
+        Bin(Bin&&) = delete;
+        Bin& operator=(Bin&) = delete;
+        Bin& operator=(Bin&&) = delete;
         
     }; /* class Bin */
 

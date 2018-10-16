@@ -15,6 +15,7 @@
 #define SORTER_PATTERN_H
 
 #include "Sorter/BooleanOperator.h"
+#include "Sorter/Bin.h"
 
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
@@ -26,22 +27,20 @@
 
 namespace Sorter {
     
-    class Bin;
-
     class Pattern {
-        struct hash {
-            std::size_t operator()(const Pattern& pattern) const noexcept {
-                return std::hash<unsigned long long>{}(pattern.__id);
-            }
-        };  /* struct Pattern::hash */
+    private:
+        std::string __value;
+        std::mutex __mutex;
+        BooleanOperator __boolean_operator;
+        unsigned long long __id;
+        unsigned long long __bin_id;
+        std::shared_ptr<Bin> __bin;
     public:
         //constructors
         Pattern(const unsigned long long& id, const char* value, 
                 const unsigned long long& bin_id, const BooleanOperator& boolean_operator);
         Pattern(const unsigned long long& id, const std::string& value, 
-                const unsigned long long& bin_id, const BooleanOperator& boolean_operator);
-        Pattern(const Pattern& orig);
-        Pattern(Pattern&& orig);
+                const unsigned long long& bin_id, const BooleanOperator& boolean_operator); 
         virtual ~Pattern();
 
         //member functions
@@ -55,9 +54,7 @@ namespace Sorter {
         std::string::const_iterator begin() const;
         std::string::const_iterator end() const;
 
-        //operators
-        Pattern& operator=(const Pattern& rhs);
-        Pattern& operator=(Pattern&& rhs);
+        //operators 
         bool operator==(const Pattern& rhs) const;
         bool operator!=(const Pattern& rhs) const;
         bool operator<(const Pattern& rhs) const;
@@ -70,14 +67,18 @@ namespace Sorter {
         friend bool operator>(const std::shared_ptr<Pattern>& lhs, const std::shared_ptr<Pattern>& rhs);
         friend bool operator==(const std::shared_ptr<Pattern>& lhs, const std::shared_ptr<Pattern>& rhs);
         friend bool operator!=(const std::shared_ptr<Pattern>& lhs, const std::shared_ptr<Pattern>& rhs);
-    private:
-        std::string __value;
-        std::mutex __mutex;
-        BooleanOperator __boolean_operator;
-        unsigned long long __id;
-        unsigned long long __bin_id;
-        std::shared_ptr<Bin> __bin;
-        
+    public:
+        Pattern() = delete;
+        Pattern(Pattern&) = delete;
+        Pattern(Pattern&&) = delete;
+        Pattern& operator=(Pattern&) = delete;
+        Pattern& operator=(Pattern&&) = delete;
+    public:
+        struct Hasher {
+            std::size_t operator()(const Pattern& pattern) const noexcept {
+                return std::hash<unsigned long long>{}(pattern.__id);
+            }
+        }; 
     }; /* class Pattern */
 
 } /* namespace Sorter */

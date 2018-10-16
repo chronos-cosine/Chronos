@@ -43,7 +43,7 @@ namespace Core {
         
         template <typename KEY, typename VALUE>
         static std::ostream& print_map(std::ostream& lhs, const std::map<KEY, VALUE>& rhs) {
-            lhs << std::endl << "[" << std::endl;
+            lhs << "\n[\n";
             bool first = true;
             for (auto& pair: rhs) {
                 if (first) { 
@@ -54,7 +54,7 @@ namespace Core {
                 }
                 lhs << "\t{\"Key\": \"" << pair.first << "\", \"Value\": \"" << pair.second << "\"}";
             }
-            lhs << std::endl << "]" << std::endl;
+            lhs << "\n]" << std::endl;
         
             return lhs;
         }

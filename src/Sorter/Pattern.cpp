@@ -38,16 +38,6 @@ namespace Sorter {
         : __value(value), 
           __id(id), __bin_id(bin_id), __bin(nullptr), __boolean_operator(boolean_operator) { }
 
-    Pattern::Pattern(const Pattern& orig)
-        : __value(orig.__value), 
-          __id(orig.__id), __bin_id(orig.__bin_id), __bin(orig.__bin), 
-          __boolean_operator(orig.__boolean_operator){ }
-    
-    Pattern::Pattern(Pattern&& orig)
-        : __value(std::move(orig.__value)), 
-          __id(std::move(orig.__id)), __bin_id(std::move(orig.__bin_id)), 
-          __bin(std::move(orig.__bin)), __boolean_operator(std::move(orig.__boolean_operator)) { }
-
     Pattern::~Pattern() { }
 
     //member functions 
@@ -76,7 +66,6 @@ namespace Sorter {
         return __bin_id;
     }
     
-    
     const BooleanOperator& 
     Pattern::get_boolean_operator() const {
         return __boolean_operator;
@@ -94,30 +83,7 @@ namespace Sorter {
     }
 
     //operators
-    Pattern& 
-    Pattern::operator=(Pattern&& rhs) {
-        std::lock_guard<std::mutex> lock(__mutex);
-        __id = std::move(rhs.__id);
-        __bin_id = std::move(rhs.__bin_id);
-        __bin = std::move(rhs.__bin);
-        __value = std::move(rhs.__value);
-        __boolean_operator = std::move(rhs.__boolean_operator);
-        
-        return *this;
-    }
-    
-    Pattern& 
-    Pattern::operator=(const Pattern& rhs) {
-        std::lock_guard<std::mutex> lock(__mutex);
-        __id = rhs.__id;
-        __bin_id = rhs.__bin_id;
-        __bin = rhs.__bin;
-        __value = rhs.__value;
-        __boolean_operator = rhs.__boolean_operator;
-        
-        return *this;
-    }
-        
+            
     bool 
     Pattern::operator==(const Pattern& rhs) const {
         return __id == rhs.__id;

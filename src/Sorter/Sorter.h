@@ -19,6 +19,7 @@
 #include "PatternMatcher/PatternMatchingMachine.h"
 #include "Sorter/JobFileReader.h"
 #include "Sorter/Pattern.h"
+#include "Sorter/ResultFileWriter.h"
 
 #include <boost/filesystem/path.hpp>
 #include <memory>
@@ -48,7 +49,8 @@ namespace Sorter {
         };
     public:
         Sorter(PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter>& pattern_matching_machine,
-               Core::ConcurrentQueue<boost::filesystem::path>& concurrent_queue);
+               Core::ConcurrentQueue<boost::filesystem::path>& concurrent_queue,
+               const std::string& output_directory);
         virtual ~Sorter();
     protected:
         virtual bool process();
@@ -57,7 +59,8 @@ namespace Sorter {
     private:
         Sorter::completed __completed;
         Sorter::match_found __match_found;
-        
+        std::string __output_directory;
+        ResultFileWriter __result_file_writer;
         PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter>& __pattern_matching_machine;
         Core::ConcurrentQueue<boost::filesystem::path>& __concurrent_queue;
         JobFileReader __job_file_reader;

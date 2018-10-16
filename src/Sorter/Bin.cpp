@@ -18,6 +18,8 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include <iostream>
+#include <memory>
+#include <set>
 
 namespace Sorter {
 
@@ -26,13 +28,6 @@ namespace Sorter {
              const unsigned long long& parent_id)
        : __id(id), __name(name), __parent_id(parent_id), 
          __parent(nullptr) { }
-    
-    Bin::Bin(const Bin& orig)
-       : __id(orig.__id), __name(orig.__name), 
-         __parent_id(orig.__parent_id), __parent(orig.__parent) { }
-    
-    Bin::Bin(Bin&& move)
-    { }
     
     Bin::~Bin() { }
     
@@ -47,12 +42,7 @@ namespace Sorter {
         std::lock_guard<std::mutex> lock(__mutex);
         __parent = parent;
     }
-    
-    std::set<std::shared_ptr<Pattern>>& 
-    Bin::get_patterns() {
-        return __patterns;
-    }
-    
+        
     const unsigned long long& 
     Bin::get_id() const {
         return __id;
@@ -69,29 +59,6 @@ namespace Sorter {
     }
 
     //operators
-    Bin& 
-    Bin::operator=(Bin&& rhs) {
-        std::lock_guard<std::mutex> lock(__mutex);
-        
-        __id = std::move(rhs.__id);
-        __name = std::move(rhs.__name);
-        __parent_id = std::move(rhs.__parent_id);
-        __parent = std::move(rhs.__parent);
-        
-        return *this;
-    }
-    
-    Bin& 
-    Bin::operator=(const Bin& rhs) {
-        std::lock_guard<std::mutex> lock(__mutex);
-        __id = rhs.__id;
-        __name = rhs.__name;
-        __parent_id = rhs.__parent_id;
-        __parent = rhs.__parent;
-        
-        return *this;
-    }
-    
     bool 
     Bin::operator==(const Bin& rhs) const {
         return __id == rhs.__id;
