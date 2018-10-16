@@ -17,6 +17,7 @@
 #include "PatternMatcher/PatternMatchingMachine.h"
 #include "Sorter/JobFileReader.h"
 #include "Sorter/Pattern.h"
+#include "Sorter/BinParentMatcher.h"
 
 #include <boost/filesystem/path.hpp>
 
@@ -32,6 +33,13 @@ namespace Sorter {
 
     Sorter::~Sorter() { }
     
+    void 
+    Sorter::process_job(const Job& job) {
+        BinParentMatcher bin_parent_matcher;
+        
+        bin_parent_matcher.parents_exist(__match_bins[job]);
+    }
+    
     bool 
     Sorter::process() {
         boost::filesystem::path job_path(__concurrent_queue.pop());
@@ -39,7 +47,7 @@ namespace Sorter {
         if (nullptr == job) {
             return false;
         } else { 
-            __pattern_matching_machine.match((*job), *this);
+            __pattern_matching_machine.match(*job, *this);
             return true;
         }
     }

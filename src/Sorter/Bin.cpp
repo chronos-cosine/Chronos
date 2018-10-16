@@ -117,6 +117,36 @@ namespace Sorter {
     }
     
     //friend operators
+    bool 
+    operator<(const std::shared_ptr<Bin>& lhs, const std::shared_ptr<Bin>& rhs) {
+        if (nullptr == lhs && nullptr == rhs) {
+            return false;
+        }
+        if (nullptr == lhs) { 
+            return true;
+        }
+        if (nullptr == rhs) {
+            return false;
+        } 
+        
+        return *lhs < *rhs;
+    }
+    
+    bool 
+    operator>(const std::shared_ptr<Bin>& lhs, const std::shared_ptr<Bin>& rhs) {
+        if (nullptr == lhs && nullptr == rhs) {
+            return false;
+        }
+        if (nullptr == lhs) { 
+            return false;
+        }
+        if (nullptr == rhs) {
+            return true;
+        } 
+        
+        return *lhs > *rhs;
+    }
+    
     boost::property_tree::ptree& 
     operator<<(boost::property_tree::ptree& lhs, const Bin& rhs) {
         lhs.put("Id", rhs.__id);

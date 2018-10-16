@@ -30,16 +30,16 @@ namespace Sorter {
     private:
         struct completed {
             void operator()(Sorter& sender, 
-                 const unsigned long long& total_matches,
-                 const Job& input) {
-                
+                            const unsigned long long& total_matches,
+                            const Job& input) {
+                sender.process_job(input);
             }
         };
         struct match_found {
             void operator()(Sorter& sender, 
-                 const unsigned long long& position,
-                 const Job& input,
-                 const std::set<std::shared_ptr<Pattern>>& patterns) {
+                            const unsigned long long& position,
+                            const Job& input,
+                            const std::set<std::shared_ptr<Pattern>>& patterns) {
                 for (auto& pattern: patterns) {
                     sender.__match_patterns[input][pattern].insert(position);
                     sender.__match_bins[input].insert(pattern->get_bin());
@@ -52,6 +52,8 @@ namespace Sorter {
         virtual ~Sorter();
     protected:
         virtual bool process();
+    private:
+        void process_job(const Job& job);
     private:
         Sorter::completed __completed;
         Sorter::match_found __match_found;
