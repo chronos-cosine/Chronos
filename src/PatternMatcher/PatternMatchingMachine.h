@@ -30,11 +30,11 @@ namespace PatternMatcher
     class PatternMatchingMachine {
     public:
         typedef boost::signals2::signal<
-            void(const std::shared_ptr<SENDER>& /* sender */, 
+            void(SENDER& /* sender */, 
                  const unsigned long long& /* total_matches */,
                  const INPUT& /* input */)> completed_signal;
         typedef boost::signals2::signal<
-            void(const std::shared_ptr<SENDER>& /* sender */, 
+            void(SENDER& /* sender */, 
                  const unsigned long long& /* position */,
                  const INPUT& /* input */,
                  const std::set<std::shared_ptr<PATTERN>>& /* patterns */)> match_found_signal;
@@ -47,8 +47,8 @@ namespace PatternMatcher
         PatternMatchingMachine(const std::set<std::shared_ptr<PATTERN>>& patterns); 
         virtual ~PatternMatchingMachine(); 
  
-        void match(const INPUT& input, 
-                   const std::shared_ptr<SENDER>& sender) const; 
+        void match(INPUT& input, 
+                   SENDER& sender) const; 
 
         completed_signal& completed();
         match_found_signal& match_found();
@@ -132,11 +132,10 @@ namespace PatternMatcher
 
     template <typename INPUT, typename PATTERN, typename SENDER>
     void 
-    PatternMatchingMachine<INPUT, PATTERN, SENDER>::match(const INPUT& input, 
-                                  const std::shared_ptr<SENDER>& sender) const { 
+    PatternMatchingMachine<INPUT, PATTERN, SENDER>::match(INPUT& input, SENDER& sender) const { 
         unsigned long long patterns_found = 0;
         unsigned long long position = 0;
-        std::shared_ptr<Node<PATTERN>> state = __root;
+        Node<PATTERN>* state = __root;
 
         for (const char a: input) { 
             ++position;

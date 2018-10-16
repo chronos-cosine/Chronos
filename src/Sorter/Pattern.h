@@ -49,9 +49,8 @@ namespace Sorter {
         const BooleanOperator& get_boolean_operator() const;
         void set_bin(const std::shared_ptr<Bin>& bin); 
         const std::string& get_value() const;
-        std::string::iterator begin();
-        std::string::const_iterator begin() const; 
-        std::string::iterator end();
+        
+        std::string::const_iterator begin() const;
         std::string::const_iterator end() const;
 
         //operators

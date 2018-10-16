@@ -55,19 +55,9 @@ namespace Sorter {
         return __value;
     }
     
-    std::string::iterator 
-    Pattern::begin() {
-        return __value.begin();
-    }
-    
     std::string::const_iterator 
     Pattern::begin() const {
         return __value.begin();
-    }
-    
-    std::string::iterator 
-    Pattern::end() {
-        return __value.end();
     }
     
     std::string::const_iterator 

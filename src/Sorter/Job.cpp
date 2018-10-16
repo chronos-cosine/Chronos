@@ -47,6 +47,16 @@ namespace Sorter {
     Job::get_filename() const {
         return __filename;
     }
+
+    std::string::const_iterator 
+    Job::begin() const {
+        return __document.begin();
+    }
+    
+    std::string::const_iterator 
+    Job::end() const {
+        return __document.end();
+    }
     
     //operators
     Job& 

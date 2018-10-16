@@ -21,21 +21,46 @@
 #include "Sorter/Pattern.h"
 
 #include <boost/filesystem/path.hpp>
+#include <memory>
+#include <map>
+#include <set>
 
 namespace Sorter {
-    
     class Sorter : public Core::IProcessor {
+    private:
+        struct completed {
+            void operator()(Sorter& sender, 
+                 const unsigned long long& total_matches,
+                 const Job& input) {
+                
+            }
+        };
+        struct match_found {
+            void operator()(Sorter& sender, 
+                 const unsigned long long& position,
+                 const Job& input,
+                 const std::set<std::shared_ptr<Pattern>>& patterns) {
+                for (auto& pattern: patterns) {
+                    sender.__match_patterns[input][pattern].insert(position);
+                    sender.__match_bins[input].insert(pattern->get_bin());
+                }
+            }
+        };
     public:
-        Sorter(PatternMatcher::PatternMatchingMachine<std::string, Pattern, Sorter>& pattern_matching_machine,
+        Sorter(PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter>& pattern_matching_machine,
                Core::ConcurrentQueue<boost::filesystem::path>& concurrent_queue);
         virtual ~Sorter();
     protected:
         virtual bool process();
     private:
-        PatternMatcher::PatternMatchingMachine<std::string, Pattern, Sorter>& __pattern_matching_machine;
+        Sorter::completed __completed;
+        Sorter::match_found __match_found;
+        
+        PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter>& __pattern_matching_machine;
         Core::ConcurrentQueue<boost::filesystem::path>& __concurrent_queue;
         JobFileReader __job_file_reader;
-        std::shared_ptr<Sorter> __current;
+        std::map<Job, std::map<std::shared_ptr<Pattern>, std::set<unsigned long long>>> __match_patterns;
+        std::map<Job, std::set<std::shared_ptr<Bin>>> __match_bins;
     };
     
 } /* namespace Sorter */

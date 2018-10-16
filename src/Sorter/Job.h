@@ -39,6 +39,9 @@ namespace Sorter {
         const std::string& get_document() const;
         const std::string& get_filename() const;
         
+        std::string::const_iterator begin() const; 
+        std::string::const_iterator end() const;
+        
         //operators 
         virtual Job& operator=(const Job& rhs);
         virtual Job& operator=(Job&& rhs);
