@@ -33,12 +33,11 @@ namespace Collections {
         void push(T item);
         T pop();
         typename std::queue<T>::size_type size() const;
-        
     public:
         ConcurrentQueue(const ConcurrentQueue&) = delete;
         ConcurrentQueue& operator=(ConcurrentQueue&) = delete;
-        ConcurrentQueue(ConcurrentQueue&& move) = delete;
-        virtual ConcurrentQueue& operator=(ConcurrentQueue&& move) = delete;
+        ConcurrentQueue(const ConcurrentQueue&&) = delete;
+        ConcurrentQueue& operator=(ConcurrentQueue&&) = delete;
     };
     
     template <typename T>
@@ -72,7 +71,6 @@ namespace Collections {
         return __queue.size();
     }
     
-
 } /* namespace Collections */
 
 #endif /* COLLECTIONS_CONCURRENTQUEUE_H */

@@ -20,7 +20,8 @@ namespace Processors {
 
     IProcessor::IProcessor(const int& sleep_time, 
                            const std::shared_ptr<Notifier::INotifier>& notifier) 
-            : __sleep_time(sleep_time), __notifier(notifier) { 
+            : __sleep_time(sleep_time), __notifier(notifier), 
+              __is_running(false), __is_executing(false) { 
     }
 
     IProcessor::~IProcessor() { }
@@ -53,14 +54,27 @@ namespace Processors {
     
     void
     IProcessor::start() {
+        std::stringstream notification; 
+        
+        notification << "Starting " << this;
+        __notifier->notify(notification);
+        
         if (!set_is_running(true)) {
+            notification << this << " already running. Exiting..." << this;
+            __notifier->notify(notification);
+            
             return;
         }
         
         while (__is_running) {
+            notification << this << " looping ";
+            __notifier->notify(notification);
             __is_executing = true;
             
             if (__is_running && !process()) {
+                notification << this << " sleeping for " << __sleep_time;
+                __notifier->notify(notification);
+                
                 std::this_thread::sleep_for(std::chrono::seconds(__sleep_time));
             }
             

@@ -42,13 +42,14 @@ namespace Processors {
         boost::filesystem::path directory(__directory);
         boost::filesystem::directory_iterator end_of_directory;
         
-        notification << "Looping through directory" << __directory;
+        notification << "Looping through directory " << __directory;
         __notifier->notify(notification);
        
         for (boost::filesystem::directory_iterator iterator(directory);
              iterator!= end_of_directory;
              ++iterator) {
             
+        
             if (boost::filesystem::is_regular_file(*iterator) 
                 && boost::filesystem::extension(*iterator) == __extension) {
                 if (!result) {
@@ -59,7 +60,8 @@ namespace Processors {
                 new_path << __directory << (*iterator).path().stem().c_str() << __busy_extension; 
                 boost::filesystem::rename(*iterator, boost::filesystem::path(new_path.str()));
                 
-                std::cout << "Adding to queue " << new_path.str() << std::endl;
+                notification << "Adding to queue " << new_path.str();
+                __notifier->notify(notification);
                 __concurrent_queue.push(boost::filesystem::path(new_path.str()));
             }
         }

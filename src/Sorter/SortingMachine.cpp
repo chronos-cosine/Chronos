@@ -25,6 +25,7 @@
 #include <memory>
 #include <string>
 #include <iostream>
+#include <sstream>
 
 namespace Sorter {
     
@@ -54,10 +55,12 @@ namespace Sorter {
         
         for (int i = 0; i < sorter_count; ++i) {
             __sorters.push_back(std::shared_ptr<Sorter>(
-                new Sorter(__pattern_matching_machine, 
+                new Sorter(
+                    __pattern_matching_machine, 
                     __job_queue, 
                     output_directory,
-                    __notifier)));
+                    __notifier
+                )));
         }
     }
     
@@ -69,6 +72,10 @@ namespace Sorter {
     
     void 
     SortingMachine::reset_folder_files(const std::string& folder) {
+        std::stringstream notification;
+        notification << "Resetting " << folder;
+        __notifier->notify(notification);
+        
         boost::filesystem::path directory(folder);
         boost::filesystem::directory_iterator end_of_directory;
          
@@ -86,10 +93,13 @@ namespace Sorter {
     
     void 
     SortingMachine::start() { 
+        std::stringstream notification;
+        
         for (auto& file_spooler: __file_spoolers) {
             std::thread thread(&Processors::FileSpooler::start, file_spooler);
             thread.detach();
         }
+        
         for (auto& sorter: __sorters) {
             std::thread thread(&Sorter::start, sorter);
             thread.detach();

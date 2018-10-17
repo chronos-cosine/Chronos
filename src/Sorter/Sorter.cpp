@@ -27,9 +27,9 @@ namespace Sorter {
     Sorter::Sorter(PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter>& pattern_matching_machine,
                    Collections::ConcurrentQueue<boost::filesystem::path>& concurrent_queue, 
                    const std::string& output_directory, const std::shared_ptr<Notifier::INotifier>& notifier) 
-            : Processors::IProcessor(5, notifier), __pattern_matching_machine(pattern_matching_machine),
+            : __pattern_matching_machine(pattern_matching_machine),
               __concurrent_queue(concurrent_queue), __output_directory(output_directory),
-              __notifier(notifier) {
+              __notifier(notifier), Processors::IProcessor(5, notifier) {
         __pattern_matching_machine.completed().connect(__completed);
         __pattern_matching_machine.match_found().connect(__match_found);
     }
@@ -47,15 +47,25 @@ namespace Sorter {
     }
     
     bool 
-    Sorter::process() { 
-        boost::filesystem::path job_path(__concurrent_queue.pop()); 
+    Sorter::process() {  
+        std::stringstream notification; 
+        
+        notification << "Popping off queue";
+        __notifier->notify(notification);
+        boost::filesystem::path job_path(__concurrent_queue.pop());
+        
+        notification << "Creating job for " << job_path;
+        __notifier->notify(notification);
         std::unique_ptr<Job> job = __job_file_reader.read(job_path.string());
-        if (nullptr == job) {
-            return false;
-        } else { 
+        
+        if (nullptr != job) {
+            notification << "Performing pattern matching " << job_path;
+            __notifier->notify(notification);
+            
             __pattern_matching_machine.match(*job, *this);
             return true;
         }
+        
+        return false;
     }
-
-}
+} /* namespace Sorter */
