@@ -43,8 +43,7 @@ namespace Sorter {
     private:
         PatternBinLinker __pattern_bin_linker;
         std::map<unsigned long long, std::shared_ptr<Pattern>> __patterns;
-        std::map<unsigned long long, std::shared_ptr<Bin>> __bins;
-        std::map<std::shared_ptr<Bin>, std::set<std::shared_ptr<Pattern>>> __bin_patterns;
+        std::map<unsigned long long, std::shared_ptr<Bin>> __bins; 
         Core::ConcurrentQueue<boost::filesystem::path> __job_queue;
         PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter> __pattern_matching_machine;
         std::vector<std::shared_ptr<Core::FileSpooler>> __file_spoolers;

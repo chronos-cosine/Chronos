@@ -27,7 +27,7 @@ namespace Sorter {
              const std::string& name,
              const unsigned long long& parent_id)
        : __id(id), __name(name), __parent_id(parent_id), 
-         __parent(nullptr) { }
+         __parent(nullptr), __patterns() { }
     
     Bin::~Bin() { }
     
@@ -35,6 +35,11 @@ namespace Sorter {
     const std::shared_ptr<Bin>&
     Bin::get_parent() const {
         return __parent;
+    }
+    
+    std::set<std::shared_ptr<Pattern>>& 
+    Bin::get_patterns() {
+        return __patterns;
     }
     
     void
@@ -122,12 +127,20 @@ namespace Sorter {
     
     bool 
     operator==(const std::shared_ptr<Bin>& lhs, const std::shared_ptr<Bin>& rhs) {
+        if (nullptr == lhs && nullptr == rhs) {
+            return true;
+        }
+        if (nullptr == lhs
+            || nullptr == rhs) { 
+            return false;
+        } 
+        
         return *lhs == *rhs;
     }
     
     bool 
     operator!=(const std::shared_ptr<Bin>& lhs, const std::shared_ptr<Bin>& rhs) {
-        return *lhs != *rhs;
+        return !(lhs == rhs);
     }
     
     boost::property_tree::ptree& 

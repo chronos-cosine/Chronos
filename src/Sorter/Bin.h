@@ -23,8 +23,11 @@
 
 namespace Sorter {
     
+    class Pattern;
+    
     class Bin {
     private:
+        std::set<std::shared_ptr<Pattern>> __patterns;
         unsigned long long __parent_id;
         unsigned long long __id;
         std::string __name;
@@ -42,6 +45,7 @@ namespace Sorter {
         const unsigned long long& get_id() const;
         const std::string& get_name() const;
         const unsigned long long& get_parent_id() const;
+        std::set<std::shared_ptr<Pattern>>& get_patterns();
          
         //operators
         virtual bool operator==(const Bin& rhs) const;

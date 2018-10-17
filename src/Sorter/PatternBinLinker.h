@@ -32,8 +32,7 @@ namespace Sorter {
         virtual ~PatternBinLinker();
         
         void link(const std::map<unsigned long long, std::shared_ptr<Pattern>>& patterns, 
-                  const std::map<unsigned long long, std::shared_ptr<Bin>>& bins,
-                  std::map<std::shared_ptr<Bin>, std::set<std::shared_ptr<Pattern>>>& bin_keywords);
+                  const std::map<unsigned long long, std::shared_ptr<Bin>>& bins);
     private:
         std::mutex __mutex;
     };

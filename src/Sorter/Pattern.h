@@ -15,7 +15,6 @@
 #define SORTER_PATTERN_H
 
 #include "Sorter/BooleanOperator.h"
-#include "Sorter/Bin.h"
 
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
@@ -26,6 +25,8 @@
 #include <set>
 
 namespace Sorter {
+    
+    class Bin;
     
     class Pattern {
     private:

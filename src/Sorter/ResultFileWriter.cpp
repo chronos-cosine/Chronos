@@ -34,22 +34,18 @@ namespace Sorter {
     
     boost::property_tree::ptree
     ResultFileWriter::read_job_file(const Job& job) {
-        try { 
-            boost::property_tree::ptree ptree;
-            std::ifstream file(job.get_filename());
-            if (file.is_open()) {
-                std::stringstream buffer;
-                buffer << file.rdbuf();
+        boost::property_tree::ptree ptree;
+        std::ifstream file(job.get_filename());
+        if (file.is_open()) {
+            std::stringstream buffer;
+            buffer << file.rdbuf();
 
-                boost::property_tree::read_json(buffer, ptree);
-            } else {
-                thrower ("Could not read job file.");
-            }
+            boost::property_tree::read_json(buffer, ptree);
+        } else {
+            thrower ("Could not open job file.");
+        }
 
-            return ptree;
-        } catch (...) {
-            thrower ("Could not read job file");
-        } 
+        return ptree;
     }
     
     void 
@@ -57,42 +53,45 @@ namespace Sorter {
                             const std::map<std::shared_ptr<Pattern>, std::set<unsigned long long>>& patterns,
                             const std::set<std::shared_ptr<Bin>>& bins,
                             const std::string& output_directory) {
-        try {
-            boost::property_tree::ptree ptree;
-            boost::property_tree::ptree ptree_matches;
-            std::shared_ptr<Bin> prev_bin(nullptr);
-            std::ofstream ofile;
-            std::ifstream ifile;
-            for (auto& pattern: patterns) {
-                if (bins.find(pattern.first->get_bin()) != bins.end()) {
-                    if (prev_bin != pattern.first->get_bin()) {
-                        if (ofile.is_open()) {
-                            boost::property_tree::write_json(ofile, ptree);
-                            ofile.close();
-                        }
+        boost::property_tree::ptree ptree;
+        boost::property_tree::ptree ptree_matches;
+        std::shared_ptr<Bin> prev_bin(nullptr);
+        std::ofstream ofile;
+        std::ifstream ifile;
+        for (auto& pattern: patterns) {
+            if (bins.find(pattern.first->get_bin()) != bins.end()) {
+                if (prev_bin != pattern.first->get_bin()) {
+                    if (ofile.is_open()) { 
+                        ptree.add_child("PatternMatches", ptree_matches);
+                        boost::property_tree::write_json(ofile, ptree);
+                        ofile.close();
+                    }
 
-                        std::stringstream ss;
-                        ss << output_directory << job.get_id() << "_" 
-                           << pattern.first->get_bin()->get_id() << ".sdone"; 
-                        ofile.open(ss.str().c_str());
-                        ptree = read_job_file(job);
-                        ptree_matches = boost::property_tree::ptree();
-                    }
-                    boost::property_tree::ptree ptree_pattern;
-                    ptree_pattern << *pattern.first;
-                    ptree_matches.add_child("Pattern", ptree_pattern);
-                    boost::property_tree::ptree positions;
-                    for (auto& index: pattern.second) {
-                        boost::property_tree::ptree value;
-                        value.put("", index);
-                        positions.push_back(std::make_pair("", value));
-                    }
-                    ptree_matches.add_child("Positions", positions);
-                    prev_bin = pattern.first->get_bin();
+                    std::stringstream ss;
+                    ss << output_directory << job.get_id() << "_" 
+                       << pattern.first->get_bin()->get_id() << ".sdone"; 
+                    ofile.open(ss.str().c_str());
+                    ptree = read_job_file(job);
+                    ptree_matches = boost::property_tree::ptree();
                 }
+                boost::property_tree::ptree ptree_pattern;
+                ptree_pattern << *pattern.first;
+                ptree_matches.add_child("Pattern", ptree_pattern);
+                boost::property_tree::ptree positions;
+                for (auto& index: pattern.second) {
+                    boost::property_tree::ptree value;
+                    value.put("", index);
+                    positions.push_back(std::make_pair("", value));
+                }
+                ptree_matches.add_child("Positions", positions);
+                prev_bin = pattern.first->get_bin();
             }
-        } catch (...) {
-            thrower ("Could not write output file");
+        }
+        
+        if (ofile.is_open()) {
+            ptree.add_child("PatternMatches", ptree_matches);
+            boost::property_tree::write_json(ofile, ptree);
+            ofile.close();
         }
     }
      
