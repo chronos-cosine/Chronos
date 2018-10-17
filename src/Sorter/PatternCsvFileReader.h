@@ -14,7 +14,7 @@
 #ifndef SORTER_PATTERNCSVFILEREADER_H
 #define SORTER_PATTERNCSVFILEREADER_H
 
-#include "Core/CsvFileReader.h"
+#include "File/CsvFileReader.h"
 #include "Sorter/Pattern.h"
 #include "Notifier/INotifier.h"
 
@@ -26,7 +26,7 @@ namespace Sorter {
     
     class PatternCsvFileReader {
     private:
-        Core::CsvFileReader __csv_file_reader;
+        File::CsvFileReader __csv_file_reader;
         std::shared_ptr<Notifier::INotifier> __notifier;
     public: 
         PatternCsvFileReader(const std::shared_ptr<Notifier::INotifier>& notifier);

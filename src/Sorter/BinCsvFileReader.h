@@ -16,14 +16,14 @@
 
 #include "Sorter/Bin.h"
 #include "Notifier/INotifier.h"
-#include "Core/CsvFileReader.h"
+#include "File/CsvFileReader.h"
 #include <map>
 #include <memory>
 
 namespace Sorter {
     
     class BinCsvFileReader {
-        Core::CsvFileReader __csv_file_reader;
+        File::CsvFileReader __csv_file_reader;
         std::shared_ptr<Notifier::INotifier> __notifier;
     public: 
         BinCsvFileReader(const std::shared_ptr<Notifier::INotifier>& notifier);

@@ -11,8 +11,8 @@
  * Created on 05 October 2018, 8:55 AM
  */
 
-#ifndef CORE_CSVFILEREADER_H
-#define CORE_CSVFILEREADER_H
+#ifndef FILE_CSVFILEREADER_H
+#define FILE_CSVFILEREADER_H
 
 #include "Notifier/INotifier.h"
 
@@ -22,7 +22,7 @@
 #include <string>
 #include <vector>
 
-namespace Core {
+namespace File {
 
     class CsvFileReader {
     private:
@@ -43,7 +43,7 @@ namespace Core {
         
     }; /* class CsvFileReader */
     
-} /* namespace Core */
+} /* namespace File */
 
-#endif /* CORE_CSVFILEREADER_H */
+#endif /* FILE_CSVFILEREADER_H */
 

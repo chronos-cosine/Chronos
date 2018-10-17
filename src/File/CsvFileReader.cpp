@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-#include "Core/CsvFileReader.h"
+#include "File/CsvFileReader.h"
 
 /* 
  * File:   CsvFileReader.cpp
@@ -19,7 +19,7 @@
 #include <sstream>
 #include <string>
 
-namespace Core {
+namespace File {
 
     CsvFileReader::CsvFileReader(const std::shared_ptr<Notifier::INotifier>& notifier)
             : __notifier(notifier) { }
