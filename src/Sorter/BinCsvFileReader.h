@@ -15,24 +15,26 @@
 #define SORTER_BINCSVFILEREADER_H
 
 #include "Sorter/Bin.h"
+#include "Notifier/INotifier.h"
 #include "Core/CsvFileReader.h"
-
 #include <map>
 #include <memory>
 
 namespace Sorter {
     
     class BinCsvFileReader {
-    public:
-        BinCsvFileReader(const BinCsvFileReader&) = delete;
-        BinCsvFileReader& operator=(const BinCsvFileReader&) = delete;
+        Core::CsvFileReader __csv_file_reader;
+        std::shared_ptr<Notifier::INotifier> __notifier;
     public: 
-        BinCsvFileReader();
+        BinCsvFileReader(const std::shared_ptr<Notifier::INotifier>& notifier);
         virtual ~BinCsvFileReader();
         
         std::map<unsigned long long, std::shared_ptr<Bin>> read(const std::string& filename) const;
-    private:
-        Core::CsvFileReader __csv_file_reader;
+    public:
+        BinCsvFileReader(const BinCsvFileReader&) = delete;
+        BinCsvFileReader& operator=(const BinCsvFileReader&) = delete;
+        BinCsvFileReader(const BinCsvFileReader&&) = delete;
+        BinCsvFileReader& operator=(const BinCsvFileReader&&) = delete;
         
     }; /* class BinFileReader */
 

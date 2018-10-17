@@ -13,7 +13,7 @@
  * Created on 10 October 2018, 9:15 AM
  */
 
-#include "Core/Exception.h"
+#include "Exceptions/Exception.h"
 
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>

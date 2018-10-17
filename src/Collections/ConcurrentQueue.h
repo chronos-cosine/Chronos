@@ -11,42 +11,38 @@
  * Created on 12 October 2018, 6:43 AM
  */
 
-#ifndef CORE_CONCURRENTQUEUE_H
-#define CORE_CONCURRENTQUEUE_H
+#ifndef COLLECTIONS_CONCURRENTQUEUE_H
+#define COLLECTIONS_CONCURRENTQUEUE_H
 
 #include <condition_variable>
 #include <mutex>
 #include <queue>
 
-namespace Core {
+namespace Collections {
 
     template <typename T>
     class ConcurrentQueue {
-    public:
-        ConcurrentQueue(const ConcurrentQueue&) = delete;
-        ConcurrentQueue& operator=(ConcurrentQueue&) = delete;
+    private:
+        std::queue<T> __queue;
+        std::mutex __mutex;
+        std::condition_variable __condition_variable;
     public:
         ConcurrentQueue();
-        ConcurrentQueue(ConcurrentQueue&& move);
         virtual ~ConcurrentQueue();
         
         void push(T item);
         T pop();
         typename std::queue<T>::size_type size() const;
         
-        virtual ConcurrentQueue& operator=(ConcurrentQueue&& move);
-    private:
-        std::queue<T> __queue;
-        std::mutex __mutex;
-        std::condition_variable __condition_variable;
+    public:
+        ConcurrentQueue(const ConcurrentQueue&) = delete;
+        ConcurrentQueue& operator=(ConcurrentQueue&) = delete;
+        ConcurrentQueue(ConcurrentQueue&& move) = delete;
+        virtual ConcurrentQueue& operator=(ConcurrentQueue&& move) = delete;
     };
     
     template <typename T>
     ConcurrentQueue<T>::ConcurrentQueue() { }
-    
-    template <typename T>
-    ConcurrentQueue<T>::ConcurrentQueue(ConcurrentQueue&& move) 
-            : __queue(std::move(move.__queue)) { }
     
     template <typename T>
     ConcurrentQueue<T>::~ConcurrentQueue() { }
@@ -75,16 +71,9 @@ namespace Core {
     ConcurrentQueue<T>::size() const {
         return __queue.size();
     }
-        
-    template <typename T>
-    ConcurrentQueue<T>& 
-    ConcurrentQueue<T>::operator=(ConcurrentQueue&& move) { 
-        __queue = std::move(move.__queue);
-        
-        return *this;
-    }
+    
 
-} /* namespace Core */
+} /* namespace Collections */
 
-#endif /* CORE_CONCURRENTQUEUE_H */
+#endif /* COLLECTIONS_CONCURRENTQUEUE_H */
 

@@ -14,7 +14,7 @@
  */
 
 #include "Sorter/Pattern.h"
-#include "Core/Exception.h"
+#include "Exceptions/Exception.h"
 
 #include <exception>
 #include <iostream>
@@ -23,7 +23,8 @@
 
 namespace Sorter {
     
-    PatternCsvFileReader::PatternCsvFileReader() { }
+    PatternCsvFileReader::PatternCsvFileReader(const std::shared_ptr<Notifier::INotifier>& notifier)
+            : __csv_file_reader(notifier), __notifier(notifier) { }
     
     PatternCsvFileReader::~PatternCsvFileReader() { }
     

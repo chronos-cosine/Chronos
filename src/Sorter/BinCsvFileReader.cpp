@@ -14,16 +14,21 @@
  */
 
 #include "Sorter/Bin.h"
-#include "Core/Exception.h"
+#include "Exceptions/Exception.h"
+#include "Core/CsvFileReader.h"
 
 #include <exception>
 #include <map>
+#include <memory>
 #include <vector>
 #include <string>
 
 namespace Sorter {
     
-    BinCsvFileReader::BinCsvFileReader() { }
+    BinCsvFileReader::BinCsvFileReader(const std::shared_ptr<Notifier::INotifier>& notifier)
+            : __csv_file_reader(notifier), __notifier(notifier) { 
+    
+    }
     
     BinCsvFileReader::~BinCsvFileReader() { }
     

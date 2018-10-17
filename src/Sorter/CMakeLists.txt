@@ -12,5 +12,8 @@ if(Boost_FOUND)
 
     target_link_libraries(Chronos-Sorter
                           ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/$<TARGET_FILE_NAME:libChronos-Core>
+                          ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/$<TARGET_FILE_NAME:libChronos-Notifier>
+                          ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/$<TARGET_FILE_NAME:libChronos-Processors>
+                          ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/$<TARGET_FILE_NAME:libChronos-Exceptions>
                           Boost::filesystem)
 endif()

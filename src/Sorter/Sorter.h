@@ -14,12 +14,13 @@
 #ifndef SORTER_SORTER_H
 #define SORTER_SORTER_H
  
-#include "Core/ConcurrentQueue.h"
-#include "Core/IProcessor.h"
+#include "Collections/ConcurrentQueue.h"
+#include "Processors/IProcessor.h"
 #include "PatternMatcher/PatternMatchingMachine.h"
 #include "Sorter/JobFileReader.h"
 #include "Sorter/Pattern.h"
 #include "Sorter/ResultFileWriter.h"
+#include "Notifier/INotifier.h"
 
 #include <boost/filesystem/path.hpp>
 #include <memory>
@@ -27,7 +28,7 @@
 #include <set>
 
 namespace Sorter {
-    class Sorter : public Core::IProcessor {
+    class Sorter : public Processors::IProcessor {
     private:
         struct completed {
             void operator()(Sorter& sender, 
@@ -53,19 +54,25 @@ namespace Sorter {
         std::string __output_directory;
         ResultFileWriter __result_file_writer;
         PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter>& __pattern_matching_machine;
-        Core::ConcurrentQueue<boost::filesystem::path>& __concurrent_queue;
+        Collections::ConcurrentQueue<boost::filesystem::path>& __concurrent_queue;
         JobFileReader __job_file_reader;
         std::map<Job, std::map<std::shared_ptr<Pattern>, std::set<unsigned long long>>> __match_patterns;
         std::map<Job, std::set<std::shared_ptr<Bin>>> __match_bins;
+        std::shared_ptr<Notifier::INotifier> __notifier;
     public:
         Sorter(PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter>& pattern_matching_machine,
-               Core::ConcurrentQueue<boost::filesystem::path>& concurrent_queue,
-               const std::string& output_directory);
+               Collections::ConcurrentQueue<boost::filesystem::path>& concurrent_queue,
+               const std::string& output_directory, const std::shared_ptr<Notifier::INotifier>& notifier);
         virtual ~Sorter();
     protected:
         virtual bool process();
     private:
         void process_job(const Job& job);
+    public:
+        Sorter(Sorter&) = delete;
+        Sorter& operator=(Sorter&) = delete;
+        Sorter(Sorter&&) = delete;
+        Sorter& operator=(Sorter&&) = delete;
     };
     
 } /* namespace Sorter */

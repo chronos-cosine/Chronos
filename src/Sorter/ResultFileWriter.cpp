@@ -16,7 +16,7 @@
 #include "Sorter/Bin.h"
 #include "Sorter/Job.h"
 #include "Sorter/Pattern.h"
-#include "Core/Exception.h"
+#include "Exceptions/Exception.h"
 
 #include <algorithm>
 #include <boost/property_tree/ptree.hpp>

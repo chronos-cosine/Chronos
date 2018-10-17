@@ -16,6 +16,7 @@
 
 #include "Core/CsvFileReader.h"
 #include "Sorter/Pattern.h"
+#include "Notifier/INotifier.h"
 
 #include <map>
 #include <memory>
@@ -24,16 +25,17 @@
 namespace Sorter {
     
     class PatternCsvFileReader {
-    public:
-        PatternCsvFileReader(const PatternCsvFileReader&) = delete;
-        PatternCsvFileReader& operator=(const PatternCsvFileReader&) = delete;
+    private:
+        Core::CsvFileReader __csv_file_reader;
+        std::shared_ptr<Notifier::INotifier> __notifier;
     public: 
-        PatternCsvFileReader();
+        PatternCsvFileReader(const std::shared_ptr<Notifier::INotifier>& notifier);
         virtual ~PatternCsvFileReader();
         
         std::map<unsigned long long, std::shared_ptr<Pattern>> read(const std::string& filename) const;
-    private:
-        Core::CsvFileReader __csv_file_reader;
+    public:
+        PatternCsvFileReader(const PatternCsvFileReader&) = delete;
+        PatternCsvFileReader& operator=(const PatternCsvFileReader&) = delete;
         
     };
     

@@ -14,8 +14,8 @@
 #ifndef SORTER_SORTINGMACHINE_H
 #define SORTER_SORTINGMACHINE_H
 
-#include "Core/ConcurrentQueue.h"
-#include "Core/FileSpooler.h"
+#include "Collections/ConcurrentQueue.h"
+#include "Processors/FileSpooler.h"
 #include "PatternMatcher/PatternMatchingMachine.h"
 #include "Sorter/Sorter.h"
 #include "Sorter/Pattern.h"
@@ -28,26 +28,35 @@
 
 namespace Sorter {
 
-    class SortingMachine { 
-    public:
-        SortingMachine(const Sorter&) = delete;
-        SortingMachine& operator=(const Sorter&) = delete;
-    public:
-        SortingMachine(const std::string& pattern_file, const std::string& bin_file, 
-                const std::vector<std::string>& job_paths, unsigned int sorter_count,
-                const std::string& output_directory);
-        virtual ~SortingMachine();
-        
-        void start();
-        void stop();
+    class SortingMachine {
     private:
         PatternBinLinker __pattern_bin_linker;
         std::map<unsigned long long, std::shared_ptr<Pattern>> __patterns;
         std::map<unsigned long long, std::shared_ptr<Bin>> __bins; 
-        Core::ConcurrentQueue<boost::filesystem::path> __job_queue;
+        Collections::ConcurrentQueue<boost::filesystem::path> __job_queue;
         PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter> __pattern_matching_machine;
-        std::vector<std::shared_ptr<Core::FileSpooler>> __file_spoolers;
+        std::vector<std::shared_ptr<Processors::FileSpooler>> __file_spoolers;
         std::vector<std::shared_ptr<Sorter>> __sorters;
+        std::string __to_sort_extension;
+        std::string __busy_extension;
+        std::shared_ptr<Notifier::INotifier> __notifier;
+    public:
+        SortingMachine(const std::string& pattern_file, const std::string& bin_file, 
+                       const std::vector<std::string>& job_paths, unsigned int sorter_count,
+                       const std::string& output_directory,
+                       const std::string& to_sort_extension,
+                       const std::string& busy_extension, 
+                       std::shared_ptr<Notifier::INotifier> notifier);
+        virtual ~SortingMachine();
+        
+        void start();
+        void stop();
+        void reset_folder_files(const std::string& folder);
+    public:
+        SortingMachine(const Sorter&) = delete;
+        SortingMachine& operator=(const Sorter&) = delete;
+        SortingMachine(const Sorter&&) = delete;
+        SortingMachine& operator=(const Sorter&&) = delete;
     };  
     
 } /* namespace Sorter */

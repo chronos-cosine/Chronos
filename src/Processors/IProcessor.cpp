@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-#include "Core/IProcessor.h"
+#include "Processors/IProcessor.h"
 
 /* 
  * File:   IProcessor.cpp
@@ -16,10 +16,12 @@
 #include <thread>
 #include <chrono>
 
-namespace Core {
+namespace Processors {
 
-    IProcessor::IProcessor(const int& sleep_time) 
-              : __sleep_time(sleep_time) { }
+    IProcessor::IProcessor(const int& sleep_time, 
+                           const std::shared_ptr<Notifier::INotifier>& notifier) 
+            : __sleep_time(sleep_time), __notifier(notifier) { 
+    }
 
     IProcessor::~IProcessor() { }
       
@@ -66,4 +68,4 @@ namespace Core {
         }
     }
 
-} /* namespace Core */
+} /* namespace Processors */

@@ -13,23 +13,23 @@
  * Created on 12 October 2018, 1:50 PM
  */
 
-#include "Core/ConcurrentQueue.h"
+#include "Collections/ConcurrentQueue.h"
 #include "PatternMatcher/PatternMatchingMachine.h"
 #include "Sorter/JobFileReader.h"
 #include "Sorter/Pattern.h"
 #include "Sorter/BinParentMatcher.h"
 #include "Sorter/KeywordBooleanMatcher.h"
-#include "KeywordBooleanMatcher.h"
 
 #include <boost/filesystem/path.hpp>
 
 namespace Sorter {
     
     Sorter::Sorter(PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter>& pattern_matching_machine,
-                   Core::ConcurrentQueue<boost::filesystem::path>& concurrent_queue, 
-                   const std::string& output_directory) 
-            : Core::IProcessor(30), __pattern_matching_machine(pattern_matching_machine),
-              __concurrent_queue(concurrent_queue), __output_directory(output_directory) {
+                   Collections::ConcurrentQueue<boost::filesystem::path>& concurrent_queue, 
+                   const std::string& output_directory, const std::shared_ptr<Notifier::INotifier>& notifier) 
+            : Processors::IProcessor(5, notifier), __pattern_matching_machine(pattern_matching_machine),
+              __concurrent_queue(concurrent_queue), __output_directory(output_directory),
+              __notifier(notifier) {
         __pattern_matching_machine.completed().connect(__completed);
         __pattern_matching_machine.match_found().connect(__match_found);
     }
@@ -42,15 +42,13 @@ namespace Sorter {
         KeywordBooleanMatcher keyword_boolean_matcher;
          
         keyword_boolean_matcher.match_boolean(__match_patterns[job], __match_bins[job]); 
-        bin_parent_matcher.match_parents(__match_bins[job]); 
-        std::cout << "1 Sorter::process_job" << std::endl;
+        bin_parent_matcher.match_parents(__match_bins[job]);
         __result_file_writer.write(job, __match_patterns[job], __match_bins[job], __output_directory);
-        std::cout << "2 Sorter::process_job" << std::endl;
     }
     
     bool 
-    Sorter::process() {
-        boost::filesystem::path job_path(__concurrent_queue.pop());
+    Sorter::process() { 
+        boost::filesystem::path job_path(__concurrent_queue.pop()); 
         std::unique_ptr<Job> job = __job_file_reader.read(job_path.string());
         if (nullptr == job) {
             return false;

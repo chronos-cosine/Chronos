@@ -13,8 +13,10 @@
 
 #include "Core/ArgumentReader.h"
 #include "Core/Helpers.h" 
-#include "Core/Exception.h"
+#include "Exceptions/Exception.h"
 #include "Sorter/SortingMachine.h"
+#include "Notifier/INotifier.h"
+#include "Notifier/CoutNotifier.h"
 
 #include <iostream>
 #include <map>
@@ -23,26 +25,26 @@
 #include <thread>
 
 int main(int argc, char** argv) {
-    try {
-        std::map<std::string, std::string> arguments = Core::ArgumentReader::read(argc, argv); 
+    std::map<std::string, std::string> arguments = Core::ArgumentReader::read(argc, argv); 
 
-        std::vector<std::string> job_paths;
-        job_paths.push_back(arguments[std::string("-j")]);
+    std::vector<std::string> job_paths;
+    job_paths.push_back(arguments[std::string("-j")]);
+    std::shared_ptr<Notifier::INotifier> notifier(new Notifier::CoutNotifier());
 
-        Sorter::SortingMachine sorting_machine(
-            arguments[std::string("-p")], 
-            arguments[std::string("-b")],
-            job_paths, 
-            1,
-            arguments[std::string("-o")]);
+    Sorter::SortingMachine sorting_machine(
+        arguments[std::string("-p")], 
+        arguments[std::string("-b")],
+        job_paths, 
+        1,
+        arguments[std::string("-o")],
+        std::string(".sjob"),
+        std::string(".busy"),
+        notifier);
 
-        sorting_machine.start();
-        while (true) { 
-            std::this_thread::sleep_for(std::chrono::seconds(5));
-        }
-    } catch (Core::Exception& e) {
-       std::cout << Core::Exception::getErrorStack(e, 0);
+    sorting_machine.start();
+    while (true) { 
+        std::this_thread::sleep_for(std::chrono::seconds(5));
     }
-    
+        
     return 0;
 }

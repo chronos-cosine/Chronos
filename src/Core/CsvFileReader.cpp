@@ -13,7 +13,7 @@
  * Created on 09 October 2018, 10:54 AM
  */
 
-#include "Core/Exception.h"
+#include "Exceptions/Exception.h"
 
 #include <exception>
 #include <sstream>
@@ -21,7 +21,8 @@
 
 namespace Core {
 
-    CsvFileReader::CsvFileReader() { }
+    CsvFileReader::CsvFileReader(const std::shared_ptr<Notifier::INotifier>& notifier)
+            : __notifier(notifier) { }
     
     CsvFileReader::~CsvFileReader() { }
         
@@ -36,19 +37,15 @@ namespace Core {
        
     std::vector<std::string> 
     CsvFileReader::get_row(const std::string& line, const char& separator) const {
-        try {
-            std::istringstream line_stream(line);
-            std::string column;
-            std::vector<std::string> row;
+        std::istringstream line_stream(line);
+        std::string column;
+        std::vector<std::string> row;
 
-            while (getline(line_stream, column, separator)) {
-                row.push_back(column);
-            }
-
-            return row;
-        } catch (std::exception& e) {
-            thrower ("ERROR: Core::CsvFileReader::get_row\n: ");
+        while (getline(line_stream, column, separator)) {
+            row.push_back(column);
         }
+
+        return row;
     }
 
     std::vector<std::vector<std::string>>
@@ -65,7 +62,7 @@ namespace Core {
                 data.push_back(get_row(line, separator));
             }
         } else { 
-            thrower ("\nERROR: Core::CsvFileReader::read\nCould not open csv file\n"); 
+            thrower ("Could not open csv file"); 
         }
         
         return data;

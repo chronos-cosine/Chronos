@@ -22,7 +22,7 @@
  
 #include "PatternMatcher/Node.h"
 #include "PatternMatcher/RootNode.h"
-#include "Core/Exception.h"
+#include "Exceptions/Exception.h"
 
 namespace PatternMatcher
 {
@@ -38,17 +38,15 @@ namespace PatternMatcher
                  const unsigned long long& /* position */,
                  const INPUT& /* input */,
                  const std::set<std::shared_ptr<PATTERN>>& /* patterns */)> match_found_signal;
-    public:
-        PatternMatchingMachine(const PatternMatchingMachine&) = delete;
-        PatternMatchingMachine& operator=(PatternMatchingMachine&) = delete;
-        PatternMatchingMachine(PatternMatchingMachine&& move) = delete;
-        PatternMatchingMachine& operator=(PatternMatchingMachine&& move) = delete;
+    private:
+        Node<PATTERN>* __root;
+        completed_signal __completed;
+        match_found_signal __match_found;
     public:
         PatternMatchingMachine(const std::set<std::shared_ptr<PATTERN>>& patterns); 
         virtual ~PatternMatchingMachine(); 
  
-        void match(INPUT& input, 
-                   SENDER& sender) const; 
+        void match(INPUT& input, SENDER& sender) const; 
 
         completed_signal& completed();
         match_found_signal& match_found();
@@ -57,16 +55,17 @@ namespace PatternMatcher
         void enter(const std::shared_ptr<PATTERN>& pattern);
         void construct_goto_function(const std::set<std::shared_ptr<PATTERN>>& patterns);
         void construct_failure_function();
-    private:
-        Node<PATTERN>* __root;
-        completed_signal __completed;
-        match_found_signal __match_found;
+    public:
+        PatternMatchingMachine(const PatternMatchingMachine&) = delete;
+        PatternMatchingMachine& operator=(PatternMatchingMachine&) = delete;
+        PatternMatchingMachine(PatternMatchingMachine&& move) = delete;
+        PatternMatchingMachine& operator=(PatternMatchingMachine&& move) = delete;
         
     }; /* class PatternMatchingMachine */
     
     template <typename INPUT, typename PATTERN, typename SENDER>
     PatternMatchingMachine<INPUT, PATTERN, SENDER>::PatternMatchingMachine(const std::set<std::shared_ptr<PATTERN>>& patterns) 
-        : __root(new RootNode<PATTERN>()) {
+            : __root(new RootNode<PATTERN>()) {
         construct_goto_function(patterns);
         construct_failure_function();
     }

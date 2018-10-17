@@ -16,17 +16,16 @@ namespace PatternMatcher
 {
     template <typename PATTERN>
     class Node {
+        char __value;
+        Node<PATTERN>* __failure;
+        std::map<char, Node<PATTERN>*> __states;
+        std::set<std::shared_ptr<PATTERN>> __output;
     public:
         struct Hasher {
             std::size_t operator()(const Node<PATTERN>& node) const noexcept {
                 return std::hash<char>{}(node.__value);
             }
         };
-    public:
-        Node(Node<PATTERN>&) = delete;
-        Node<PATTERN>& operator=(Node<PATTERN>&) = delete;
-        bool operator==(Node<PATTERN>&) = delete;
-        bool operator!=(Node<PATTERN>&) = delete;
     public:
         //constructors
         Node(const char& value); 
@@ -49,11 +48,11 @@ namespace PatternMatcher
         //operators
         virtual bool operator<(const Node<PATTERN>& rhs) const;
         virtual bool operator>(const Node<PATTERN>& rhs) const;
-    private:
-        char __value;
-        Node<PATTERN>* __failure;
-        std::map<char, Node<PATTERN>*> __states;
-        std::set<std::shared_ptr<PATTERN>> __output;
+    public:
+        Node(Node<PATTERN>&) = delete;
+        Node<PATTERN>& operator=(Node<PATTERN>&) = delete;
+        bool operator==(Node<PATTERN>&) = delete;
+        bool operator!=(Node<PATTERN>&) = delete;
         
     }; /* class Node */
     

@@ -14,16 +14,23 @@
 #ifndef CORE_IPROCESSOR_H
 #define CORE_IPROCESSOR_H
 
-#include <mutex>
+#include "Notifier/INotifier.h"
 
-namespace Core {
+#include <mutex>
+#include <memory>
+
+namespace Processors {
 
     class IProcessor {
+    private:
+        std::mutex __mutex;
+        bool __is_running;
+        bool __is_executing;
+        int __sleep_time;
+        std::shared_ptr<Notifier::INotifier> __notifier;
     public:
-        IProcessor(const IProcessor&) = delete;
-        IProcessor& operator=(const IProcessor&) = delete;
-    public:
-        IProcessor(const int& sleep_time);
+        IProcessor(const int& sleep_time, 
+                   const std::shared_ptr<Notifier::INotifier>& notifier);
         virtual ~IProcessor();
         
         void start();
@@ -36,14 +43,14 @@ namespace Core {
         bool set_is_executing(const bool& value);
     protected:
         virtual bool process() = 0;
-    private:
-        std::mutex __mutex;
-        bool __is_running;
-        bool __is_executing;
-        int __sleep_time;
+    public:
+        IProcessor(const IProcessor&) = delete;
+        IProcessor& operator=(const IProcessor&) = delete;
+        IProcessor(const IProcessor&&) = delete;
+        IProcessor& operator=(const IProcessor&&) = delete;
     };
 
-} /* namespace Core */
+} /* namespace Processors */
 
 #endif /* CORE_IPROCESSOR_H */
 
