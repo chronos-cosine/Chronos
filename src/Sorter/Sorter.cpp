@@ -27,10 +27,11 @@ namespace Sorter {
     
     Sorter::Sorter(PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter>& pattern_matching_machine,
                    Collections::ConcurrentQueue<boost::filesystem::path>& concurrent_queue, 
-                   const std::string& output_directory, const std::shared_ptr<Notifier::INotifier>& notifier) 
-            : __pattern_matching_machine(pattern_matching_machine),
+                   const std::string& output_directory,
+                const std::string& completed_extension, const std::shared_ptr<Notifier::INotifier>& notifier) 
+            : __pattern_matching_machine(pattern_matching_machine), __completed_extension(completed_extension),
               __concurrent_queue(concurrent_queue), __output_directory(output_directory),
-              __notifier(notifier), Processors::IProcessor(5, notifier) {
+              __notifier(notifier), Processors::IProcessor(5, notifier), __result_file_writer(completed_extension, notifier) {
         __pattern_matching_machine.completed().connect(__completed);
         __pattern_matching_machine.match_found().connect(__match_found);
     }
@@ -53,7 +54,7 @@ namespace Sorter {
         
         bin_parent_matcher.match_parents(__match_bins[job]);
         
-        notification << "Writing the results to file " << job.get_filename();
+        notification << "Writing the results to directory " << __output_directory;
         __notifier->notify(notification);
         
         __result_file_writer.write(job, __match_patterns[job], __match_bins[job], __output_directory);

@@ -28,7 +28,7 @@ namespace Notifier {
     class LogFileNotifier : public INotifier {
     private:
         std::chrono::system_clock::time_point __reset_time;
-        unsigned int __reset_minutes; 
+        unsigned short __reset_minutes; 
         bool __is_running;
         std::string __log_directory;
         std::unique_ptr<FileNotifier> __file_notifier;

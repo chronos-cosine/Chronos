@@ -30,12 +30,13 @@
 namespace Sorter {
     
     SortingMachine::SortingMachine(const std::string& pattern_file, const std::string& bin_file, 
-                       const std::vector<std::string>& job_paths, unsigned int sorter_count,
+                       const std::set<std::string>& job_paths, unsigned int sorter_count,
                        const std::string& output_directory,
                        const std::string& to_sort_extension,
                        const std::string& busy_extension, 
+                       const std::string& completed_extension, 
                        std::shared_ptr<Notifier::INotifier> notifier) 
-            : __patterns(PatternCsvFileReader(notifier).read(pattern_file)), 
+            : __patterns(PatternCsvFileReader(notifier).read(pattern_file)), __completed_extension(completed_extension),
               __bins(BinCsvFileReader(notifier).read(bin_file)), __to_sort_extension(to_sort_extension),
               __busy_extension(busy_extension), __notifier(notifier),
               __pattern_matching_machine(Core::Helpers::get_value_set<unsigned long long, std::shared_ptr<Pattern>>(__patterns)) {
@@ -47,7 +48,7 @@ namespace Sorter {
                 new Processors::FileSpooler(
                     job_path.c_str(), 
                     __to_sort_extension.c_str(), 
-                    busy_extension.c_str(), 
+                    __busy_extension.c_str(), 
                     __job_queue,
                     __notifier
                 )));
@@ -59,6 +60,7 @@ namespace Sorter {
                     __pattern_matching_machine, 
                     __job_queue, 
                     output_directory,
+                    __completed_extension,
                     __notifier
                 )));
         }

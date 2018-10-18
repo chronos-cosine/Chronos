@@ -28,14 +28,20 @@
 
 namespace Sorter {
 
-    ResultFileWriter::ResultFileWriter() { }
+    ResultFileWriter::ResultFileWriter(const std::string& completed_extension,
+                         const std::shared_ptr<Notifier::INotifier>& notifier)
+            : __completed_extension(completed_extension), __notifier(notifier) { }
 
     ResultFileWriter::~ResultFileWriter() { }
     
     boost::property_tree::ptree
     ResultFileWriter::read_job_file(const Job& job) {
         boost::property_tree::ptree ptree;
-        std::ifstream file(job.get_filename());
+        std::stringstream notification;
+        notification << "Reading the job file " << job.get_filename();
+        __notifier->notify(notification);
+        
+        std::ifstream file(job.get_filename()); 
         if (file.is_open()) {
             std::stringstream buffer;
             buffer << file.rdbuf();
@@ -72,7 +78,7 @@ namespace Sorter {
 
                     std::stringstream ss;
                     ss << output_directory << job.get_id() << "_" 
-                       << pattern.first->get_bin()->get_id() << ".sdone"; 
+                       << pattern.first->get_bin()->get_id() << __completed_extension; 
                     ofile.open(ss.str().c_str());
                     ptree = read_job_file(job);
                     ptree_matches = boost::property_tree::ptree();

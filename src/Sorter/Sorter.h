@@ -52,6 +52,7 @@ namespace Sorter {
         Sorter::completed __completed;
         Sorter::match_found __match_found;
         std::string __output_directory;
+        std::string __completed_extension;
         ResultFileWriter __result_file_writer;
         PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter>& __pattern_matching_machine;
         Collections::ConcurrentQueue<boost::filesystem::path>& __concurrent_queue;
@@ -62,7 +63,8 @@ namespace Sorter {
     public:
         Sorter(PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter>& pattern_matching_machine,
                Collections::ConcurrentQueue<boost::filesystem::path>& concurrent_queue,
-               const std::string& output_directory, const std::shared_ptr<Notifier::INotifier>& notifier);
+               const std::string& output_directory,
+               const std::string& completed_extension, const std::shared_ptr<Notifier::INotifier>& notifier);
         virtual ~Sorter();
     protected:
         virtual bool process();

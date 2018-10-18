@@ -30,7 +30,10 @@ namespace Notifier {
         std::lock_guard<std::mutex> lock(__mutex);
         
         auto time_t = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-        __file_stream << this << " | " << std::put_time(std::localtime(&time_t), "%F %T") << " | " << message << std::endl;
+        __file_stream << "| " << this 
+                      << " | " << std::put_time(std::localtime(&time_t), "%F %T") 
+                      << " | " << message 
+                      << " |" << std::endl;
     }
 
 } /* namespace Notifier */

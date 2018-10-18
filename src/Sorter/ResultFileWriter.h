@@ -16,6 +16,7 @@
 
 #include "Sorter/Job.h"
 #include "Sorter/Pattern.h"
+#include "Notifier/INotifier.h"
 
 #include <map> 
 #include <memory>
@@ -26,11 +27,15 @@
 namespace Sorter {
 
     class ResultFileWriter {
+    private:
+        std::shared_ptr<Notifier::INotifier> __notifier;
+        std::string __completed_extension;
     public:
         ResultFileWriter(const ResultFileWriter&) = delete;
         ResultFileWriter& operator=(const ResultFileWriter&) = delete;
     public:
-        ResultFileWriter();
+        ResultFileWriter(const std::string& completed_extension,
+                         const std::shared_ptr<Notifier::INotifier>& notifier);
         virtual ~ResultFileWriter();
         
         boost::property_tree::ptree read_job_file(const Job& job);

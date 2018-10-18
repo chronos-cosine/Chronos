@@ -25,6 +25,7 @@
 #include <memory>
 #include <vector>
 #include <string>
+#include <set>
 
 namespace Sorter {
 
@@ -39,13 +40,15 @@ namespace Sorter {
         std::vector<std::shared_ptr<Sorter>> __sorters;
         std::string __to_sort_extension;
         std::string __busy_extension;
+        std::string __completed_extension;
         std::shared_ptr<Notifier::INotifier> __notifier;
     public:
         SortingMachine(const std::string& pattern_file, const std::string& bin_file, 
-                       const std::vector<std::string>& job_paths, unsigned int sorter_count,
+                       const std::set<std::string>& job_paths, unsigned int sorter_count,
                        const std::string& output_directory,
                        const std::string& to_sort_extension,
                        const std::string& busy_extension, 
+                       const std::string& completed_extension, 
                        std::shared_ptr<Notifier::INotifier> notifier);
         virtual ~SortingMachine();
         

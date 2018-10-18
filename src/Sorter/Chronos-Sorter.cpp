@@ -18,6 +18,7 @@
 #include "Notifier/INotifier.h"
 #include "Notifier/CoutNotifier.h"
 #include "Notifier/LogFileNotifier.h"
+#include "Sorter/StartupSettings.h"
 
 #include <iostream>
 #include <map>
@@ -26,26 +27,30 @@
 #include <thread>
 
 int main(int argc, char** argv) {
-    std::map<std::string, std::string> arguments = Core::ArgumentReader::read(argc, argv); 
-
-    std::vector<std::string> job_paths;
-    job_paths.push_back(arguments[std::string("-j")]);
-    std::shared_ptr<Notifier::INotifier> notifier(new Notifier::LogFileNotifier(1, std::string("/home/user/logs/")));
-
-    Sorter::SortingMachine sorting_machine(
-        arguments[std::string("-p")], 
-        arguments[std::string("-b")],
-        job_paths, 
-        1,
-        arguments[std::string("-o")],
-        std::string(".sjob"),
-        std::string(".busy"),
-        notifier);
-
-    sorting_machine.start();
-    while (true) { 
-        std::this_thread::sleep_for(std::chrono::seconds(5));
-    }
+    std::map<std::string, std::string> arguments = Core::ArgumentReader::read(argc, argv);
+    std::map<std::string, std::string>::const_iterator settings = arguments.find(std::string("-sf"));
+    if (settings != arguments.end()) {
+        Sorter::StartupSettings startup_settings(settings->second);
+        Sorter::SortingMachine sorting_machine(
+            startup_settings.get_patterns_file_location(), 
+            startup_settings.get_bins_file_location(),
+            startup_settings.get_job_file_directories(), 
+            startup_settings.get_sorter_count(),
+            startup_settings.get_results_directory(),
+            startup_settings.get_sorter_trigger_extension(),
+            startup_settings.get_sorter_busy_extension(),
+            startup_settings.get_sorter_done_extension(),
+            startup_settings.get_notifier());
+        sorting_machine.start();
         
+        while (true) { 
+            std::this_thread::sleep_for(std::chrono::seconds(5));
+        }
+    }
+    else {
+        std::cout << "\nCould not find settings file.  Exiting..." << std::endl;
+        return 1;
+    }
+ 
     return 0;
 }
