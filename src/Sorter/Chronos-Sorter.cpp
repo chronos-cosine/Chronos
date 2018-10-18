@@ -17,6 +17,7 @@
 #include "Sorter/SortingMachine.h"
 #include "Notifier/INotifier.h"
 #include "Notifier/CoutNotifier.h"
+#include "Notifier/LogFileNotifier.h"
 
 #include <iostream>
 #include <map>
@@ -29,7 +30,7 @@ int main(int argc, char** argv) {
 
     std::vector<std::string> job_paths;
     job_paths.push_back(arguments[std::string("-j")]);
-    std::shared_ptr<Notifier::INotifier> notifier(new Notifier::CoutNotifier());
+    std::shared_ptr<Notifier::INotifier> notifier(new Notifier::LogFileNotifier(1, std::string("/home/user/logs/")));
 
     Sorter::SortingMachine sorting_machine(
         arguments[std::string("-p")], 

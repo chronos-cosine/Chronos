@@ -25,7 +25,7 @@ namespace Notifier {
     void 
     CoutNotifier::notify(const char* message) {
         std::lock_guard<std::mutex> lock(__mutex);
-        std::cout << message << std::endl;
+        std::cout << this << ": " << message << std::endl;
     }
     
 } /* namespace Notifier */

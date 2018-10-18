@@ -18,7 +18,7 @@
 #include "Sorter/JobFileReader.h"
 #include "Sorter/Pattern.h"
 #include "Sorter/BinParentMatcher.h"
-#include "Sorter/KeywordBooleanMatcher.h"
+#include "Sorter/KeywordBooleanMatcher.h" 
 
 #include <boost/filesystem/path.hpp>
 #include <boost/filesystem.hpp>

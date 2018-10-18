@@ -15,14 +15,12 @@
 #define CORE_IPROCESSOR_H
 
 #include "Notifier/INotifier.h"
-#include "Notifier/Notifiable.h"
-
 #include <mutex>
 #include <memory>
 
 namespace Processors {
 
-    class IProcessor : public Notifier::Notifiable {
+    class IProcessor  {
     private:
         std::mutex __mutex;
         bool __is_running;
@@ -45,6 +43,7 @@ namespace Processors {
     protected:
         virtual bool process() = 0;
     public:
+        IProcessor() = delete;
         IProcessor(const IProcessor&) = delete;
         IProcessor& operator=(const IProcessor&) = delete;
         IProcessor(const IProcessor&&) = delete;

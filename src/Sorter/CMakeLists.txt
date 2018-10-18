@@ -3,7 +3,22 @@ find_package(Boost REQUIRED COMPONENTS filesystem)
 if(Boost_FOUND) 
     file(GLOB Sorter_SOURCES
         "${CMAKE_CURRENT_LIST_DIR}/*.cpp"
-        "${CMAKE_CURRENT_LIST_DIR}/*.h" 
+        "${CMAKE_CURRENT_LIST_DIR}/*.h"
+        "${CHRONOS_SOURCE_ROOT}/File/CsvFileReader.h"
+        "${CHRONOS_SOURCE_ROOT}/File/CsvFileReader.cpp"
+        "${CHRONOS_SOURCE_ROOT}/Exceptions/Exception.h"
+        "${CHRONOS_SOURCE_ROOT}/Exceptions/Exception.cpp"
+        "${CHRONOS_SOURCE_ROOT}/Notifier/INotifier.h" 
+        "${CHRONOS_SOURCE_ROOT}/Notifier/CoutNotifier.h"
+        "${CHRONOS_SOURCE_ROOT}/Notifier/CoutNotifier.cpp"
+        "${CHRONOS_SOURCE_ROOT}/Notifier/LogFileNotifier.h"
+        "${CHRONOS_SOURCE_ROOT}/Notifier/LogFileNotifier.cpp"
+        "${CHRONOS_SOURCE_ROOT}/Notifier/FileNotifier.h"
+        "${CHRONOS_SOURCE_ROOT}/Notifier/FileNotifier.cpp"
+        "${CHRONOS_SOURCE_ROOT}/Processors/IProcessor.h"
+        "${CHRONOS_SOURCE_ROOT}/Processors/IProcessor.cpp"
+        "${CHRONOS_SOURCE_ROOT}/Processors/FileSpooler.h"
+        "${CHRONOS_SOURCE_ROOT}/Processors/FileSpooler.cpp"
     )
 
     # creates the library 
@@ -11,10 +26,5 @@ if(Boost_FOUND)
     add_executable(Chronos-Sorter ${Sorter_SOURCES})
 
     target_link_libraries(Chronos-Sorter
-                          ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/$<TARGET_FILE_NAME:libChronos-Exceptions>
-                          ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/$<TARGET_FILE_NAME:libChronos-File>
-                          ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/$<TARGET_FILE_NAME:libChronos-Notifier>
-                          ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/$<TARGET_FILE_NAME:libChronos-Processors>
                           Boost::filesystem)
 endif()
-
