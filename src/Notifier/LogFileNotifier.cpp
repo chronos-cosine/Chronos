@@ -18,6 +18,7 @@
 #include <string>
 #include <iomanip>
 #include <iostream>
+#include <mutex>
 
 namespace Notifier {
     
@@ -34,11 +35,13 @@ namespace Notifier {
     
     void 
     LogFileNotifier::notify(const char* message) {
+        std::lock_guard<std::mutex> lock(__mutex);
         __file_notifier->notify(message);
     }
     
     void 
     LogFileNotifier::create_file() {
+        std::lock_guard<std::mutex> lock(__mutex);
         __reset_time = std::chrono::system_clock::now() + std::chrono::minutes(__reset_minutes);
         auto time_t = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
         std::stringstream filename;

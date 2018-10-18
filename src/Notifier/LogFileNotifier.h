@@ -32,6 +32,7 @@ namespace Notifier {
         bool __is_running;
         std::string __log_directory;
         std::unique_ptr<FileNotifier> __file_notifier;
+        std::mutex __mutex;
     public:
         LogFileNotifier(const unsigned int& reset_minutes, const std::string& log_directory);
         virtual ~LogFileNotifier();
