@@ -21,6 +21,7 @@
 #include "Sorter/KeywordBooleanMatcher.h"
 
 #include <boost/filesystem/path.hpp>
+#include <boost/filesystem.hpp>
 
 namespace Sorter {
     
@@ -40,10 +41,32 @@ namespace Sorter {
     Sorter::process_job(const Job& job) {
         BinParentMatcher bin_parent_matcher;
         KeywordBooleanMatcher keyword_boolean_matcher;
-         
+        std::stringstream notification; 
+        
+        notification << "Performing boolean matches on " << job.get_filename();
+        __notifier->notify(notification);
+        
         keyword_boolean_matcher.match_boolean(__match_patterns[job], __match_bins[job]); 
+        
+        notification << "Checking tree parents " << job.get_filename();
+        __notifier->notify(notification);
+        
         bin_parent_matcher.match_parents(__match_bins[job]);
+        
+        notification << "Writing the results to file " << job.get_filename();
+        __notifier->notify(notification);
+        
         __result_file_writer.write(job, __match_patterns[job], __match_bins[job], __output_directory);
+        
+        boost::filesystem::path old_path(job.get_filename());
+        std::stringstream new_path; 
+        
+        new_path << __output_directory << old_path.stem().string().c_str() << ".done";
+        
+        notification << "Marking job file as done " << job.get_filename(); 
+        __notifier->notify(notification);
+        
+        boost::filesystem::rename(old_path, boost::filesystem::path(new_path.str()));
     }
     
     bool 

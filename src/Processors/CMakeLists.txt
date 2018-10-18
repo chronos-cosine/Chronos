@@ -8,6 +8,11 @@ if(Boost_FOUND)
 
     # creates the library 
     add_library(libChronos-Processors ${Core_SOURCES})
+
+    target_link_libraries(libChronos-Processors
+                          ${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/$<TARGET_FILE_NAME:libChronos-Notifier>)
 endif()
+
+
 
 

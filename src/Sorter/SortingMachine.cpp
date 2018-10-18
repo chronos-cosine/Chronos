@@ -35,10 +35,10 @@ namespace Sorter {
                        const std::string& to_sort_extension,
                        const std::string& busy_extension, 
                        std::shared_ptr<Notifier::INotifier> notifier) 
-                : __patterns(PatternCsvFileReader(notifier).read(pattern_file)), 
-                  __bins(BinCsvFileReader(notifier).read(bin_file)), __to_sort_extension(to_sort_extension),
-                  __busy_extension(busy_extension), __notifier(notifier),
-                  __pattern_matching_machine(Core::Helpers::get_value_set<unsigned long long, std::shared_ptr<Pattern>>(__patterns)) {
+            : __patterns(PatternCsvFileReader(notifier).read(pattern_file)), 
+              __bins(BinCsvFileReader(notifier).read(bin_file)), __to_sort_extension(to_sort_extension),
+              __busy_extension(busy_extension), __notifier(notifier),
+              __pattern_matching_machine(Core::Helpers::get_value_set<unsigned long long, std::shared_ptr<Pattern>>(__patterns)) {
         
         __pattern_bin_linker.link(__patterns, __bins);
         for (auto& job_path: job_paths) {

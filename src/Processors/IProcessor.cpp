@@ -13,6 +13,8 @@
  * Created on 09 October 2018, 10:54 AM
  */
 
+#include "Notifier/Notifiable.h"
+ 
 #include <thread>
 #include <chrono>
 
@@ -21,7 +23,8 @@ namespace Processors {
     IProcessor::IProcessor(const int& sleep_time, 
                            const std::shared_ptr<Notifier::INotifier>& notifier) 
             : __sleep_time(sleep_time), __notifier(notifier), 
-              __is_running(false), __is_executing(false) { 
+              __is_running(false), __is_executing(false),
+              Notifier::Notifiable(notifier) { 
     }
 
     IProcessor::~IProcessor() { }
@@ -54,26 +57,19 @@ namespace Processors {
     
     void
     IProcessor::start() {
-        std::stringstream notification; 
-        
-        notification << "Starting " << this;
-        __notifier->notify(notification);
+        notify("Starting");
         
         if (!set_is_running(true)) {
-            notification << this << " already running. Exiting..." << this;
-            __notifier->notify(notification);
-            
+            notify("Already running. Exiting...");
             return;
         }
         
         while (__is_running) {
-            notification << this << " looping ";
-            __notifier->notify(notification);
+            notify("Looping...");
             __is_executing = true;
             
             if (__is_running && !process()) {
-                notification << this << " sleeping for " << __sleep_time;
-                __notifier->notify(notification);
+                notify("Sleeping");
                 
                 std::this_thread::sleep_for(std::chrono::seconds(__sleep_time));
             }

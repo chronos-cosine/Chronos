@@ -57,7 +57,7 @@ namespace Processors {
                 }
                 
                 std::stringstream new_path; 
-                new_path << __directory << (*iterator).path().stem().c_str() << __busy_extension; 
+                new_path << __directory << (*iterator).path().stem().c_str() << __busy_extension;
                 boost::filesystem::rename(*iterator, boost::filesystem::path(new_path.str()));
                 
                 notification << "Adding to queue " << new_path.str();

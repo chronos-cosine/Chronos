@@ -61,7 +61,10 @@ namespace Sorter {
         for (auto& pattern: patterns) {
             if (bins.find(pattern.first->get_bin()) != bins.end()) {
                 if (prev_bin != pattern.first->get_bin()) {
-                    if (ofile.is_open()) { 
+                    if (ofile.is_open()) {
+                        boost::property_tree::ptree ptree_job;
+                        ptree_job << job;
+                        ptree.add_child("Job", ptree_job);
                         ptree.add_child("PatternMatches", ptree_matches);
                         boost::property_tree::write_json(ofile, ptree);
                         ofile.close();
