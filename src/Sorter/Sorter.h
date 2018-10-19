@@ -31,20 +31,20 @@ namespace Sorter {
     class Sorter : public Processors::IProcessor {
     private:
         struct completed {
-            void operator()(Sorter& sender, 
-                            const unsigned long long& total_matches,
-                            Job& input) {
+            void operator()(Sorter& sender,
+                            const Job& input,
+                            const unsigned long long& total_matches) {
                 sender.process_job(input);
             }
         };
         struct match_found {
-            void operator()(Sorter& sender, 
+            void operator()(Sorter& sender,
+                            const Job& input,
                             const unsigned long long& position,
-                            Job& input,
                             const std::set<std::shared_ptr<Pattern>>& patterns) {
                 for (auto& pattern: patterns) {
-                    sender.__match_patterns[std::shared_ptr<Job>(&input)][pattern].insert(position);
-                    sender.__match_bins[std::shared_ptr<Job>(&input)].insert(pattern->get_bin());
+                   sender.__match_patterns[std::shared_ptr<Job>(&input)][pattern].insert(position);
+                   sender.__match_bins[std::shared_ptr<Job>(&input)].insert(pattern->get_bin());
                 }
             }
         };

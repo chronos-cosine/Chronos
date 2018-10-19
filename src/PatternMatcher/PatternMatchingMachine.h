@@ -31,12 +31,12 @@ namespace PatternMatcher
     public:
         typedef boost::signals2::signal<
             void(SENDER& /* sender */, 
-                 const unsigned long long& /* total_matches */,
-                 const INPUT& /* input */)> completed_signal;
+                 const INPUT& /* input */,
+                 const unsigned long long& /* total_matches */)> completed_signal;
         typedef boost::signals2::signal<
             void(SENDER& /* sender */, 
-                 const unsigned long long& /* position */,
                  const INPUT& /* input */,
+                 const unsigned long long& /* position */,
                  const std::set<std::shared_ptr<PATTERN>>& /* patterns */)> match_found_signal;
     private:
         Node<PATTERN>* __root;
@@ -144,12 +144,12 @@ namespace PatternMatcher
             state = state->g(a);
 
             if (!state->get_output().empty()) { 
-                __match_found(sender, position, input, state->get_output());
+                __match_found(sender, input, position, state->get_output());
                 patterns_found += state->get_output().size();
             } 
         }
 
-        __completed(sender, patterns_found, input); 
+        __completed(sender, input, patterns_found); 
     }
 
     template <typename INPUT, typename PATTERN, typename SENDER>
