@@ -32,7 +32,7 @@ namespace Core {
         }
         
         template <typename KEY, typename VALUE>
-        static std::set<VALUE> get_key_set(const std::map<KEY, VALUE>& map) {
+        static std::set<KEY> get_key_set(const std::map<KEY, VALUE>& map) {
             std::set<KEY> values;
             for (auto& pair: map) {
                 values.insert(pair.first);

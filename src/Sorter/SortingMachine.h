@@ -21,6 +21,7 @@
 #include "Sorter/Pattern.h"
 #include "Sorter/Bin.h"
 #include "Sorter/PatternBinLinker.h"
+#include "Sorter/StartupSettings.h"
 
 #include <memory>
 #include <vector>
@@ -31,25 +32,13 @@ namespace Sorter {
 
     class SortingMachine {
     private:
-        PatternBinLinker __pattern_bin_linker;
-        std::map<unsigned long long, std::shared_ptr<Pattern>> __patterns;
-        std::map<unsigned long long, std::shared_ptr<Bin>> __bins; 
-        Collections::ConcurrentQueue<boost::filesystem::path> __job_queue;
-        PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter> __pattern_matching_machine;
+        StartupSettings& __startup_settings;
         std::vector<std::shared_ptr<Processors::FileSpooler>> __file_spoolers;
+        Collections::ConcurrentQueue<boost::filesystem::path> __job_queue;
         std::vector<std::shared_ptr<Sorter>> __sorters;
-        std::string __to_sort_extension;
-        std::string __busy_extension;
-        std::string __completed_extension;
-        std::shared_ptr<Notifier::INotifier> __notifier;
+        PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter> __pattern_matching_machine;
     public:
-        SortingMachine(const std::string& pattern_file, const std::string& bin_file, 
-                       const std::set<std::string>& job_paths, unsigned int sorter_count,
-                       const std::string& output_directory,
-                       const std::string& to_sort_extension,
-                       const std::string& busy_extension, 
-                       const std::string& completed_extension, 
-                       std::shared_ptr<Notifier::INotifier> notifier);
+        SortingMachine(StartupSettings& startup_settings);
         virtual ~SortingMachine();
         
         void start();

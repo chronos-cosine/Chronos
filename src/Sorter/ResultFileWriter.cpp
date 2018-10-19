@@ -38,7 +38,7 @@ namespace Sorter {
     ResultFileWriter::read_job_file(const Job& job) {
         boost::property_tree::ptree ptree;
         std::stringstream notification;
-        notification << "Reading the job file " << job.get_filename();
+        notification << this << " Reading the job file " << job.get_filename();
         __notifier->notify(notification);
         
         std::ifstream file(job.get_filename()); 
@@ -48,7 +48,9 @@ namespace Sorter {
 
             boost::property_tree::read_json(buffer, ptree);
         } else {
-            thrower ("Could not open job file.");
+            std::stringstream error;
+            error << "Could not open job file " << job.get_filename();
+            thrower (error.str());
         }
 
         return ptree;
@@ -58,12 +60,14 @@ namespace Sorter {
     ResultFileWriter::write(const Job& job,
                             const std::map<std::shared_ptr<Pattern>, std::set<unsigned long long>>& patterns,
                             const std::set<std::shared_ptr<Bin>>& bins,
-                            const std::string& output_directory) {
-        boost::property_tree::ptree ptree;
+                            const std::string& results_directory) {
+        boost::property_tree::ptree ptree_job(read_job_file(job));
         boost::property_tree::ptree ptree_matches;
         std::shared_ptr<Bin> prev_bin(nullptr);
         std::ofstream ofile;
         std::ifstream ifile;
+        boost::property_tree::ptree ptree;
+        
         for (auto& pattern: patterns) {
             if (bins.find(pattern.first->get_bin()) != bins.end()) {
                 if (prev_bin != pattern.first->get_bin()) {
@@ -76,11 +80,11 @@ namespace Sorter {
                         ofile.close();
                     }
 
+                    ptree = ptree_job;
                     std::stringstream ss;
-                    ss << output_directory << job.get_id() << "_" 
+                    ss << results_directory << job.get_id() << "_" 
                        << pattern.first->get_bin()->get_id() << __completed_extension; 
                     ofile.open(ss.str().c_str());
-                    ptree = read_job_file(job);
                     ptree_matches = boost::property_tree::ptree();
                 }
                 boost::property_tree::ptree ptree_pattern;

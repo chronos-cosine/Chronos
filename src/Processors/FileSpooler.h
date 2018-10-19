@@ -26,16 +26,17 @@ namespace Processors {
     
     class FileSpooler : public Processors::IProcessor {
     private:
-        std::string __directory;
-        std::string __extension;
+        std::string __directory_to_search;
+        std::string __trigger_extension;
         std::string __busy_extension;
         Collections::ConcurrentQueue<boost::filesystem::path>& __concurrent_queue;
-        std::shared_ptr<Notifier::INotifier> __notifier;
     public:
-        FileSpooler(const char* directory, const char* extension,
-                    const char* busy_extension,
+        FileSpooler(const std::string& directory_to_search, 
+                    const std::string& trigger_extension,
+                    const std::string& busy_extension,
                     Collections::ConcurrentQueue<boost::filesystem::path>& concurrent_queue,
-                    const std::shared_ptr<Notifier::INotifier>& notifier); 
+                    const std::shared_ptr<Notifier::INotifier>& notifier,
+                    const unsigned int& sleep_time); 
         virtual ~FileSpooler();
     protected:
         virtual bool process();

@@ -20,16 +20,34 @@
 
 namespace Processors {
 
-    IProcessor::IProcessor(const int& sleep_time, 
+    IProcessor::IProcessor(const unsigned int& sleep_time, 
                            const std::shared_ptr<Notifier::INotifier>& notifier) 
-            : __sleep_time(sleep_time), __notifier(notifier), 
-              __is_running(false), __is_executing(false) { }
+            : __sleep_time(sleep_time), 
+              __notifier(notifier), 
+              __is_running(false), 
+              __is_executing(false) { 
+    }
 
-    IProcessor::~IProcessor() { }
+    IProcessor::~IProcessor() { 
+    }
       
     bool 
     IProcessor::get_is_running() const {
         return __is_running;
+    }
+    
+    void 
+    IProcessor::notify(std::stringstream& message) {
+        if (nullptr != __notifier) {
+            __notifier->notify(message);
+        }
+    }
+    
+    void 
+    IProcessor::notify(const std::string& message) {
+        if (nullptr != __notifier) {
+            __notifier->notify(message.c_str());
+        }
     }
     
     bool 
@@ -55,20 +73,15 @@ namespace Processors {
     
     void
     IProcessor::start() {
-        __notifier->notify("Starting");
-        
         if (!set_is_running(true)) {
-            __notifier->notify("Already running. Exiting...");
+            notify("Already running. Exiting...");
             return;
         }
         
         while (__is_running) {
-            __notifier->notify("Looping...");
             __is_executing = true;
             
             if (__is_running && !process()) {
-                __notifier->notify("Sleeping");
-                
                 std::this_thread::sleep_for(std::chrono::seconds(__sleep_time));
             }
             

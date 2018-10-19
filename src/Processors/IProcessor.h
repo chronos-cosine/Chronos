@@ -25,10 +25,10 @@ namespace Processors {
         std::mutex __mutex;
         bool __is_running;
         bool __is_executing;
-        int __sleep_time;
+        unsigned int __sleep_time;
         std::shared_ptr<Notifier::INotifier> __notifier;
     public:
-        IProcessor(const int& sleep_time, 
+        IProcessor(const unsigned int& sleep_time, 
                    const std::shared_ptr<Notifier::INotifier>& notifier);
         virtual ~IProcessor();
         
@@ -42,6 +42,8 @@ namespace Processors {
         bool set_is_executing(const bool& value);
     protected:
         virtual bool process() = 0;
+        void notify(std::stringstream& message);
+        void notify(const std::string& message);
     public:
         IProcessor() = delete;
         IProcessor(const IProcessor&) = delete;

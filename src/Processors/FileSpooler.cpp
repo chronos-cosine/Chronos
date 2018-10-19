@@ -24,26 +24,31 @@
 
 namespace Processors {
     
-    FileSpooler::FileSpooler(const char* directory, const char* extension,
-                    const char* busy_extension,
-                    Collections::ConcurrentQueue<boost::filesystem::path>& concurrent_queue,
-                    const std::shared_ptr<Notifier::INotifier>& notifier) 
-        : Processors::IProcessor(30, notifier), __directory(directory), __extension(extension), 
-          __busy_extension(busy_extension), __concurrent_queue(concurrent_queue),
-          __notifier(notifier) { 
+    FileSpooler::FileSpooler(const std::string& directory_to_search, 
+                             const std::string& trigger_extension,
+                             const std::string& busy_extension,
+                             Collections::ConcurrentQueue<boost::filesystem::path>& concurrent_queue,
+                             const std::shared_ptr<Notifier::INotifier>& notifier,
+                             const unsigned int& sleep_time) 
+        : Processors::IProcessor(sleep_time, notifier), 
+          __directory_to_search(directory_to_search), 
+          __trigger_extension(trigger_extension), 
+          __busy_extension(busy_extension), 
+          __concurrent_queue(concurrent_queue) { 
     }
  
-    FileSpooler::~FileSpooler() { }
+    FileSpooler::~FileSpooler() { 
+    }
     
     bool 
     FileSpooler::process() {
         std::stringstream notification;
         bool result = false;
-        boost::filesystem::path directory(__directory);
+        boost::filesystem::path directory(__directory_to_search);
         boost::filesystem::directory_iterator end_of_directory;
         
-        notification << "Looping through directory " << __directory;
-        __notifier->notify(notification);
+        notification << "Looping through directory " << __directory_to_search;
+        notify(notification);
        
         for (boost::filesystem::directory_iterator iterator(directory);
              iterator!= end_of_directory;
@@ -51,19 +56,27 @@ namespace Processors {
             
         
             if (boost::filesystem::is_regular_file(*iterator) 
-                && boost::filesystem::extension(*iterator) == __extension) {
+                && boost::filesystem::extension(*iterator) == __trigger_extension) {
                 if (!result) {
                     result = true;
                 }
                 
                 std::stringstream new_path; 
-                new_path << __directory << (*iterator).path().stem().c_str() << __busy_extension;
+                new_path << __directory_to_search 
+                         << (*iterator).path().stem().c_str() 
+                         << __busy_extension;
                 boost::filesystem::rename(*iterator, boost::filesystem::path(new_path.str()));
                 
                 notification << "Adding to queue " << new_path.str();
-                __notifier->notify(notification);
+                notify(notification);
+                
                 __concurrent_queue.push(boost::filesystem::path(new_path.str()));
             }
+        }
+        
+        if (!result) { 
+            notification << "Sleeping " << __directory_to_search;
+            notify(notification);
         }
         
         return result;

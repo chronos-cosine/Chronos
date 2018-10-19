@@ -97,14 +97,14 @@ namespace Sorter {
     bool 
     Pattern::operator<(const Pattern& rhs) const {
         return __bin->get_id() < rhs.get_id()
-               && __boolean_operator < rhs.get_boolean_operator()
+               && __boolean_operator < rhs.__boolean_operator
                && __id < rhs.__id;
     }
 
     bool 
     Pattern::operator>(const Pattern& rhs) const {
         return __bin->get_id() > rhs.get_id()
-               && __boolean_operator > rhs.get_boolean_operator()
+               && __boolean_operator > rhs.__boolean_operator
                && __id > rhs.__id;
     }
     

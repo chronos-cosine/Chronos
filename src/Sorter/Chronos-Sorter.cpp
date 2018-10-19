@@ -31,16 +31,7 @@ int main(int argc, char** argv) {
     std::map<std::string, std::string>::const_iterator settings = arguments.find(std::string("-sf"));
     if (settings != arguments.end()) {
         Sorter::StartupSettings startup_settings(settings->second);
-        Sorter::SortingMachine sorting_machine(
-            startup_settings.get_patterns_file_location(), 
-            startup_settings.get_bins_file_location(),
-            startup_settings.get_job_file_directories(), 
-            startup_settings.get_sorter_count(),
-            startup_settings.get_results_directory(),
-            startup_settings.get_sorter_trigger_extension(),
-            startup_settings.get_sorter_busy_extension(),
-            startup_settings.get_sorter_done_extension(),
-            startup_settings.get_notifier());
+        Sorter::SortingMachine sorting_machine(startup_settings);
         sorting_machine.start();
         
         while (true) { 

@@ -29,39 +29,32 @@
 
 namespace Sorter {
     
-    SortingMachine::SortingMachine(const std::string& pattern_file, const std::string& bin_file, 
-                       const std::set<std::string>& job_paths, unsigned int sorter_count,
-                       const std::string& output_directory,
-                       const std::string& to_sort_extension,
-                       const std::string& busy_extension, 
-                       const std::string& completed_extension, 
-                       std::shared_ptr<Notifier::INotifier> notifier) 
-            : __patterns(PatternCsvFileReader(notifier).read(pattern_file)), __completed_extension(completed_extension),
-              __bins(BinCsvFileReader(notifier).read(bin_file)), __to_sort_extension(to_sort_extension),
-              __busy_extension(busy_extension), __notifier(notifier),
-              __pattern_matching_machine(Core::Helpers::get_value_set<unsigned long long, std::shared_ptr<Pattern>>(__patterns)) {
+    SortingMachine::SortingMachine(StartupSettings& startup_settings) 
+            : __startup_settings(startup_settings), 
+              __pattern_matching_machine(
+                Core::Helpers::get_value_set<unsigned long long, std::shared_ptr<Pattern>>(
+                    startup_settings.get_patterns())) {
         
-        __pattern_bin_linker.link(__patterns, __bins);
-        for (auto& job_path: job_paths) {
+        for (const auto& job_path: __startup_settings.get_job_file_directories()) {
             reset_folder_files(job_path);
             __file_spoolers.push_back(std::shared_ptr<Processors::FileSpooler>(
                 new Processors::FileSpooler(
-                    job_path.c_str(), 
-                    __to_sort_extension.c_str(), 
-                    __busy_extension.c_str(), 
+                    job_path, 
+                    __startup_settings.get_sorter_trigger_extension(),
+                    __startup_settings.get_sorter_busy_extension(),
                     __job_queue,
-                    __notifier
+                    __startup_settings.get_notifier(),
+                    30
                 )));
         }
         
-        for (int i = 0; i < sorter_count; ++i) {
+        for (int i = 0; i < __startup_settings.get_sorter_count(); ++i) {
             __sorters.push_back(std::shared_ptr<Sorter>(
                 new Sorter(
                     __pattern_matching_machine, 
                     __job_queue, 
-                    output_directory,
-                    __completed_extension,
-                    __notifier
+                    30,
+                    __startup_settings
                 )));
         }
     }
@@ -76,7 +69,7 @@ namespace Sorter {
     SortingMachine::reset_folder_files(const std::string& folder) {
         std::stringstream notification;
         notification << "Resetting " << folder;
-        __notifier->notify(notification);
+        __startup_settings.get_notifier()->notify(notification);
         
         boost::filesystem::path directory(folder);
         boost::filesystem::directory_iterator end_of_directory;
@@ -85,9 +78,9 @@ namespace Sorter {
              iterator!= end_of_directory;
              ++iterator) { 
             if (boost::filesystem::is_regular_file(*iterator)
-                && boost::filesystem::extension(*iterator) == __busy_extension) {
+                && boost::filesystem::extension(*iterator) == __startup_settings.get_sorter_busy_extension()) {
                 std::stringstream new_path; 
-                new_path << folder << (*iterator).path().stem().c_str() << __to_sort_extension;  
+                new_path << folder << (*iterator).path().stem().c_str() << __startup_settings.get_sorter_trigger_extension();  
                 boost::filesystem::rename(*iterator, boost::filesystem::path(new_path.str()));
             }
         }
@@ -114,7 +107,7 @@ namespace Sorter {
             spooler->stop();
             
             while (spooler->get_is_running()) {
-                __notifier->notify("waiting for spooler to exit...");
+                __startup_settings.get_notifier()->notify("waiting for spooler to exit...");
                 std::this_thread::sleep_for(std::chrono::milliseconds(200)); 
             }
         }
@@ -122,7 +115,7 @@ namespace Sorter {
             sorter->stop();
             
             while (sorter->get_is_running()) {
-                __notifier->notify("waiting for sorter to exit...");
+                __startup_settings.get_notifier()->notify("waiting for sorter to exit...");
                 std::this_thread::sleep_for(std::chrono::milliseconds(200));
             }
         }

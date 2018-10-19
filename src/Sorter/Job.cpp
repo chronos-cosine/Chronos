@@ -24,13 +24,6 @@ namespace Sorter {
 
     Job::~Job() { }
     
-    Job::Job(const Job& other) 
-       : __id(other.__id), __document(other.__document), __filename(other.__filename) { }
-        
-    Job::Job(Job&& other) 
-       : __id(std::move(other.__id)), __document(std::move(other.__document)), 
-         __filename(std::move(other.__filename)) { }
-    
     const unsigned long long& 
     Job::get_id() const
     {
@@ -59,25 +52,6 @@ namespace Sorter {
     }
     
     //operators
-    Job& 
-    Job::operator=(const Job& job) {
-        std::lock_guard<std::mutex> lock(__mutex);
-        __id = job.__id;
-        __document = job.__document;
-        __filename = job.__filename;
-        
-        return *this;
-    }
-    
-    Job& 
-    Job::operator=(Job&& job) {
-        std::lock_guard<std::mutex> lock(__mutex);
-        __id = std::move(job.__id);
-        __document = std::move(job.__document);
-        __filename = std::move(job.__filename);
-        
-        return *this;
-    }
     
     bool 
     Job::operator==(const Job& rhs) const {
@@ -106,6 +80,54 @@ namespace Sorter {
         lhs.put("Document", rhs.__document); 
         
         return lhs;
+    }
+    
+    bool 
+    operator<(const std::shared_ptr<Job>& lhs, const std::shared_ptr<Job>& rhs) {
+        if (nullptr == lhs && nullptr == rhs) {
+            return false;
+        }
+        if (nullptr == lhs) { 
+            return true;
+        }
+        if (nullptr == rhs) {
+            return false;
+        } 
+        
+        return *lhs < *rhs;
+    }
+    
+    bool 
+    operator>(const std::shared_ptr<Job>& lhs, const std::shared_ptr<Job>& rhs) {
+        if (nullptr == lhs && nullptr == rhs) {
+            return false;
+        }
+        if (nullptr == lhs) { 
+            return false;
+        }
+        if (nullptr == rhs) {
+            return true;
+        } 
+        
+        return *lhs > *rhs;
+    }
+    
+    bool 
+    operator==(const std::shared_ptr<Job>& lhs, const std::shared_ptr<Job>& rhs) {
+        if (nullptr == lhs && nullptr == rhs) {
+            return true;
+        }
+        if (nullptr == lhs
+            || nullptr == rhs) { 
+            return false;
+        } 
+        
+        return *lhs == *rhs;
+    }
+    
+    bool 
+    operator!=(const std::shared_ptr<Job>& lhs, const std::shared_ptr<Job>& rhs) {
+        return !(lhs == rhs);
     }
     
     std::ostream& 

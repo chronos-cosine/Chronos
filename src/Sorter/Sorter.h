@@ -15,12 +15,12 @@
 #define SORTER_SORTER_H
  
 #include "Collections/ConcurrentQueue.h"
-#include "Processors/IProcessor.h"
 #include "PatternMatcher/PatternMatchingMachine.h"
+#include "Processors/IProcessor.h"
 #include "Sorter/JobFileReader.h"
 #include "Sorter/Pattern.h"
 #include "Sorter/ResultFileWriter.h"
-#include "Notifier/INotifier.h"
+#include "Sorter/StartupSettings.h"
 
 #include <boost/filesystem/path.hpp>
 #include <memory>
@@ -33,43 +33,42 @@ namespace Sorter {
         struct completed {
             void operator()(Sorter& sender, 
                             const unsigned long long& total_matches,
-                            const Job& input) {
+                            Job& input) {
                 sender.process_job(input);
             }
         };
         struct match_found {
             void operator()(Sorter& sender, 
                             const unsigned long long& position,
-                            const Job& input,
+                            Job& input,
                             const std::set<std::shared_ptr<Pattern>>& patterns) {
                 for (auto& pattern: patterns) {
-                    sender.__match_patterns[input][pattern].insert(position);
-                    sender.__match_bins[input].insert(pattern->get_bin());
+                    sender.__match_patterns[std::shared_ptr<Job>(&input)][pattern].insert(position);
+                    sender.__match_bins[std::shared_ptr<Job>(&input)].insert(pattern->get_bin());
                 }
             }
         };
     private:
+        unsigned int __sleep_time;
+        StartupSettings& __startup_settings;
         Sorter::completed __completed;
-        Sorter::match_found __match_found;
-        std::string __output_directory;
-        std::string __completed_extension;
+        Sorter::match_found __match_found; 
         ResultFileWriter __result_file_writer;
         PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter>& __pattern_matching_machine;
         Collections::ConcurrentQueue<boost::filesystem::path>& __concurrent_queue;
         JobFileReader __job_file_reader;
-        std::map<Job, std::map<std::shared_ptr<Pattern>, std::set<unsigned long long>>> __match_patterns;
-        std::map<Job, std::set<std::shared_ptr<Bin>>> __match_bins;
-        std::shared_ptr<Notifier::INotifier> __notifier;
+        std::map<std::shared_ptr<Job>, std::map<std::shared_ptr<Pattern>, std::set<unsigned long long>>> __match_patterns;
+        std::map<std::shared_ptr<Job>, std::set<std::shared_ptr<Bin>>> __match_bins;
     public:
         Sorter(PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter>& pattern_matching_machine,
-               Collections::ConcurrentQueue<boost::filesystem::path>& concurrent_queue,
-               const std::string& output_directory,
-               const std::string& completed_extension, const std::shared_ptr<Notifier::INotifier>& notifier);
+               Collections::ConcurrentQueue<boost::filesystem::path>& concurrent_queue, 
+               const unsigned int& sleep_time,
+               StartupSettings& startup_settings);
         virtual ~Sorter();
     protected:
         virtual bool process();
     private:
-        void process_job(const Job& job);
+        void process_job(Job& job);
     public:
         Sorter(Sorter&) = delete;
         Sorter& operator=(Sorter&) = delete;

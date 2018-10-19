@@ -23,6 +23,11 @@
 namespace Sorter {
 
     class Job {
+    private:
+        unsigned long long __id;
+        std::string __document;
+        std::string __filename;
+        std::mutex __mutex;
     public:
         struct Hasher {
             std::size_t operator()(const Job& job) const noexcept {
@@ -30,8 +35,6 @@ namespace Sorter {
             }
         };
     public:
-        Job(const Job& other);
-        Job(Job&& other);
         Job(const unsigned long long& id, const std::string& document, const std::string& filename);
         virtual ~Job();
         
@@ -43,8 +46,6 @@ namespace Sorter {
         std::string::const_iterator end() const;
         
         //operators 
-        virtual Job& operator=(const Job& rhs);
-        virtual Job& operator=(Job&& rhs);
         virtual bool operator==(const Job& rhs) const;
         virtual bool operator!=(const Job& rhs) const;
         virtual bool operator<(const Job& rhs) const;
@@ -52,12 +53,16 @@ namespace Sorter {
         
         //friend operators
         friend boost::property_tree::ptree& operator<<(boost::property_tree::ptree& lhs, const Job& rhs);
-        friend std::ostream& operator<<(std::ostream& lhs, const Job& rhs);
-    private:
-        unsigned long long __id;
-        std::string __document;
-        std::string __filename;
-        std::mutex __mutex;
+        friend std::ostream& operator<<(std::ostream& lhs, const Job& rhs); 
+        friend bool operator<(const std::shared_ptr<Job>& lhs, const std::shared_ptr<Job>& rhs);
+        friend bool operator>(const std::shared_ptr<Job>& lhs, const std::shared_ptr<Job>& rhs);
+        friend bool operator==(const std::shared_ptr<Job>& lhs, const std::shared_ptr<Job>& rhs);
+        friend bool operator!=(const std::shared_ptr<Job>& lhs, const std::shared_ptr<Job>& rhs);
+    public:
+        Job(const Job&) = delete;
+        Job& operator=(Job&) = delete;
+        Job(Job&&) = delete;
+        Job& operator=(Job&&) = delete;
         
     }; /* class Job */
 

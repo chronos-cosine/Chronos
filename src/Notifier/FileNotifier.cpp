@@ -33,7 +33,7 @@ namespace Notifier {
         __file_stream << "| " << this 
                       << " | " << std::put_time(std::localtime(&time_t), "%F %T") 
                       << " | " << message 
-                      << " |" << std::endl;
+                      << std::endl;
     }
 
 } /* namespace Notifier */
