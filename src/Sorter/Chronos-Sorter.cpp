@@ -25,9 +25,10 @@ int main(int argc, char** argv) {
     std::map<std::string, std::string> arguments = Core::ArgumentReader::read(argc, argv);
     std::map<std::string, std::string>::const_iterator settings = arguments.find(std::string("-sf"));
     if (settings != arguments.end()) {
-//        Sorter::StartupSettingsFileReader startup_settings_file_reader;
-//        Sorter::StartupSettings startup_settings = startup_settings_file_reader.read(settings->second);
+        Sorter::StartupSettingsFileReader startup_settings_file_reader;
+        Sorter::StartupSettings startup_settings = startup_settings_file_reader.read(settings->second);
         
+        std::cout << startup_settings << std::endl;
     }
     else {
         std::cout << "\nCould not find settings file.  Exiting..." << std::endl;

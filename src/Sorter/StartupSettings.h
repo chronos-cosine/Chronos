@@ -47,7 +47,6 @@ namespace Sorter {
         virtual ~StartupSettings();
         StartupSettings(const std::map<unsigned long long, std::shared_ptr<Pattern>>& patterns,
                         const std::map<unsigned long long, std::shared_ptr<Bin>>& bins,
-                        const PatternBinLinker& pattern_bin_linker,
                         const std::shared_ptr<Notifier::INotifier>& notifier,
                         const std::string& log_file_directory,
                         const std::string& results_directory,

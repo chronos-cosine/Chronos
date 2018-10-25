@@ -37,7 +37,6 @@ namespace Sorter {
      
     StartupSettings::StartupSettings(const std::map<unsigned long long, std::shared_ptr<Pattern>>& patterns,
                                      const std::map<unsigned long long, std::shared_ptr<Bin>>& bins,
-                                     const PatternBinLinker& pattern_bin_linker,
                                      const std::shared_ptr<Notifier::INotifier>& notifier,
                                      const std::string& log_file_directory,
                                      const std::string& results_directory,
@@ -53,7 +52,7 @@ namespace Sorter {
                                      const std::string& bins_file_type,
                                      const unsigned short& sorter_count,
                                      const unsigned short& log_file_reset_minutes)
-        : __patterns(patterns), __bins(bins),  __pattern_bin_linker(pattern_bin_linker), 
+        : __patterns(patterns), __bins(bins), 
           __notifier(notifier), __log_file_directory(log_file_directory), 
           __results_directory(results_directory), __completed_directory(completed_directory),
           __job_file_directories(job_file_directories), __sorter_trigger_extension(sorter_trigger_extension),
