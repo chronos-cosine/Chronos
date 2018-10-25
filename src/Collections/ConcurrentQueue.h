@@ -36,7 +36,7 @@ namespace Collections {
     public:
         ConcurrentQueue(const ConcurrentQueue&) = delete;
         ConcurrentQueue& operator=(const ConcurrentQueue&) = delete;
-        ConcurrentQueue(const ConcurrentQueue&&) = delete;
+        ConcurrentQueue(ConcurrentQueue&&) = delete;
         ConcurrentQueue& operator=(ConcurrentQueue&&) = delete;
     };
     
