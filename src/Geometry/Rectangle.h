@@ -14,8 +14,8 @@
 #ifndef GEOMETRY_RECTANGLE_H
 #define GEOMETRY_RECTANGLE_H
 
-#include "Point.h"
-#include "Size.h"
+#include "Geometry/Point.h"
+#include "Geometry/Size.h"
 
 #include <iostream>
 
