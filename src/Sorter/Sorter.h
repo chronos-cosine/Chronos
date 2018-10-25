@@ -60,20 +60,15 @@ namespace Sorter {
         std::map<std::shared_ptr<Job>, std::map<std::shared_ptr<Pattern>, std::set<unsigned long long>>> __match_patterns;
         std::map<std::shared_ptr<Job>, std::set<std::shared_ptr<Bin>>> __match_bins;
     public:
+        virtual ~Sorter();
         Sorter(PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter>& pattern_matching_machine,
                Collections::ConcurrentQueue<boost::filesystem::path>& concurrent_queue, 
                const unsigned int& sleep_time,
                StartupSettings& startup_settings);
-        virtual ~Sorter();
     protected:
         virtual bool process();
     private:
         void process_job(Job& job);
-    public:
-        Sorter(Sorter&) = delete;
-        Sorter& operator=(Sorter&) = delete;
-        Sorter(Sorter&&) = delete;
-        Sorter& operator=(Sorter&&) = delete;
     };
     
 } /* namespace Sorter */

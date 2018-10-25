@@ -24,17 +24,14 @@
 namespace Sorter {
 
     class PatternBinLinker {
+    private:
+        std::mutex __mutex;
     public:
-        PatternBinLinker(const PatternBinLinker&) = delete;
-        PatternBinLinker& operator=(const PatternBinLinker&) = delete;
-    public:
-        PatternBinLinker();
         virtual ~PatternBinLinker();
+        PatternBinLinker();
         
         void link(const std::map<unsigned long long, std::shared_ptr<Pattern>>& patterns, 
                   const std::map<unsigned long long, std::shared_ptr<Bin>>& bins);
-    private:
-        std::mutex __mutex;
     };
 
 } /* namespace Sorter */

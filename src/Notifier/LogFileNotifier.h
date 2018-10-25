@@ -34,18 +34,13 @@ namespace Notifier {
         std::unique_ptr<FileNotifier> __file_notifier;
         std::mutex __mutex;
     public:
-        LogFileNotifier(const unsigned int& reset_minutes, const std::string& log_directory);
         virtual ~LogFileNotifier();
+        LogFileNotifier(const unsigned int& reset_minutes, const std::string& log_directory);
         
         virtual void notify(const char* message);
     private:
         void reset_file();
         void create_file();
-    public:
-        LogFileNotifier(LogFileNotifier&) = delete;
-        LogFileNotifier& operator=(LogFileNotifier&) = delete;
-        LogFileNotifier(LogFileNotifier&&) = delete;
-        LogFileNotifier& operator=(LogFileNotifier&&) = delete;
 
     };
 

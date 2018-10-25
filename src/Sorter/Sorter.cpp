@@ -25,6 +25,8 @@
 
 namespace Sorter {
     
+    Sorter::~Sorter() { }
+    
     Sorter::Sorter(PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter>& pattern_matching_machine,
                    Collections::ConcurrentQueue<boost::filesystem::path>& concurrent_queue, 
                    const unsigned int& sleep_time,
@@ -39,8 +41,6 @@ namespace Sorter {
         __pattern_matching_machine.match_found().connect(__match_found);
     }
 
-    Sorter::~Sorter() { }
-    
     void 
     Sorter::process_job(Job& job) {
         BinParentMatcher bin_parent_matcher;

@@ -20,13 +20,10 @@ namespace Sorter {
 
 class StartupSettingsFileReader {
     public:
-        JobFileReader();
-        virtual ~JobFileReader();
+        virtual ~StartupSettingsFileReader();
+        StartupSettingsFileReader();
         
-        std::unique_ptr<StartupSettings> read(const std::string& filename) const;
-    public:
-        StartupSettingsFileReader(const StartupSettingsFileReader&) = delete;
-        StartupSettingsFileReader& operator=(const StartupSettingsFileReader&) = delete;
+        StartupSettings read(const std::string& filename) const;
 };
 
 } /* namespace Sorter */

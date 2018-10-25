@@ -43,8 +43,8 @@ namespace PatternMatcher
         completed_signal __completed;
         match_found_signal __match_found;
     public:
-        PatternMatchingMachine(const std::set<std::shared_ptr<PATTERN>>& patterns); 
-        virtual ~PatternMatchingMachine(); 
+        virtual ~PatternMatchingMachine();
+        PatternMatchingMachine(const std::set<std::shared_ptr<PATTERN>>& patterns);
  
         void match(INPUT& input, SENDER& sender) const; 
 
@@ -55,11 +55,6 @@ namespace PatternMatcher
         void enter(const std::shared_ptr<PATTERN>& pattern);
         void construct_goto_function(const std::set<std::shared_ptr<PATTERN>>& patterns);
         void construct_failure_function();
-    public:
-        PatternMatchingMachine(const PatternMatchingMachine&) = delete;
-        PatternMatchingMachine& operator=(PatternMatchingMachine&) = delete;
-        PatternMatchingMachine(PatternMatchingMachine&& move) = delete;
-        PatternMatchingMachine& operator=(PatternMatchingMachine&& move) = delete;
         
     }; /* class PatternMatchingMachine */
     

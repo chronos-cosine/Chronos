@@ -24,7 +24,7 @@ namespace Core {
         template <typename KEY, typename VALUE>
         static std::set<VALUE> get_value_set(const std::map<KEY, VALUE>& map) {
             std::set<VALUE> values;
-            for (auto& pair: map) {
+            for (const auto& pair: map) {
                 values.insert(pair.second);
             }
 
@@ -34,7 +34,7 @@ namespace Core {
         template <typename KEY, typename VALUE>
         static std::set<KEY> get_key_set(const std::map<KEY, VALUE>& map) {
             std::set<KEY> values;
-            for (auto& pair: map) {
+            for (const auto& pair: map) {
                 values.insert(pair.first);
             }
 

@@ -25,8 +25,9 @@ namespace Exceptions {
         std::string __bare_message;
         std::string __location;
     public: 
-        Exception(const std::string &arg, const char *file, int line);
         virtual ~Exception() throw();
+        Exception(const std::string &arg, const char *file, int line);
+        
         virtual const char* what() const throw();
         const std::string& what_bare() const throw();
         const std::string& what_location() const throw();

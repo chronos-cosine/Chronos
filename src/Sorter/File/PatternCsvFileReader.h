@@ -29,13 +29,10 @@ namespace Sorter {
         File::CsvFileReader __csv_file_reader;
         std::shared_ptr<Notifier::INotifier> __notifier;
     public: 
-        PatternCsvFileReader(const std::shared_ptr<Notifier::INotifier>& notifier);
         virtual ~PatternCsvFileReader();
+        PatternCsvFileReader(const std::shared_ptr<Notifier::INotifier>& notifier);
         
         std::map<unsigned long long, std::shared_ptr<Pattern>> read(const std::string& filename) const;
-    public:
-        PatternCsvFileReader(const PatternCsvFileReader&) = delete;
-        PatternCsvFileReader& operator=(const PatternCsvFileReader&) = delete;
         
     };
     

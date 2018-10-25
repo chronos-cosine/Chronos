@@ -24,11 +24,10 @@
 
 namespace Sorter {
 
-    KeywordBooleanMatcher::KeywordBooleanMatcher() { }
- 
-
     KeywordBooleanMatcher::~KeywordBooleanMatcher() { }
     
+    KeywordBooleanMatcher::KeywordBooleanMatcher() { }
+ 
     void 
     KeywordBooleanMatcher::match_boolean(std::map<std::shared_ptr<Pattern>, std::set<unsigned long long>>& patterns,
                                          std::set<std::shared_ptr<Bin>>& bins) {

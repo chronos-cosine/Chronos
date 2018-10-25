@@ -22,8 +22,9 @@ namespace Sorter {
     
     class BinParentMatcher {
     public:
-        BinParentMatcher();
         virtual ~BinParentMatcher();
+        BinParentMatcher();
+        
         void match_parents(std::set<std::shared_ptr<Bin>>& bins);
     };
 

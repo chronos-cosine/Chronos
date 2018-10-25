@@ -17,15 +17,13 @@
 
 namespace Sorter {
 
-    StartupSettingsFileReader::StartupSettingsFileReader() {
-    }
+    StartupSettingsFileReader::~StartupSettingsFileReader() { }
 
-    StartupSettingsFileReader::~StartupSettingsFileReader() {
-    }
+    StartupSettingsFileReader::StartupSettingsFileReader() { }
 
-    std::unique_ptr<StartupSettings>
+    StartupSettings
     StartupSettingsFileReader::read(const std::string& filename) const {
-         std::ifstream file(filename.c_str());
+        std::ifstream file(filename.c_str());
         if (file.is_open()) {
             std::stringstream buffer;
             buffer << file.rdbuf();
@@ -54,7 +52,24 @@ namespace Sorter {
                 __job_file_directories.insert(item.second.get_value<std::string>());
             }
             
-            
+            return StartupSettings(__patterns,
+                                   __bins,
+                                   __pattern_bin_linker,
+                                   __notifier,
+                                   __log_file_directory,
+                                   __results_directory,
+                                   __completed_directory,
+                                   __job_file_directories,
+                                   __sorter_trigger_extension,
+                                   __sorter_busy_extension,
+                                   __sorter_done_extension,
+                                   __notifier_type,
+                                   __patterns_file_location,
+                                   __patterns_file_type,
+                                   __bins_file_location,
+                                   __bins_file_type,
+                                   __sorter_count,
+                                   __log_file_reset_minutes);
         } else {
             thrower("Could not open startup settings file.");
         }

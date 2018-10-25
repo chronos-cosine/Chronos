@@ -20,6 +20,8 @@
 
 namespace Processors {
 
+    IProcessor::~IProcessor() { }
+    
     IProcessor::IProcessor(const unsigned int& sleep_time, 
                            const std::shared_ptr<Notifier::INotifier>& notifier) 
             : __sleep_time(sleep_time), 
@@ -28,9 +30,6 @@ namespace Processors {
               __is_executing(false) { 
     }
 
-    IProcessor::~IProcessor() { 
-    }
-      
     bool 
     IProcessor::get_is_running() const {
         return __is_running;

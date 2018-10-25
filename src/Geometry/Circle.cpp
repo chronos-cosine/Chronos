@@ -20,17 +20,14 @@ namespace Geometry {
        
     Circle::Circle(const Point& c, const double& r)
         : center(c), radius(r) {
-        
     }
     
     Circle::Circle(const Circle& circle) 
         : center(circle.center), radius(circle.radius) {
-        
     }
     
     Circle::Circle()
         : center(), radius(0) {
-        
     }
     
     double 

@@ -22,6 +22,8 @@
 
 namespace Notifier {
     
+    LogFileNotifier::~LogFileNotifier() { }
+    
     LogFileNotifier::LogFileNotifier(const unsigned int& reset_minutes, 
                                      const std::string& log_directory) 
             : __reset_minutes(reset_minutes), __log_directory(log_directory) {
@@ -30,8 +32,6 @@ namespace Notifier {
         std::thread thread([=] { reset_file(); });
         thread.detach();
     }
-    
-    LogFileNotifier::~LogFileNotifier() { }
     
     void 
     LogFileNotifier::notify(const char* message) {

@@ -19,10 +19,10 @@
 
 namespace Sorter {
     
-    BinParentMatcher::BinParentMatcher() { }
-
     BinParentMatcher::~BinParentMatcher() { }
     
+    BinParentMatcher::BinParentMatcher() { }
+
     void 
     BinParentMatcher::match_parents(std::set<std::shared_ptr<Bin>>& bins) {
         std::set<std::shared_ptr<Bin>> bins_temp(bins);

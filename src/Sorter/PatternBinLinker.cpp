@@ -22,10 +22,10 @@
 
 namespace Sorter {
 
-    PatternBinLinker::PatternBinLinker() { }
-
     PatternBinLinker::~PatternBinLinker() { }
     
+    PatternBinLinker::PatternBinLinker() { }
+
     void 
     PatternBinLinker::link(const std::map<unsigned long long, std::shared_ptr<Pattern>>& patterns, 
                            const std::map<unsigned long long, std::shared_ptr<Bin>>& bins) {

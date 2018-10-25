@@ -28,9 +28,9 @@ namespace Processors {
         unsigned int __sleep_time;
         std::shared_ptr<Notifier::INotifier> __notifier;
     public:
+        virtual ~IProcessor();
         IProcessor(const unsigned int& sleep_time, 
                    const std::shared_ptr<Notifier::INotifier>& notifier);
-        virtual ~IProcessor();
         
         void start();
         void stop();
@@ -44,12 +44,6 @@ namespace Processors {
         virtual bool process() = 0;
         void notify(std::stringstream& message);
         void notify(const std::string& message);
-    public:
-        IProcessor() = delete;
-        IProcessor(const IProcessor&) = delete;
-        IProcessor& operator=(const IProcessor&) = delete;
-        IProcessor(const IProcessor&&) = delete;
-        IProcessor& operator=(const IProcessor&&) = delete;
     };
 
 } /* namespace Processors */

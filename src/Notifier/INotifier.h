@@ -22,19 +22,14 @@ namespace Notifier {
     
     class INotifier {
     public:
-        INotifier() { }
         virtual ~INotifier() { };
+        INotifier() { }
         virtual void notify(const char* message) = 0; 
         
         virtual void notify(std::stringstream& message) {  
             notify(message.str().c_str());
             message.str(std::string());
-        } 
-    public:
-        INotifier(INotifier&) = delete;
-        INotifier& operator=(INotifier&) = delete;
-        INotifier(INotifier&&) = delete;
-        INotifier& operator=(INotifier&&) = delete;
+        }
     };
     
 } /* namespace Notifier */

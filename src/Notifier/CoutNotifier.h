@@ -23,14 +23,10 @@ namespace Notifier {
     private:
         std::mutex __mutex;
     public:
-        CoutNotifier();
         virtual ~CoutNotifier();
+        CoutNotifier();
+        
         virtual void notify(const char* message);
-    public:
-        CoutNotifier(CoutNotifier&) = delete;
-        CoutNotifier& operator=(CoutNotifier&) = delete;
-        CoutNotifier(CoutNotifier&&) = delete;
-        CoutNotifier& operator=(CoutNotifier&&) = delete;
     };
 
 } /* namespace Notifier */

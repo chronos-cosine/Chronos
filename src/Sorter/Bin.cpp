@@ -23,15 +23,14 @@
 
 namespace Sorter {
 
+    Bin::~Bin() { }
+    
     Bin::Bin(const unsigned long long& id, 
              const std::string& name,
              const unsigned long long& parent_id)
        : __id(id), __name(name), __parent_id(parent_id), 
          __parent(nullptr), __patterns() { }
     
-    Bin::~Bin() { }
-    
-    //member functions
     const std::shared_ptr<Bin>&
     Bin::get_parent() const {
         return __parent;
@@ -168,3 +167,13 @@ namespace Sorter {
     }
     
 } /* namespace Sorter */
+
+
+namespace std {
+    template<>
+    struct hash<Sorter::Bin> {
+        std::size_t operator()(const Sorter::Bin& bin) const {
+            return std::hash<unsigned long long>{}(bin.get_id());
+        }
+    };
+}

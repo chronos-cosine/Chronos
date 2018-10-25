@@ -31,20 +31,15 @@ namespace Processors {
         std::string __busy_extension;
         Collections::ConcurrentQueue<boost::filesystem::path>& __concurrent_queue;
     public:
+        virtual ~FileSpooler();
         FileSpooler(const std::string& directory_to_search, 
                     const std::string& trigger_extension,
                     const std::string& busy_extension,
                     Collections::ConcurrentQueue<boost::filesystem::path>& concurrent_queue,
                     const std::shared_ptr<Notifier::INotifier>& notifier,
-                    const unsigned int& sleep_time); 
-        virtual ~FileSpooler();
+                    const unsigned int& sleep_time);
     protected:
         virtual bool process();
-    public:
-        FileSpooler(const FileSpooler&) = delete;
-        FileSpooler& operator=(const FileSpooler&) = delete;
-        FileSpooler(const FileSpooler&&) = delete;
-        FileSpooler& operator=(const FileSpooler&&) = delete;
     };
 
 } /* namespace Processors */

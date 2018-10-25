@@ -23,10 +23,10 @@
 
 namespace Sorter {
     
+    PatternCsvFileReader::~PatternCsvFileReader() { }
+    
     PatternCsvFileReader::PatternCsvFileReader(const std::shared_ptr<Notifier::INotifier>& notifier)
             : __csv_file_reader(notifier), __notifier(notifier) { }
-    
-    PatternCsvFileReader::~PatternCsvFileReader() { }
     
     std::map<unsigned long long, std::shared_ptr<Pattern>>
     PatternCsvFileReader::read(const std::string& filename) const { 

@@ -29,12 +29,6 @@ namespace Sorter {
         std::string __filename;
         std::mutex __mutex;
     public:
-        struct Hasher {
-            std::size_t operator()(const Job& job) const noexcept {
-                return std::hash<unsigned long long>{}(job.__id);
-            }
-        };
-    public:
         Job(const unsigned long long& id, const std::string& document, const std::string& filename);
         virtual ~Job();
         
@@ -58,11 +52,6 @@ namespace Sorter {
         friend bool operator>(const std::shared_ptr<Job>& lhs, const std::shared_ptr<Job>& rhs);
         friend bool operator==(const std::shared_ptr<Job>& lhs, const std::shared_ptr<Job>& rhs);
         friend bool operator!=(const std::shared_ptr<Job>& lhs, const std::shared_ptr<Job>& rhs);
-    public:
-        Job(const Job&) = delete;
-        Job& operator=(Job&) = delete;
-        Job(Job&&) = delete;
-        Job& operator=(Job&&) = delete;
         
     }; /* class Job */
 

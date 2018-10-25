@@ -28,18 +28,14 @@ namespace File {
     private:
         std::shared_ptr<Notifier::INotifier> __notifier;
     public:
-        CsvFileReader(const std::shared_ptr<Notifier::INotifier>& notifier);
         virtual ~CsvFileReader();
+        CsvFileReader(const std::shared_ptr<Notifier::INotifier>& notifier);
+        
         virtual std::vector<std::vector<std::string>> read(const std::string& filename) const;
     private:
         char get_separator(const std::string& line)  const;
         std::vector<std::string> get_row(const std::string& line, 
                                          const char& separator) const;
-    public:
-        CsvFileReader(const CsvFileReader&) = delete;
-        CsvFileReader& operator=(const CsvFileReader&) = delete;
-        CsvFileReader(const CsvFileReader&&) = delete;
-        CsvFileReader& operator=(const CsvFileReader&&) = delete;
         
     }; /* class CsvFileReader */
     

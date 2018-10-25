@@ -28,12 +28,12 @@
 
 namespace Sorter {
 
+    ResultFileWriter::~ResultFileWriter() { }
+    
     ResultFileWriter::ResultFileWriter(const std::string& completed_extension,
                          const std::shared_ptr<Notifier::INotifier>& notifier)
             : __completed_extension(completed_extension), __notifier(notifier) { }
 
-    ResultFileWriter::~ResultFileWriter() { }
-    
     boost::property_tree::ptree
     ResultFileWriter::read_job_file(const Job& job) {
         boost::property_tree::ptree ptree;

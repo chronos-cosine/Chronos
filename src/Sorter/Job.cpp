@@ -19,11 +19,11 @@
 
 namespace Sorter {
 
+    Job::~Job() { }
+    
     Job::Job(const unsigned long long& id, const std::string& document, const std::string& filename) 
        : __id(id), __document(document), __filename(filename) { }
 
-    Job::~Job() { }
-    
     const unsigned long long& 
     Job::get_id() const
     {
@@ -52,7 +52,6 @@ namespace Sorter {
     }
     
     //operators
-    
     bool 
     Job::operator==(const Job& rhs) const {
         return __id == rhs.__id;
@@ -140,3 +139,12 @@ namespace Sorter {
     }
     
 } /* namespace Sorter */
+
+namespace std {
+    template<>
+    struct hash<Sorter::Job> {
+        std::size_t operator()(const Sorter::Job& job) const {
+            return std::hash<unsigned long long>{}(job.get_id());
+        }
+    };   
+}

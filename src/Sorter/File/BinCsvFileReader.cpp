@@ -25,12 +25,12 @@
 
 namespace Sorter {
     
+    BinCsvFileReader::~BinCsvFileReader() { }
+    
     BinCsvFileReader::BinCsvFileReader(const std::shared_ptr<Notifier::INotifier>& notifier)
             : __csv_file_reader(notifier), __notifier(notifier) { 
     
     }
-    
-    BinCsvFileReader::~BinCsvFileReader() { }
     
     std::map<unsigned long long, std::shared_ptr<Bin>>
     BinCsvFileReader::read(const std::string& filename) const { 

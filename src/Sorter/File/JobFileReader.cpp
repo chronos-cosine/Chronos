@@ -20,10 +20,10 @@
 
 namespace Sorter {
 
-    JobFileReader::JobFileReader() { }
-
     JobFileReader::~JobFileReader() { }
     
+    JobFileReader::JobFileReader() { }
+
     std::unique_ptr<Job>
     JobFileReader::read(const std::string& filename) const
     { 

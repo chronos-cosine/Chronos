@@ -19,6 +19,8 @@
 
 namespace Exceptions {
     
+Exception::~Exception() throw() { }
+
 Exception::Exception(const std::string &arg, const char *file, int line)
         : std::runtime_error(arg) {
     std::stringstream value;
@@ -30,8 +32,6 @@ Exception::Exception(const std::string &arg, const char *file, int line)
     __message = value.str();
     __bare_message = arg;    
 } 
-
-Exception::~Exception() throw() { }
 
 const char* 
 Exception::what() const throw() {

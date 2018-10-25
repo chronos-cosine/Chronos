@@ -35,62 +35,34 @@ namespace Sorter {
 
     StartupSettings::~StartupSettings() { }
      
-    StartupSettings::StartupSettings(const std::string& startup_settings_file) {
-        read_settings_file(startup_settings_file);
-        set_notifier();
-        read_patterns_file();
-        read_bins_file();
-        PatternBinLinker().link(__patterns, __bins);
-    }
-    
-    void 
-    StartupSettings::read_patterns_file() {
-        if (__patterns_file_type == "csv") {
-            PatternCsvFileReader pattern_file_reader(__notifier);
-            __patterns = pattern_file_reader.read(__patterns_file_location);
-        } else {
-            thrower ("Not yet implemented");
-        }
-    }
-    
-    void
-    StartupSettings::read_bins_file() {
-        if (__bins_file_type == "csv") {
-            BinCsvFileReader bin_file_reader(__notifier);
-            __bins = bin_file_reader.read(__bins_file_location);
-        } else {
-            thrower ("Not yet implemented");
-        }
-    }
-    
-    void 
-    StartupSettings::read_settings_file(const std::string& startup_settings_file) {
-       
-    }
-    
-    std::map<unsigned long long, std::shared_ptr<Pattern>>& 
-    StartupSettings::get_patterns() {
-        return __patterns;
-    }
-    
-    std::map<unsigned long long, std::shared_ptr<Bin>>& 
-    StartupSettings::StartupSettings::get_bins() {
-        return __bins;
-    }
+    StartupSettings::StartupSettings(const std::map<unsigned long long, std::shared_ptr<Pattern>>& patterns,
+                                     const std::map<unsigned long long, std::shared_ptr<Bin>>& bins,
+                                     const PatternBinLinker& pattern_bin_linker,
+                                     const std::shared_ptr<Notifier::INotifier>& notifier,
+                                     const std::string& log_file_directory,
+                                     const std::string& results_directory,
+                                     const std::string& completed_directory,
+                                     const std::set<std::string>& job_file_directories,
+                                     const std::string& sorter_trigger_extension,
+                                     const std::string& sorter_busy_extension,
+                                     const std::string& sorter_done_extension,
+                                     const std::string& notifier_type,
+                                     const std::string& patterns_file_location,
+                                     const std::string& patterns_file_type,
+                                     const std::string& bins_file_location,
+                                     const std::string& bins_file_type,
+                                     const unsigned short& sorter_count,
+                                     const unsigned short& log_file_reset_minutes)
+        : __patterns(patterns), __bins(bins),  __pattern_bin_linker(pattern_bin_linker), 
+          __notifier(notifier), __log_file_directory(log_file_directory), 
+          __results_directory(results_directory), __completed_directory(completed_directory),
+          __job_file_directories(job_file_directories), __sorter_trigger_extension(sorter_trigger_extension),
+          __sorter_busy_extension(sorter_busy_extension), __sorter_done_extension(sorter_done_extension),
+          __notifier_type(notifier_type), __patterns_file_location(patterns_file_location), 
+          __patterns_file_type(patterns_file_type), __bins_file_location(bins_file_location), 
+          __bins_file_type(bins_file_type), __sorter_count(sorter_count), 
+          __log_file_reset_minutes(log_file_reset_minutes) { }
         
-    void
-    StartupSettings::set_notifier() {
-        if (__notifier_type == "console") {
-            __notifier = std::shared_ptr<Notifier::INotifier>(new Notifier::CoutNotifier());
-        } else if (__notifier_type == "blank") {
-            __notifier = std::shared_ptr<Notifier::INotifier>(new Notifier::BlankNotifier());
-        } else if (__notifier_type == "log") {
-            __notifier = std::shared_ptr<Notifier::INotifier>(new Notifier::LogFileNotifier(__log_file_reset_minutes, __log_file_directory));
-        } else {
-            __notifier = std::shared_ptr<Notifier::INotifier>(new Notifier::CoutNotifier());
-        }
-    }
-    
     const std::string& 
     StartupSettings::get_log_file_directory() const {
         return __log_file_directory;

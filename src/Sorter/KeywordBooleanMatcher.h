@@ -25,8 +25,9 @@ namespace Sorter {
     
     class KeywordBooleanMatcher {
     public:
-        KeywordBooleanMatcher(); 
         virtual ~KeywordBooleanMatcher();
+        KeywordBooleanMatcher(); 
+        
         void match_boolean(std::map<std::shared_ptr<Pattern>, std::set<unsigned long long>>& patterns,
                            std::set<std::shared_ptr<Bin>>& bins);
     };

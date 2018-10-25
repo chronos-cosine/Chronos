@@ -20,11 +20,11 @@
 
 namespace File {
 
+    CsvFileReader::~CsvFileReader() { }
+    
     CsvFileReader::CsvFileReader(const std::shared_ptr<Notifier::INotifier>& notifier)
             : __notifier(notifier) { }
     
-    CsvFileReader::~CsvFileReader() { }
-        
     char 
     CsvFileReader::get_separator(const std::string& line) const {
         if (line.length() != 5

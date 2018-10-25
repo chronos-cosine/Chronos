@@ -26,15 +26,10 @@ namespace Notifier {
         std::ofstream __file_stream;
         std::mutex __mutex;
     public:
-        FileNotifier(const std::string& file_path); 
         virtual ~FileNotifier();
+        FileNotifier(const std::string& file_path);
         
         virtual void notify(const char* message);
-    public:
-        FileNotifier(FileNotifier&) = delete;
-        FileNotifier& operator=(FileNotifier&) = delete;
-        FileNotifier(FileNotifier&&) = delete;
-        FileNotifier& operator=(FileNotifier&&) = delete;
     };
 } /* namespace Notifier */
     

@@ -20,11 +20,11 @@
 
 namespace Notifier {
     
+    FileNotifier::~FileNotifier() { }
+    
     FileNotifier::FileNotifier(const std::string& file_path)
             : __file_path(file_path), __file_stream(file_path.c_str()) { }
 
-    FileNotifier::~FileNotifier() { }
-    
     void 
     FileNotifier::notify(const char* message) {
         std::lock_guard<std::mutex> lock(__mutex);

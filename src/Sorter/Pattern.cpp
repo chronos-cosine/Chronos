@@ -23,6 +23,8 @@
 
 namespace Sorter {
 
+    Pattern::~Pattern() { }
+    
     //constructors
     Pattern::Pattern(const unsigned long long& id, 
                      const char* value,
@@ -38,7 +40,6 @@ namespace Sorter {
         : __value(value), 
           __id(id), __bin_id(bin_id), __bin(nullptr), __boolean_operator(boolean_operator) { }
 
-    Pattern::~Pattern() { }
 
     //member functions 
     const std::string& 
@@ -175,3 +176,12 @@ namespace Sorter {
     }
 
 } /* namespace Sorter */
+
+namespace std {
+    template<>
+    struct hash<Sorter::Pattern> {
+        std::size_t operator()(const Sorter::Pattern& pattern) const {
+            return std::hash<unsigned long long>{}(pattern.get_id());
+        }
+    }; 
+} 

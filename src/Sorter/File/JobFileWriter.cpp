@@ -21,10 +21,10 @@
 
 namespace Sorter {
 
-    JobFileWriter::JobFileWriter() { }
- 
     JobFileWriter::~JobFileWriter() { }
     
+    JobFileWriter::JobFileWriter() { }
+ 
     void 
     JobFileWriter::write(const Job& job) {
         std::lock_guard<std::mutex> lock(__mutex);

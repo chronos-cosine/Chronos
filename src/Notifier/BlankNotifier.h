@@ -20,15 +20,11 @@ namespace Notifier {
     
     class BlankNotifier : public INotifier { 
     public:
-        BlankNotifier() { }
         virtual ~BlankNotifier() { }
+        BlankNotifier() { }
+        
         virtual void notify(const char* message) { }
         virtual void notify(const std::stringstream& message) { }
-    public:
-        BlankNotifier(BlankNotifier&) = delete;
-        BlankNotifier& operator=(BlankNotifier&) = delete;
-        BlankNotifier(BlankNotifier&&) = delete;
-        BlankNotifier& operator=(BlankNotifier&&) = delete;
     };
 
 } /* namespace Notifier */

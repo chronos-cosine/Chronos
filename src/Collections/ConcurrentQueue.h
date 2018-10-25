@@ -27,24 +27,19 @@ namespace Collections {
         std::mutex __mutex;
         std::condition_variable __condition_variable;
     public:
-        ConcurrentQueue();
         virtual ~ConcurrentQueue();
+        ConcurrentQueue();
         
         void push(T item);
         T pop();
         typename std::queue<T>::size_type size() const;
-    public:
-        ConcurrentQueue(const ConcurrentQueue&) = delete;
-        ConcurrentQueue& operator=(const ConcurrentQueue&) = delete;
-        ConcurrentQueue(ConcurrentQueue&&) = delete;
-        ConcurrentQueue& operator=(ConcurrentQueue&&) = delete;
     };
     
     template <typename T>
-    ConcurrentQueue<T>::ConcurrentQueue() { }
+    ConcurrentQueue<T>::~ConcurrentQueue() { }
     
     template <typename T>
-    ConcurrentQueue<T>::~ConcurrentQueue() { }
+    ConcurrentQueue<T>::ConcurrentQueue() { }
     
     template <typename T>
     void 

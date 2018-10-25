@@ -21,15 +21,9 @@ namespace PatternMatcher
         std::map<char, Node<PATTERN>*> __states;
         std::set<std::shared_ptr<PATTERN>> __output;
     public:
-        struct Hasher {
-            std::size_t operator()(const Node<PATTERN>& node) const noexcept {
-                return std::hash<char>{}(node.__value);
-            }
-        };
-    public:
         //constructors
-        Node(const char& value); 
         virtual ~Node();
+        Node(const char& value);
 
         //member functions
         Node<PATTERN>* get_failure(); 
@@ -48,11 +42,6 @@ namespace PatternMatcher
         //operators
         virtual bool operator<(const Node<PATTERN>& rhs) const;
         virtual bool operator>(const Node<PATTERN>& rhs) const;
-    public:
-        Node(Node<PATTERN>&) = delete;
-        Node<PATTERN>& operator=(Node<PATTERN>&) = delete;
-        bool operator==(Node<PATTERN>&) = delete;
-        bool operator!=(Node<PATTERN>&) = delete;
         
     }; /* class Node */
     
@@ -166,6 +155,16 @@ namespace PatternMatcher
     }
 
 } /* namespace PatternMatcher */
+
+
+namespace std {
+    template <typename PATTERN>
+    struct hash<PatternMatcher::Node<PATTERN>> {
+        std::size_t operator()(const PatternMatcher::Node<PATTERN> node) const {
+            return std::hash<char>{}(node.__value);
+        }
+    };
+}
  
 #endif /* PATTERNMATCHER_NODE_H */
 

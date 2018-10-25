@@ -17,15 +17,10 @@ namespace PatternMatcher
     template <typename PATTERN>
     class RootNode : public Node<PATTERN> {
     public:
-        RootNode(); 
         virtual ~RootNode();
+        RootNode();
 
-        virtual Node<PATTERN>* g(const char& a); 
-    public:
-        RootNode(RootNode&) = delete;
-        RootNode& operator=(RootNode&) = delete;
-        RootNode(RootNode&&) = delete;
-        RootNode& operator=(RootNode&&) = delete;
+        virtual Node<PATTERN>* g(const char& a);
         
     }; /* class RootNode */
     

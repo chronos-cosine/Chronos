@@ -12,6 +12,7 @@
  */
 
 #include "Core/ArgumentReader.h" 
+#include "Sorter/File/StartupSettingsFileReader.h"
 #include "Sorter/StartupSettings.h"
 
 #include <iostream>
@@ -24,7 +25,8 @@ int main(int argc, char** argv) {
     std::map<std::string, std::string> arguments = Core::ArgumentReader::read(argc, argv);
     std::map<std::string, std::string>::const_iterator settings = arguments.find(std::string("-sf"));
     if (settings != arguments.end()) {
-        Sorter::StartupSettings startup_settings(settings->second);
+//        Sorter::StartupSettingsFileReader startup_settings_file_reader;
+//        Sorter::StartupSettings startup_settings = startup_settings_file_reader.read(settings->second);
         
     }
     else {

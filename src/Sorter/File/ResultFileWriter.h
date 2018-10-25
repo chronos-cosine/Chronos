@@ -31,9 +31,9 @@ namespace Sorter {
         std::shared_ptr<Notifier::INotifier> __notifier;
         std::string __completed_extension;
     public:
+        virtual ~ResultFileWriter();
         ResultFileWriter(const std::string& completed_extension,
                          const std::shared_ptr<Notifier::INotifier>& notifier);
-        virtual ~ResultFileWriter();
         
         void write(const Job& job,
                    const std::map<std::shared_ptr<Pattern>, std::set<unsigned long long>>& patterns,
@@ -41,9 +41,6 @@ namespace Sorter {
                    const std::string& output_directory);
     private:
         boost::property_tree::ptree read_job_file(const Job& job);
-    public:
-        ResultFileWriter(const ResultFileWriter&) = delete;
-        ResultFileWriter& operator=(const ResultFileWriter&) = delete;
 
     }; /* class ResultFileWriter */
 

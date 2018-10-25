@@ -22,15 +22,12 @@ namespace Sorter {
 
     class JobFileWriter {
     public:
-        JobFileWriter(); 
         virtual ~JobFileWriter();
+        JobFileWriter();
         
         void write(const Job& job);
     private:
         std::mutex __mutex;
-    public:
-        JobFileWriter(const JobFileWriter&) = delete;
-        JobFileWriter& operator=(const JobFileWriter&) = delete;
 };
 
 } /* namespace Sorter */

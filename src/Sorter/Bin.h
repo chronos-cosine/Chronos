@@ -34,10 +34,10 @@ namespace Sorter {
         std::shared_ptr<Bin> __parent;
         std::mutex __mutex;
     public:
+        virtual ~Bin();
         Bin(const unsigned long long& id, 
             const std::string& name,
             const unsigned long long& parent_id);
-        virtual ~Bin();
 
         //member functions
         const std::shared_ptr<Bin>& get_parent() const;
@@ -60,18 +60,6 @@ namespace Sorter {
         friend bool operator>(const std::shared_ptr<Bin>& lhs, const std::shared_ptr<Bin>& rhs);
         friend bool operator==(const std::shared_ptr<Bin>& lhs, const std::shared_ptr<Bin>& rhs);
         friend bool operator!=(const std::shared_ptr<Bin>& lhs, const std::shared_ptr<Bin>& rhs);
-    public:
-        struct Hasher {
-            std::size_t operator()(const Bin& bin) const noexcept {
-                return std::hash<unsigned long long>{}(bin.__id);
-            }
-        };
-    public:
-        Bin() = delete;
-        Bin(Bin&) = delete;
-        Bin(Bin&&) = delete;
-        Bin& operator=(Bin&) = delete;
-        Bin& operator=(Bin&&) = delete;
         
     }; /* class Bin */
 

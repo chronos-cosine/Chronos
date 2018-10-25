@@ -24,6 +24,8 @@
 
 namespace Processors {
     
+    FileSpooler::~FileSpooler() { }
+    
     FileSpooler::FileSpooler(const std::string& directory_to_search, 
                              const std::string& trigger_extension,
                              const std::string& busy_extension,
@@ -36,10 +38,7 @@ namespace Processors {
           __busy_extension(busy_extension), 
           __concurrent_queue(concurrent_queue) { 
     }
- 
-    FileSpooler::~FileSpooler() { 
-    }
-    
+
     bool 
     FileSpooler::process() {
         std::stringstream notification;

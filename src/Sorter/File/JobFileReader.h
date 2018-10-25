@@ -21,13 +21,12 @@ namespace Sorter {
 
     class JobFileReader {
     public:
-        JobFileReader();
         virtual ~JobFileReader();
+        JobFileReader();
+        JobFileReader(JobFileReader&&) = default;
+        JobFileReader& operator=(JobFileReader&&) = default;
         
         std::unique_ptr<Job> read(const std::string& filename) const;
-    public:
-        JobFileReader(const JobFileReader&) = delete;
-        JobFileReader& operator=(const JobFileReader&) = delete;
     };
 
 } /* namespace Sorter */

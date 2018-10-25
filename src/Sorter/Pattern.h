@@ -38,11 +38,11 @@ namespace Sorter {
         std::shared_ptr<Bin> __bin;
     public:
         //constructors
+        virtual ~Pattern();
         Pattern(const unsigned long long& id, const char* value, 
                 const unsigned long long& bin_id, const BooleanOperator& boolean_operator);
         Pattern(const unsigned long long& id, const std::string& value, 
-                const unsigned long long& bin_id, const BooleanOperator& boolean_operator); 
-        virtual ~Pattern();
+                const unsigned long long& bin_id, const BooleanOperator& boolean_operator);
 
         //member functions
         const unsigned long long& get_id() const;
@@ -68,18 +68,7 @@ namespace Sorter {
         friend bool operator>(const std::shared_ptr<Pattern>& lhs, const std::shared_ptr<Pattern>& rhs);
         friend bool operator==(const std::shared_ptr<Pattern>& lhs, const std::shared_ptr<Pattern>& rhs);
         friend bool operator!=(const std::shared_ptr<Pattern>& lhs, const std::shared_ptr<Pattern>& rhs);
-    public:
-        Pattern() = delete;
-        Pattern(Pattern&) = delete;
-        Pattern(Pattern&&) = delete;
-        Pattern& operator=(Pattern&) = delete;
-        Pattern& operator=(Pattern&&) = delete;
-    public:
-        struct Hasher {
-            std::size_t operator()(const Pattern& pattern) const noexcept {
-                return std::hash<unsigned long long>{}(pattern.__id);
-            }
-        }; 
+        
     }; /* class Pattern */
 
 } /* namespace Sorter */
