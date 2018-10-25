@@ -13,6 +13,8 @@
  * Created on 25 October 2018, 11:23 AM
  */
 
+#include <boost/functional/hash.hpp>
+
 namespace Geometry {
 
     Rectangle::Rectangle(const Point& point, const Size& size)
