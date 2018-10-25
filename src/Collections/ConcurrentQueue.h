@@ -35,7 +35,7 @@ namespace Collections {
         typename std::queue<T>::size_type size() const;
     public:
         ConcurrentQueue(const ConcurrentQueue&) = delete;
-        ConcurrentQueue& operator=(ConcurrentQueue&) = delete;
+        ConcurrentQueue& operator=(const ConcurrentQueue&) = delete;
         ConcurrentQueue(const ConcurrentQueue&&) = delete;
         ConcurrentQueue& operator=(ConcurrentQueue&&) = delete;
     };
