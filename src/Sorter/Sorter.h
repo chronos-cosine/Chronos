@@ -17,9 +17,9 @@
 #include "Collections/ConcurrentQueue.h"
 #include "PatternMatcher/PatternMatchingMachine.h"
 #include "Processors/IProcessor.h"
-#include "Sorter/JobFileReader.h"
+#include "Sorter/File/JobFileReader.h"
 #include "Sorter/Pattern.h"
-#include "Sorter/ResultFileWriter.h"
+#include "Sorter/File/ResultFileWriter.h"
 #include "Sorter/StartupSettings.h"
 
 #include <boost/filesystem/path.hpp>
@@ -34,7 +34,7 @@ namespace Sorter {
             void operator()(Sorter& sender,
                             const Job& input,
                             const unsigned long long& total_matches) {
-                sender.process_job(input);
+//                sender.process_job(input);
             }
         };
         struct match_found {
@@ -43,8 +43,8 @@ namespace Sorter {
                             const unsigned long long& position,
                             const std::set<std::shared_ptr<Pattern>>& patterns) {
                 for (auto& pattern: patterns) {
-                   sender.__match_patterns[std::shared_ptr<Job>(&input)][pattern].insert(position);
-                   sender.__match_bins[std::shared_ptr<Job>(&input)].insert(pattern->get_bin());
+                //   sender.__match_patterns[std::shared_ptr<Job>(&input)][pattern].insert(position);
+                //   sender.__match_bins[std::shared_ptr<Job>(&input)].insert(pattern->get_bin());
                 }
             }
         };

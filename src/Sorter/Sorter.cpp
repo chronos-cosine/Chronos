@@ -15,7 +15,7 @@
 
 #include "Collections/ConcurrentQueue.h"
 #include "PatternMatcher/PatternMatchingMachine.h"
-#include "Sorter/JobFileReader.h"
+#include "Sorter/File/JobFileReader.h"
 #include "Sorter/Pattern.h"
 #include "Sorter/BinParentMatcher.h"
 #include "Sorter/KeywordBooleanMatcher.h" 

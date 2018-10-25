@@ -11,13 +11,7 @@
  * Created on 04 October 2018, 7:08 AM
  */
 
-#include "Core/ArgumentReader.h"
-#include "Core/Helpers.h" 
-#include "Exceptions/Exception.h"
-#include "Sorter/SortingMachine.h"
-#include "Notifier/INotifier.h"
-#include "Notifier/CoutNotifier.h"
-#include "Notifier/LogFileNotifier.h"
+#include "Core/ArgumentReader.h" 
 #include "Sorter/StartupSettings.h"
 
 #include <iostream>
@@ -31,12 +25,7 @@ int main(int argc, char** argv) {
     std::map<std::string, std::string>::const_iterator settings = arguments.find(std::string("-sf"));
     if (settings != arguments.end()) {
         Sorter::StartupSettings startup_settings(settings->second);
-        Sorter::SortingMachine sorting_machine(startup_settings);
-        sorting_machine.start();
         
-        while (true) { 
-            std::this_thread::sleep_for(std::chrono::seconds(5));
-        }
     }
     else {
         std::cout << "\nCould not find settings file.  Exiting..." << std::endl;

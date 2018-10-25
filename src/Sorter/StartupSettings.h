@@ -77,6 +77,10 @@ namespace Sorter {
         
         const unsigned short& get_sorter_count() const;
         const unsigned short& get_log_file_reset_minutes() const;
+        
+        //friend operators
+        friend boost::property_tree::ptree& operator<<(boost::property_tree::ptree& lhs, const StartupSettings& rhs);
+        friend std::ostream& operator<<(std::ostream& lhs, const StartupSettings& rhs);
     };
     
 } /* namespace Sorter */

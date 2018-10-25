@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-#include "Sorter/ResultFileWriter.h"
+#include "Sorter/File/ResultFileWriter.h"
 
 /* 
  * File:   ResultFileWriter.cpp

@@ -4,6 +4,8 @@ if(Boost_FOUND)
     file(GLOB Sorter_SOURCES
         "${CMAKE_CURRENT_LIST_DIR}/*.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/*.h"
+        "${CMAKE_CURRENT_LIST_DIR}/File/*.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/File/*.h"
         "${CHRONOS_SOURCE_ROOT}/File/CsvFileReader.h"
         "${CHRONOS_SOURCE_ROOT}/File/CsvFileReader.cpp"
         "${CHRONOS_SOURCE_ROOT}/Exceptions/Exception.h"

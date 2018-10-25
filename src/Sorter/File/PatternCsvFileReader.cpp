@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-#include "Sorter/PatternCsvFileReader.h"
+#include "Sorter/File/PatternCsvFileReader.h"
 
 /* 
  * File:   PatternFileReader.cpp

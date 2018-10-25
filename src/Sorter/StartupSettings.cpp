@@ -20,12 +20,13 @@
 #include "Notifier/INotifier.h"
 #include "Notifier/LogFileNotifier.h"
 #include "Sorter/Bin.h"
-#include "Sorter/BinCsvFileReader.h"
+#include "Sorter/File/BinCsvFileReader.h"
 #include "Sorter/Pattern.h"
 #include "Sorter/PatternBinLinker.h"
-#include "Sorter/PatternCsvFileReader.h"
+#include "Sorter/File/PatternCsvFileReader.h"
 #include "Sorter/StartupSettings.h"
 
+#include <algorithm>
 #include <iostream>
 #include <fstream>
 #include <memory>
@@ -64,39 +65,7 @@ namespace Sorter {
     
     void 
     StartupSettings::read_settings_file(const std::string& startup_settings_file) {
-        std::ifstream file(startup_settings_file.c_str());
-        if (file.is_open()) {
-            std::stringstream buffer;
-            buffer << file.rdbuf();
-
-            boost::property_tree::ptree ptree;
-            boost::property_tree::read_json(buffer, ptree);
-            
-            __log_file_directory = ptree.get<std::string>("log_file_directory");
-            __results_directory = ptree.get<std::string>("results_directory");
-            __completed_directory = ptree.get<std::string>("completed_directory");
-            
-            __sorter_trigger_extension = ptree.get<std::string>("sorter_trigger_extension");
-            __sorter_busy_extension = ptree.get<std::string>("sorter_busy_extension");
-            __sorter_done_extension = ptree.get<std::string>("sorter_done_extension");
-            
-            __notifier_type = ptree.get<std::string>("notifier_type"); 
-            __patterns_file_location = ptree.get<std::string>("patterns_file_location");
-            __patterns_file_type = ptree.get<std::string>("patterns_file_type");
-            __bins_file_location = ptree.get<std::string>("bins_file_location");
-            __bins_file_type = ptree.get<std::string>("bins_file_type");
-            
-            __sorter_count = ptree.get<unsigned short>("sorter_count");
-            __log_file_reset_minutes = ptree.get<unsigned short>("log_file_reset_minutes");
-             
-            for (auto& item: ptree.get_child("job_file_directories")) {
-                __job_file_directories.insert(item.second.get_value<std::string>());
-            }
-            
-            
-        } else {
-            thrower("Could not open startup settings file.");
-        }
+       
     }
     
     std::map<unsigned long long, std::shared_ptr<Pattern>>& 
@@ -197,5 +166,39 @@ namespace Sorter {
         return __notifier;
     }
 
+    boost::property_tree::ptree& 
+    operator<<(boost::property_tree::ptree& lhs, const StartupSettings& rhs) {
+        lhs.put("log_file_directory", rhs.__log_file_directory);
+        lhs.put("results_directory", rhs.__results_directory); 
+        lhs.put("completed_directory", rhs.__completed_directory);
+        lhs.put("sorter_trigger_extension", rhs.__sorter_trigger_extension); 
+        lhs.put("sorter_busy_extension", rhs.__sorter_busy_extension);
+        lhs.put("sorter_done_extension", rhs.__sorter_done_extension); 
+        lhs.put("notifier_type", rhs.__notifier_type); 
+        lhs.put("patterns_file_location", rhs.__patterns_file_location);
+        lhs.put("patterns_file_type", rhs.__patterns_file_type); 
+        lhs.put("bins_file_location", rhs.__bins_file_location);
+        lhs.put("bins_file_type", rhs.__bins_file_type); 
+        lhs.put("sorter_count", rhs.__sorter_count);
+        lhs.put("log_file_reset_minutes", rhs.__log_file_reset_minutes);
+        boost::property_tree::ptree directories;
+        for (auto& directory: rhs.__job_file_directories) {
+            boost::property_tree::ptree value;
+            value.put("", directory);
+            directories.push_back(std::make_pair("", value));
+        }
+        lhs.add_child("job_file_directories", directories);  
+        
+        return lhs;
+    }
+    
+    std::ostream& 
+    operator<<(std::ostream& lhs, const StartupSettings& rhs) {
+        boost::property_tree::ptree ptree;
+        ptree << rhs;
+
+        boost::property_tree::write_json(lhs, ptree);
+        return lhs;
+    }
 
 } /* namespace Sorter */

@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-#include "Sorter/JobFileWriter.h"
+#include "Sorter/File/JobFileWriter.h"
 
 /* 
  * File:   JobFileWriter.cpp

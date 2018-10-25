@@ -15,7 +15,6 @@
 
 #include "Exceptions/Exception.h"
 
-#include <exception>
 #include <sstream>
 #include <string>
 
@@ -58,6 +57,7 @@ namespace File {
             getline(file, line);
             
             char separator = get_separator(line);
+            
             while (getline(file, line)) {
                 data.push_back(get_row(line, separator));
             }

@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-#include "Sorter/BinCsvFileReader.h"
+#include "Sorter/File/BinCsvFileReader.h"
 
 /* 
  * File:   BinFileReader.cpp
@@ -39,6 +39,7 @@ namespace Sorter {
         
         for (const std::vector<std::string>& row: data) {
             if (row.size() != 3) {
+                std::cout << row.size() << std::endl;
                 thrower ("Bin document not in the correct format.");
             }
             
