@@ -13,6 +13,7 @@
  * Created on 25 October 2018, 11:51 AM
  */
 
+#include <boost/functional/hash.hpp>
 #include <math.h>
 
 namespace Geometry {
