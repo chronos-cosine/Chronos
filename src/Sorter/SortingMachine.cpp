@@ -13,8 +13,14 @@
  * Created on 26 October 2018, 8:57 AM
  */
 
+#include "Collections/ConcurrentQueue.h"
 #include "Core/Helpers.h"
 #include "Processors/FileSpooler.h"
+#include "PatternMatcher/PatternMatchingMachine.h"
+#include "Sorter/Job.h"
+#include "Sorter/Pattern.h"
+#include "Sorter/StartupSettings.h"
+#include "Sorter/Sorter.h"
 
 #include <boost/filesystem/path.hpp>
 #include <thread>
@@ -25,7 +31,7 @@ namespace Sorter {
     
     SortingMachine::SortingMachine(StartupSettings& startup_settings)
         : __startup_settings(startup_settings),
-          __pattern_matcher(Core::Helpers::get_value_set(startup_settings.get_patterns())) {
+          __pattern_matcher(Core::Helpers::get_value_set(__startup_settings.get_patterns())) {
         for (const std::string& directory: startup_settings.get_job_file_directories()) {
             __file_spoolers.push_back(Processors::FileSpooler(directory,
                     startup_settings.get_sorter_trigger_extension(),

@@ -29,8 +29,9 @@ namespace Sorter {
         std::string __filename;
         std::mutex __mutex;
     public:
-        Job(const unsigned long long& id, const std::string& document, const std::string& filename);
         virtual ~Job();
+        Job(const unsigned long long& id, const std::string& document, const std::string& filename);
+        Job(const Job& other);
         
         const unsigned long long& get_id() const;
         const std::string& get_document() const;

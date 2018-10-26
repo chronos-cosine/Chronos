@@ -51,27 +51,27 @@ namespace Sorter {
     }
     
     void 
-    Sorter::process_job(Job& job) {
+    Sorter::process_job(const Job& job) {
         BinParentMatcher bin_parent_matcher;
         KeywordBooleanMatcher keyword_boolean_matcher;
         std::stringstream notification; 
-        std::shared_ptr<Job> job_ptr(&job);
-        
+        std::shared_ptr<Job> j_ptr = std::make_shared<Job>(std::move(job));
+       
         notification << "Performing boolean matches on " << job.get_filename();
         notify(notification);
         
-        keyword_boolean_matcher.match_boolean(__match_patterns[job_ptr], __match_bins[job_ptr]); 
+        keyword_boolean_matcher.match_boolean(__match_patterns[j_ptr], __match_bins[j_ptr]); 
         
         notification << "Checking tree parents " << job.get_filename();
         notify(notification);
         
-        bin_parent_matcher.match_parents(__match_bins[job_ptr]);
+        bin_parent_matcher.match_parents(__match_bins[j_ptr]);
         
         notification << "Writing the results for " << job.get_filename();
         notify(notification);
         
-        __result_file_writer.write(job, __match_patterns[job_ptr],
-                __match_bins[job_ptr], 
+        __result_file_writer.write(job, __match_patterns[j_ptr],
+                __match_bins[j_ptr], 
                 __startup_settings.get_results_directory());
         
         boost::filesystem::path old_path(job.get_filename());

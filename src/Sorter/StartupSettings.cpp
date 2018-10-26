@@ -136,6 +136,16 @@ namespace Sorter {
     StartupSettings::get_notifier() {
         return __notifier;
     }
+    
+    std::map<unsigned long long, std::shared_ptr<Pattern>>& 
+    StartupSettings::get_patterns() {
+        return __patterns;
+    }
+    
+    std::map<unsigned long long, std::shared_ptr<Bin>>& 
+    StartupSettings::get_bins() {
+        return __bins;
+    }
 
     boost::property_tree::ptree& 
     operator<<(boost::property_tree::ptree& lhs, const StartupSettings& rhs) {

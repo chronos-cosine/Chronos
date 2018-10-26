@@ -23,6 +23,9 @@ namespace Sorter {
     
     Job::Job(const unsigned long long& id, const std::string& document, const std::string& filename) 
        : __id(id), __document(document), __filename(filename) { }
+    
+    Job::Job(const Job& other) 
+       : __id(other.__id), __document(other.__document), __filename(other.__filename) { }
 
     const unsigned long long& 
     Job::get_id() const
