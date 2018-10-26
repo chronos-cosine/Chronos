@@ -30,6 +30,8 @@ namespace Processors {
         std::string __trigger_extension;
         std::string __busy_extension;
         Collections::ConcurrentQueue<boost::filesystem::path>& __concurrent_queue;
+        unsigned int __sleep_time;
+        std::shared_ptr<Notifier::INotifier> __notifier;
     public:
         virtual ~FileSpooler();
         FileSpooler(const std::string& directory_to_search, 
@@ -38,6 +40,7 @@ namespace Processors {
                     Collections::ConcurrentQueue<boost::filesystem::path>& concurrent_queue,
                     const std::shared_ptr<Notifier::INotifier>& notifier,
                     const unsigned int& sleep_time);
+        FileSpooler(const FileSpooler& other);
     protected:
         virtual bool process();
     };

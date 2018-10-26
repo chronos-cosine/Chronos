@@ -12,13 +12,15 @@
  */
 
 #include "Core/ArgumentReader.h" 
-#include "Sorter/File/StartupSettingsFileReader.h"
 #include "File/JsonDataWriter.h"
-#include "Sorter/StartupSettings.h"
-#include "Sorter/Pattern.h"
+#include "Notifier/CoutNotifier.h"
+
+#include "Sorter/File/StartupSettingsFileReader.h"
 #include "Sorter/Bin.h"
 #include "Sorter/BooleanOperator.h"
-#include "Notifier/CoutNotifier.h"
+#include "Sorter/Pattern.h"
+#include "Sorter/StartupSettings.h"
+#include "Sorter/SortingMachine.h"
 
 #include <iostream>
 #include <map>
@@ -32,8 +34,8 @@ int main(int argc, char** argv) {
     if (settings != arguments.end()) {
         Sorter::StartupSettingsFileReader startup_settings_file_reader;
         Sorter::StartupSettings startup_settings = startup_settings_file_reader.read(settings->second);
-       
-        std::cout << startup_settings << std::endl;
+        Sorter::SortingMachine sorting_machine(startup_settings);
+        sorting_machine.start();
     }
     else {
         std::cout << "\nCould not find settings file.  Exiting..." << std::endl;

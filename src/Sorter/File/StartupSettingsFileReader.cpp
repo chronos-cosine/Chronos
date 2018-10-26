@@ -29,6 +29,7 @@ namespace Sorter {
     
     std::shared_ptr<Notifier::INotifier>
     StartupSettingsFileReader::get_notifier(const std::string& notifier_type,
+            const std::string& log_directory,
             unsigned short log_file_reset_minutes) {
         if (notifier_type == "console") {
             return std::shared_ptr<Notifier::INotifier>(new Notifier::CoutNotifier());
@@ -36,7 +37,7 @@ namespace Sorter {
             return std::shared_ptr<Notifier::INotifier>(new Notifier::BlankNotifier());
          } else if (notifier_type == "log") {
             return std::shared_ptr<Notifier::INotifier>(new Notifier::LogFileNotifier(log_file_reset_minutes, 
-                    notifier_type));
+                    log_directory));
          } else {
             thrower ("Not yet implemented");
          }
@@ -93,7 +94,7 @@ namespace Sorter {
             unsigned short sorter_count = ptree.get<unsigned short>("sorter_count");
             unsigned short log_file_reset_minutes = ptree.get<unsigned short>("log_file_reset_minutes");
             
-            std::shared_ptr<Notifier::INotifier> notifier = get_notifier(notifier_type, log_file_reset_minutes);
+            std::shared_ptr<Notifier::INotifier> notifier = get_notifier(notifier_type, log_file_directory, log_file_reset_minutes);
             std::set<std::string> job_file_directories;
             for (auto& item: ptree.get_child("job_file_directories")) {
                 job_file_directories.insert(item.second.get_value<std::string>());

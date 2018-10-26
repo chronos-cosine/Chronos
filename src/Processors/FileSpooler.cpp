@@ -36,7 +36,19 @@ namespace Processors {
           __directory_to_search(directory_to_search), 
           __trigger_extension(trigger_extension), 
           __busy_extension(busy_extension), 
-          __concurrent_queue(concurrent_queue) { 
+          __concurrent_queue(concurrent_queue),
+          __sleep_time(sleep_time),
+          __notifier(notifier) { 
+    }
+    
+    FileSpooler::FileSpooler(const FileSpooler& other)
+        : Processors::IProcessor(other.__sleep_time, other.__notifier) ,
+          __directory_to_search(other.__directory_to_search), 
+          __trigger_extension(other.__trigger_extension), 
+          __busy_extension(other.__busy_extension), 
+          __concurrent_queue(other.__concurrent_queue),
+          __sleep_time(other.__sleep_time),
+          __notifier(other.__notifier) {
     }
 
     bool 

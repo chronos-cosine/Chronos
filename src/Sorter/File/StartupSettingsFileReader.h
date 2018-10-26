@@ -30,6 +30,7 @@ class StartupSettingsFileReader {
         StartupSettings read(const std::string& filename);
 private: 
     std::shared_ptr<Notifier::INotifier> get_notifier(const std::string& notifier_type,
+            const std::string& log_directory,
             unsigned short log_file_reset_minutes);
     std::map<unsigned long long, std::shared_ptr<Pattern>> read_patterns_file(const std::string& patterns_file_type,
             const std::string& patterns_file_location,
