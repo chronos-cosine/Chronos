@@ -16,7 +16,11 @@
 
 #include "Collections/ConcurrentQueue.h"
 #include "Processors/FileSpooler.h"
+#include "PatternMatcher/PatternMatchingMachine.h"
+#include "Sorter/Job.h"
+#include "Sorter/Pattern.h"
 #include "Sorter/StartupSettings.h"
+#include "Sorter/Sorter.h"
 
 #include <string>
 #include <vector>
@@ -30,6 +34,9 @@ namespace Sorter {
         Collections::ConcurrentQueue<boost::filesystem::path> __job_queue;
         std::vector<Processors::FileSpooler> __file_spoolers;
         std::vector<std::thread> __file_spooler_threads;
+        std::vector<Sorter> __sorters;
+        std::vector<std::thread> __sorter_threads;
+        PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter> __pattern_matcher;
     public:
         SortingMachine(const SortingMachine&) = delete;
         virtual ~SortingMachine();

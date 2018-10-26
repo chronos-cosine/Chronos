@@ -6,6 +6,8 @@ if(Boost_FOUND)
         "${CMAKE_CURRENT_LIST_DIR}/*.h"
         "${CMAKE_CURRENT_LIST_DIR}/File/*.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/File/*.h"
+        "${CHRONOS_SOURCE_ROOT}/Core/ArgumentReader.h"
+        "${CHRONOS_SOURCE_ROOT}/Core/Helpers.h"
         "${CHRONOS_SOURCE_ROOT}/File/CsvDataWriter.h"
         "${CHRONOS_SOURCE_ROOT}/File/CsvFileReader.cpp"
         "${CHRONOS_SOURCE_ROOT}/File/CsvFileReader.h"

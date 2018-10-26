@@ -65,6 +65,7 @@ namespace Sorter {
                Collections::ConcurrentQueue<boost::filesystem::path>& concurrent_queue, 
                const unsigned int& sleep_time,
                StartupSettings& startup_settings);
+        Sorter(const Sorter& other);
     protected:
         virtual bool process();
     private:

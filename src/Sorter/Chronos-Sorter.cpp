@@ -36,6 +36,10 @@ int main(int argc, char** argv) {
         Sorter::StartupSettings startup_settings = startup_settings_file_reader.read(settings->second);
         Sorter::SortingMachine sorting_machine(startup_settings);
         sorting_machine.start();
+        
+        while (true) {
+            std::this_thread::sleep_for(std::chrono::seconds(30));
+        }
     }
     else {
         std::cout << "\nCould not find settings file.  Exiting..." << std::endl;

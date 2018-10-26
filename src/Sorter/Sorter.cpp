@@ -41,6 +41,15 @@ namespace Sorter {
         __pattern_matching_machine.match_found().connect(__match_found);
     }
 
+    Sorter::Sorter(const Sorter& other)
+            : __pattern_matching_machine(other.__pattern_matching_machine),
+              __concurrent_queue(other.__concurrent_queue),
+              __sleep_time(other.__sleep_time),
+              __startup_settings(other.__startup_settings),
+              __result_file_writer(other.__result_file_writer),
+              Processors::IProcessor(other.__sleep_time, other.__startup_settings.get_notifier()) { 
+    }
+    
     void 
     Sorter::process_job(Job& job) {
         BinParentMatcher bin_parent_matcher;
