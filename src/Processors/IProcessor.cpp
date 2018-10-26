@@ -81,10 +81,9 @@ namespace Processors {
             __is_executing = true;
             
             if (__is_running && !process()) {
+                __is_executing = false;
                 std::this_thread::sleep_for(std::chrono::seconds(__sleep_time));
             }
-            
-            __is_executing = false;
         }
     }
 

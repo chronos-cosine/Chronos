@@ -90,7 +90,7 @@ namespace Sorter {
     bool 
     Sorter::process() {  
         std::stringstream notification; 
-        boost::filesystem::path job_path(__concurrent_queue.pop());
+        boost::filesystem::path job_path = __concurrent_queue.pop();
         
         notification << this << " Creating job for " << job_path;
         notify(notification);
@@ -107,4 +107,5 @@ namespace Sorter {
         
         return false;
     }
+    
 } /* namespace Sorter */
