@@ -10,8 +10,7 @@
  *
  * Created on 04 October 2018, 7:08 AM
  */
-
-#include "Core/ArgumentReader.h" 
+ 
 #include "File/JsonDataWriter.h"
 #include "Notifier/CoutNotifier.h"
 
@@ -29,22 +28,14 @@
 #include <thread>
 
 int main(int argc, char** argv) {
-    std::map<std::string, std::string> arguments = Core::ArgumentReader::read(argc, argv);
-    std::map<std::string, std::string>::const_iterator settings = arguments.find(std::string("-sf"));
-    if (settings != arguments.end()) {
-        Sorter::StartupSettingsFileReader startup_settings_file_reader;
-        Sorter::StartupSettings startup_settings = startup_settings_file_reader.read(settings->second);
-        Sorter::SortingMachine sorting_machine(startup_settings);
-        sorting_machine.start();
-        
-        while (true) {
-            std::this_thread::sleep_for(std::chrono::seconds(30));
-        }
+    Sorter::StartupSettingsFileReader startup_settings_file_reader;
+    Sorter::StartupSettings startup_settings = 
+            startup_settings_file_reader.read("/home/theunis/NetBeansProjects/Chronos-Build/bin/Chronos-Sorter.settings");
+    Sorter::SortingMachine sorting_machine(startup_settings);
+    sorting_machine.start();
+
+    while (true) {
+        std::this_thread::sleep_for(std::chrono::seconds(30));
     }
-    else {
-        std::cout << "\nCould not find settings file.  Exiting..." << std::endl;
-        return 1;
-    }
- 
     return 0;
 }

@@ -27,9 +27,8 @@ namespace File {
     
     char 
     CsvFileReader::get_separator(const std::string& line) const {
-        if (line.length() != 5
-            || line.find("sep=") == std::string::npos) {
-            thrower ("The first line of a CSV file must begin with sep= and must be exactly 5 characters in length.");
+        if (line.find("sep=") == std::string::npos) {
+            thrower ("The first line of a CSV file must begin with sep=");
         }
         return line[4];
     }
