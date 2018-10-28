@@ -45,6 +45,7 @@ namespace Collections {
     void 
     ConcurrentQueue<T>::push(T item) {
         std::lock_guard<std::mutex> lock(__mutex);
+        
         __queue.push(std::move(item));
         __condition_variable.notify_one();
     }
@@ -53,7 +54,9 @@ namespace Collections {
     T 
     ConcurrentQueue<T>::pop() {
         std::unique_lock<std::mutex> lock(__mutex);
+        
         __condition_variable.wait(lock, [this] { return !__queue.empty(); });
+        
         T item = std::move(__queue.front());
         __queue.pop();
         

@@ -55,10 +55,9 @@ namespace Collections {
     template <typename T>
     T 
     ConcurrentStack<T>::pop() {
-        std::unique_lock<std::mutex> lock(__base_mutex);
+        std::unique_lock<std::mutex> lock(__mutex);
         
         __condition_variable.wait(lock, [this] { return !__stack.empty(); });
-        
         T item = std::move(__stack.top());
         __stack.pop();
         
