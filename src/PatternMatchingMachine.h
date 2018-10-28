@@ -23,13 +23,23 @@
 
 namespace PatternMatcher {
 
-    template <typename INPUT = std::string, typename PATTERN = std::string, typename SENDER = void*>
+    template <typename INPUT = std::string, typename PATTERN = std::string, typename SENDER = void>
     class PatternMatchingMachine {
+    public:
+        void (*completed)(const SENDER* /* sender */, 
+                const INPUT& /* input */,
+                const unsigned long long& /* total_matches */);
+        void (*match_found)(const SENDER* /* sender */, 
+                const INPUT& /* input */,
+                const unsigned long long& /* position */,
+                const std::set<PATTERN>& /* patterns */);
     private:
         std::unique_ptr<Node<PATTERN>> root;
     public:
         ~PatternMatchingMachine();
         PatternMatchingMachine(const std::set<PATTERN>& patterns);
+        
+        void match(const INPUT& input, const SENDER* sender) const;
     private:
         void enter(const PATTERN& pattern);
         void construct_goto_function(const std::set<PATTERN>& patterns);
@@ -41,9 +51,39 @@ namespace PatternMatcher {
     
     template <typename INPUT, typename PATTERN, typename SENDER>
     PatternMatchingMachine<INPUT, PATTERN, SENDER>::PatternMatchingMachine(const std::set<PATTERN>& patterns)
-            : root(std::make_unique<Node<PATTERN>>('~', true)) {
+            : root(std::make_unique<Node<PATTERN>>('~', true)),
+              completed(nullptr), match_found(nullptr) {
         construct_goto_function(patterns);
         construct_failure_function();
+    }
+    
+    template <typename INPUT, typename PATTERN, typename SENDER>
+    void 
+    PatternMatchingMachine<INPUT, PATTERN, SENDER>::match(const INPUT& input,
+                                                          const SENDER* sender) const { 
+        unsigned long long patterns_found = 0;
+        unsigned long long position = 0;
+        Node<PATTERN>* state = root.get();
+
+        for (const char a: input) { 
+            ++position;
+            while (nullptr == state->g(a)) {
+                state = state->failure;
+            }
+            state = state->g(a);
+
+            if (!state->output.empty()) {
+                if (nullptr != match_found)
+                {
+                    (*match_found)(sender, input, position, state->output);
+                }
+                patterns_found += state->output.size();
+            } 
+        }
+
+        if (nullptr != completed) {
+            (*completed)(sender, input, patterns_found); 
+        }
     }
    
     template <typename INPUT, typename PATTERN, typename SENDER>
@@ -54,7 +94,7 @@ namespace PatternMatcher {
             Node<PATTERN>* new_node = current->g(a);
             if (nullptr == new_node 
                 || root.get() == new_node) {
-                current->states[a] = std::make_unique<Node<PATTERN>>(a);
+                current->states[a] = std::move(std::make_unique<Node<PATTERN>>(a));
             }
             current = current->states[a].get();
         }
