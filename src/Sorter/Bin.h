@@ -8,62 +8,28 @@
  * File:   Bin.h
  * Author: user
  *
- * Created on 04 October 2018, 12:19 PM
+ * Created on 29 October 2018, 8:34 AM
  */
 
 #ifndef SORTER_BIN_H
 #define SORTER_BIN_H
 
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/json_parser.hpp>
-#include <memory>
-#include <mutex>
 #include <string>
-#include <set>
 
 namespace Sorter {
     
-    class Pattern;
+    struct Bin {
+        unsigned long long id;
+        std::string name;
+        unsigned long long parent_id;
+
+        bool operator<(const Bin& rhs);
+        bool operator==(const Bin& rhs);
+        bool operator!=(const Bin& rhs);
+    };
     
-    class Bin {
-    private:
-        std::set<std::shared_ptr<Pattern>> __patterns;
-        unsigned long long __parent_id;
-        unsigned long long __id;
-        std::string __name;
-        std::shared_ptr<Bin> __parent;
-        std::mutex __mutex;
-    public:
-        virtual ~Bin();
-        Bin(const unsigned long long& id, 
-            const std::string& name,
-            const unsigned long long& parent_id);
-
-        //member functions
-        const std::shared_ptr<Bin>& get_parent() const;
-        void set_parent(const std::shared_ptr<Bin>& parent);
-        const unsigned long long& get_id() const;
-        const std::string& get_name() const;
-        const unsigned long long& get_parent_id() const;
-        std::set<std::shared_ptr<Pattern>>& get_patterns();
-         
-        //operators
-        virtual bool operator==(const Bin& rhs) const;
-        virtual bool operator!=(const Bin& rhs) const;
-        virtual bool operator<(const Bin& rhs) const;
-        virtual bool operator>(const Bin& rhs) const;
-
-        //friend operators
-        friend boost::property_tree::ptree& operator<<(boost::property_tree::ptree& lhs, const Bin& rhs);
-        friend std::ostream& operator<<(std::ostream& lhs, const Bin& rhs);
-        friend bool operator<(const std::shared_ptr<Bin>& lhs, const std::shared_ptr<Bin>& rhs);
-        friend bool operator>(const std::shared_ptr<Bin>& lhs, const std::shared_ptr<Bin>& rhs);
-        friend bool operator==(const std::shared_ptr<Bin>& lhs, const std::shared_ptr<Bin>& rhs);
-        friend bool operator!=(const std::shared_ptr<Bin>& lhs, const std::shared_ptr<Bin>& rhs);
-        
-    }; /* class Bin */
-
 } /* namespace Sorter */
+
 
 #endif /* SORTER_BIN_H */
 

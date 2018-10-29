@@ -11,14 +11,16 @@
  * Created on 04 October 2018, 7:08 AM
  */
  
-#include "PatternMatchingMachine.h"
-#include "Node.h"
+#include "PatternMatcher/PatternMatchingMachine.h"
+#include "File/DataReader.h"
+#include "Sorter/Bin.h"
 
 #include <iostream>
 #include <string>
 #include <set>
-
-using namespace PatternMatcher;
+#include <vector>
+#include <exception>
+#include <sstream>
 
 void completed(const void* sender, 
         const std::string& input ,
@@ -45,13 +47,33 @@ void match_found(const void* sender ,
 
 int main(int argc, char** argv) {
     std::cout << "\nStarting Chronos-Sorter..." << std::endl;
-    std::set<std::string> patterns = {"he", "she", "his", "hers" };
-    PatternMatchingMachine<> pm(patterns); 
-    pm.completed = &completed;
-    pm.match_found = &match_found;
+    std::vector<Sorter::Bin> bins;
+    std::string filename("./bins.dat");
     
-    std::string input("This is a thest of ther her and he this she>.");
-    pm.match(input, nullptr);
+    auto data = File::CsvDataReader::read("./bins.dat");
+    
+    unsigned long long i = 1;
+    for (auto& row: data) {
+        ++i;
+        if (row.size() != 3) {
+            std::stringstream message;
+            message << "Unable to parse file " << filename << std::endl
+                    << "@ line number " << i;
+            
+            throw std::runtime_error(message.str());
+        }
+        
+        Sorter::Bin bin;
+        bin.id = std::stoull(row[0]);
+        bin.name = row[1];
+        if (row[2].size() > 0) {
+            bin.parent_id = std::stoull(row[2]);
+        } else {
+            bin.parent_id = 0;
+        }
+        
+        bins.push_back(std::move(bin));
+    }
     
     std::cout << "\nExiting Chronos-Sorter..." << std::endl;
     return 0;

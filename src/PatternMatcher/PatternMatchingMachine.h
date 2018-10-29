@@ -6,159 +6,142 @@
 
 /* 
  * File:   PatternMatchingMachine.h
- * Author: user
+ * Author: Chronos Cosine <chronos.cosine@gmail.com>
  *
- * Created on 05 October 2018, 8:53 AM
+ * Created on 28 October 2018, 8:40 PM
  */
 
 #ifndef PATTERNMATCHER_PATTERNMATCHINGMACHINE_H
 #define PATTERNMATCHER_PATTERNMATCHINGMACHINE_H
 
-#include <boost/signals2.hpp>
+#include "PatternMatcher/Node.h"
+
 #include <memory>
 #include <queue>
 #include <set>
-#include <iostream>
- 
-#include "PatternMatcher/Node.h"
-#include "PatternMatcher/RootNode.h"
-#include "Exceptions/Exception.h"
 
-namespace PatternMatcher
-{
+namespace PatternMatcher {
+
     template <typename INPUT = std::string, typename PATTERN = std::string, typename SENDER = void>
     class PatternMatchingMachine {
+        PatternMatchingMachine() = delete;
+        PatternMatchingMachine(const PatternMatchingMachine&) = delete;
+        PatternMatchingMachine& operator=(const PatternMatchingMachine&) = delete;
     public:
-        typedef boost::signals2::signal<
-            void(SENDER& /* sender */, 
-                 const INPUT& /* input */,
-                 const unsigned long long& /* total_matches */)> completed_signal;
-        typedef boost::signals2::signal<
-            void(SENDER& /* sender */, 
-                 const INPUT& /* input */,
-                 const unsigned long long& /* position */,
-                 const std::set<std::shared_ptr<PATTERN>>& /* patterns */)> match_found_signal;
+        void (*completed)(const SENDER* /* sender */, 
+                const INPUT& /* input */,
+                const unsigned long long& /* total_matches */);
+        void (*match_found)(const SENDER* /* sender */, 
+                const INPUT& /* input */,
+                const unsigned long long& /* position */,
+                const std::set<PATTERN>& /* patterns */);
     private:
-        Node<PATTERN>* __root;
-        completed_signal __completed;
-        match_found_signal __match_found;
+        std::unique_ptr<Node<PATTERN>> root;
     public:
-        virtual ~PatternMatchingMachine();
-        PatternMatchingMachine(const std::set<std::shared_ptr<PATTERN>>& patterns);
- 
-        void match(INPUT& input, SENDER& sender) const; 
-
-        completed_signal& completed();
-        match_found_signal& match_found();
+        ~PatternMatchingMachine();
+        PatternMatchingMachine(const std::set<PATTERN>& patterns);
         
+        void match(const INPUT& input, const SENDER* sender) const;
     private:
-        void enter(const std::shared_ptr<PATTERN>& pattern);
-        void construct_goto_function(const std::set<std::shared_ptr<PATTERN>>& patterns);
+        void enter(const PATTERN& pattern);
+        void construct_goto_function(const std::set<PATTERN>& patterns);
         void construct_failure_function();
-        
-    }; /* class PatternMatchingMachine */
+    };
     
     template <typename INPUT, typename PATTERN, typename SENDER>
-    PatternMatchingMachine<INPUT, PATTERN, SENDER>::PatternMatchingMachine(const std::set<std::shared_ptr<PATTERN>>& patterns) 
-            : __root(new RootNode<PATTERN>()) {
+    PatternMatchingMachine<INPUT, PATTERN, SENDER>::~PatternMatchingMachine() { }
+    
+    template <typename INPUT, typename PATTERN, typename SENDER>
+    PatternMatchingMachine<INPUT, PATTERN, SENDER>::PatternMatchingMachine(const std::set<PATTERN>& patterns)
+            : root(std::make_unique<Node<PATTERN>>('~', true)),
+              completed(nullptr), match_found(nullptr) {
         construct_goto_function(patterns);
         construct_failure_function();
     }
-        
-    template <typename INPUT, typename PATTERN, typename SENDER>
-    PatternMatchingMachine<INPUT, PATTERN, SENDER>::~PatternMatchingMachine() {
-        __root->clear();
-        delete __root;
-    }
-
+    
     template <typename INPUT, typename PATTERN, typename SENDER>
     void 
-    PatternMatchingMachine<INPUT, PATTERN, SENDER>::construct_goto_function(const std::set<std::shared_ptr<PATTERN>>& patterns) {
-        __root->clear();
-        for (const auto& pattern: patterns) {
+    PatternMatchingMachine<INPUT, PATTERN, SENDER>::match(const INPUT& input,
+                                                          const SENDER* sender) const { 
+        unsigned long long patterns_found = 0;
+        unsigned long long position = 0;
+        Node<PATTERN>* state = root.get();
+
+        for (const char a: input) { 
+            ++position;
+            while (nullptr == state->g(a)) {
+                state = state->failure;
+            }
+            state = state->g(a);
+
+            if (!state->output.empty()) {
+                if (nullptr != match_found)
+                {
+                    (*match_found)(sender, input, position, state->output);
+                }
+                patterns_found += state->output.size();
+            } 
+        }
+
+        if (nullptr != completed) {
+            (*completed)(sender, input, patterns_found); 
+        }
+    }
+   
+    template <typename INPUT, typename PATTERN, typename SENDER>
+    void  
+    PatternMatchingMachine<INPUT, PATTERN, SENDER>::enter(const PATTERN& pattern) { 
+        Node<PATTERN>* current = root.get();
+        for (const char a: pattern) {
+            Node<PATTERN>* new_node = current->g(a);
+            if (nullptr == new_node 
+                || root.get() == new_node) {
+                current->states[a] = std::move(std::make_unique<Node<PATTERN>>(a));
+            }
+            current = current->states[a].get();
+        }
+
+        current->output.insert(pattern);
+    }
+    
+    template <typename INPUT, typename PATTERN, typename SENDER>
+    void 
+    PatternMatchingMachine<INPUT, PATTERN, SENDER>::construct_goto_function(const std::set<PATTERN>& patterns) { 
+        for (const PATTERN& pattern: patterns) {
             enter(pattern);
         }
     }
-
+        
     template <typename INPUT, typename PATTERN, typename SENDER>
     void 
     PatternMatchingMachine<INPUT, PATTERN, SENDER>::construct_failure_function() {
         std::queue<Node<PATTERN>*> queue;
 
-        for (auto& a: __root->get_states()) {
-            queue.push(a.second);
-            a.second->set_failure(__root);
+        for (auto& a: root->states) {
+            queue.push(a.second.get());
+            a.second->failure = root.get();
         }
 
         while (!queue.empty()) {
             Node<PATTERN>* r = queue.front();
             queue.pop();
 
-            for (auto& s: r->get_states()) {
+            for (auto& s: r->states) {
                 char a = s.first;
-                queue.push(s.second);
-                Node<PATTERN>* state = r->get_failure();
+                queue.push(s.second.get());
+                Node<PATTERN>* state = r->failure;
                 while (nullptr == state->g(a)) {
-                    state = state->get_failure(); 
+                    state = state->failure; 
                 }
-                s.second->set_failure(state->g(a));
-                s.second->add_output(s.second->get_failure()->get_output());
+                s.second->failure = state->g(a);
+                
+                for (auto& o: s.second->failure->output) {
+                    s.second->output.insert(o);
+                }
             }
         }
     }
-
-    template <typename INPUT, typename PATTERN, typename SENDER>
-    void 
-    PatternMatchingMachine<INPUT, PATTERN, SENDER>::enter(const std::shared_ptr<PATTERN>& pattern) {
-        Node<PATTERN>* current = __root;
-        for (const char& a: *pattern) {
-            Node<PATTERN>* new_node = current->g(a);
-            if (nullptr == new_node
-                || __root == new_node) {
-                new_node = new Node<PATTERN>(a);
-                current->add_state(new_node);
-            }
-            current = new_node;
-        }
-
-        current->add_output(pattern);
-    }
-
-    template <typename INPUT, typename PATTERN, typename SENDER>
-    void 
-    PatternMatchingMachine<INPUT, PATTERN, SENDER>::match(INPUT& input, SENDER& sender) const { 
-        unsigned long long patterns_found = 0;
-        unsigned long long position = 0;
-        Node<PATTERN>* state = __root;
-
-        for (const char a: input) { 
-            ++position;
-            while (nullptr == state->g(a)) {
-                state = state->get_failure();
-            }
-            state = state->g(a);
-
-            if (!state->get_output().empty()) { 
-                __match_found(sender, input, position, state->get_output());
-                patterns_found += state->get_output().size();
-            } 
-        }
-
-        __completed(sender, input, patterns_found); 
-    }
-
-    template <typename INPUT, typename PATTERN, typename SENDER>
-    typename PatternMatchingMachine<INPUT, PATTERN, SENDER>::completed_signal& 
-    PatternMatchingMachine<INPUT, PATTERN, SENDER>::completed() {
-        return __completed;
-    }
-
-    template <typename INPUT, typename PATTERN, typename SENDER>
-    typename PatternMatchingMachine<INPUT, PATTERN, SENDER>::match_found_signal& 
-    PatternMatchingMachine<INPUT, PATTERN, SENDER>::match_found() {
-        return __match_found;
-    }
-
+    
 } /* namespace PatternMatcher */
 
 #endif /* PATTERNMATCHER_PATTERNMATCHINGMACHINE_H */

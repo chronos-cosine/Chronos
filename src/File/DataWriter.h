@@ -14,20 +14,57 @@
 #ifndef FILE_DATAWRITER_H
 #define FILE_DATAWRITER_H
 
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/json_parser.hpp>
+#include <fstream>
+#include <string>
+
 namespace File {
     
-    template <typename T>
-    class DataWriter {
-    public:
-        DataWriter& operator=(const DataWriter&) = delete;
-        DataWriter(const DataWriter&) = delete;
+    namespace JsonDataWriter {
         
-        DataWriter() { }
-        virtual ~DataWriter() { };
-        virtual void write(const T& data) = 0; 
-    };
+        template <typename T>
+        void write(const T& data, const std::string& destination) {
+            std::ofstream ofstream(destination);
+            boost::property_tree::ptree root;
+            root << data;
+
+            boost::property_tree::write_json(ofstream, root);
+        } /* write() */ 
         
-}
+    } /* namespace JsonDataWriter */
+    
+    namespace CsvDataWriter {
+        
+        template <typename T>
+        void write(const T& data, const std::string& destination, const char separator = '|') {
+            std::ofstream ofstream(destination);
+            bool first;
+        
+            ofstream << "sep=" << separator << std::endl;
+
+            for (const auto& item: data) {
+                boost::property_tree::ptree root;
+                root << data;
+
+                first = true;
+                for (const auto& property: root) {
+                    if (first) {
+                        first = false;
+                    } else {
+                        ofstream << separator;
+                    }
+
+                    ofstream << property.second;
+                }
+
+                ofstream << std::endl;
+            }
+        } /* write() */
+        
+    } /* namespace CsvDataWriter */
+    
+} /* namespace File */ 
 
 
 #endif /* FILE_DATAWRITER_H */

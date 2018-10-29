@@ -1,8 +1,14 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 /* 
  * File:   Node.h
- * Author: Chronos Cosine
+ * Author: Chronos Cosine <chronos.cosine@gmail.com>
  *
- * Created on 28 September 2018, 10:38 AM
+ * Created on 28 October 2018, 7:33 PM
  */
 
 #ifndef PATTERNMATCHER_NODE_H
@@ -12,159 +18,58 @@
 #include <memory>
 #include <set>
 
-namespace PatternMatcher
-{
+namespace PatternMatcher {
+
     template <typename PATTERN>
     class Node {
-        char __value;
-        Node<PATTERN>* __failure;
-        std::map<char, Node<PATTERN>*> __states;
-        std::set<std::shared_ptr<PATTERN>> __output;
+        Node() = delete;
+        Node(const Node&) = delete;
+        Node& operator=(const Node&) = delete;
     public:
-        //constructors
-        virtual ~Node();
-        Node(const char& value);
+        //members
+        char value;
+        bool is_root;
+        Node<PATTERN>* failure;
+        std::map<char, std::unique_ptr<Node<PATTERN>>> states;
+        std::set<PATTERN> output;
+    public:
+        //ctors
+        virtual ~Node() { }
+        Node(char v, bool i = false) 
+            : value(v), is_root(i), failure(nullptr) { }
 
         //member functions
-        Node<PATTERN>* get_failure(); 
-        void set_failure(Node<PATTERN>* failure); 
-        char get_value(); 
-        void add_output(const std::shared_ptr<PATTERN>& output);
-        void add_output(const std::set<std::shared_ptr<PATTERN>>& outputs);
-        std::set<std::shared_ptr<PATTERN>>& get_output(); 
-        std::map<char, Node<PATTERN>*>& get_states();
-        void add_state(Node<PATTERN>* state); 
-        virtual Node<PATTERN>* g(const char& a);
-        void clear();
-        typename std::map<char, Node<PATTERN>*>::const_iterator begin() const;
-        typename std::map<char, Node<PATTERN>*>::const_iterator end() const;
+        Node<PATTERN>* g(const char& a) {
+            auto result = states.find(a);
+            if (states.end() == result) {
+                if (is_root) {
+                    return this;
+                } else {
+                    return nullptr;
+                }
+            }
+            else {
+                return result->second.get();
+            }
+        }
 
         //operators
-        virtual bool operator<(const Node<PATTERN>& rhs) const;
-        virtual bool operator>(const Node<PATTERN>& rhs) const;
-        
-    }; /* class Node */
-    
-    template <typename PATTERN>
-    Node<PATTERN>::Node(const char& value) 
-                  : __value(value), 
-                    __failure(nullptr) { }
-    
-    template <typename PATTERN>
-    Node<PATTERN>::~Node() {
-        clear();
-    }
-
-    template <typename PATTERN>
-    Node<PATTERN>*
-    Node<PATTERN>::get_failure() {
-        return __failure;
-    }
-
-    template <typename PATTERN>
-    void
-    Node<PATTERN>::set_failure(Node<PATTERN>* failure) {
-        __failure = failure;
-    }
-
-    template <typename PATTERN>
-    char
-    Node<PATTERN>::get_value() {
-        return __value;
-    }
-
-    template <typename PATTERN>
-    Node<PATTERN>*
-    Node<PATTERN>::g(const char& a) {
-        auto result = __states.find(a);
-        if (__states.end() == result) {
-            return nullptr;
-        }
-        else {
-            return result->second;
-        }
-    }
-
-    template <typename PATTERN>
-    void
-    Node<PATTERN>::add_output(const std::shared_ptr<PATTERN>& output) {
-        __output.insert(output);
-    }
-
-    template <typename PATTERN>
-    void
-    Node<PATTERN>::add_output(const std::set<std::shared_ptr<PATTERN>>& outputs) {
-        for (const auto& output: outputs) {
-            add_output(output);
-        }
-    }
-
-    template <typename PATTERN>
-    void
-    Node<PATTERN>::clear() {
-        for (auto& tuple: __states) { 
-            tuple.second->clear();
-            delete tuple.second;
+        bool operator<(const Node<PATTERN>& rhs) const {
+            return value < rhs.value;
         } 
-        __states.clear();
-    }
-
-    template <typename PATTERN>
-    typename std::set<std::shared_ptr<PATTERN>>&
-    Node<PATTERN>::get_output() {
-        return __output;
-    }
-
-    template <typename PATTERN>
-    typename std::map<char, Node<PATTERN>*>&
-    Node<PATTERN>::get_states() {
-        return __states;
-    }
-
-    template <typename PATTERN>
-    void
-    Node<PATTERN>::add_state(Node<PATTERN>* state) {
-        auto result = __states.find(state->get_value());
-        if (__states.end() == result) {
-            __states[state->get_value()] = state;
-        } 
-    }
+    };
     
-    template <typename PATTERN>
-    typename std::map<char, Node<PATTERN>*>::const_iterator 
-    Node<PATTERN>::begin() const {
-        return __states.begin();
-    }
-        
-    template <typename PATTERN>
-    typename std::map<char, Node<PATTERN>*>::const_iterator 
-    Node<PATTERN>::end() const {
-        return __states.end();
-    }
-
-    template <typename PATTERN>
-    bool
-    Node<PATTERN>::operator<(const Node<PATTERN>& rhs) const {
-        return __value < rhs.__value;
-    }
-
-    template <typename PATTERN>
-    bool
-    Node<PATTERN>::operator>(const Node<PATTERN>& rhs) const {
-        return __value > rhs.__value;
-    }
-
 } /* namespace PatternMatcher */
-
 
 namespace std {
     template <typename PATTERN>
     struct hash<PatternMatcher::Node<PATTERN>> {
-        std::size_t operator()(const PatternMatcher::Node<PATTERN> node) const {
-            return std::hash<char>{}(node.__value);
+        std::size_t 
+        operator()(const PatternMatcher::Node<PATTERN> node) const {
+            return std::hash<char>{}(node.value);
         }
     };
 }
- 
+
 #endif /* PATTERNMATCHER_NODE_H */
 

@@ -34,7 +34,7 @@ namespace Collections {
         
         void push(T item);
         T pop();
-        typename std::queue<T>::size_type size() const;
+        typename std::stack<T>::size_type size() const;
     };
     
     template <typename T>
