@@ -14,7 +14,9 @@
 #ifndef SORTER_BIN_H
 #define SORTER_BIN_H
 
+#include <iostream>
 #include <string>
+#include <vector>
 
 namespace Sorter {
     
@@ -26,7 +28,10 @@ namespace Sorter {
         bool operator<(const Bin& rhs);
         bool operator==(const Bin& rhs);
         bool operator!=(const Bin& rhs);
-    };
+        Bin& operator<<(const std::vector<std::string>& rhs);
+        
+        friend std::ostream& operator<<(std::ostream& lhs, const Bin& rhs);
+    };  /* struct Bin */
     
 } /* namespace Sorter */
 

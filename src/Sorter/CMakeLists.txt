@@ -3,6 +3,11 @@ find_package(Boost REQUIRED COMPONENTS filesystem)
 if(Boost_FOUND) 
     set (Sorter_SOURCES
         "${CMAKE_CURRENT_LIST_DIR}/Chronos-Sorter.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/Bin.h"
+        "${CMAKE_CURRENT_LIST_DIR}/Bin.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/BooleanOperator.h"
+        "${CMAKE_CURRENT_LIST_DIR}/Pattern.h"
+        "${CMAKE_CURRENT_LIST_DIR}/Pattern.cpp"
         "${CHRONOS_SOURCE_ROOT}/File/DataReader.h"
         "${CHRONOS_SOURCE_ROOT}/File/DataWriter.h"
         "${CHRONOS_SOURCE_ROOT}/PatternMatcher/Node.h"

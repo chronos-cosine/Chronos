@@ -46,34 +46,11 @@ void match_found(const void* sender ,
 }
 
 int main(int argc, char** argv) {
-    std::cout << "\nStarting Chronos-Sorter..." << std::endl;
-    std::vector<Sorter::Bin> bins;
+    std::cout << "\nStarting Chronos-Sorter..." << std::endl; 
     std::string filename("./bins.dat");
     
-    auto data = File::CsvDataReader::read("./bins.dat");
-    
-    unsigned long long i = 1;
-    for (auto& row: data) {
-        ++i;
-        if (row.size() != 3) {
-            std::stringstream message;
-            message << "Unable to parse file " << filename << std::endl
-                    << "@ line number " << i;
-            
-            throw std::runtime_error(message.str());
-        }
-        
-        Sorter::Bin bin;
-        bin.id = std::stoull(row[0]);
-        bin.name = row[1];
-        if (row[2].size() > 0) {
-            bin.parent_id = std::stoull(row[2]);
-        } else {
-            bin.parent_id = 0;
-        }
-        
-        bins.push_back(std::move(bin));
-    }
+    std::vector<Sorter::Bin> 
+    bins(std::move(File::CsvDataReader::read<Sorter::Bin>("./bins.dat")));
     
     std::cout << "\nExiting Chronos-Sorter..." << std::endl;
     return 0;

@@ -49,7 +49,7 @@ namespace File {
                     throw std::invalid_argument("The first line of a Csv file must begin with sep=");
                 }
                 return line[4];
-            }
+            } /* char get_separator() */
             
             std::vector<std::string> 
             split(const std::string& line, const char& separator) {
@@ -62,10 +62,12 @@ namespace File {
                 }
 
                 return row;
-            }
+            } /* std::vector<std::string> split() */
+            
         } /* namespace detail */
         
-        std::vector<std::vector<std::string>> read(const std::string& filename) {
+        std::vector<std::vector<std::string>> 
+        read(const std::string& filename) {
             std::ifstream file(filename);
             std::vector<std::vector<std::string>> data;
             std::string line;
@@ -80,10 +82,23 @@ namespace File {
             }
 
             return data;
-        } /* read() */
+        } /* std::vector<std::vector<std::string>> read() */
+        
+        template <typename T>
+        std::vector<T> 
+        read(const std::string& filename) {
+            std::vector<T> object;
+            std::vector<std::vector<std::string>> data(std::move(read(filename)));
+            for (const std::vector<std::string>& row: data) {
+                T item;
+                item << row;
+                object.push_back(std::move(item));
+            }
+            
+            return object;
+        } /* std::vector<T> read() */
         
     } /* namespace CsvFileReader */
-    
 } /* namespace File */
 
 

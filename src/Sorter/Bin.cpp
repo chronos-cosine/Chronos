@@ -6,14 +6,17 @@
 
 #include "Bin.h"
 
-#include <boost/property_tree/ptree.hpp>
-#include <boost/property_tree/json_parser.hpp>
+#include <exception>
 #include <iostream>
 
 namespace Sorter {
 
     bool 
     Bin::operator<(const Bin& rhs) {
+        if (parent_id < rhs.parent_id) {
+            return true;
+        }
+            
         return id < rhs.id;
     }
 
@@ -27,25 +30,29 @@ namespace Sorter {
         return !(*this == rhs);
     }
     
-    boost::property_tree::ptree& operator<<(boost::property_tree::ptree& lhs, 
-                                            const Bin& rhs) {
-        lhs.put("Id", rhs.id);
-        lhs.put("Name", rhs.name);
-        lhs.put("ParentId", rhs.parent_id);
+    Bin& 
+    Bin::operator<<(const std::vector<std::string>& rhs) {
+        if (rhs.size() != 3) { 
+            throw std::runtime_error("Bin operator<< requires size() == 3");
+        }
         
-        return lhs;
+        id = std::stoull(rhs[0]);
+        name = rhs[1];
+        
+        if (rhs[2].size() > 0) {
+            parent_id = std::stoull(rhs[2]);
+        } else {
+            parent_id = 0;
+        }
+        
+        return *this;
     }
-    
-    Bin& operator<<(Bin& lhs, const boost::property_tree::ptree& rhs) {
-        lhs.id = ptree.get<unsigned long long>("Id");
-        lhs.name = ptree.get<std::string>("Name");
-        lhs.parent_id = ptree.get<unsigned long long>("Id");
-    }
-    
+
     std::ostream& operator<<(std::ostream& lhs, const Bin& rhs) {
-        boost::property_tree::ptree ptree;
-        ptree << rhs; 
-        boost::property_tree::write_json(lhs, ptree);
+        lhs << "{\"Id\": \"" << rhs.id
+            << "\", \"Name\": \"" << rhs.name
+            << "\", \"Parent_Id\": \"" << rhs.parent_id
+            << "\"}";
         
         return lhs;
     }
@@ -57,8 +64,8 @@ namespace std {
     template <>
     struct hash<Sorter::Bin> {
         std::size_t 
-        operator()(const Sorter::Bin bin) const {
+        operator()(const Sorter::Bin& bin) const {
             return std::hash<unsigned long long>{}(bin.id);
         }
     };
-} /* namespace Sorter */
+} /* namespace std */
