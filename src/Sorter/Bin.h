@@ -14,6 +14,7 @@
 #ifndef SORTER_BIN_H
 #define SORTER_BIN_H
 
+#include <boost/property_tree/ptree.hpp>
 #include <iostream>
 #include <string>
 #include <vector>
@@ -31,6 +32,8 @@ namespace Sorter {
         Bin& operator<<(const std::vector<std::string>& rhs);
         
         friend std::ostream& operator<<(std::ostream& lhs, const Bin& rhs);
+        friend boost::property_tree::ptree& operator<<(boost::property_tree::ptree& lhs, const Bin& rhs);
+        
     };  /* struct Bin */
     
 } /* namespace Sorter */

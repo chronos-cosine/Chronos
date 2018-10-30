@@ -12,6 +12,7 @@
  */
 
 #include "Pattern.h"
+#include "File/DataWriter.h"
 
 #include <exception>
 #include <iostream>
@@ -66,11 +67,16 @@ namespace Sorter {
     }
 
     std::ostream& operator<<(std::ostream& lhs, const Pattern& rhs) {
-        lhs << "{\"Id\": \"" << rhs.id
-            << "\", \"Value\": \"" << rhs.value
-            << "\", \"BooleanOperator\": \"" << rhs.boolean_operator
-            << "\", \"Bin_Id\": \"" << rhs.bin_id
-            << "\"}";
+        File::JsonDataWriter::write<Pattern>(lhs, rhs);
+        return lhs;
+    }
+    
+    boost::property_tree::ptree& 
+    operator<<(boost::property_tree::ptree& lhs, const Pattern& rhs) {
+        lhs.put("id", rhs.id);
+        lhs.put("value", rhs.value);
+        lhs.put("boolean_operator", rhs.boolean_operator);
+        lhs.put("bin_id", rhs.bin_id);
         
         return lhs;
     }

@@ -23,7 +23,7 @@ namespace Processors {
     IProcessor::~IProcessor() { }
     
     IProcessor::IProcessor(const unsigned int& sleep_time, 
-                           const std::shared_ptr<Notifier::INotifier>& notifier) 
+                           const std::shared_ptr<Notifier::INotifier>& notifier = nullptr) 
             : __sleep_time(sleep_time), 
               __notifier(notifier), 
               __is_running(false), 

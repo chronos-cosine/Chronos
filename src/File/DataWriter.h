@@ -16,6 +16,7 @@
 
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
+#include <iostream>
 #include <fstream>
 #include <string>
 
@@ -24,13 +25,21 @@ namespace File {
     namespace JsonDataWriter {
         
         template <typename T>
+        std::ostream& write(std::ostream& ostream, const T& data) {
+            boost::property_tree::ptree temp;
+            temp << data;
+            
+            boost::property_tree::write_json(ostream, temp);
+            
+            return ostream;
+        } /* write(std::ostream& ostream, const T& data) */
+        
+        template <typename T>
         void write(const T& data, const std::string& destination) {
-            std::ofstream ofstream(destination);
-            boost::property_tree::ptree root;
-            root << data;
+            std::ofstream ofstream(destination); 
 
-            boost::property_tree::write_json(ofstream, root);
-        } /* write() */ 
+            write(ofstream, data);
+        } /* write(const T& data, const std::string& destination) */ 
         
     } /* namespace JsonDataWriter */
     
@@ -55,12 +64,12 @@ namespace File {
                         ofstream << separator;
                     }
 
-                    ofstream << property.second;
+                    ofstream << property.second.get_value<std::string>();
                 }
 
                 ofstream << std::endl;
             }
-        } /* write() */
+        } /* write(const T& data, const std::string& destination, const char separator = '|') */
         
     } /* namespace CsvDataWriter */
     

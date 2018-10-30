@@ -5,6 +5,7 @@
  */
 
 #include "Bin.h"
+#include "File/DataWriter.h"
 
 #include <exception>
 #include <iostream>
@@ -49,10 +50,15 @@ namespace Sorter {
     }
 
     std::ostream& operator<<(std::ostream& lhs, const Bin& rhs) {
-        lhs << "{\"Id\": \"" << rhs.id
-            << "\", \"Name\": \"" << rhs.name
-            << "\", \"Parent_Id\": \"" << rhs.parent_id
-            << "\"}";
+        File::JsonDataWriter::write<Bin>(lhs, rhs);
+        return lhs;
+    }
+    
+    boost::property_tree::ptree& 
+    operator<<(boost::property_tree::ptree& lhs, const Bin& rhs) {
+        lhs.put("id", rhs.id);
+        lhs.put("name", rhs.name);
+        lhs.put("parent_id", rhs.parent_id);
         
         return lhs;
     }
