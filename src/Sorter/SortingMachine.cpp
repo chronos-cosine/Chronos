@@ -33,23 +33,23 @@ namespace Sorter {
     
     void 
     SortingMachine::initialise() {
-//        std::vector<Bin> bins = 
-//                std::move(File::read_array<Bin>(__settings->bins_path, __settings->bins_file_type));
-//        std::vector<Pattern> patterns = 
-//                std::move(File::read_array<Pattern>(__settings->patterns_path, __settings->patterns_file_type));
-//        
-//        for (Bin& bin: bins) {
-//            unsigned long long bin_id = bin.id;
-//            __bins[bin_id] = std::move(bin);
-//        }
-//        for (Pattern& pattern: patterns) {
-//            unsigned long long bin_id = pattern.bin_id;
-//            unsigned long long pattern_id = pattern.id;
-//            __patterns[pattern_id] = std::move(pattern);
-//            if (bin_id > 0) {
-//                __bin_patterns[bin_id].insert(&__patterns[pattern.id]);
-//            }
-//        }
+        std::vector<Bin> bins = 
+                std::move(File::read<Bin>(__settings->bins_path, __settings->bins_file_type));
+        std::vector<Pattern> patterns = 
+                std::move(File::read<Pattern>(__settings->patterns_path, __settings->patterns_file_type));
+        
+        for (Bin& bin: bins) {
+            unsigned long long bin_id = bin.id;
+            __bins[bin_id] = std::move(bin);
+        }
+        for (Pattern& pattern: patterns) {
+            unsigned long long bin_id = pattern.bin_id;
+            unsigned long long pattern_id = pattern.id;
+            __patterns[pattern_id] = std::move(pattern);
+            if (bin_id > 0) {
+                __bin_patterns[bin_id].insert(&__patterns[pattern.id]);
+            }
+        }
     }
     
 } /* namespace Sorter */
