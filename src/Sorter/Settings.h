@@ -21,8 +21,19 @@
 namespace Sorter {
     
     struct Settings {
+        std::string log_file_directory;
+        std::string result_output_directory;
+        std::string completed_directory;
+        std::string trigger_extension;
+        std::string busy_extension;
+        std::string completed_extension;
         std::string patterns_path;
+        std::string patterns_file_type;
         std::string bins_path;
+        std::string bins_file_type;
+        unsigned short instances;
+        unsigned short log_file_reset_minutes;
+        std::vector<std::string> job_file_directories;
         
         Settings& operator<<(const boost::property_tree::ptree& rhs);
         

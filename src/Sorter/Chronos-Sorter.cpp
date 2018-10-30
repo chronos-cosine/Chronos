@@ -13,6 +13,7 @@
 
 #include "Sorter/Settings.h"
 #include "File/DataReader.h"
+#include "File/DataWriter.h"
 
 #include <iostream>
 #include <string>
