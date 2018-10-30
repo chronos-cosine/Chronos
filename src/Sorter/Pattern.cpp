@@ -42,6 +42,16 @@ namespace Sorter {
         return !(*this == rhs);
     }
     
+    std::string::const_iterator  
+    Pattern::begin() {
+        return value.begin();
+    }
+    
+    std::string::const_iterator  
+    Pattern::end() {
+        return value.end();
+    }
+    
     Pattern& 
     Pattern::operator<<(const std::vector<std::string>& rhs) {
         if (rhs.size() != 4) { 
@@ -56,14 +66,14 @@ namespace Sorter {
         return *this;
     }
     
-    std::string::const_iterator  
-    Pattern::begin() {
-        return value.begin();
-    }
-    
-    std::string::const_iterator  
-    Pattern::end() {
-        return value.end();
+    Pattern&  
+    Pattern::operator<<(const boost::property_tree::ptree& rhs) {
+        id = rhs.get<unsigned long long>("id");
+        value = rhs.get<std::string>("value");
+        boolean_operator = (BooleanOperator)rhs.get<unsigned short>("boolean_operator");
+        bin_id = rhs.get<unsigned long long>("bin_id");
+        
+        return *this;
     }
 
     std::ostream& operator<<(std::ostream& lhs, const Pattern& rhs) {

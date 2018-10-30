@@ -10,6 +10,8 @@ if(Boost_FOUND)
         "${CMAKE_CURRENT_LIST_DIR}/Pattern.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/Settings.h"
         "${CMAKE_CURRENT_LIST_DIR}/Settings.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/SortingMachine.h"
+        "${CMAKE_CURRENT_LIST_DIR}/SortingMachine.cpp"
         "${CHRONOS_SOURCE_ROOT}/File/DataReader.h"
         "${CHRONOS_SOURCE_ROOT}/File/DataWriter.h"
         "${CHRONOS_SOURCE_ROOT}/PatternMatcher/Node.h"

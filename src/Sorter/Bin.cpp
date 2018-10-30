@@ -48,6 +48,15 @@ namespace Sorter {
         
         return *this;
     }
+    
+    Bin&  
+    Bin::operator<<(const boost::property_tree::ptree& rhs) {
+        id = rhs.get<unsigned long long>("id");
+        name = rhs.get<std::string>("name");
+        parent_id = rhs.get<unsigned long long>("parent_id");
+        
+        return *this;
+    }
 
     std::ostream& operator<<(std::ostream& lhs, const Bin& rhs) {
         File::JsonDataWriter::write<Bin>(lhs, rhs);

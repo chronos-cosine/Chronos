@@ -22,7 +22,7 @@
 #include <vector>
 
 namespace File {
-    
+        
     namespace JsonDataReader {
         
         template <typename T>
@@ -38,6 +38,26 @@ namespace File {
             
             return object;
         } /* read() */
+        
+        template <typename T>
+        std::vector<T> 
+        read_array(const std::string& filename) {
+            std::ifstream file(filename);
+            std::stringstream buffer; 
+            boost::property_tree::ptree ptree;
+            std::vector<T> object;
+            
+            buffer << file.rdbuf();
+            boost::property_tree::read_json(buffer, ptree);
+            
+            for (auto& item: ptree.get_child("")) {
+                T temp;
+                temp << ptree;
+                object.push_back(std::move(temp));
+            }
+            
+            return object;
+        } /* std::vector<T> read_list(const std::string& filename) */
         
     } /* namespace JsonDataReader */
     
@@ -99,6 +119,19 @@ namespace File {
         } /* std::vector<T> read() */
         
     } /* namespace CsvFileReader */
+    
+    template <typename T>
+    std::vector<T> 
+    read_array(const std::string& filename, const std::string& filetype) {
+        if (filetype == "csv") {
+            return CsvDataReader::read<T>(filename);
+        } else if (filetype == "json") {
+            return JsonDataReader::read_array<T>(filename);
+        } else {
+            throw std::runtime_error("Filetype not yet supported");
+        }
+    }
+    
 } /* namespace File */
 
 
