@@ -28,11 +28,15 @@ namespace File {
         CsvDataReader& operator=(const CsvDataReader&) = delete;
     public:
         template <typename T>
-        static std::vector<T> read(const std::string& filename);
-        static std::vector<std::vector<std::string>> read(const std::string& filename);
+        static std::vector<T> 
+        read(const std::string& filename);
+       
+        static std::vector<std::vector<std::string>> 
+        read(const std::string& filename);
     private:
         static char get_separator(const std::string& line);
-        static std::vector<std::string> split(const std::string& line, const char& separator);
+        static std::vector<std::string> split(const std::string& line, 
+                                              const char& separator);
         
     };  /* class CsvDataReader */
     

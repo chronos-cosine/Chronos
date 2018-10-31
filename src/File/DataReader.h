@@ -43,7 +43,7 @@ namespace File {
         } else {
             throw std::runtime_error("Filetype not yet supported");
         }
-    } /* std::vector<T> read(const std::string& filename, const std::string& filetype) */
+    } /* std::vector<T> read(const std::string&, const std::string&) */
     
 } /* namespace File */
 

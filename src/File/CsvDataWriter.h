@@ -26,13 +26,15 @@ namespace File {
         CsvDataWriter& operator=(const CsvDataWriter&) = delete;
     public:
         template <typename T>
-        static void write(const T& data, const std::string& destination, const char separator) ;
+        static void write(const T& data, const std::string& destination, 
+                          const char separator = '|') ;
         
     }; /* class CsvDataWriter */
     
     template <typename T>
     void 
-    CsvDataWriter::write(const T& data, const std::string& destination, const char separator) {
+    CsvDataWriter::write(const T& data, const std::string& destination, 
+                         const char separator) {
         std::ofstream ofstream(destination);
         bool first;
 
@@ -55,7 +57,7 @@ namespace File {
 
             ofstream << std::endl;
         }
-    } /* write(const T& data, const std::string& destination, const char separator = '|') */
+    } /* write(const T&, const std::string&, const char) */
     
 } /* namespace File */
 

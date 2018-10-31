@@ -49,7 +49,7 @@ namespace File {
         object << ptree;
 
         return object;
-    } /* T read(const std::string& filename) */
+    } /* T read(const std::string&) */
 
     template <typename T>
     std::vector<T> 
@@ -69,7 +69,7 @@ namespace File {
         }
 
         return object;
-    } /* std::vector<T> read_array(const std::string& filename) */
+    } /* std::vector<T> read_array(const std::string&) */
 
 } /* namespace File */
 

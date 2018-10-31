@@ -50,7 +50,7 @@ namespace Collections {
         
         __stack.push(std::move(item));
         __condition_variable.notify_one();
-    } /* void ConcurrentStack<T>::push(T item) */
+    } /* void ConcurrentStack<T>::push(T) */
     
     template <typename T>
     T 
