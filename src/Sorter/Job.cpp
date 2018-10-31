@@ -19,42 +19,49 @@ namespace Sorter {
     
     bool 
     Job::operator<(const Job& rhs) {
-        
+        return id < rhs.id;
     }
     
     bool 
     Job::operator==(const Job& rhs) {
-        
+        return id == rhs.id;
     }
     
     bool 
     Job::operator!=(const Job& rhs) {
-        
+        return !(*this == rhs);
     }
     
-    Bin& Job::operator<<(const boost::property_tree::ptree& rhs) {
+    Job& 
+    Job::operator<<(const boost::property_tree::ptree& rhs) {
+        id = rhs.get<unsigned long long>("id");
+        document = rhs.get<std::string>("document");
         
+        return *this;
     }
 
     std::ostream& 
     operator<<(std::ostream& lhs, const Job& rhs) {
-        File::JsonDataWriter::write<Bin>(lhs, rhs);
+        File::JsonDataWriter::write<Job>(lhs, rhs);
         return lhs;
     }
     
-    friend boost::property_tree::ptree& 
+    boost::property_tree::ptree& 
     operator<<(boost::property_tree::ptree& lhs, const Job& rhs) {
+        lhs.put("id", rhs.id);
+        lhs.put("document", rhs.document);
         
+        return lhs;
     }
 
-    
-    std::ostream& operator<<(std::ostream& lhs, const Bin& rhs) {
-    }
-    
-    boost::property_tree::ptree& 
-    operator<<(boost::property_tree::ptree& lhs, const Bin& rhs) {
-        lhs.put("id", rhs.id);
-        lhs.put("name", rhs.name);
-        lhs.put("parent_id", rhs.parent_id);
-        
 } /* namespace Sorter */
+
+namespace std {
+    template <>
+    struct hash<Sorter::Job> {
+        std::size_t 
+        operator()(const Sorter::Job& job) const {
+            return std::hash<unsigned long long>{}(job.id);
+        }
+    };
+}
