@@ -14,6 +14,7 @@
 #ifndef COLLECTIONS_CONCURRENTQUEUE_H
 #define COLLECTIONS_CONCURRENTQUEUE_H
 
+#include "Collections/ICollection.h"
 #include <condition_variable>
 #include <mutex>
 #include <queue>
@@ -21,18 +22,19 @@
 namespace Collections {
 
     template <typename T>
-    class ConcurrentQueue {
+    class ConcurrentQueue : public ICollection<T> {
+        ConcurrentQueue(const ConcurrentQueue&) = delete;
+        ConcurrentQueue& operator=(const ConcurrentQueue&) = delete;
     private:
         std::queue<T> __queue;
-        std::mutex __mutex;
-        std::condition_variable __condition_variable;
     public:
         virtual ~ConcurrentQueue();
         ConcurrentQueue();
         
-        void push(T item);
-        T pop();
+        virtual void push(T item);
+        virtual T pop();
         typename std::queue<T>::size_type size() const;
+        
     }; /* class ConcurrentQueue */
     
     template <typename T>

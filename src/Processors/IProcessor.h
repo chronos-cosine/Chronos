@@ -25,11 +25,13 @@ namespace Processors {
         std::mutex __mutex;
         bool __is_running;
         bool __is_executing;
-        unsigned int __sleep_time;
+        unsigned int __sleep_time_seconds;
         std::shared_ptr<Notifier::INotifier> __notifier;
     public:
         virtual ~IProcessor();
-        IProcessor(const unsigned int& sleep_time, 
+        IProcessor();
+        IProcessor(const unsigned int& sleep_time_seconds);
+        IProcessor(const unsigned int& sleep_time_seconds, 
                    const std::shared_ptr<Notifier::INotifier>& notifier);
         
         void start();

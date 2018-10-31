@@ -29,14 +29,16 @@ namespace Sorter {
         SortingMachine& operator=(const SortingMachine&) = delete;
     public:
         virtual ~SortingMachine();
-        SortingMachine(Settings* settings);
+        SortingMachine();
     private:
         void initialise();
     private:
-        Settings* __settings;
-        std::map<unsigned long long, Pattern> __patterns;
-        std::map<unsigned long long, Bin> __bins;
-        std::map<unsigned long long, std::set<Pattern*>> __bin_patterns;
+        std::map<unsigned long long, Pattern>* __patterns;
+        std::map<unsigned long long, Bin>* __bins;
+        std::map<unsigned long long, std::set<Pattern*>>* __bin_patterns;
+        
+    private:
+        
         
     }; /* class SortingMachine */
     
