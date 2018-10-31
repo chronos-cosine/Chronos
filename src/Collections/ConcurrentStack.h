@@ -67,7 +67,7 @@ namespace Collections {
     template <typename T>
     bool 
     ConcurrentQueue<T>::empty() {
-        return __stack.size() == 0;
+        return __stack.empty();
     } /* bool empty() */
     
     template <typename T>
