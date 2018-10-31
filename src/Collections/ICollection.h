@@ -33,10 +33,9 @@ namespace Collections {
     protected:
         std::condition_variable __condition_variable;
         std::mutex __mutex;
-    };
+    }; /* class ICollection */
     
 } /* namespace Collections */
-
 
 #endif /* COLLECTIONS_ICOLLECTION_H */
 
