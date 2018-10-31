@@ -5,7 +5,8 @@
  */
 
 #include "Bin.h"
-#include "File/DataWriter.h"
+#include "File/CsvDataWriter.h"
+#include "File/JsonDataWriter.h"
 
 #include <exception>
 #include <iostream>

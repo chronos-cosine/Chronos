@@ -14,6 +14,7 @@
 #ifndef SORTER_SORTINGMACHINE_H
 #define SORTER_SORTINGMACHINE_H
 
+#include "PatternMatcher/PatternMatchingMachine.h"
 #include "Sorter/Bin.h"
 #include "Sorter/Pattern.h"
 #include "Sorter/Settings.h"

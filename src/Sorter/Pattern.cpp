@@ -12,7 +12,7 @@
  */
 
 #include "Pattern.h"
-#include "File/DataWriter.h"
+#include "File/JsonDataWriter.h"
 
 #include <exception>
 #include <iostream>

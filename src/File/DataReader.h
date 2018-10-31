@@ -22,10 +22,20 @@
 #include <vector>
 
 namespace File {
+    
+    class DataReader {
+        DataReader() = delete;
+        DataReader(const DataReader&) = delete;
+        DataReader& operator=(const DataReader&) = delete;
+    public:
+        template <typename T>
+        static std::vector<T> read(const std::string& filename, const std::string& filetype);
+        
+    }; /* class DataReader */
         
     template <typename T>
     std::vector<T> 
-    read(const std::string& filename, const std::string& filetype) {
+    DataReader::read(const std::string& filename, const std::string& filetype) {
         if (filetype == "csv") {
             return CsvDataReader::read<T>(filename);
         } else if (filetype == "json") {

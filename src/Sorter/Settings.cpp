@@ -12,7 +12,7 @@
  */
 
 #include "Settings.h"
-#include "File/DataWriter.h"
+#include "File/JsonDataWriter.h"
 
 #include <boost/property_tree/ptree.hpp>
 

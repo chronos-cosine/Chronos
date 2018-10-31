@@ -33,13 +33,13 @@ namespace Collections {
         void push(T item);
         T pop();
         typename std::queue<T>::size_type size() const;
-    };
+    }; /* class ConcurrentQueue */
     
     template <typename T>
-    ConcurrentQueue<T>::~ConcurrentQueue() { }
+    ConcurrentQueue<T>::~ConcurrentQueue() { } /* ~ConcurrentQueue() */
     
     template <typename T>
-    ConcurrentQueue<T>::ConcurrentQueue() { }
+    ConcurrentQueue<T>::ConcurrentQueue() { } /* ConcurrentQueue() */
     
     template <typename T>
     void 
@@ -48,7 +48,7 @@ namespace Collections {
         
         __queue.push(std::move(item));
         __condition_variable.notify_one();
-    }
+    } /* void ConcurrentQueue<T>::push(T item) */
     
     template <typename T>
     T 
@@ -61,13 +61,13 @@ namespace Collections {
         __queue.pop();
         
         return item;
-    }
+    } /* T ConcurrentQueue<T>::pop() */
     
     template <typename T>
     typename std::queue<T>::size_type 
     ConcurrentQueue<T>::size() const {
         return __queue.size();
-    }
+    } /* std::queue<T>::size_type ConcurrentQueue<T>::size() */
     
 } /* namespace Collections */
 
