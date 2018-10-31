@@ -29,6 +29,7 @@ namespace Collections {
         
         virtual void push(T item) = 0;
         virtual T pop() = 0;
+        virtual bool empty() = 0;
     protected:
         std::condition_variable __condition_variable;
         std::mutex __mutex;

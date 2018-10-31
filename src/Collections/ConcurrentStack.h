@@ -33,6 +33,7 @@ namespace Collections {
         
         virtual void push(T item);
         virtual T pop();
+        virtual bool empty();
         typename std::stack<T>::size_type size() const;
     }; /* class ConcurrentStack */
     
@@ -62,6 +63,12 @@ namespace Collections {
         
         return item;
     } /* T ConcurrentStack<T>::pop() */
+    
+    template <typename T>
+    bool 
+    ConcurrentQueue<T>::empty() {
+        return __stack.size() == 0;
+    } /* bool empty() */
     
     template <typename T>
     typename std::stack<T>::size_type 

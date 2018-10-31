@@ -33,6 +33,7 @@ namespace Collections {
         
         virtual void push(T item);
         virtual T pop();
+        virtual bool empty();
         typename std::queue<T>::size_type size() const;
         
     }; /* class ConcurrentQueue */
@@ -64,6 +65,12 @@ namespace Collections {
         
         return item;
     } /* T ConcurrentQueue<T>::pop() */
+    
+    template <typename T>
+    bool 
+    ConcurrentQueue<T>::empty() {
+        return __queue.size() == 0;
+    } /* bool empty() */
     
     template <typename T>
     typename std::queue<T>::size_type 
