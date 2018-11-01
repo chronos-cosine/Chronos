@@ -32,7 +32,8 @@ namespace Sorter {
         
     public:
         virtual ~SortingMachine();
-        SortingMachine(std::shared_ptr<Settings> settings);
+        SortingMachine(const std::shared_ptr<Settings>& settings);
+        std::shared_ptr<PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter>> __matcher;
     private:
         void initialise();
         bool is_boolean_match(const Job& input);
@@ -41,7 +42,6 @@ namespace Sorter {
         std::map<unsigned long long, Pattern> __patterns;
         std::map<unsigned long long, Bin> __bins; 
         std::map<unsigned long long, std::map<BooleanOperator, std::set<Pattern>>> __bin_patterns;
-        std::shared_ptr<PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter>> __matcher;
         std::shared_ptr<Settings> __settings;
         std::map<Job, std::set<Pattern>> __pattern_matches;
         std::map<Job, std::set<Bin>> __bin_matches;

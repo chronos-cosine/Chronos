@@ -15,11 +15,13 @@
 #include "File/DataReader.h"
 #include "Sorter/Bin.h"
 #include "Sorter/Pattern.h"
+#include "Sorter/Result.h"
 #include "Sorter/Settings.h"
 
 #include <exception>
 #include <map>
 #include <set>
+#include <iostream>
 
 namespace Sorter {
     
@@ -45,7 +47,12 @@ namespace Sorter {
                 const unsigned long long& total_matches) {
         if (sorting_machine->is_boolean_match(input)
             && sorting_machine->is_bin_hierarchy_match(input)) {
+            Result result;
+            result.job = const_cast<Job*>(&input);
+            result.bin_matches = const_cast<std::set<Bin>*>(&sorting_machine->__bin_matches[input]);
+            result.pattern_matches = const_cast<std::set<Pattern>*>(&sorting_machine->__pattern_matches[input]);
             
+            std::cout << result << std::endl;
         }
         
         sorting_machine->__pattern_matches.erase(input);

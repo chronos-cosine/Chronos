@@ -10,6 +10,8 @@ if(Boost_FOUND)
         "${CMAKE_CURRENT_LIST_DIR}/Job.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/Pattern.h"
         "${CMAKE_CURRENT_LIST_DIR}/Pattern.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/Result.h"
+        "${CMAKE_CURRENT_LIST_DIR}/Result.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/Settings.h"
         "${CMAKE_CURRENT_LIST_DIR}/Settings.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/SortingMachine.h"

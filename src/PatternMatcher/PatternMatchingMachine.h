@@ -42,7 +42,7 @@ namespace PatternMatcher {
         ~PatternMatchingMachine();
         PatternMatchingMachine(const std::vector<PATTERN>& patterns);
         
-        void match(const INPUT& input, const SENDER* sender) const;
+        void match(const INPUT& input, SENDER* sender) const;
     private:
         void enter(const PATTERN& pattern);
         void construct_goto_function(const std::vector<PATTERN>& patterns);
@@ -63,7 +63,7 @@ namespace PatternMatcher {
     template <typename INPUT, typename PATTERN, typename SENDER>
     void 
     PatternMatchingMachine<INPUT, PATTERN, SENDER>::match(const INPUT& input,
-                                                          const SENDER* sender) const { 
+                                                          SENDER* sender) const { 
         unsigned long long patterns_found = 0;
         unsigned long long position = 0;
         Node<PATTERN>* state = root.get();
@@ -78,14 +78,14 @@ namespace PatternMatcher {
             if (!state->output.empty()) {
                 if (nullptr != match_found)
                 {
-                    (*match_found)(sender, input, position, state->output);
+                    match_found(sender, input, position, state->output);
                 }
                 patterns_found += state->output.size();
             } 
         }
 
         if (nullptr != completed) {
-            (*completed)(sender, input, patterns_found); 
+           completed(sender, input, patterns_found); 
         }
     }
    

@@ -40,12 +40,22 @@ namespace Sorter {
         return *this;
     }
 
+    std::string::const_iterator 
+    Job::begin() const {
+        return document.begin();
+    }
+    
+    std::string::const_iterator 
+    Job::end() const {
+        return document.end();
+    }
+    
     std::ostream& 
     operator<<(std::ostream& lhs, const Job& rhs) {
         File::JsonDataWriter::write<Job>(lhs, rhs);
         return lhs;
     }
-    
+        
     boost::property_tree::ptree& 
     operator<<(boost::property_tree::ptree& lhs, const Job& rhs) {
         lhs.put("id", rhs.id);
