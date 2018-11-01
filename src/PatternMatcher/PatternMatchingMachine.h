@@ -18,7 +18,8 @@
 
 #include <memory>
 #include <queue>
-#include <set>
+#include <vector>
+#include <functional>
 
 namespace PatternMatcher {
 
@@ -28,23 +29,23 @@ namespace PatternMatcher {
         PatternMatchingMachine(const PatternMatchingMachine&) = delete;
         PatternMatchingMachine& operator=(const PatternMatchingMachine&) = delete;
     public:
-        void (*completed)(const SENDER* /* sender */, 
+        std::function<void(SENDER* /* sender */, 
                 const INPUT& /* input */,
-                const unsigned long long& /* total_matches */);
-        void (*match_found)(const SENDER* /* sender */, 
+                const unsigned long long& /* total_matches */)> completed;
+        std::function<void(SENDER* /* sender */, 
                 const INPUT& /* input */,
                 const unsigned long long& /* position */,
-                const std::set<PATTERN>& /* patterns */);
+                const std::set<PATTERN>& /* patterns */)> match_found;
     private:
         std::unique_ptr<Node<PATTERN>> root;
     public:
         ~PatternMatchingMachine();
-        PatternMatchingMachine(const std::set<PATTERN>& patterns);
+        PatternMatchingMachine(const std::vector<PATTERN>& patterns);
         
         void match(const INPUT& input, const SENDER* sender) const;
     private:
         void enter(const PATTERN& pattern);
-        void construct_goto_function(const std::set<PATTERN>& patterns);
+        void construct_goto_function(const std::vector<PATTERN>& patterns);
         void construct_failure_function();
     };
     
@@ -52,7 +53,7 @@ namespace PatternMatcher {
     PatternMatchingMachine<INPUT, PATTERN, SENDER>::~PatternMatchingMachine() { }
     
     template <typename INPUT, typename PATTERN, typename SENDER>
-    PatternMatchingMachine<INPUT, PATTERN, SENDER>::PatternMatchingMachine(const std::set<PATTERN>& patterns)
+    PatternMatchingMachine<INPUT, PATTERN, SENDER>::PatternMatchingMachine(const std::vector<PATTERN>& patterns)
             : root(std::make_unique<Node<PATTERN>>('~', true)),
               completed(nullptr), match_found(nullptr) {
         construct_goto_function(patterns);
@@ -106,7 +107,7 @@ namespace PatternMatcher {
     
     template <typename INPUT, typename PATTERN, typename SENDER>
     void 
-    PatternMatchingMachine<INPUT, PATTERN, SENDER>::construct_goto_function(const std::set<PATTERN>& patterns) { 
+    PatternMatchingMachine<INPUT, PATTERN, SENDER>::construct_goto_function(const std::vector<PATTERN>& patterns) { 
         for (const PATTERN& pattern: patterns) {
             enter(pattern);
         }

@@ -19,6 +19,9 @@
 #include "Sorter/Pattern.h"
 #include "Sorter/Job.h"
 
+#include <map>
+#include <set>
+
 namespace Sorter {
     
     class Sorter : public Processors::IProcessor {
@@ -27,6 +30,7 @@ namespace Sorter {
     public:
         virtual ~Sorter();
         Sorter(const std::shared_ptr<PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter>>& matcher);
+    public:
     protected:
         virtual bool process();
     private:

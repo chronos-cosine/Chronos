@@ -11,11 +11,16 @@
  * Created on 04 October 2018, 7:08 AM
  */
 
+#include "File/JsonDataReader.h"
+#include "Sorter/Settings.h"
+
 #include <iostream>
 #include <string>
 
 int main(int argc, char** argv) {
-    std::cout << "\nStarting Chronos-Sorter..." << std::endl; 
+    std::cout << "\nStarting Chronos-Sorter..." << std::endl;
+    Sorter::Settings settings = 
+        File::JsonDataReader::read<Sorter::Settings>("./Chronos-Sorter.settings");
     
     std::cout << "\nExiting Chronos-Sorter..." << std::endl;
     return 0;

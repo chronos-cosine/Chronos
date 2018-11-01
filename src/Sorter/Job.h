@@ -23,9 +23,9 @@ namespace Sorter {
         unsigned long long id;
         std::string document;
         
-        bool operator<(const Job& rhs);
-        bool operator==(const Job& rhs);
-        bool operator!=(const Job& rhs);
+        bool operator<(const Job& rhs) const;
+        bool operator==(const Job& rhs) const;
+        bool operator!=(const Job& rhs) const;
         Job& operator<<(const boost::property_tree::ptree& rhs);
         
         friend std::ostream& operator<<(std::ostream& lhs, const Job& rhs);

@@ -23,6 +23,7 @@ namespace Collections {
     class ICollection {
         ICollection(const ICollection&) = delete;
         ICollection& operator=(const ICollection&) = delete;
+        
     public:
         virtual ~ICollection() { }
         ICollection() { }
@@ -33,6 +34,7 @@ namespace Collections {
     protected:
         std::condition_variable __condition_variable;
         std::mutex __mutex;
+        
     }; /* class ICollection */
     
 } /* namespace Collections */

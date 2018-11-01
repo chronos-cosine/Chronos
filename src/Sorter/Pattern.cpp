@@ -20,7 +20,7 @@
 namespace Sorter {
 
     bool 
-    Pattern::operator<(const Pattern& rhs) {
+    Pattern::operator<(const Pattern& rhs) const {
         if (bin_id < rhs.bin_id) {
             return true;
         }
@@ -33,22 +33,22 @@ namespace Sorter {
     }
 
     bool 
-    Pattern::operator==(const Pattern& rhs) {
+    Pattern::operator==(const Pattern& rhs) const {
         return id == rhs.id;
     }
 
     bool 
-    Pattern::operator!=(const Pattern& rhs) {
+    Pattern::operator!=(const Pattern& rhs) const {
         return !(*this == rhs);
     }
     
     std::string::const_iterator  
-    Pattern::begin() {
+    Pattern::begin() const {
         return value.begin();
     }
     
     std::string::const_iterator  
-    Pattern::end() {
+    Pattern::end() const {
         return value.end();
     }
     

@@ -28,11 +28,11 @@ namespace Sorter {
         BooleanOperator boolean_operator;
         unsigned long long bin_id;
 
-        std::string::const_iterator begin();
-        std::string::const_iterator end();
-        bool operator<(const Pattern& rhs);
-        bool operator==(const Pattern& rhs);
-        bool operator!=(const Pattern& rhs);
+        std::string::const_iterator begin() const;
+        std::string::const_iterator end() const;
+        bool operator<(const Pattern& rhs) const;
+        bool operator==(const Pattern& rhs) const;
+        bool operator!=(const Pattern& rhs) const;
         Pattern& operator<<(const std::vector<std::string>& rhs);
         Pattern& operator<<(const boost::property_tree::ptree& rhs);
         

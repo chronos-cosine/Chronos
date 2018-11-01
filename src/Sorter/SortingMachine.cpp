@@ -26,30 +26,60 @@ namespace Sorter {
     SortingMachine::~SortingMachine() {
     }
     
-//    SortingMachine::SortingMachine(Settings* settings) 
-//        : __settings(settings) {
-//        initialise();
-//    }
+    SortingMachine::SortingMachine(std::shared_ptr<Settings> settings) 
+        : __settings(settings), __completed(this), __match_found(this) {
+        initialise();
+    }
+    
+    SortingMachine::completed::completed(SortingMachine* sm) 
+            : sorting_machine(sm) {
+    }
+    
+    SortingMachine::match_found::match_found(SortingMachine* sm) 
+            : sorting_machine(sm) {
+    }
+    
+    void
+    SortingMachine::completed::operator()(Sorter* sender, 
+                const Job& input,
+                const unsigned long long& total_matches) { 
+        sorting_machine->__matches.erase(input);
+    }
+    
+    void SortingMachine::match_found::operator()(Sorter* sender, 
+                const Job& input,
+                const unsigned long long& position,
+                const std::set<Pattern>& patterns) {
+        for (const Pattern& pattern: patterns) {
+            sorting_machine->__matches[input].insert(pattern);
+        }
+    }
     
     void 
     SortingMachine::initialise() {
-//        std::vector<Bin> bins = 
-//                std::move(File::DataReader::read<Bin>(__settings->bins_path, __settings->bins_file_type));
-//        std::vector<Pattern> patterns = 
-//                std::move(File::DataReader::read<Pattern>(__settings->patterns_path, __settings->patterns_file_type));
-//        
-//        for (Bin& bin: bins) {
-//            unsigned long long bin_id = bin.id;
-//            __bins[bin_id] = std::move(bin);
-//        }
-//        for (Pattern& pattern: patterns) {
-//            unsigned long long bin_id = pattern.bin_id;
-//            unsigned long long pattern_id = pattern.id;
-//            __patterns[pattern_id] = std::move(pattern);
-//            if (bin_id > 0) {
-//                __bin_patterns[bin_id].insert(&__patterns[pattern.id]);
-//            }
-//        }
+        std::vector<Bin> bins = 
+            std::move(File::DataReader::read<Bin>(__settings->bins_path, 
+                __settings->bins_file_type));
+        std::vector<Pattern> patterns = 
+            std::move(File::DataReader::read<Pattern>(__settings->patterns_path, 
+                __settings->patterns_file_type));
+        
+        __matcher = std::make_shared<PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter>>(patterns);
+        __matcher->completed = __completed;
+        __matcher->match_found = __match_found;
+        
+        for (Bin& bin: bins) {
+            unsigned long long bin_id = bin.id;
+            __bins[bin_id] = std::move(bin);
+        }
+        for (Pattern& pattern: patterns) {
+            unsigned long long bin_id = pattern.bin_id;
+            unsigned long long pattern_id = pattern.id;
+            __patterns[pattern_id] = std::move(pattern);
+            if (bin_id > 0) {
+                __bin_patterns[bin_id].insert(&__patterns[pattern.id]);
+            }
+        }
     }
     
 } /* namespace Sorter */

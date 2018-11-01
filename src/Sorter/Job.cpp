@@ -18,17 +18,17 @@
 namespace Sorter {
     
     bool 
-    Job::operator<(const Job& rhs) {
+    Job::operator<(const Job& rhs) const {
         return id < rhs.id;
     }
     
     bool 
-    Job::operator==(const Job& rhs) {
+    Job::operator==(const Job& rhs) const {
         return id == rhs.id;
     }
     
     bool 
-    Job::operator!=(const Job& rhs) {
+    Job::operator!=(const Job& rhs) const {
         return !(*this == rhs);
     }
     

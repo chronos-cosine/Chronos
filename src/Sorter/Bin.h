@@ -26,9 +26,9 @@ namespace Sorter {
         std::string name;
         unsigned long long parent_id;
 
-        bool operator<(const Bin& rhs);
-        bool operator==(const Bin& rhs);
-        bool operator!=(const Bin& rhs);
+        bool operator<(const Bin& rhs) const;
+        bool operator==(const Bin& rhs) const;
+        bool operator!=(const Bin& rhs) const;
         Bin& operator<<(const std::vector<std::string>& rhs);
         Bin& operator<<(const boost::property_tree::ptree& rhs);
         

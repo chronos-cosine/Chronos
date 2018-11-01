@@ -14,7 +14,7 @@
 namespace Sorter {
 
     bool 
-    Bin::operator<(const Bin& rhs) {
+    Bin::operator<(const Bin& rhs) const {
         if (parent_id < rhs.parent_id) {
             return true;
         }
@@ -23,12 +23,12 @@ namespace Sorter {
     }
 
     bool 
-    Bin::operator==(const Bin& rhs) {
+    Bin::operator==(const Bin& rhs) const {
         return id == rhs.id;
     }
 
     bool 
-    Bin::operator!=(const Bin& rhs) {
+    Bin::operator!=(const Bin& rhs) const {
         return !(*this == rhs);
     }
     
