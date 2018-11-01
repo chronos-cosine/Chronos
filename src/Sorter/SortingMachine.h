@@ -35,13 +35,16 @@ namespace Sorter {
         SortingMachine(std::shared_ptr<Settings> settings);
     private:
         void initialise();
+        bool is_boolean_match(const Job& input);
+        bool is_bin_hierarchy_match(const Job& input);
     private:
         std::map<unsigned long long, Pattern> __patterns;
-        std::map<unsigned long long, Bin> __bins;
-        std::map<unsigned long long, std::set<Pattern*>> __bin_patterns;
+        std::map<unsigned long long, Bin> __bins; 
+        std::map<unsigned long long, std::map<BooleanOperator, std::set<Pattern>>> __bin_patterns;
         std::shared_ptr<PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter>> __matcher;
         std::shared_ptr<Settings> __settings;
-        std::map<Job, std::set<Pattern>> __matches;
+        std::map<Job, std::set<Pattern>> __pattern_matches;
+        std::map<Job, std::set<Bin>> __bin_matches;
     private:
         struct completed {
             SortingMachine* sorting_machine;
@@ -50,7 +53,7 @@ namespace Sorter {
             void operator()(Sorter* sender, 
                 const Job& input,
                 const unsigned long long& total_matches);
-        };
+        }; /* struct completed */
         struct match_found {
             SortingMachine* sorting_machine;
             
@@ -59,7 +62,7 @@ namespace Sorter {
                 const Job& input,
                 const unsigned long long& position,
                 const std::set<Pattern>& patterns);
-        };
+        }; /* struct match_found */
         completed __completed;
         match_found __match_found;
         

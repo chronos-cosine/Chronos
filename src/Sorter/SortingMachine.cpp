@@ -24,36 +24,95 @@
 namespace Sorter {
     
     SortingMachine::~SortingMachine() {
-    }
+    } /* ~SortingMachine() */
     
-    SortingMachine::SortingMachine(std::shared_ptr<Settings> settings) 
+    SortingMachine::SortingMachine(const std::shared_ptr<Settings>& settings) 
         : __settings(settings), __completed(this), __match_found(this) {
         initialise();
-    }
+    } /* SortingMachine(const std::shared_ptr<Settings>&) */
     
     SortingMachine::completed::completed(SortingMachine* sm) 
             : sorting_machine(sm) {
-    }
+    } /* completed::completed(SortingMachine*) */
     
     SortingMachine::match_found::match_found(SortingMachine* sm) 
             : sorting_machine(sm) {
-    }
+    } /* match_found::match_found(SortingMachine*) */
     
     void
     SortingMachine::completed::operator()(Sorter* sender, 
                 const Job& input,
-                const unsigned long long& total_matches) { 
-        sorting_machine->__matches.erase(input);
-    }
+                const unsigned long long& total_matches) {
+        if (sorting_machine->is_boolean_match(input)
+            && sorting_machine->is_bin_hierarchy_match(input)) {
+            
+        }
+        
+        sorting_machine->__pattern_matches.erase(input);
+        sorting_machine->__bin_matches.erase(input);
+    } /* completed::operator() */
     
     void SortingMachine::match_found::operator()(Sorter* sender, 
                 const Job& input,
                 const unsigned long long& position,
                 const std::set<Pattern>& patterns) {
         for (const Pattern& pattern: patterns) {
-            sorting_machine->__matches[input].insert(pattern);
+            sorting_machine->__pattern_matches[input].insert(pattern);
+            
+            if (sorting_machine->__bin_matches.end() == sorting_machine->__bin_matches.find(input)) {
+                sorting_machine->__bin_matches[input].insert(sorting_machine->__bins[pattern.bin_id]);
+            }
         }
-    }
+    } /* match_found::operator() */
+     
+    bool
+    SortingMachine::is_bin_hierarchy_match(const Job& input) {
+        Bin parent = *(__bin_matches[input].begin());
+        
+        while (parent.parent_id != 0) {
+            parent = __bins[parent.parent_id];
+            
+            if (__bin_matches[input].end() == __bin_matches[input].find(parent)) {
+                return false;
+            }
+        }
+        
+        return true;
+    } /* is_bin_hierarchy_match(const Job&) */
+    
+    bool 
+    SortingMachine::is_boolean_match(const Job& input) {
+        for (const Pattern& pattern: __pattern_matches[input]) {
+            //not
+            if (pattern.boolean_operator == BooleanOperator::NOT) {
+                return false;
+            }
+            
+            //or
+            if (__bin_patterns[pattern.bin_id].end() 
+                    != __bin_patterns[pattern.bin_id].find(BooleanOperator::OR)
+                && pattern.boolean_operator == BooleanOperator::AND) {
+                return false;
+            }
+            
+            //and
+            std::map<BooleanOperator, std::set<Pattern>>::const_iterator and_iterator 
+                    = __bin_patterns[pattern.bin_id].find(BooleanOperator::AND);
+            if (__bin_patterns[pattern.bin_id].end() 
+                    != and_iterator) {
+                for(std::set<Pattern>::iterator iter = (*and_iterator).second.begin();
+                    iter != (*and_iterator).second.end();
+                    ++iter) {
+                    if (__pattern_matches[input].end() 
+                            == __pattern_matches[input].find(*iter)) {
+                        return false;
+                    }
+                } 
+            }
+        }
+        
+        return true;
+    } /* is_boolean_match(const Job&) */
     
     void 
     SortingMachine::initialise() {
@@ -73,14 +132,12 @@ namespace Sorter {
             __bins[bin_id] = std::move(bin);
         }
         for (Pattern& pattern: patterns) {
-            unsigned long long bin_id = pattern.bin_id;
-            unsigned long long pattern_id = pattern.id;
-            __patterns[pattern_id] = std::move(pattern);
-            if (bin_id > 0) {
-                __bin_patterns[bin_id].insert(&__patterns[pattern.id]);
+            if (pattern.bin_id > 0) {
+                __bin_patterns[pattern.bin_id][pattern.boolean_operator].insert(pattern);
             }
+            __patterns[pattern.id] = std::move(pattern);
         }
-    }
+    } /* initialise() */
     
 } /* namespace Sorter */
 
