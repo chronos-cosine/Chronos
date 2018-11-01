@@ -46,18 +46,18 @@ namespace Collections {
     template <typename T>
     void 
     ConcurrentStack<T>::push(T item) {
-        std::lock_guard<std::mutex> lock(__mutex);
+        std::lock_guard<std::mutex> lock(ICollection<T>::__mutex);
         
         __stack.push(std::move(item));
-        __condition_variable.notify_one();
+        ICollection<T>::__condition_variable.notify_one();
     } /* void ConcurrentStack<T>::push(T) */
     
     template <typename T>
     T 
     ConcurrentStack<T>::pop() {
-        std::unique_lock<std::mutex> lock(__mutex);
+        std::unique_lock<std::mutex> lock(ICollection<T>::__mutex);
         
-        __condition_variable.wait(lock, [this] { return !__stack.empty(); });
+        ICollection<T>::__condition_variable.wait(lock, [this] { return !__stack.empty(); });
         T item = std::move(__stack.top());
         __stack.pop();
         

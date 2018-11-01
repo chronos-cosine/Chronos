@@ -24,8 +24,12 @@ if(Boost_FOUND)
         "${CHRONOS_SOURCE_ROOT}/File/DataReader.h"
         "${CHRONOS_SOURCE_ROOT}/File/JsonDataReader.h"
         "${CHRONOS_SOURCE_ROOT}/File/JsonDataWriter.h"
+        "${CHRONOS_SOURCE_ROOT}/File/Spooler.cpp"
+        "${CHRONOS_SOURCE_ROOT}/File/Spooler.h"
         "${CHRONOS_SOURCE_ROOT}/PatternMatcher/Node.h"
         "${CHRONOS_SOURCE_ROOT}/PatternMatcher/PatternMatchingMachine.h"
+        "${CHRONOS_SOURCE_ROOT}/Processors/IProcessor.cpp"
+        "${CHRONOS_SOURCE_ROOT}/Processors/IProcessor.h"
     )
     
     # creates the library 
@@ -33,5 +37,6 @@ if(Boost_FOUND)
     add_executable(Chronos-Sorter ${Sorter_SOURCES})
 
     target_link_libraries(Chronos-Sorter
+                          stdc++fs
                           Boost::filesystem)
 endif()

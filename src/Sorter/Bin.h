@@ -23,8 +23,8 @@ namespace Sorter {
     
     struct Bin {
         unsigned long long id;
-        std::string name;
         unsigned long long parent_id;
+        std::string name;
 
         bool operator<(const Bin& rhs) const;
         bool operator==(const Bin& rhs) const;

@@ -60,8 +60,8 @@ namespace Sorter {
         
         id = std::stoull(rhs[0]);
         value = rhs[1];
-        boolean_operator = (BooleanOperator)std::stoi(rhs[2]);
-        bin_id = std::stoull(rhs[3]);
+        bin_id = std::stoull(rhs[2]);
+        boolean_operator = (BooleanOperator)std::stoi(rhs[3]);
         
         return *this;
     }

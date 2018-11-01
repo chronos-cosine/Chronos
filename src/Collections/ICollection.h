@@ -14,6 +14,7 @@
 #ifndef COLLECTIONS_ICOLLECTION_H
 #define COLLECTIONS_ICOLLECTION_H
 
+#include <condition_variable>
 #include <memory>
 #include <mutex>
 

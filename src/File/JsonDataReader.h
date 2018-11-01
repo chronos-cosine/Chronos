@@ -17,6 +17,7 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 #include <fstream>
+#include <memory>
 #include <string>
 #include <sstream>
 #include <vector>
@@ -30,11 +31,51 @@ namespace File {
     public:        
         template <typename T> 
         static T read(const std::string& filename);
+        template <typename T>
+        static std::shared_ptr<T> read_shared(const std::string& filename);
         
         template <typename T> 
         static std::vector<T> read_array(const std::string& filename);
+        template <typename T> 
+        static std::shared_ptr<std::vector<T>> read_array_shared(const std::string& filename);
         
     }; /* class JsonDataReader */
+    
+    template <typename T>
+    std::shared_ptr<T> 
+    JsonDataReader::read_shared(const std::string& filename) {
+        std::ifstream file(filename);
+        std::stringstream buffer; 
+        boost::property_tree::ptree ptree;
+
+        buffer << file.rdbuf();
+        boost::property_tree::read_json(buffer, ptree);
+        std::shared_ptr<T> object = std::make_shared<T>();
+        *object << ptree;
+
+        return object;
+    }
+    
+    template <typename T>
+    std::shared_ptr<std::vector<T>> 
+    JsonDataReader::read_array_shared(const std::string& filename) {
+        std::ifstream file(filename);
+        std::stringstream buffer; 
+        boost::property_tree::ptree ptree;
+        
+        std::shared_ptr<std::vector<T>> object = std::make_shared<std::vector<T>>();
+
+        buffer << file.rdbuf();
+        boost::property_tree::read_json(buffer, ptree);
+
+        for (auto& item: ptree.get_child("")) {
+            T temp;
+            temp << ptree;
+            *object.push_back(std::move(temp));
+        }
+
+        return object;
+    }
     
     template <typename T>
     T 

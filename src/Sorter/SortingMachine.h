@@ -14,6 +14,7 @@
 #ifndef SORTER_SORTINGMACHINE_H
 #define SORTER_SORTINGMACHINE_H
 
+#include "Collections/ICollection.h"
 #include "PatternMatcher/PatternMatchingMachine.h"
 #include "Sorter/Bin.h"
 #include "Sorter/Job.h"
@@ -45,6 +46,7 @@ namespace Sorter {
         std::shared_ptr<Settings> __settings;
         std::map<Job, std::set<Pattern>> __pattern_matches;
         std::map<Job, std::set<Bin>> __bin_matches;
+        std::shared_ptr<Collections::ICollection<std::string>> __jobs;
     private:
         struct completed {
             SortingMachine* sorting_machine;

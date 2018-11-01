@@ -27,12 +27,12 @@ namespace Sorter {
         boost::property_tree::ptree root;
         boost::property_tree::ptree job;
         job << *(rhs.job);
-        
         root.push_back(std::make_pair("job", job));
+        
         if (nullptr != rhs.bin_matches) {
             boost::property_tree::ptree bins;
             
-            for (const auto& bin: *(rhs.bin_matches)) {
+            for (const auto& bin: *(rhs.bin_matches)) { 
                 boost::property_tree::ptree value;
                 boost::property_tree::ptree b;
                 b << bin;

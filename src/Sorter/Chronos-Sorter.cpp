@@ -22,13 +22,13 @@
 
 int main(int argc, char** argv) {
     std::cout << "\nStarting Chronos-Sorter..." << std::endl;
-    Sorter::Settings settings = 
-        File::JsonDataReader::read<Sorter::Settings>("./Chronos-Sorter.settings");
-    std::shared_ptr<Sorter::Settings> s(&settings);
+    std::shared_ptr<Sorter::Settings> settings = 
+        File::JsonDataReader::read_shared<Sorter::Settings>("./Chronos-Sorter.settings");
+    
     Sorter::Job job = File::JsonDataReader::read<Sorter::Job>("./1.sjob");
     Sorter::Sorter* sorter = nullptr;
     
-    Sorter::SortingMachine sm(s);
+    Sorter::SortingMachine sm(settings);
     sm.__matcher->match(job, sorter);
     
     std::cout << "\nExiting Chronos-Sorter..." << std::endl;

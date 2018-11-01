@@ -15,6 +15,10 @@
 #define FILE_SPOOLER_H
 
 #include "Processors/IProcessor.h"
+#include "Collections/ICollection.h"
+
+#include <memory>
+#include <string>
 
 namespace File {
     
@@ -24,12 +28,14 @@ namespace File {
     public:
         virtual ~Spooler();
         Spooler(const std::string& directory,
-                const std::string& trigger);
+                const std::string& trigger,
+                const std::shared_ptr<Collections::ICollection<std::string>>& collection);
    protected:
        virtual bool process();
     private:
         std::string __directory;
         std::string __trigger;
+        std::shared_ptr<Collections::ICollection<std::string>> __collection;
         
     }; /* class Spooler */
     

@@ -43,7 +43,7 @@ namespace File {
         boost::property_tree::write_json(ostream, temp);
 
         return ostream;
-    } /* write(std::ostream& ostream, const T& data) */
+    } /* write(std::ostream&, const T&) */
         
     template <typename T>
     void 
@@ -51,7 +51,7 @@ namespace File {
         std::ofstream ofstream(destination); 
 
         write(ofstream, data);
-    } /* write(const T& data, const std::string& destination) */ 
+    } /* write(const T&, const std::string&) */ 
     
 } /* namespace File */
 
