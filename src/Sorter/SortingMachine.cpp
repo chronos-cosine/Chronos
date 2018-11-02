@@ -70,7 +70,11 @@ namespace Sorter {
             result.bin_matches = const_cast<std::set<Bin>*>(&(sorting_machine->__bin_matches[input]));
             result.pattern_matches = const_cast<std::set<Pattern>*>(&(sorting_machine->__pattern_matches[input]));
             
-            std::cout << result << std::endl;
+            sorting_machine->__ss_notification << result;
+            sorting_machine->notify(sorting_machine->__ss_notification);
+        } else {
+            sorting_machine->__ss_notification << &input << " no pattern matches found";
+            sorting_machine->notify(sorting_machine->__ss_notification);
         }
         
         sorting_machine->__pattern_matches.erase(input);
@@ -100,11 +104,16 @@ namespace Sorter {
         while (parent.parent_id != 0) {
             parent = __bins[parent.parent_id]; 
             
-            if (__bin_patterns.end() != __bin_patterns.find(parent.id)
-                && __bin_patterns[parent.id].size() > 0) {
-                if (__bin_matches[input].end() == __bin_matches[input].find(parent)) {
-                    return false;
+            if (__bin_patterns.end() != __bin_patterns.find(parent.id)) {
+                if (__bin_patterns[parent.id].size() > 0) {
+                    if (__bin_matches[input].end() == __bin_matches[input].find(parent)) {
+                        return false;
+                    }
+                } else {
+                    __bin_matches[input].insert(parent);
                 }
+            } else {
+                __bin_matches[input].insert(parent);
             }
         }
         

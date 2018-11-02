@@ -15,10 +15,13 @@
 #define FILE_CSVDATAREADER_H
 
 #include <exception>
+#include <experimental/filesystem>
 #include <fstream>
 #include <vector>
 #include <string>
 #include <sstream>
+
+namespace fs = std::experimental::filesystem;
 
 namespace File { 
     
@@ -37,8 +40,19 @@ namespace File {
         static char get_separator(const std::string& line);
         static std::vector<std::string> split(const std::string& line, 
                                               const char& separator);
+        static void validate_filename(const std::string& filename);
         
     };  /* class CsvDataReader */
+    
+    void 
+    CsvDataReader::validate_filename(const std::string& filename) {
+        if (!fs::exists(fs::path(filename))) {
+            std::stringstream ss;
+            ss << "CsvDataReader::read() filename \"" << filename << "\" supplied does not exist";
+            
+            throw std::runtime_error(ss.str().c_str());
+        }
+    }
     
     char
     CsvDataReader::get_separator(const std::string& line) {
@@ -63,6 +77,8 @@ namespace File {
     
     std::vector<std::vector<std::string>> 
     CsvDataReader::read(const std::string& filename) {
+        validate_filename(filename);
+        
         std::ifstream file(filename);
         std::vector<std::vector<std::string>> data;
         std::string line;

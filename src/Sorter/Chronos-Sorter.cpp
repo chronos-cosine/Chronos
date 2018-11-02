@@ -24,10 +24,10 @@
 int main(int argc, char** argv) {
     std::cout << "\nStarting Chronos-Sorter..." << std::endl;
     std::shared_ptr<Sorter::Settings> settings = 
-        File::JsonDataReader::read_shared<Sorter::Settings>("./Chronos-Sorter.settings");
+        File::JsonDataReader<Sorter::Settings>::read_shared("./Chronos-Sorter.settings");
     std::shared_ptr<Notifier::INotifier> notifier = std::make_shared<Notifier::CoutNotifier>();
     
-    Sorter::Job job = File::JsonDataReader::read<Sorter::Job>("./1.sjob");
+    Sorter::Job job = File::JsonDataReader<Sorter::Job>::read("./1.sjob");
     Sorter::Sorter* sorter = nullptr;
     
     Sorter::SortingMachine sm(settings, notifier);

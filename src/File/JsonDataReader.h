@@ -16,34 +16,49 @@
 
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
+#include <experimental/filesystem>
 #include <fstream>
 #include <memory>
 #include <string>
 #include <sstream>
 #include <vector>
 
+namespace fs = std::experimental::filesystem;
+
 namespace File {
     
+    template <typename T> 
     class JsonDataReader {
         JsonDataReader();
         JsonDataReader(const JsonDataReader&) = delete;
         JsonDataReader& operator=(const JsonDataReader&) = delete;
     public:        
-        template <typename T> 
         static T read(const std::string& filename);
-        template <typename T>
         static std::shared_ptr<T> read_shared(const std::string& filename);
         
-        template <typename T> 
         static std::vector<T> read_array(const std::string& filename);
-        template <typename T> 
         static std::shared_ptr<std::vector<T>> read_array_shared(const std::string& filename);
+    private:
+        static void validate_filename(const std::string& filename);
         
     }; /* class JsonDataReader */
     
     template <typename T>
+    void 
+    JsonDataReader<T>::validate_filename(const std::string& filename) {
+        if (!fs::exists(fs::path(filename))) {
+            std::stringstream ss;
+            ss << "JsonDataReader::read() filename \"" << filename << "\" supplied does not exist";
+            
+            throw std::runtime_error(ss.str().c_str());
+        }
+    }
+    
+    template <typename T>
     std::shared_ptr<T> 
-    JsonDataReader::read_shared(const std::string& filename) {
+    JsonDataReader<T>::read_shared(const std::string& filename) {
+        validate_filename(filename);
+        
         std::ifstream file(filename);
         std::stringstream buffer; 
         boost::property_tree::ptree ptree;
@@ -58,7 +73,9 @@ namespace File {
     
     template <typename T>
     std::shared_ptr<std::vector<T>> 
-    JsonDataReader::read_array_shared(const std::string& filename) {
+    JsonDataReader<T>::read_array_shared(const std::string& filename) {
+        validate_filename(filename);
+        
         std::ifstream file(filename);
         std::stringstream buffer; 
         boost::property_tree::ptree ptree;
@@ -79,7 +96,9 @@ namespace File {
     
     template <typename T>
     T 
-    JsonDataReader::read(const std::string& filename) {
+    JsonDataReader<T>::read(const std::string& filename) {
+        validate_filename(filename);
+        
         std::ifstream file(filename);
         std::stringstream buffer; 
         boost::property_tree::ptree ptree;
@@ -94,7 +113,9 @@ namespace File {
 
     template <typename T>
     std::vector<T> 
-    JsonDataReader::read_array(const std::string& filename) {
+    JsonDataReader<T>::read_array(const std::string& filename) {
+        validate_filename(filename);
+        
         std::ifstream file(filename);
         std::stringstream buffer; 
         boost::property_tree::ptree ptree;

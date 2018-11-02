@@ -39,7 +39,7 @@ namespace File {
         if (filetype == "csv") {
             return CsvDataReader::read<T>(filename);
         } else if (filetype == "json") {
-            return JsonDataReader::read_array<T>(filename);
+            return JsonDataReader<T>::read_array(filename);
         } else {
             throw std::runtime_error("Filetype not yet supported");
         }
