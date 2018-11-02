@@ -24,7 +24,7 @@ namespace Sorter {
     
     struct Result {
         Job* job;
-        std::set<Pattern>* pattern_matches;
+        std::map<unsigned long long, std::set<Pattern>>* pattern_matches;
         std::set<Bin>* bin_matches;
         
         friend std::ostream& operator<<(std::ostream& lhs, const Result& rhs);

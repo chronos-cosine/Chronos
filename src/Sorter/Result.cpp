@@ -43,16 +43,22 @@ namespace Sorter {
         }
         
         if (nullptr != rhs.pattern_matches) {
-            boost::property_tree::ptree patterns;
+            boost::property_tree::ptree matches;
             
-            for (const auto& pattern: *(rhs.pattern_matches)) {
-                boost::property_tree::ptree value;
-                boost::property_tree::ptree p;
-                p << pattern;
-                value.push_back(std::make_pair("", p));
-                patterns.push_back(std::make_pair("", value));
+            for (const auto& pair: *(rhs.pattern_matches)) {
+                matches.put("Position", pair.first);
+                boost::property_tree::ptree patterns;
+                
+                for (const auto& pattern: pair.second) {
+                    boost::property_tree::ptree value;
+                    boost::property_tree::ptree p;
+                    p << pattern;
+                    value.push_back(std::make_pair("", p));
+                    patterns.push_back(std::make_pair("", value));
+                }
+                matches.push_back(std::make_pair("patterns", patterns));
             }
-            root.push_back(std::make_pair("pattern_matches", patterns));
+            root.push_back(std::make_pair("pattern_matches", matches));
         }
         
         boost::property_tree::write_json(lhs, root);

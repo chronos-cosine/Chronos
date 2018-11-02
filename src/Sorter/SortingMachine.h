@@ -47,7 +47,7 @@ namespace Sorter {
         std::map<unsigned long long, Bin> __bins; 
         std::map<unsigned long long, std::map<BooleanOperator, std::set<Pattern>>> __bin_patterns;
         std::shared_ptr<Settings> __settings;
-        std::map<Job, std::set<Pattern>> __pattern_matches;
+        std::map<Job, std::map<unsigned long long, std::set<Pattern>>> __pattern_matches;
         std::map<Job, std::set<Bin>> __bin_matches;
         std::shared_ptr<Collections::ICollection<std::string>> __jobs;
         std::shared_ptr<Notifier::INotifier> __notifier;

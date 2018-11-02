@@ -35,7 +35,7 @@ namespace Sorter {
         : __settings(settings), __completed(this), __match_found(this),
           __jobs(std::make_shared<Collections::ConcurrentQueue<std::string>>()),
           __notifier(nullptr) {
-        notify("SortingMachine::SortingMachine() ctor1");
+        notify("SortingMachine::SortingMachine(settings)");
         initialise();
     } 
     
@@ -44,18 +44,18 @@ namespace Sorter {
         : __settings(settings), __completed(this), __match_found(this),
           __jobs(std::make_shared<Collections::ConcurrentQueue<std::string>>()),
           __notifier(notifier) {
-        notify("SortingMachine::SortingMachine() ctor2");
+        notify("SortingMachine::SortingMachine(settings,notifier)");
         initialise();
     }
     
     SortingMachine::completed::completed(SortingMachine* sm) 
             : sorting_machine(sm) {
-        sorting_machine->notify("SortingMachine::match_found::completed() ctor");
+        sorting_machine->notify("SortingMachine::match_found::completed(sm)");
     }
     
     SortingMachine::match_found::match_found(SortingMachine* sm) 
             : sorting_machine(sm) {
-        sorting_machine->notify("SortingMachine::match_found::match_found() ctor");
+        sorting_machine->notify("SortingMachine::match_found::match_found(sm)");
     } 
     
     void
@@ -68,7 +68,8 @@ namespace Sorter {
             Result result;
             result.job = const_cast<Job*>(&input);
             result.bin_matches = const_cast<std::set<Bin>*>(&(sorting_machine->__bin_matches[input]));
-            result.pattern_matches = const_cast<std::set<Pattern>*>(&(sorting_machine->__pattern_matches[input]));
+            result.pattern_matches = const_cast<std::map<unsigned long long, 
+                    std::set<Pattern>>*>(&(sorting_machine->__pattern_matches[input]));
             
             sorting_machine->__ss_notification << result;
             sorting_machine->notify(sorting_machine->__ss_notification);
@@ -87,7 +88,7 @@ namespace Sorter {
                 const std::set<Pattern>& patterns) {
         sorting_machine->notify("void SortingMachine::match_found::operator()");
         for (const Pattern& pattern: patterns) {
-            sorting_machine->__pattern_matches[input].insert(pattern); 
+            sorting_machine->__pattern_matches[input][position].insert(pattern); 
             sorting_machine->__bin_matches[input]
                 .insert(sorting_machine->__bins[pattern.bin_id]);
         }
@@ -127,7 +128,14 @@ namespace Sorter {
             return false;
         }
         
-        for (const Pattern& pattern: __pattern_matches[input]) {
+        std::set<Pattern> temp_patterns;
+        for (const auto& pair: __pattern_matches[input]) {
+            for (const auto& pattern: pair.second) {
+                temp_patterns.insert(pattern);
+            }
+        }
+        
+        for (const Pattern& pattern: temp_patterns) {
             //not
             if (pattern.boolean_operator == BooleanOperator::NOT) {
                 return false;
@@ -148,8 +156,7 @@ namespace Sorter {
                 for(std::set<Pattern>::iterator iter = (*and_iterator).second.begin();
                     iter != (*and_iterator).second.end();
                     ++iter) {
-                    if (__pattern_matches[input].end() 
-                            == __pattern_matches[input].find(*iter)) {
+                    if (temp_patterns.end() == temp_patterns.find(*iter)) {
                         return false;
                     }
                 } 
