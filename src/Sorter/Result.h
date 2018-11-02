@@ -28,6 +28,7 @@ namespace Sorter {
         std::set<Bin>* bin_matches;
         
         friend std::ostream& operator<<(std::ostream& lhs, const Result& rhs);
+        friend boost::property_tree::ptree& operator<<(boost::property_tree::ptree& lhs, const Result& rhs);
         
     }; /* struct Result */
     

@@ -11,6 +11,7 @@
  * Created on 30 October 2018, 1:13 PM
  */
 
+#include "File/JsonDataWriter.h"
 #include "Collections/ConcurrentQueue.h"
 #include "SortingMachine.h"
 #include "File/DataReader.h"
@@ -73,6 +74,16 @@ namespace Sorter {
             result.pattern_matches = const_cast<std::map<unsigned long long, 
                     std::set<Pattern>>*>(&(sorting_machine->__pattern_matches[input]));
             
+            std::stringstream result_file;
+            result_file << sorting_machine->__settings->result_output_directory
+                        << input.id
+                        << ".match";
+            
+            File::JsonDataWriter::write<Result>(result, result_file.str());
+            
+            std::string message = "SortingMachine::completed result found for " + 
+                                  std::to_string(input.id);
+            sorting_machine->notify(message);
         }
         
         fs::path p(input.filename);

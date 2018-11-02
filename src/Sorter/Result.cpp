@@ -15,6 +15,7 @@
 
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
+#include "File/JsonDataWriter.h"
 #include "Sorter/Bin.h"
 #include "Sorter/Job.h"
 #include "Sorter/Pattern.h"
@@ -24,45 +25,46 @@
 namespace Sorter {
     
     std::ostream& operator<<(std::ostream& lhs, const Result& rhs) {
-        boost::property_tree::ptree root;
+        File::JsonDataWriter::write<Result>(lhs, rhs);
+        return lhs;
+    }
+    
+    boost::property_tree::ptree& operator<<(boost::property_tree::ptree& lhs, const Result& rhs) {
         boost::property_tree::ptree job;
         job << *(rhs.job);
-        root.push_back(std::make_pair("job", job));
+        lhs.push_back(std::make_pair("job", job));
         
         if (nullptr != rhs.bin_matches) {
             boost::property_tree::ptree bins;
             
-            for (const auto& bin: *(rhs.bin_matches)) { 
-                boost::property_tree::ptree value;
+            for (const auto& bin: *(rhs.bin_matches)) {
                 boost::property_tree::ptree b;
                 b << bin;
-                value.push_back(std::make_pair("", b));
-                bins.push_back(std::make_pair("", value));
+                bins.push_back(std::make_pair("", b));
             }
-            root.push_back(std::make_pair("bin_matches", bins));
+            lhs.push_back(std::make_pair("bin_matches", bins));
         }
         
         if (nullptr != rhs.pattern_matches) {
-            boost::property_tree::ptree matches;
+            boost::property_tree::ptree pattern_matches;
             
             for (const auto& pair: *(rhs.pattern_matches)) {
-                matches.put("Position", pair.first);
-                boost::property_tree::ptree patterns;
+                boost::property_tree::ptree patterns_match;
+                patterns_match.put("position", pair.first);
                 
+                boost::property_tree::ptree patterns;
                 for (const auto& pattern: pair.second) {
-                    boost::property_tree::ptree value;
                     boost::property_tree::ptree p;
                     p << pattern;
-                    value.push_back(std::make_pair("", p));
-                    patterns.push_back(std::make_pair("", value));
+                    patterns.push_back(std::make_pair("", p));
                 }
-                matches.push_back(std::make_pair("patterns", patterns));
+                patterns_match.push_back(std::make_pair("patterns", patterns));
+                pattern_matches.push_back(std::make_pair("", patterns_match));
             }
-            root.push_back(std::make_pair("pattern_matches", matches));
+            
+            lhs.push_back(std::make_pair("pattern_matches", pattern_matches));
         }
         
-        boost::property_tree::write_json(lhs, root);
-
         return lhs;
     }
        
