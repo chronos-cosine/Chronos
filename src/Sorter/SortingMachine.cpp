@@ -18,6 +18,7 @@
 #include "Sorter/Pattern.h"
 #include "Sorter/Result.h"
 #include "Sorter/Settings.h"
+#include "Notifier/CoutNotifier.h"
 
 #include <experimental/filesystem>
 #include <exception>
@@ -37,40 +38,33 @@ namespace Sorter {
     }
     
     SortingMachine::SortingMachine(const std::shared_ptr<Settings>& settings) 
-        : Processors::IProcessor(), __settings(settings), __completed(this), 
-          __match_found(this),
-          __jobs(std::make_shared<Collections::ConcurrentQueue<std::string>>()),
-          __notifier(nullptr) {
-        notify("SortingMachine::SortingMachine(settings)");
+        : Processors::IProcessor(), 
+          __settings(settings), __completed(this), __match_found(this),
+          __jobs(std::make_shared<Collections::ConcurrentQueue<std::string>>()) {
         initialise();
     } 
     
     SortingMachine::SortingMachine(const std::shared_ptr<Settings>& settings, 
-            std::shared_ptr<Notifier::INotifier> notifier)  
-        : Processors::IProcessor(), __settings(settings), __completed(this), 
+            const std::shared_ptr<Notifier::INotifier>& notifier)  
+        : Processors::IProcessor(30, notifier),
+          __settings(settings), __completed(this), 
           __match_found(this),
-          __jobs(std::make_shared<Collections::ConcurrentQueue<std::string>>()),
-          __notifier(notifier) {
-        notify("SortingMachine::SortingMachine(settings,notifier)");
+          __jobs(std::make_shared<Collections::ConcurrentQueue<std::string>>()) {
         initialise();
     }
     
     SortingMachine::completed::completed(SortingMachine* sm) 
             : sorting_machine(sm) {
-        sorting_machine->notify("SortingMachine::match_found::completed(sm)");
     }
     
     SortingMachine::match_found::match_found(SortingMachine* sm) 
             : sorting_machine(sm) {
-        sorting_machine->notify("SortingMachine::match_found::match_found(sm)");
     } 
     
     void
     SortingMachine::completed::operator()(Sorter* sender, 
                 const Job& input,
                 const unsigned long long& total_matches) {
-        sorting_machine->notify("void SortingMachine::completed::operator()");
-        
         if (sorting_machine->is_boolean_match(input)
             && sorting_machine->is_bin_hierarchy_match(input)) {
             Result result;
@@ -96,8 +90,6 @@ namespace Sorter {
                 const Job& input,
                 const unsigned long long& position,
                 const std::set<Pattern>& patterns) {
-        sorting_machine->notify("void SortingMachine::match_found::operator()");
-        
         for (const Pattern& pattern: patterns) {
             sorting_machine->__pattern_matches[input][position].insert(pattern); 
             sorting_machine->__bin_matches[input]
@@ -107,8 +99,6 @@ namespace Sorter {
      
     bool
     SortingMachine::is_bin_hierarchy_match(const Job& input) {
-        notify("bool SortingMachine::is_bin_hierarchy_match()");
-        
         if (__bin_matches.end() == __bin_matches.find(input)) {
             return false;
         }
@@ -135,8 +125,6 @@ namespace Sorter {
     
     bool 
     SortingMachine::is_boolean_match(const Job& input) {
-        notify("bool SortingMachine::is_boolean_match()");
-        
         if (__pattern_matches.end() == __pattern_matches.find(input)) {
             return false;
         }
@@ -178,23 +166,7 @@ namespace Sorter {
         
         return true;
     }
-    
-    void 
-    SortingMachine::notify(const std::string& message) {
-        if (nullptr != __notifier) {
-            std::stringstream ss;
-            ss << this << " " << message;
-            __notifier->notify(ss);
-        }
-    }
-    
-    void 
-    SortingMachine::notify(std::stringstream& message) {
-        if (nullptr != __notifier) {
-            __notifier->notify(message);
-        }
-    }
-    
+        
     void
     SortingMachine::initialise_bins(const std::vector<Bin>& bins) {
         for (const Bin& bin: bins) {
@@ -217,10 +189,10 @@ namespace Sorter {
     SortingMachine::initialise_spoolers() {
         for (const auto& directory: __settings->job_file_directories) {
             std::shared_ptr<File::Spooler> spooler = std::make_shared<File::Spooler>(
-                    directory,
-                    __settings->trigger_extension,
-                    __settings->busy_extension,
-                    __jobs);
+                directory,
+                __settings->trigger_extension,
+                __settings->busy_extension,
+                __jobs);
             __spoolers.push_back(std::move(spooler));
         }
     }
@@ -229,8 +201,9 @@ namespace Sorter {
     SortingMachine::initialise_sorters() {
         for (unsigned short i = 0; i < __settings->instances; ++i) {
             std::shared_ptr<Sorter> sorter = std::make_shared<Sorter>(
-                    __matcher,
-                    __jobs);
+                __matcher,
+                __jobs,
+                Processors::IProcessor::notifier);
             __sorters.push_back(std::move(sorter));
         }
     }
@@ -242,6 +215,8 @@ namespace Sorter {
     
     void 
     SortingMachine::start() {
+        notify("SortingMachine::start()");
+        
         for (auto& spooler: __spoolers) {
             std::thread thread(&File::Spooler::start, spooler);
             thread.detach();
@@ -261,6 +236,8 @@ namespace Sorter {
     
     void 
     SortingMachine::stop() {
+        notify("SortingMachine::stop()");
+        
         for (auto& spooler: __spoolers) {
             spooler->stop();
         }
@@ -284,7 +261,7 @@ namespace Sorter {
     
     void 
     SortingMachine::initialise() {
-        notify("bool SortingMachine::initialise()");
+        notify("SortingMachine::initialise()");
         
         std::vector<Bin> bins = File::DataReader::read<Bin>(__settings->bins_path, 
                 __settings->bins_file_type);

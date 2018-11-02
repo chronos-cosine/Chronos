@@ -35,11 +35,11 @@ namespace Sorter {
     class SortingMachine : public Processors::IProcessor {
         SortingMachine(const SortingMachine&) = delete;
         SortingMachine& operator=(const SortingMachine&) = delete;
-        
     public:
         virtual ~SortingMachine();
         SortingMachine(const std::shared_ptr<Settings>& settings);
-        SortingMachine(const std::shared_ptr<Settings>& settings, std::shared_ptr<Notifier::INotifier> __notifier);
+        SortingMachine(const std::shared_ptr<Settings>& settings, 
+                       const std::shared_ptr<Notifier::INotifier>& notifier);
         
         virtual void start();
         virtual void stop();
@@ -62,7 +62,6 @@ namespace Sorter {
         std::map<Job, std::map<unsigned long long, std::set<Pattern>>> __pattern_matches;
         std::map<Job, std::set<Bin>> __bin_matches;
         std::shared_ptr<Collections::ICollection<std::string>> __jobs;
-        std::shared_ptr<Notifier::INotifier> __notifier;
         std::stringstream __ss_notification;
         std::shared_ptr<PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter>> __matcher;
         std::vector<std::shared_ptr<File::Spooler>> __spoolers;
@@ -89,8 +88,6 @@ namespace Sorter {
         }; /* struct match_found */
         completed __completed;
         match_found __match_found;
-        void notify(const std::string& message);
-        void notify(std::stringstream& message);
         
     }; /* class SortingMachine */
     

@@ -14,19 +14,18 @@
 #ifndef CORE_IPROCESSOR_H
 #define CORE_IPROCESSOR_H
 
-#include "Notifier/INotifier.h"
+#include "Notifier/Notifiable.h"
 #include <mutex>
 #include <memory>
 
 namespace Processors {
 
-    class IProcessor  {
+    class IProcessor : public Notifier::Notifiable {
     private:
         std::mutex __mutex;
         bool __is_running;
         bool __is_executing;
         unsigned int __sleep_time_seconds;
-        std::shared_ptr<Notifier::INotifier> __notifier;
     public:
         virtual ~IProcessor();
         IProcessor();
@@ -44,8 +43,6 @@ namespace Processors {
         bool set_is_executing(const bool& value);
     protected:
         virtual bool process() = 0;
-        void notify(std::stringstream& message);
-        void notify(const std::string& message);
     };
 
 } /* namespace Processors */

@@ -15,12 +15,14 @@
 #define SORTER_SORTER_H
 
 #include "Collections/ICollection.h"
+#include "Notifier/INotifier.h"
 #include "PatternMatcher/PatternMatchingMachine.h"
 #include "Processors/IProcessor.h"
 #include "Sorter/Pattern.h"
 #include "Sorter/Job.h"
 
 #include <map>
+#include <memory>
 #include <set>
 
 namespace Sorter {
@@ -31,7 +33,8 @@ namespace Sorter {
     public:
         virtual ~Sorter();
         Sorter(const std::shared_ptr<PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter>>& matcher,
-               const std::shared_ptr<Collections::ICollection<std::string>>& jobs);
+               const std::shared_ptr<Collections::ICollection<std::string>>& jobs,
+               const std::shared_ptr<Notifier::INotifier>& notifier);
     public:
     protected:
         virtual bool process(); 

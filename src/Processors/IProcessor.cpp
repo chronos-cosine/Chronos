@@ -15,53 +15,40 @@
 
 #include "Notifier/INotifier.h"
  
+#include <memory>
 #include <thread>
 #include <chrono>
 
 namespace Processors {
 
-    IProcessor::~IProcessor() { } /* ~IProcessor() */
+    IProcessor::~IProcessor() { }
     
     IProcessor::IProcessor()
-            : __sleep_time_seconds(30),
-              __notifier(nullptr),
+            : Notifier::Notifiable(std::shared_ptr<Notifier::INotifier>(nullptr)),
+              __sleep_time_seconds(30),
               __is_running(false),
               __is_executing(false) {
-    } /* IProcessor() */
+    } 
     
     IProcessor::IProcessor(const unsigned int& sleep_time_seconds)
-            : __sleep_time_seconds(sleep_time_seconds),
-              __notifier(nullptr),
+            : Notifier::Notifiable(std::shared_ptr<Notifier::INotifier>(nullptr)),
+              __sleep_time_seconds(sleep_time_seconds),
               __is_running(false),
               __is_executing(false) {
-    } /* IProcessor(const unsigned int&) */
+    }
     
     IProcessor::IProcessor(const unsigned int& sleep_time_seconds,
                            const std::shared_ptr<Notifier::INotifier>& notifier)
-            : __sleep_time_seconds(sleep_time_seconds),
-              __notifier(notifier),
+            : Notifier::Notifiable(notifier),
+              __sleep_time_seconds(sleep_time_seconds),
               __is_running(false),
               __is_executing(false) {
-    } /* IProcessor(const unsigned int&, const std::shared_ptr<Notifier::INotifier>&)*/
+    } 
 
     bool 
     IProcessor::get_is_running() const {
         return __is_running;
-    } /* bool get_is_running() */
-    
-    void 
-    IProcessor::notify(std::stringstream& message) {
-        if (nullptr != __notifier) {
-            __notifier->notify(message);
-        }
-    } /* void notify(const std::stringstream&) */
-    
-    void 
-    IProcessor::notify(const std::string& message) {
-        if (nullptr != __notifier) {
-            __notifier->notify(message.c_str());
-        }
-    } /* void notify(const std::string&) */
+    } 
     
     bool 
     IProcessor::set_is_running(const bool& value) {
@@ -72,17 +59,17 @@ namespace Processors {
         }
         
         return false;
-    } /* bool set_is_running() */
+    }
     
     bool 
     IProcessor::get_is_executing() const {
         return __is_running;
-    } /* bool get_is_executing() */
+    } 
         
     void 
     IProcessor::stop() {
         set_is_running(false);
-    } /* void stop() */
+    }
     
     void
     IProcessor::start() {
@@ -99,6 +86,6 @@ namespace Processors {
                 std::this_thread::sleep_for(std::chrono::seconds(__sleep_time_seconds));
             }
         }
-    } /* void start() */
+    } 
 
 } /* namespace Processors */
