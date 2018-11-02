@@ -35,7 +35,7 @@ namespace Sorter {
     Bin& 
     Bin::operator<<(const std::vector<std::string>& rhs) {
         if (rhs.size() != 3) { 
-            throw std::runtime_error("Bin operator<< requires size() == 3");
+            throw std::runtime_error("Bin operator<< std::vector<std::string>& requires size() == 3");
         }
         
         id = std::stoull(rhs[0]);
@@ -46,6 +46,7 @@ namespace Sorter {
         } else {
             parent_id = 0;
         }
+        
         
         return *this;
     }

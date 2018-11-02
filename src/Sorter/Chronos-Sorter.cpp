@@ -15,6 +15,7 @@
 #include "Sorter/Settings.h"
 #include "Sorter/SortingMachine.h"
 #include "Sorter/Sorter.h"
+#include "Notifier/CoutNotifier.h"
 
 #include <iostream>
 #include <memory>
@@ -24,11 +25,12 @@ int main(int argc, char** argv) {
     std::cout << "\nStarting Chronos-Sorter..." << std::endl;
     std::shared_ptr<Sorter::Settings> settings = 
         File::JsonDataReader::read_shared<Sorter::Settings>("./Chronos-Sorter.settings");
+    std::shared_ptr<Notifier::INotifier> notifier = std::make_shared<Notifier::CoutNotifier>();
     
     Sorter::Job job = File::JsonDataReader::read<Sorter::Job>("./1.sjob");
     Sorter::Sorter* sorter = nullptr;
     
-    Sorter::SortingMachine sm(settings);
+    Sorter::SortingMachine sm(settings, notifier);
     sm.__matcher->match(job, sorter);
     
     std::cout << "\nExiting Chronos-Sorter..." << std::endl;

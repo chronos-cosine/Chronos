@@ -24,6 +24,8 @@
 
 #include <map>
 #include <set>
+#include <string>
+#include <sstream>
 
 namespace Sorter {
     
@@ -34,6 +36,7 @@ namespace Sorter {
     public:
         virtual ~SortingMachine();
         SortingMachine(const std::shared_ptr<Settings>& settings);
+        SortingMachine(const std::shared_ptr<Settings>& settings, std::shared_ptr<Notifier::INotifier> __notifier);
         std::shared_ptr<PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter>> __matcher;
     private:
         void initialise();
@@ -47,6 +50,8 @@ namespace Sorter {
         std::map<Job, std::set<Pattern>> __pattern_matches;
         std::map<Job, std::set<Bin>> __bin_matches;
         std::shared_ptr<Collections::ICollection<std::string>> __jobs;
+        std::shared_ptr<Notifier::INotifier> __notifier;
+        std::stringstream __ss_notification;
     private:
         struct completed {
             SortingMachine* sorting_machine;
@@ -67,7 +72,8 @@ namespace Sorter {
         }; /* struct match_found */
         completed __completed;
         match_found __match_found;
-        
+        void notify(const std::string& message);
+        void notify(std::stringstream& message);
     }; /* class SortingMachine */
     
 } /* namespace Sorter */
