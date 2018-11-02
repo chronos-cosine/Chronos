@@ -25,6 +25,7 @@ namespace Sorter {
         std::string result_output_directory;
         std::string completed_directory;
         std::string trigger_extension;
+        std::string match_extension;
         std::string busy_extension;
         std::string completed_extension;
         std::string patterns_path;

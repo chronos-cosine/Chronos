@@ -34,6 +34,7 @@ namespace Sorter {
         log_file_reset_minutes = rhs.get<unsigned short>("log_file_reset_minutes");
         completed_directory = rhs.get<std::string>("completed_directory");
         result_output_directory = rhs.get<std::string>("result_output_directory");
+        match_extension = rhs.get<std::string>("match_extension");
          
         for (auto& item: rhs.get_child("job_file_directories")) {
             job_file_directories.push_back(item.second.get_value<std::string>());
@@ -52,8 +53,9 @@ namespace Sorter {
         lhs.put("log_file_directory", rhs.log_file_directory); 
         lhs.put("result_output_directory", rhs.result_output_directory); 
         lhs.put("completed_directory", rhs.completed_directory); 
-        lhs.put("trigger_extension", rhs.trigger_extension); 
+        lhs.put("trigger_extension", rhs.trigger_extension);
         lhs.put("busy_extension", rhs.busy_extension); 
+        lhs.put("match_extension", rhs.match_extension);
         lhs.put("completed_extension", rhs.completed_extension); 
         lhs.put("patterns_path", rhs.patterns_path); 
         lhs.put("patterns_file_type", rhs.patterns_file_type); 

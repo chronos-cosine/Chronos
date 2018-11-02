@@ -70,8 +70,7 @@ namespace Sorter {
         if (sorting_machine->is_boolean_match(job)
             && sorting_machine->is_bin_hierarchy_match(job)) {
             
-            message = "SortingMachine::completed result found for " + 
-                                  std::to_string(job.id);
+            message = "SortingMachine::completed result found for " + std::to_string(job.id);
             sorting_machine->notify(message);
             Result result;
             result.job = const_cast<Job*>(&job);
@@ -81,7 +80,7 @@ namespace Sorter {
             std::stringstream result_file;
             result_file << sorting_machine->__settings->result_output_directory
                         << job.id
-                        << ".match";
+                        << sorting_machine->__settings->match_extension;
             
             if (fs::exists(result_file.str())) {
                 fs::remove(result_file.str());
