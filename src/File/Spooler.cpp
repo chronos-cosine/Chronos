@@ -22,25 +22,38 @@ namespace fs = std::experimental::filesystem;
 namespace File {
     
     Spooler::~Spooler() {
-    } /* ~Spooler() */
+    }
    
     Spooler::Spooler(const std::string& directory,
                 const std::string& trigger,
+                const std::string& busy_extension,
                 const std::shared_ptr<Collections::ICollection<std::string>>& collection)
             : Processors::IProcessor(), __directory(directory), __trigger(trigger), 
-              __collection(collection){
-    } /* Spooler() */
+              __busy_extension(busy_extension), __collection(collection){
+    }
    
     bool 
-    Spooler::process() {        
+    Spooler::process() {
+        bool result = false;
+        
         for (const auto& p: fs::directory_iterator(__directory)) {
             if (p.path().extension() == __trigger) {
-                __collection->push(p.path().string());
+                if (!result) {
+                    result = true;
+                }
+                
+                std::stringstream new_filename;
+                new_filename << __directory << p.path().stem().c_str()
+                             << __busy_extension;
+                
+                fs::rename(p, fs::path(new_filename.str()));
+                
+                __collection->push(new_filename.str());
             }
         }
         
-        return false;
-    } /* bool process() */
+        return result;
+    } 
     
 } /* namespace File */
 

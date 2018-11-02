@@ -29,12 +29,14 @@ namespace File {
         virtual ~Spooler();
         Spooler(const std::string& directory,
                 const std::string& trigger,
+                const std::string& busy_extension,
                 const std::shared_ptr<Collections::ICollection<std::string>>& collection);
    protected:
        virtual bool process();
     private:
         std::string __directory;
         std::string __trigger;
+        std::string __busy_extension;
         std::shared_ptr<Collections::ICollection<std::string>> __collection;
         
     }; /* class Spooler */

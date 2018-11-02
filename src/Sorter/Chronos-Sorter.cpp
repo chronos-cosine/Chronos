@@ -16,9 +16,13 @@
 #include "Sorter/SortingMachine.h"
 #include "Sorter/Sorter.h"
 #include "Notifier/CoutNotifier.h"
+#include "Notifier/INotifier.h"
+#include "File/Spooler.h"
+#include "Collections/ConcurrentQueue.h"
 
 #include <iostream>
 #include <memory>
+#include <thread>
 #include <string>
 
 int main(int argc, char** argv) {
@@ -26,12 +30,22 @@ int main(int argc, char** argv) {
     std::shared_ptr<Sorter::Settings> settings = 
         File::JsonDataReader<Sorter::Settings>::read_shared("./Chronos-Sorter.settings");
     std::shared_ptr<Notifier::INotifier> notifier = std::make_shared<Notifier::CoutNotifier>();
+
+    std::shared_ptr<Collections::ICollection<std::string>> collection = std::make_shared<Collections::ConcurrentQueue<std::string>>();
     
-    Sorter::Job job = File::JsonDataReader<Sorter::Job>::read("./1.sjob");
-    Sorter::Sorter* sorter = nullptr;
+    File::Spooler spooler("./jobs/", ".sjob", ".sbusy", collection);
     
-    Sorter::SortingMachine sm(settings, notifier);
-    sm.__matcher->match(job, sorter);
+    std::thread t(&File::Spooler::start, 
+                    std::ref(spooler));
+    t.detach();
+    
+    std::this_thread::sleep_for(std::chrono::seconds(5));
+    while (!collection->empty()) {
+        
+        std::cout << "INSIDE WHILE" << std::endl;
+        std::string item = collection->pop();
+        std::cout << item.c_str() << std::endl;
+    } 
     
     std::cout << "\nExiting Chronos-Sorter..." << std::endl;
     return 0;
