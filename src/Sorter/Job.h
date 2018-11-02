@@ -22,6 +22,7 @@ namespace Sorter {
     struct Job {
         unsigned long long id;
         std::string document;
+        std::string filename;
         
         bool operator<(const Job& rhs) const;
         bool operator==(const Job& rhs) const;

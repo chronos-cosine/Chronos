@@ -12,13 +12,26 @@
  */
 
 #include "Sorter.h"
+#include "File/JsonDataReader.h"
 
-Sorter::Sorter() {
-}
-
-Sorter::Sorter(const Sorter& orig) {
-}
-
-Sorter::~Sorter() {
-}
-
+namespace Sorter {
+    
+    Sorter::~Sorter() {
+    }
+    
+    Sorter::Sorter(const std::shared_ptr<PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter>>& matcher,
+                   const std::shared_ptr<Collections::ICollection<std::string>>& jobs)
+            : __matcher(matcher), __jobs(jobs) {
+    }
+    
+    bool 
+    Sorter::process() {
+        std::string filename = std::move(__jobs->pop());
+        Job job = File::JsonDataReader<Job>::read(filename);
+        job.filename = filename;
+        __matcher->match(job, this);
+        
+        return true;
+    }
+      
+} /* namespace Sorter */

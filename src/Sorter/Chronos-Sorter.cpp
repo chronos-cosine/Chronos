@@ -31,22 +31,9 @@ int main(int argc, char** argv) {
         File::JsonDataReader<Sorter::Settings>::read_shared("./Chronos-Sorter.settings");
     std::shared_ptr<Notifier::INotifier> notifier = std::make_shared<Notifier::CoutNotifier>();
 
-    std::shared_ptr<Collections::ICollection<std::string>> collection = std::make_shared<Collections::ConcurrentQueue<std::string>>();
-    
-    File::Spooler spooler("./jobs/", ".sjob", ".sbusy", collection);
-    
-    std::thread t(&File::Spooler::start, 
-                    std::ref(spooler));
-    t.detach();
-    
-    std::this_thread::sleep_for(std::chrono::seconds(5));
-    while (!collection->empty()) {
+    Sorter::SortingMachine sorting_machine(settings, notifier);
+    sorting_machine.start();
         
-        std::cout << "INSIDE WHILE" << std::endl;
-        std::string item = collection->pop();
-        std::cout << item.c_str() << std::endl;
-    } 
-    
     std::cout << "\nExiting Chronos-Sorter..." << std::endl;
     return 0;
 }

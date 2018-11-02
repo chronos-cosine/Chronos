@@ -17,6 +17,7 @@
 #include "Collections/ICollection.h"
 #include "File/Spooler.h"
 #include "PatternMatcher/PatternMatchingMachine.h"
+#include "Processors/IProcessor.h"
 #include "Sorter/Bin.h"
 #include "Sorter/Job.h"
 #include "Sorter/Sorter.h"
@@ -27,10 +28,11 @@
 #include <set>
 #include <string>
 #include <sstream>
+#include <thread>
 
 namespace Sorter {
     
-    class SortingMachine {
+    class SortingMachine : public Processors::IProcessor {
         SortingMachine(const SortingMachine&) = delete;
         SortingMachine& operator=(const SortingMachine&) = delete;
         
@@ -38,10 +40,20 @@ namespace Sorter {
         virtual ~SortingMachine();
         SortingMachine(const std::shared_ptr<Settings>& settings);
         SortingMachine(const std::shared_ptr<Settings>& settings, std::shared_ptr<Notifier::INotifier> __notifier);
+        
+        virtual void start();
+        virtual void stop();
+    protected:
+        virtual bool process();
     private:
         void initialise();
         bool is_boolean_match(const Job& input);
         bool is_bin_hierarchy_match(const Job& input);
+        void initialise_bins(const std::vector<Bin>& bins);
+        void initialise_patterns(const std::vector<Pattern>& patterns);
+        void initialise_spoolers();
+        void initialise_sorters(); 
+        void initialise_matcher(const std::vector<Pattern>& patterns);
     private:
         std::map<unsigned long long, Pattern> __patterns;
         std::map<unsigned long long, Bin> __bins; 
@@ -53,8 +65,10 @@ namespace Sorter {
         std::shared_ptr<Notifier::INotifier> __notifier;
         std::stringstream __ss_notification;
         std::shared_ptr<PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter>> __matcher;
-        std::vector<std::unique_ptr<File::Spooler>> __spoolers;
-        std::vector<std::unique_ptr<Sorter>> __sorters;
+        std::vector<std::shared_ptr<File::Spooler>> __spoolers;
+        std::vector<std::shared_ptr<Sorter>> __sorters;
+        std::vector<std::thread> __spooler_threads;
+        std::vector<std::thread> __sorter_threads;
     private:
         struct completed {
             SortingMachine* sorting_machine;
@@ -77,6 +91,7 @@ namespace Sorter {
         match_found __match_found;
         void notify(const std::string& message);
         void notify(std::stringstream& message);
+        
     }; /* class SortingMachine */
     
 } /* namespace Sorter */

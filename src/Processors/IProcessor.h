@@ -34,8 +34,8 @@ namespace Processors {
         IProcessor(const unsigned int& sleep_time_seconds, 
                    const std::shared_ptr<Notifier::INotifier>& notifier);
         
-        void start();
-        void stop();
+        virtual void start();
+        virtual void stop();
         
         bool get_is_running() const; 
         bool get_is_executing() const;

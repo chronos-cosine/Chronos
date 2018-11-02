@@ -14,6 +14,7 @@
 #ifndef SORTER_SORTER_H
 #define SORTER_SORTER_H
 
+#include "Collections/ICollection.h"
 #include "PatternMatcher/PatternMatchingMachine.h"
 #include "Processors/IProcessor.h"
 #include "Sorter/Pattern.h"
@@ -29,13 +30,13 @@ namespace Sorter {
         Sorter& operator=(const Sorter&) = delete;
     public:
         virtual ~Sorter();
-        Sorter(const std::shared_ptr<PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter>>& matcher);
+        Sorter(const std::shared_ptr<PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter>>& matcher,
+               const std::shared_ptr<Collections::ICollection<std::string>>& jobs);
     public:
     protected:
-        virtual bool process();
+        virtual bool process(); 
     private:
-        
-    private:
+        std::shared_ptr<Collections::ICollection<std::string>> __jobs;
         std::shared_ptr<PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter>> __matcher;
         
     }; /* class Sorter */

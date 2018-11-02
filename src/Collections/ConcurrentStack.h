@@ -35,7 +35,7 @@ namespace Collections {
         virtual T pop();
         virtual bool empty();
         typename std::stack<T>::size_type size() const;
-    }; /* class ConcurrentStack */
+    };
     
     template <typename T>
     ConcurrentStack<T>::~ConcurrentStack() { } /* ~ConcurrentStack() */
@@ -50,7 +50,7 @@ namespace Collections {
         
         __stack.push(std::move(item));
         ICollection<T>::__condition_variable.notify_one();
-    } /* void ConcurrentStack<T>::push(T) */
+    } 
     
     template <typename T>
     T 
@@ -62,19 +62,19 @@ namespace Collections {
         __stack.pop();
         
         return item;
-    } /* T ConcurrentStack<T>::pop() */
+    } 
     
     template <typename T>
     bool 
     ConcurrentQueue<T>::empty() {
         return __stack.empty();
-    } /* bool empty() */
+    } 
     
     template <typename T>
     typename std::stack<T>::size_type 
     ConcurrentStack<T>::size() const {
         return __stack.size();
-    } /* std::stack<T>::size_type ConcurrentStack<T>::size() */
+    } 
     
 } /* namespace Collections */
 

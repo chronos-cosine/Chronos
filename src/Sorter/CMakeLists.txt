@@ -14,6 +14,8 @@ if(Boost_FOUND)
         "${CMAKE_CURRENT_LIST_DIR}/Result.h"
         "${CMAKE_CURRENT_LIST_DIR}/Settings.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/Settings.h"
+        "${CMAKE_CURRENT_LIST_DIR}/Sorter.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/Sorter.h"
         "${CMAKE_CURRENT_LIST_DIR}/SortingMachine.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/SortingMachine.h"
         "${CHRONOS_SOURCE_ROOT}/Collections/ConcurrentQueue.h"
