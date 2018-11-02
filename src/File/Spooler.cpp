@@ -25,17 +25,25 @@ namespace File {
     }
    
     Spooler::Spooler(const std::string& directory,
-                const std::string& trigger,
-                const std::string& busy_extension,
-                const std::shared_ptr<Collections::ICollection<std::string>>& collection)
-            : Processors::IProcessor(), __directory(directory), __trigger(trigger), 
-              __busy_extension(busy_extension), __collection(collection){
+        const std::string& trigger,
+        const std::string& busy_extension,
+        const unsigned short& sleep_time_seconds,
+        const std::shared_ptr<Collections::ICollection<std::string>>& collection)
+        : Processors::IProcessor(sleep_time_seconds), __directory(directory), 
+          __trigger(trigger), __busy_extension(busy_extension), 
+          __collection(collection) {
     }
    
     bool 
     Spooler::process() {
-        bool result = false;
+        if (!fs::exists(__directory)) {
+            throw std::runtime_error("Spooler::process() directory does not exist");
+        }
         
+        std::string message = "spooling " + __directory;
+        notify(message);
+        
+        bool result = false;
         for (const auto& p: fs::directory_iterator(__directory)) {
             if (p.path().extension() == __trigger) {
                 if (!result) {
@@ -46,9 +54,12 @@ namespace File {
                 new_filename << __directory << p.path().stem().c_str()
                              << __busy_extension;
                 
-                fs::rename(p, fs::path(new_filename.str()));
-                
-                __collection->push(new_filename.str());
+                try {
+                    fs::rename(p, fs::path(new_filename.str()));
+                    __collection->push(new_filename.str());
+                } catch (const fs::filesystem_error& e) {
+                    return false;
+                }
             }
         }
         

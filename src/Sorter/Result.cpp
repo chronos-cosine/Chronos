@@ -25,11 +25,12 @@
 namespace Sorter {
     
     std::ostream& operator<<(std::ostream& lhs, const Result& rhs) {
-        File::JsonDataWriter::write<Result>(lhs, rhs);
+        File::JsonDataWriter<Result>::write(lhs, rhs);
         return lhs;
     }
     
-    boost::property_tree::ptree& operator<<(boost::property_tree::ptree& lhs, const Result& rhs) {
+    boost::property_tree::ptree& operator<<(boost::property_tree::ptree& lhs, 
+            const Result& rhs) {
         boost::property_tree::ptree job;
         job << *(rhs.job);
         lhs.push_back(std::make_pair("job", job));

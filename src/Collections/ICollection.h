@@ -6,7 +6,7 @@
 
 /* 
  * File:   ICollection.h
- * Author: user
+ * Author: Chronos Cosine <chronos.cosine@gmail.com>
  *
  * Created on 31 October 2018, 9:25 AM
  */
@@ -24,7 +24,6 @@ namespace Collections {
     class ICollection {
         ICollection(const ICollection&) = delete;
         ICollection& operator=(const ICollection&) = delete;
-        
     public:
         virtual ~ICollection() { }
         ICollection() { }
@@ -33,8 +32,8 @@ namespace Collections {
         virtual T pop() = 0;
         virtual bool empty() = 0;
     protected:
-        std::condition_variable __condition_variable;
         std::mutex __mutex;
+        std::condition_variable __condition_variable;
         
     }; /* class ICollection */
     

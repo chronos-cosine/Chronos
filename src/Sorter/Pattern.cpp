@@ -77,7 +77,7 @@ namespace Sorter {
     }
 
     std::ostream& operator<<(std::ostream& lhs, const Pattern& rhs) {
-        File::JsonDataWriter::write<Pattern>(lhs, rhs);
+        File::JsonDataWriter<Pattern>::write(lhs, rhs);
         return lhs;
     }
     

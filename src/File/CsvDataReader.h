@@ -17,6 +17,7 @@
 #include <exception>
 #include <experimental/filesystem>
 #include <fstream>
+#include <memory>
 #include <vector>
 #include <string>
 #include <sstream>
@@ -31,56 +32,60 @@ namespace File {
         CsvDataReader& operator=(const CsvDataReader&) = delete;
     public:
         template <typename T>
-        static std::vector<T> 
+        static std::unique_ptr<std::vector<T>>
         read(const std::string& filename);
        
-        static std::vector<std::vector<std::string>> 
+        static std::unique_ptr<std::vector<std::vector<std::string>>>
         read(const std::string& filename);
     private:
         static char get_separator(const std::string& line);
-        static std::vector<std::string> split(const std::string& line, 
-                                              const char& separator);
+        static std::unique_ptr<std::vector<std::string>> 
+            split(const std::string& line, const char& separator);
         static void validate_filename(const std::string& filename);
         
     };  /* class CsvDataReader */
     
     void 
     CsvDataReader::validate_filename(const std::string& filename) {
-        if (!fs::exists(fs::path(filename))) {
-            std::stringstream ss;
-            ss << "CsvDataReader::read() filename \"" << filename << "\" supplied does not exist";
-            
-            throw std::runtime_error(ss.str().c_str());
+        if (!fs::exists(filename)) {
+            throw std::runtime_error("CsvDataReader::validate_filename() file does not exist");
         }
     }
     
     char
     CsvDataReader::get_separator(const std::string& line) {
         if (line.find("sep=") == std::string::npos) {
-            throw std::invalid_argument("The first line of a Csv file must begin with sep=");
+            throw std::invalid_argument(
+                "CsvDataReader::get_separator() The first line of a Csv file must begin with sep=");
         }
         return line[4];
-    } /* char get_separator() */
+    }
 
-    std::vector<std::string> 
+    std::unique_ptr<std::vector<std::string>>
     CsvDataReader::split(const std::string& line, const char& separator) {
         std::istringstream line_stream(line);
         std::string column;
-        std::vector<std::string> row;
+        std::unique_ptr<std::vector<std::string>> row = 
+            std::make_unique<std::vector<std::string>>();
 
         while (std::getline(line_stream, column, separator)) {
-            row.push_back(column);
+            row->push_back(column);
         }
 
         return row;
-    } /* std::vector<std::string> split() */
+    }
     
-    std::vector<std::vector<std::string>> 
+    std::unique_ptr<std::vector<std::vector<std::string>>>
     CsvDataReader::read(const std::string& filename) {
         validate_filename(filename);
         
         std::ifstream file(filename);
-        std::vector<std::vector<std::string>> data;
+        if (!file.is_open()) {
+            throw std::runtime_error("CsvDataReader::read() The file could not be opened");
+        }
+        
+        std::unique_ptr<std::vector<std::vector<std::string>>> data = 
+            std::make_unique<std::vector<std::vector<std::string>>>();
         std::string line;
 
         std::getline(file, line);
@@ -88,26 +93,26 @@ namespace File {
 
         while (getline(file, line)) {
             if (line.size() > 0) {
-                data.push_back(std::move(split(line, separator)));
+                data->push_back(std::move(*split(line, separator)));
             }
         }
 
         return data;
-    } /* std::vector<std::vector<std::string>> read() */
+    }
 
     template <typename T>
-    std::vector<T> 
+    std::unique_ptr<std::vector<T>>
     CsvDataReader::read(const std::string& filename) {
-        std::vector<T> object;
-        std::vector<std::vector<std::string>> data(std::move(read(filename)));
-        for (const std::vector<std::string>& row: data) {
+        std::unique_ptr<std::vector<T>> object = std::make_unique<std::vector<T>>();
+        std::unique_ptr<std::vector<std::vector<std::string>>> data = read(filename);
+        for (const std::vector<std::string>& row: *data) {
             T item;
             item << row;
-            object.push_back(std::move(item));
+            object->push_back(std::move(item));
         }
 
         return object;
-    } /* std::vector<T> read() */
+    }
     
 } /* namespace File */
 

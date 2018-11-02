@@ -19,12 +19,12 @@
 
 namespace File {
     
+    template <typename T>
     class DataWriter {
         DataWriter() = delete;
         DataWriter(const DataWriter&) = delete;
         DataWriter& operator=(const DataWriter&) = delete;
     public:
-        template <typename T>
         static void write(const T& data, 
                           const std::string& filename, 
                           const std::string& filetype);
@@ -33,17 +33,17 @@ namespace File {
     
     template <typename T>
     void
-    DataWriter::write(const T& data, 
+    DataWriter<T>::write(const T& data, 
                       const std::string& filename, 
                       const std::string& filetype) {
         if (filetype == "csv") {
-            return CsvDataWriter::write<T>(data, filename);
+            return CsvDataWriter<T>::write(data, filename);
         } else if (filetype == "json") {
-            return JsonDataWriter::write<T>(data, filename);
+            return JsonDataWriter<T>::write(data, filename);
         } else {
             throw std::runtime_error("Filetype not yet supported");
         }
-    } /* void write(const T&, const std::string&, const std::string&) */
+    } 
     
 } /* namespace File */
 

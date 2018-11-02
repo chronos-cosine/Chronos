@@ -26,17 +26,16 @@
 #include <string>
 
 int main(int argc, char** argv) {
-    std::cout << "\nStarting Chronos-Sorter..." << std::endl;
-    std::shared_ptr<Sorter::Settings> settings = 
-        File::JsonDataReader<Sorter::Settings>::read_shared("./Chronos-Sorter.settings");
+    std::cout << "Starting Chronos-Sorter..." << std::endl;
     
-    std::shared_ptr<Notifier::INotifier> notifier 
+    std::shared_ptr<Sorter::Settings> settings = 
+        File::JsonDataReader<Sorter::Settings>::read("./Chronos-Sorter.settings");
+    std::shared_ptr<Notifier::INotifier> notifier
             = std::make_shared<Notifier::LogFileNotifier>(
                 settings->log_file_reset_minutes,
                 settings->log_file_directory);
     Sorter::SortingMachine sorting_machine(settings, notifier);
     sorting_machine.start();
         
-    std::cout << "\nExiting Chronos-Sorter..." << std::endl;
     return 0;
 }

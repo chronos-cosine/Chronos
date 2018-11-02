@@ -22,36 +22,39 @@
 
 namespace File {
     
+    template <typename T>
     class JsonDataWriter {
         JsonDataWriter() = delete;
         JsonDataWriter(const JsonDataWriter&) = delete;
         JsonDataWriter& operator=(const JsonDataWriter&) = delete;
     public:
-        template <typename T>
         static std::ostream& write(std::ostream& ostream, const T& data);
-        template <typename T>
+        
         static void write(const T& data, const std::string& destination);
 
     }; /* class JsonDataWriter */
     
     template <typename T>
     std::ostream& 
-    JsonDataWriter::write(std::ostream& ostream, const T& data) {
+    JsonDataWriter<T>::write(std::ostream& ostream, const T& data) {
         boost::property_tree::ptree temp;
         temp << data;
 
         boost::property_tree::write_json(ostream, temp);
 
         return ostream;
-    } /* write(std::ostream&, const T&) */
+    } 
         
     template <typename T>
     void 
-    JsonDataWriter::write(const T& data, const std::string& destination) {
-        std::ofstream ofstream(destination); 
-
-        write(ofstream, data);
-    } /* write(const T&, const std::string&) */ 
+    JsonDataWriter<T>::write(const T& data, const std::string& destination) {
+        std::ofstream file(destination);
+        if (!file.is_open()) {
+            throw std::runtime_error("CsvDataReader::read() The file could not be opened");
+        }
+        
+        write(file, data);
+    } 
     
 } /* namespace File */
 

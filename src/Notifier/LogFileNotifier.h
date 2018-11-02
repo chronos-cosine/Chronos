@@ -22,6 +22,7 @@
 #include <mutex>
 #include <memory>
 #include <string>
+#include <thread>
 
 namespace Notifier {
     
@@ -33,6 +34,7 @@ namespace Notifier {
         std::string __log_directory;
         std::unique_ptr<FileNotifier> __file_notifier;
         std::mutex __mutex;
+        std::unique_ptr<std::thread> __reset_thread;
     public:
         virtual ~LogFileNotifier();
         LogFileNotifier(const unsigned int& reset_minutes, const std::string& log_directory);

@@ -5,8 +5,8 @@
  */
 
 /* 
- * File:   ConcurrentBag.h
- * Author: user
+ * File:   ConcurrentQueue.h
+ * Author: Chronos Cosine <chronos.cosine@gmail.com>
  *
  * Created on 12 October 2018, 6:43 AM
  */
@@ -58,7 +58,9 @@ namespace Collections {
     ConcurrentQueue<T>::pop() {
         std::unique_lock<std::mutex> lock(ICollection<T>::__mutex);
         
-        ICollection<T>::__condition_variable.wait(lock, [this] { return !__queue.empty(); });
+        ICollection<T>::__condition_variable.wait(lock, [this] { 
+            return !__queue.empty(); 
+        });
         
         T item = std::move(__queue.front());
         __queue.pop();

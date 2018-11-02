@@ -29,8 +29,10 @@ namespace Notifier {
             : __reset_minutes(reset_minutes), __log_directory(log_directory) {
         create_file();
                 
-        std::thread thread([=] { reset_file(); });
-        thread.detach();
+        __reset_thread = std::make_unique<std::thread>([=] { 
+            reset_file(); 
+        });
+        __reset_thread->detach();
     }
     
     void 

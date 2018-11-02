@@ -54,6 +54,7 @@ namespace Sorter {
         void initialise_spoolers();
         void initialise_sorters(); 
         void initialise_matcher(const std::vector<Pattern>& patterns);
+        void reset_job_directory();
     private:
         std::map<unsigned long long, Pattern> __patterns;
         std::map<unsigned long long, Bin> __bins; 

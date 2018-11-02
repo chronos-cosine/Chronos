@@ -35,13 +35,13 @@ namespace Collections {
         virtual T pop();
         virtual bool empty();
         typename std::stack<T>::size_type size() const;
-    };
+    }; /* class ConcurrentStack */
     
     template <typename T>
-    ConcurrentStack<T>::~ConcurrentStack() { } /* ~ConcurrentStack() */
+    ConcurrentStack<T>::~ConcurrentStack() { }
     
     template <typename T>
-    ConcurrentStack<T>::ConcurrentStack() { } /* ConcurrentStack() */
+    ConcurrentStack<T>::ConcurrentStack() { }
     
     template <typename T>
     void 
@@ -57,7 +57,9 @@ namespace Collections {
     ConcurrentStack<T>::pop() {
         std::unique_lock<std::mutex> lock(ICollection<T>::__mutex);
         
-        ICollection<T>::__condition_variable.wait(lock, [this] { return !__stack.empty(); });
+        ICollection<T>::__condition_variable.wait(lock, [this] { 
+            return !__stack.empty(); 
+        });
         T item = std::move(__stack.top());
         __stack.pop();
         

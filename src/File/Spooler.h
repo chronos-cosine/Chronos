@@ -30,6 +30,7 @@ namespace File {
         Spooler(const std::string& directory,
                 const std::string& trigger,
                 const std::string& busy_extension,
+                const unsigned short& sleep_time_seconds,
                 const std::shared_ptr<Collections::ICollection<std::string>>& collection);
    protected:
        virtual bool process();

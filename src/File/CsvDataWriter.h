@@ -20,26 +20,31 @@
 
 namespace File {
     
+    template <typename T>
     class CsvDataWriter {
         CsvDataWriter() = delete;
         CsvDataWriter(const CsvDataWriter&) = delete;
         CsvDataWriter& operator=(const CsvDataWriter&) = delete;
     public:
-        template <typename T>
-        static void write(const T& data, const std::string& destination, 
+        static void write(const T& data, 
+                          const std::string& destination, 
                           const char separator = '|') ;
         
     }; /* class CsvDataWriter */
     
     template <typename T>
     void 
-    CsvDataWriter::write(const T& data, const std::string& destination, 
-                         const char separator) {
-        std::ofstream ofstream(destination);
-        bool first;
+    CsvDataWriter<T>::write(const T& data, 
+                            const std::string& destination, 
+                            const char separator) {
+        std::ofstream file(destination);
+        
+        if (!file.is_open()) {
+            throw std::runtime_error("The file could not be opened");
+        }
+        file << "sep=" << separator << std::endl;
 
-        ofstream << "sep=" << separator << std::endl;
-
+        bool first; 
         for (const auto& item: data) {
             boost::property_tree::ptree root;
             root << data;
@@ -49,15 +54,15 @@ namespace File {
                 if (first) {
                     first = false;
                 } else {
-                    ofstream << separator;
+                    file << separator;
                 }
 
-                ofstream << property.second.get_value<std::string>();
+                file << property.second.get_value<std::string>();
             }
 
-            ofstream << std::endl;
+            file << std::endl;
         }
-    } /* write(const T&, const std::string&, const char) */
+    } 
     
 } /* namespace File */
 

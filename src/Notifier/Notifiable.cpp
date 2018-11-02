@@ -30,13 +30,13 @@ namespace Notifier {
         if (nullptr != notifier) {
             std::stringstream message_stream;
             message_stream << this << " " << message;
-            notifier->notify(message_stream);
+            notify(message_stream);
         }
     }
     
     void 
     Notifiable::notify(std::stringstream& message) {
-        notify(message.str());
+        notifier->notify(message);
     }
         
 } /* namespace Notifier */
