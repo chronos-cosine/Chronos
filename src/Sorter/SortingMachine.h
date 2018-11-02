@@ -15,6 +15,7 @@
 #define SORTER_SORTINGMACHINE_H
 
 #include "Collections/ICollection.h"
+#include "File/Spooler.h"
 #include "PatternMatcher/PatternMatchingMachine.h"
 #include "Sorter/Bin.h"
 #include "Sorter/Job.h"
@@ -37,7 +38,6 @@ namespace Sorter {
         virtual ~SortingMachine();
         SortingMachine(const std::shared_ptr<Settings>& settings);
         SortingMachine(const std::shared_ptr<Settings>& settings, std::shared_ptr<Notifier::INotifier> __notifier);
-        std::shared_ptr<PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter>> __matcher;
     private:
         void initialise();
         bool is_boolean_match(const Job& input);
@@ -52,6 +52,9 @@ namespace Sorter {
         std::shared_ptr<Collections::ICollection<std::string>> __jobs;
         std::shared_ptr<Notifier::INotifier> __notifier;
         std::stringstream __ss_notification;
+        std::shared_ptr<PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter>> __matcher;
+        std::vector<std::unique_ptr<File::Spooler>> __spoolers;
+        std::vector<std::unique_ptr<Sorter>> __sorters;
     private:
         struct completed {
             SortingMachine* sorting_machine;

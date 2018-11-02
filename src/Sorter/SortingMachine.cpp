@@ -25,6 +25,8 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <thread>
+
 
 namespace Sorter {
     
@@ -200,10 +202,21 @@ namespace Sorter {
         }
         for (Pattern& pattern: patterns) {
             if (pattern.bin_id > 0) {
-                __bin_patterns[pattern.bin_id][pattern.boolean_operator].insert(pattern);
+                __bin_patterns[pattern.bin_id][pattern.boolean_operator]
+                    .insert(pattern);
             }
             __patterns[pattern.id] = pattern;
         }
+        
+        for (const auto& directory: __settings->job_file_directories) {
+            auto temp = std::make_unique<File::Spooler>(directory,
+                    __settings->trigger_extension,
+                    __settings->busy_extension,
+                    __jobs);
+        
+            __spoolers.push_back(std::move(temp));
+        }
+        
     } /* initialise() */
     
 } /* namespace Sorter */
