@@ -5,8 +5,8 @@
  */
 
 /* 
- * File:   FileNotifier.cpp
- * Author: user
+ * File:   Notifier/FileNotifier.cpp
+ * Author: Chronos Cosine <chronos.cosine@gmail.com>
  * 
  * Created on 17 October 2018, 1:25 PM
  */

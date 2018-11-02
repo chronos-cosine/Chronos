@@ -4,6 +4,13 @@
  * and open the template in the editor.
  */
 
+/* 
+ * File:   Sorter/Bin.cpp
+ * Author: Chronos Cosine <chronos.cosine@gmail.com>
+ *
+ * Created on 09 October 2018, 10:52 PM
+ */
+
 #include "Bin.h"
 #include "File/CsvDataWriter.h"
 #include "File/JsonDataWriter.h"

@@ -4,14 +4,14 @@
  * and open the template in the editor.
  */
 
-#include "Notifier/CoutNotifier.h"
-
 /* 
- * File:   CoutNotifier.cpp
- * Author: user
+ * File:   Notifier/CoutNotifier.cpp
+ * Author: Chronos Cosine <chronos.cosine@gmail.com>
  * 
- * Created on 17 October 2018, 10:34 AM
+ * Created on 17 October 2018, 10:52 PM
  */
+
+#include "Notifier/CoutNotifier.h"
 
 #include <sstream>
 #include <iostream>

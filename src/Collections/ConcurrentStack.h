@@ -5,10 +5,10 @@
  */
 
 /* 
- * File:   ConcurrentStack.h
+ * File:   Collections/ConcurrentStack.h
  * Author: Chronos Cosine <chronos.cosine@gmail.com>
  *
- * Created on 26 October 2018, 8:03 PM
+ * Created on 26 October 2018, 10:52 PM
  */
 
 #ifndef COLLECTIONS_CONCURRENTSTACK_H

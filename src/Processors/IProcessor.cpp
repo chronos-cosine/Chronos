@@ -7,10 +7,10 @@
 #include "Processors/IProcessor.h"
 
 /* 
- * File:   IProcessor.cpp
- * Author: user
+ * File:   Processors/IProcessor.cpp
+ * Author: Chronos Cosine <chronos.cosine@gmail.com>
  * 
- * Created on 09 October 2018, 10:54 AM
+ * Created on 09 October 2018, 10:52 PM
  */
 
 #include "Notifier/INotifier.h"

@@ -5,10 +5,10 @@
  */
 
 /* 
- * File:   IProcessor.h
- * Author: user
+ * File:   Processors/IProcessor.h
+ * Author: Chronos Cosine <chronos.cosine@gmail.com>
  *
- * Created on 09 October 2018, 10:54 AM
+ * Created on 09 October 2018, 10:52 PM
  */
 
 #ifndef CORE_IPROCESSOR_H

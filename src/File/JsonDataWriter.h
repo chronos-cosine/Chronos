@@ -5,10 +5,10 @@
  */
 
 /* 
- * File:   JsonDataWriter.h
- * Author: user
+ * File:   File/JsonDataWriter.h
+ * Author: Chronos Cosine <chronos.cosine@gmail.com>
  *
- * Created on 31 October 2018, 7:15 AM
+ * Created on 31 October 2018, 10:52 PM
  */
 
 #ifndef FILE_JSONDATAWRITER_H

@@ -5,10 +5,10 @@
  */
 
 /* 
- * File:   Job.cpp
- * Author: user
+ * File:   Sorter/Job.cpp
+ * Author: Chronos Cosine <chronos.cosine@gmail.com>
  * 
- * Created on 31 October 2018, 7:07 AM
+ * Created on 31 October 2018, 10:52 PM
  */
 
 #include "Job.h"

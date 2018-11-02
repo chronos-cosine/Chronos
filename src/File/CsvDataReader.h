@@ -5,8 +5,8 @@
  */
 
 /* 
- * File:   CsvDataReader.h
- * Author: user
+ * File:   File/CsvDataReader.h
+ * Author: Chronos Cosine <chronos.cosine@gmail.com>
  *
  * Created on 30 October 2018, 2:33 PM
  */

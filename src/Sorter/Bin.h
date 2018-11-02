@@ -5,10 +5,10 @@
  */
 
 /* 
- * File:   Bin.h
- * Author: user
+ * File:   Sorter/Bin.h
+ * Author: Chronos Cosine <chronos.cosine@gmail.com>
  *
- * Created on 29 October 2018, 8:34 AM
+ * Created on 29 October 2018, 10:52 PM
  */
 
 #ifndef SORTER_BIN_H

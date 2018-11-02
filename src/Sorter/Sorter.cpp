@@ -5,10 +5,10 @@
  */
 
 /* 
- * File:   Sorter.cpp
- * Author: user
+ * File:   Sorter/Sorter.cpp
+ * Author: Chronos Cosine <chronos.cosine@gmail.com>
  * 
- * Created on 31 October 2018, 9:03 AM
+ * Created on 31 October 2018, 10:52 PM
  */
 
 #include "Sorter.h"

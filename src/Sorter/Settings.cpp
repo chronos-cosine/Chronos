@@ -5,10 +5,10 @@
  */
 
 /* 
- * File:   Settings.cpp
- * Author: user
+ * File:   Sorter/Settings.cpp
+ * Author: Chronos Cosine <chronos.cosine@gmail.com>
  * 
- * Created on 30 October 2018, 10:58 AM
+ * Created on 30 October 2018, 10:52 PM
  */
 
 #include "Settings.h"

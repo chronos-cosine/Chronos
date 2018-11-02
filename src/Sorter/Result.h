@@ -5,10 +5,10 @@
  */
 
 /* 
- * File:   Result.h
- * Author: user
+ * File:   Sorter/Result.h
+ * Author: Chronos Cosine <chronos.cosine@gmail.com>
  *
- * Created on 01 November 2018, 9:27 AM
+ * Created on 01 November 2018, 10:52 PM
  */
 
 #ifndef SORTER_RESULT_H

@@ -5,7 +5,7 @@
  */
 
 /* 
- * File:   PatternMatchingMachine.h
+ * File:   PatternMatcher/PatternMatchingMachine.h
  * Author: Chronos Cosine <chronos.cosine@gmail.com>
  *
  * Created on 28 October 2018, 8:40 PM

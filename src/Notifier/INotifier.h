@@ -5,10 +5,10 @@
  */
 
 /* 
- * File:   INotifier.h
- * Author: user
+ * File:   Notifier/INotifier.h
+ * Author: Chronos Cosine <chronos.cosine@gmail.com>
  *
- * Created on 17 October 2018, 10:15 AM
+ * Created on 17 October 2018, 10:52 PM
  */
 
 #ifndef NOTIFIER_INOTIFIER_H

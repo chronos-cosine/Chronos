@@ -5,10 +5,10 @@
  */
 
 /* 
- * File:   LogFileNotifier.h
- * Author: user
+ * File:   Notifier/LogFileNotifier.h
+ * Author: Chronos Cosine <chronos.cosine@gmail.com>
  *
- * Created on 18 October 2018, 8:08 AM
+ * Created on 18 October 2018, 10:52 PM
  */
 
 #ifndef NOTIFIER_LOGFILENOTIFIER_H

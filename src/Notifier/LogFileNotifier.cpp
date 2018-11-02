@@ -4,14 +4,14 @@
  * and open the template in the editor.
  */
 
-#include "Notifier/LogFileNotifier.h"
-
 /* 
- * File:   LogFileNotifier.cpp
- * Author: user
+ * File:   Notifier/LogFileNotifier.cpp
+ * Author: Chronos Cosine <chronos.cosine@gmail.com>
  * 
- * Created on 18 October 2018, 8:08 AM
+ * Created on 18 October 2018, 10:52 PM
  */
+
+#include "Notifier/LogFileNotifier.h"
 
 #include <thread>
 #include <sstream>

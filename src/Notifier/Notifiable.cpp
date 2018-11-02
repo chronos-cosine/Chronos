@@ -5,7 +5,7 @@
  */
 
 /* 
- * File:   Notifiable.cpp
+ * File:   Notifier/Notifiable.cpp
  * Author: Chronos Cosine <chronos.cosine@gmail.com>
  * 
  * Created on 02 November 2018, 4:26 PM

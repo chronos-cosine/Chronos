@@ -5,10 +5,10 @@
  */
 
 /* 
- * File:   DataWriter.h
- * Author: user
+ * File:   File/DataWriter.h
+ * Author: Chronos Cosine <chronos.cosine@gmail.com>
  *
- * Created on 31 October 2018, 8:11 AM
+ * Created on 31 October 2018, 10:52 PM
  */
 
 #ifndef FILE_DATAWRITER_H

@@ -5,10 +5,10 @@
  */
 
 /* 
- * File:   Spooler.h
- * Author: user
+ * File:   File/Spooler.h
+ * Author: Chronos Cosine <chronos.cosine@gmail.com>
  *
- * Created on 31 October 2018, 9:16 AM
+ * Created on 31 October 2018, 10:52 PM
  */
 
 #ifndef FILE_SPOOLER_H

@@ -5,10 +5,10 @@
  */
 
 /* 
- * File:   BlankNotifier.h
- * Author: user
+ * File:   Notifier/BlankNotifier.h
+ * Author: Chronos Cosine <chronos.cosine@gmail.com>
  *
- * Created on 17 October 2018, 10:39 AM
+ * Created on 17 October 2018, 10:52 PM
  */
 
 #ifndef NOTIFIER_BLANKNOTIFIER_H

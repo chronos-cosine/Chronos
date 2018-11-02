@@ -5,10 +5,10 @@
  */
 
 /* 
- * File:   Chronos-Sorter.cpp
- * Author: user
+ * File:   Sorter/Chronos-Sorter.cpp
+ * Author: Chronos Cosine <chronos.cosine@gmail.com>
  *
- * Created on 04 October 2018, 7:08 AM
+ * Created on 04 October 2018, 10:52 PM
  */
 
 #include "File/JsonDataReader.h"

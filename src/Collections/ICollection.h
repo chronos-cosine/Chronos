@@ -5,10 +5,10 @@
  */
 
 /* 
- * File:   ICollection.h
+ * File:   Collections/ICollection.h
  * Author: Chronos Cosine <chronos.cosine@gmail.com>
  *
- * Created on 31 October 2018, 9:25 AM
+ * Created on 31 October 2018, 10:52 PM
  */
 
 #ifndef COLLECTIONS_ICOLLECTION_H

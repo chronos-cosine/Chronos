@@ -5,10 +5,10 @@
  */
 
 /* 
- * File:   Pattern.h
- * Author: user
+ * File:   Sorter/Pattern.h
+ * Author: Chronos Cosine <chronos.cosine@gmail.com>
  *
- * Created on 30 October 2018, 8:24 AM
+ * Created on 30 October 2018, 10:52 PM
  */
 
 #ifndef SORTER_PATTERN_H

@@ -5,10 +5,10 @@
  */
 
 /* 
- * File:   DataReader.h
- * Author: user
+ * File:   File/DataReader.h
+ * Author: Chronos Cosine <chronos.cosine@gmail.com>
  *
- * Created on 29 October 2018, 7:37 AM
+ * Created on 29 October 2018, 10:52 PM
  */
 
 #ifndef FILE_DATAREADER_H

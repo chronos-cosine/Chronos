@@ -5,10 +5,10 @@
  */
 
 /* 
- * File:   Job.h
- * Author: user
+ * File:   Sorter/Job.h
+ * Author: Chronos Cosine <chronos.cosine@gmail.com>
  *
- * Created on 31 October 2018, 7:07 AM
+ * Created on 31 October 2018, 10:52 PM
  */
 
 #ifndef SORTER_JOB_H

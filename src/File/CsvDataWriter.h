@@ -5,10 +5,10 @@
  */
 
 /* 
- * File:   CsvDataWriter.h
- * Author: user
+ * File:   File/CsvDataWriter.h
+ * Author: Chronos Cosine <chronos.cosine@gmail.com>
  *
- * Created on 31 October 2018, 7:40 AM
+ * Created on 31 October 2018, 10:52 PM
  */
 
 #ifndef FILE_CSVDATAWRITER_H

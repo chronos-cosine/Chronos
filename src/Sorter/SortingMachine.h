@@ -5,8 +5,8 @@
  */
 
 /* 
- * File:   SortingMachine.h
- * Author: user
+ * File:   Sorter/SortingMachine.h
+ * Author: Chronos Cosine <chronos.cosine@gmail.com>
  *
  * Created on 30 October 2018, 1:13 PM
  */
