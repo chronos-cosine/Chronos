@@ -24,6 +24,7 @@
 
 #include <map>
 #include <memory>
+#include <mutex>
 #include <set>
 
 namespace Sorter {
@@ -34,14 +35,14 @@ namespace Sorter {
         Sorter(const Sorter&) = delete;
         Sorter& operator=(const Sorter&) = delete;
     public:
-        virtual ~Sorter();
+        virtual ~Sorter() = default;
         Sorter(const std::shared_ptr<PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter>>& matcher,
                const std::shared_ptr<Collections::ICollection<std::string>>& jobs,
                const std::shared_ptr<Notifier::INotifier>& notifier);
-    public:
     protected:
-        virtual bool process(); 
+        virtual bool process();
     private:
+        std::mutex __mutex;
         std::shared_ptr<Collections::ICollection<std::string>> __jobs;
         std::shared_ptr<PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter>> __matcher;
         

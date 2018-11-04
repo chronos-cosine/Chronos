@@ -20,9 +20,6 @@
 
 namespace Sorter {
     
-    Sorter::~Sorter() {
-    }
-    
     Sorter::Sorter(const std::shared_ptr<PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter>>& matcher,
                    const std::shared_ptr<Collections::ICollection<std::string>>& jobs,
                    const std::shared_ptr<Notifier::INotifier>& notifier)
@@ -34,6 +31,8 @@ namespace Sorter {
     
     bool 
     Sorter::process() {
+        std::lock_guard<std::mutex> lock(__mutex);
+        
         std::string filename = std::move(__jobs->pop());
         std::string message = "Sorter::process() job.id " + filename; 
         notify(message);

@@ -33,7 +33,8 @@ namespace Sorter {
         Bin& operator<<(const boost::property_tree::ptree& rhs);
         
         friend std::ostream& operator<<(std::ostream& lhs, const Bin& rhs);
-        friend boost::property_tree::ptree& operator<<(boost::property_tree::ptree& lhs, const Bin& rhs);
+        friend boost::property_tree::ptree& 
+            operator<<(boost::property_tree::ptree& lhs, const Bin& rhs);
         
     };  /* struct Bin */
     

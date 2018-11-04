@@ -26,13 +26,15 @@ namespace File {
     }
    
     Spooler::Spooler(const std::string& directory,
-        const std::string& trigger,
-        const std::string& busy_extension,
-        const std::chrono::seconds& sleep_time,
-        const std::shared_ptr<Collections::ICollection<std::string>>& collection)
-        : Processors::ProcessorBase(sleep_time), __directory(directory), 
-          __trigger(trigger), __busy_extension(busy_extension), 
-          __collection(collection) {
+                     const std::string& trigger,
+                     const std::string& busy_extension,
+                     const std::chrono::seconds& sleep_time,
+                     const std::shared_ptr<Collections::ICollection<std::string>>& collection)
+            : Processors::ProcessorBase(sleep_time), 
+              __directory(directory), 
+              __trigger(trigger), 
+              __busy_extension(busy_extension), 
+              __collection(collection) {
     }
    
     bool 
