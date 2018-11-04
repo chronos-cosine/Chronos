@@ -46,7 +46,7 @@ namespace Sorter {
             std::shared_ptr<Collections::ICollection<std::string>> __jobs_paths;
             std::shared_ptr<Collections::ICollection<Job>> __jobs;
             std::vector<std::shared_ptr<File::Spooler>> __spoolers;
-            std::vector<std::shared_ptr<JobSpoolerFileReader>> __job_file_readers;
+            std::vector<std::shared_ptr<File::SpoolingReader<Job>>> __job_file_readers;
             std::vector<std::thread> __spooler_threads;
             std::vector<std::thread> __job_file_reader_threads;
         }; /* class JobSpooler */
