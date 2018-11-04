@@ -30,14 +30,12 @@ namespace Sorter {
 
         std::string::const_iterator begin() const;
         std::string::const_iterator end() const;
+        
         bool operator<(const Pattern& rhs) const;
         bool operator==(const Pattern& rhs) const;
         bool operator!=(const Pattern& rhs) const;
         Pattern& operator<<(const std::vector<std::string>& rhs);
         Pattern& operator<<(const boost::property_tree::ptree& rhs);
-        
-        friend std::ostream& operator<<(std::ostream& lhs, const Pattern& rhs);
-        friend boost::property_tree::ptree& operator<<(boost::property_tree::ptree& lhs, const Pattern& rhs);
         
     }; /* struct Pattern */
     

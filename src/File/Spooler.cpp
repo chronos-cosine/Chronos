@@ -22,9 +22,6 @@ namespace fs = std::experimental::filesystem;
 
 namespace File {
     
-    Spooler::~Spooler() {
-    }
-   
     Spooler::Spooler(const std::string& directory,
                      const std::string& trigger,
                      const std::string& busy_extension,
@@ -36,33 +33,31 @@ namespace File {
               __busy_extension(busy_extension), 
               __collection(collection) {
     }
-   
+    
     bool 
     Spooler::process() {
         if (!fs::exists(__directory)) {
             throw std::runtime_error("Spooler::process() directory does not exist");
         }
         
-        std::string message = "spooling " + __directory;
-        notify(message);
-        
         bool result = false;
-        for (const auto& p: fs::directory_iterator(__directory)) {
-            if (p.path().extension() == __trigger) {
+        for (const auto& item: fs::directory_iterator(__directory)) {
+            if (item.path().extension() == __trigger) {
                 if (!result) {
                     result = true;
                 }
                 
-                std::stringstream new_filename;
-                new_filename << __directory << p.path().stem().c_str()
-                             << __busy_extension;
+                std::string new_filename = __directory + 
+                                            item.path().stem().c_str() +
+                                            __busy_extension;
                 
                 try {
-                    fs::rename(p, fs::path(new_filename.str()));
-                    __collection->push(new_filename.str());
+                    fs::rename(item, new_filename);
                 } catch (const fs::filesystem_error& e) {
                     return false;
                 }
+                
+                __collection->push(new_filename);
             }
         }
         

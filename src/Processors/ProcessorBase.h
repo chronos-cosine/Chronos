@@ -27,6 +27,7 @@ namespace Processors {
         std::mutex __mutex;
         bool __is_running;
         bool __is_executing;
+        bool __is_stopping;
         std::chrono::seconds __sleep_time;
     public:
         virtual ~ProcessorBase() = default;
@@ -36,11 +37,13 @@ namespace Processors {
         virtual void start();
         virtual void stop();
         
+        bool get_is_stopping() const;
         bool get_is_running() const; 
         bool get_is_executing() const;
+    protected:
+        bool set_is_stopping(const bool& value);
     private:
         bool set_is_running(const bool& value);
-        bool set_is_executing(const bool& value);
         
     }; /* class ProcessorBase */
 

@@ -27,6 +27,7 @@ namespace Processors {
         virtual void stop() = 0;
         virtual bool get_is_running() const = 0; 
         virtual bool get_is_executing() const = 0;
+        virtual bool get_is_stopping() const = 0;
     protected:
         virtual bool process() = 0;
         

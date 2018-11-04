@@ -18,21 +18,21 @@
 #include <iostream>
 #include <string>
 
+namespace pt = boost::property_tree;
+
 namespace Sorter {
     struct Job {
         unsigned long long id;
         std::string document;
         std::string filename;
         
+        std::string::const_iterator begin() const;
+        std::string::const_iterator end() const;
+        
         bool operator<(const Job& rhs) const;
         bool operator==(const Job& rhs) const;
         bool operator!=(const Job& rhs) const;
         Job& operator<<(const boost::property_tree::ptree& rhs);
-        std::string::const_iterator begin() const;
-        std::string::const_iterator end() const;
-        
-        friend std::ostream& operator<<(std::ostream& lhs, const Job& rhs);
-        friend boost::property_tree::ptree& operator<<(boost::property_tree::ptree& lhs, const Job& rhs);
         
     }; /* struct Job */
     

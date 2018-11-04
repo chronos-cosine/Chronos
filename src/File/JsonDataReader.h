@@ -43,7 +43,7 @@ namespace File {
     void 
     JsonDataReader<T>::validate_filename(const std::string& filename) {
         if (!fs::exists(filename)) {
-            throw std::runtime_error("JsonDataReader::read() file does not exist");
+            throw std::runtime_error("JsonDataReader::validate_filename() file does not exist");
         }
     }
     

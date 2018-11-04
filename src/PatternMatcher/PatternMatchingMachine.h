@@ -27,7 +27,6 @@ namespace PatternMatcher {
     class PatternMatchingMachine {
         PatternMatchingMachine() = delete;
         PatternMatchingMachine(const PatternMatchingMachine&) = delete;
-        PatternMatchingMachine& operator=(const PatternMatchingMachine&) = delete;
     public:
         std::function<void(SENDER* /* sender */, 
                 const INPUT& /* input */,

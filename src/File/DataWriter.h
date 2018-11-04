@@ -15,6 +15,7 @@
 #define FILE_DATAWRITER_H
 
 #include "File/CsvDataWriter.h"
+#include "File/FileType.h"
 #include "File/JsonDataWriter.h"
 
 namespace File {
@@ -27,7 +28,7 @@ namespace File {
     public:
         static void write(const T& data, 
                           const std::string& filename, 
-                          const std::string& filetype);
+                          const FileType& filetype);
         
     }; /* class DataWriter */
     
@@ -35,13 +36,16 @@ namespace File {
     void
     DataWriter<T>::write(const T& data, 
                       const std::string& filename, 
-                      const std::string& filetype) {
-        if (filetype == "csv") {
-            return CsvDataWriter<T>::write(data, filename);
-        } else if (filetype == "json") {
-            return JsonDataWriter<T>::write(data, filename);
-        } else {
-            throw std::runtime_error("Filetype not yet supported");
+                      const FileType& filetype) {
+        switch (filetype) {
+            case FileType::CSV:
+                CsvDataWriter<T>::write(data, filename);
+                break;
+            case FileType::JSON:
+                JsonDataWriter<T>::write(data, filename);
+                break;
+            default:
+                throw std::runtime_error("DataWriter<T>::write() filetype not yet supported");
         }
     } 
     

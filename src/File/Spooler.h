@@ -16,6 +16,7 @@
 
 #include "Collections/ICollection.h"
 #include "Notifier/Notifiable.h"
+#include "Notifier/INotifier.h"
 #include "Processors/ProcessorBase.h"
 
 #include <chrono>
@@ -24,12 +25,11 @@
 
 namespace File {
     
-   class Spooler : public Processors::ProcessorBase,
-                   public Notifier::Notifiable {
+   class Spooler : public Processors::ProcessorBase {
         Spooler() = delete;
         Spooler(const Spooler&) = delete;
     public:
-        virtual ~Spooler();
+        virtual ~Spooler() = default;
         Spooler(const std::string& directory,
                 const std::string& trigger,
                 const std::string& busy_extension,

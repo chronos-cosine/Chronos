@@ -50,7 +50,7 @@ namespace File {
     JsonDataWriter<T>::write(const T& data, const std::string& destination) {
         std::ofstream file(destination);
         if (!file.is_open()) {
-            throw std::runtime_error("CsvDataReader::read() The file could not be opened");
+            throw std::runtime_error("JsonDataWriter::write() The file could not be opened");
         }
         
         write(file, data);

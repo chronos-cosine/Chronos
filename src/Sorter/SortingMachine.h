@@ -5,97 +5,51 @@
  */
 
 /* 
- * File:   Sorter/SortingMachine.h
+ * File:   SortingMachine.h
  * Author: Chronos Cosine <chronos.cosine@gmail.com>
  *
- * Created on 30 October 2018, 1:13 PM
+ * Created on 04 November 2018, 8:06 PM
  */
 
 #ifndef SORTER_SORTINGMACHINE_H
 #define SORTER_SORTINGMACHINE_H
 
 #include "Collections/ICollection.h"
-#include "File/Spooler.h"
 #include "PatternMatcher/PatternMatchingMachine.h"
-#include "Processors/ProcessorBase.h"
 #include "Sorter/Bin.h"
+#include "Sorter/BooleanOperator.h"
 #include "Sorter/Job.h"
-#include "Sorter/Sorter.h"
+#include "Sorter/JobSpooler.h"
 #include "Sorter/Pattern.h"
-#include "Sorter/Settings.h"
+#include "Sorter/Settings/SorterSettings.h"
 
 #include <map>
 #include <set>
 #include <string>
-#include <sstream>
-#include <thread>
 
 namespace Sorter {
     
-    class SortingMachine : public Processors::ProcessorBase,
-                           public Notifier::Notifiable {
+    class SortingMachine {
         SortingMachine(const SortingMachine&) = delete;
-        SortingMachine& operator=(const SortingMachine&) = delete;
     public:
         virtual ~SortingMachine() = default;
-        SortingMachine(const std::shared_ptr<Settings>& settings);
-        SortingMachine(const std::shared_ptr<Settings>& settings, 
-                       const std::shared_ptr<Notifier::INotifier>& notifier);
-        
-        virtual void start();
-        virtual void stop();
-    protected:
-        virtual bool process();
+        SortingMachine(const Settings::SorterSettings& sorter_settings);
     private:
-        void initialise();
-        bool is_boolean_match(const Job& input);
-        bool is_bin_hierarchy_match(const Job& input);
-        void initialise_bins(const std::vector<Bin>& bins);
-        void initialise_patterns(const std::vector<Pattern>& patterns);
-        void initialise_spoolers();
-        void initialise_sorters(); 
-        void initialise_matcher(const std::vector<Pattern>& patterns);
-        void reset_job_directory();
+        void init(const Settings::SorterSettings& sorter_settings);
+        void init_bins(const Settings::BinSettings& bin_settings);
+        void init_patterns(const Settings::PatternSettings& pattern_settings);
+        void init_pattern_matcher();
     private:
+        std::map<unsigned long long, Bin> __bins;
         std::map<unsigned long long, Pattern> __patterns;
-        std::map<unsigned long long, Bin> __bins; 
         std::map<unsigned long long, std::map<BooleanOperator, std::set<Pattern>>> __bin_patterns;
-        std::shared_ptr<Settings> __settings;
-        std::map<Job, std::map<unsigned long long, std::set<Pattern>>> __pattern_matches;
-        std::map<Job, std::set<Bin>> __bin_matches;
+        std::shared_ptr<PatternMatcher::PatternMatchingMachine<Job, Pattern, SortingMachine>> __pattern_matcher;
         std::shared_ptr<Collections::ICollection<std::string>> __jobs;
-        std::stringstream __ss_notification;
-        std::shared_ptr<PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter>> __matcher;
-        std::vector<std::shared_ptr<File::Spooler>> __spoolers;
-        std::vector<std::shared_ptr<Sorter>> __sorters;
-        std::vector<std::thread> __spooler_threads;
-        std::vector<std::thread> __sorter_threads;
-        std::shared_ptr<Notifier::INotifier> __notifier;
-    private:
-        struct completed {
-            SortingMachine* sorting_machine;
-            
-            completed(SortingMachine* sm); 
-            void operator()(Sorter* sender, 
-                const Job& input,
-                const unsigned long long& total_matches);
-        }; /* struct completed */
-        struct match_found {
-            SortingMachine* sorting_machine;
-            
-            match_found(SortingMachine* sm);
-            void operator()(Sorter* sender, 
-                const Job& input,
-                const unsigned long long& position,
-                const std::set<Pattern>& patterns);
-        }; /* struct match_found */
-        completed __completed;
-        match_found __match_found;
+        std::shared_ptr<JobSpooler> __job_spooler;
         
     }; /* class SortingMachine */
     
 } /* namespace Sorter */
-
 
 #endif /* SORTER_SORTINGMACHINE_H */
 

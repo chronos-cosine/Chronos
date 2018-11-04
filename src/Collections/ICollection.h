@@ -14,6 +14,7 @@
 #ifndef COLLECTIONS_ICOLLECTION_H
 #define COLLECTIONS_ICOLLECTION_H
 
+#include "Collections/CollectionType.h"
 #include <condition_variable>
 #include <memory>
 #include <mutex>
@@ -23,7 +24,6 @@ namespace Collections {
     template <typename T>
     class ICollection {
         ICollection(const ICollection&) = delete;
-        ICollection& operator=(const ICollection&) = delete;
     public:
         virtual ~ICollection() = default;
         ICollection() = default;
@@ -31,6 +31,7 @@ namespace Collections {
         virtual void push(T item) = 0;
         virtual T pop() = 0;
         virtual bool empty() const = 0;
+        virtual CollectionType get_collection_type() const = 0;
         
     }; /* class ICollection */
     

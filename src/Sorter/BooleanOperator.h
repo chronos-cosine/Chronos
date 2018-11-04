@@ -21,7 +21,7 @@ namespace Sorter {
         OR = 2,
         AND = 4
     }; /* enum BooleanOperator */
-
+        
 } /* namespace Sorter */
 
 

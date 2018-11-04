@@ -15,6 +15,7 @@
 #define COLLECTIONS_CONCURRENTSTACK_H
 
 #include "Collections/ICollection.h"
+#include "Collections/CollectionType.h"
 #include <condition_variable>
 #include <mutex>
 #include <stack>
@@ -24,11 +25,10 @@ namespace Collections {
     template <typename T>
     class ConcurrentStack : public ICollection<T> {
         ConcurrentStack(const ConcurrentStack&) = delete;
-        ConcurrentStack& operator=(const ConcurrentStack&) = delete;
     private:
-        std::stack<T> __stack;
-        std::mutex __mutex;
-        std::condition_variable __condition_variable;
+        std::stack<T> stack;
+        std::mutex mutex;
+        std::condition_variable condition_variable;
     public:
         virtual ~ConcurrentStack() = default;
         ConcurrentStack() = default;
@@ -36,6 +36,7 @@ namespace Collections {
         virtual void push(T item);
         virtual T pop();
         virtual bool empty() const;
+        virtual CollectionType get_collection_type() const;
         typename std::stack<T>::size_type size() const;
         
     }; /* class ConcurrentStack */
@@ -43,22 +44,22 @@ namespace Collections {
     template <typename T>
     void 
     ConcurrentStack<T>::push(T item) {
-        std::lock_guard<std::mutex> lock(__mutex);
+        std::lock_guard<std::mutex> lock(mutex);
         
-        __stack.push(std::move(item));
-        __condition_variable.notify_one();
+        stack.push(std::move(item));
+        condition_variable.notify_one();
     } 
     
     template <typename T>
     T 
     ConcurrentStack<T>::pop() {
-        std::unique_lock<std::mutex> lock(__mutex);
+        std::unique_lock<std::mutex> lock(mutex);
         
-        __condition_variable.wait(lock, [this] { 
+        condition_variable.wait(lock, [this] { 
             return !__stack.empty(); 
         });
-        T item = std::move(__stack.top());
-        __stack.pop();
+        T item = std::move(stack.top());
+        stack.pop();
         
         return item;
     } 
@@ -66,14 +67,20 @@ namespace Collections {
     template <typename T>
     bool 
     ConcurrentQueue<T>::empty() const {
-        return __stack.empty();
+        return stack.empty();
     } 
+    
+    template <typename T>
+    CollectionType 
+    ConcurrentQueue<T>::get_collection_type() const {
+        return Collections::CollectionType::LIFO;
+    }
     
     template <typename T>
     typename std::stack<T>::size_type 
     ConcurrentStack<T>::size() const {
-        return __stack.size();
-    } 
+        return stack.size();
+    }
     
 } /* namespace Collections */
 

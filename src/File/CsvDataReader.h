@@ -48,7 +48,8 @@ namespace File {
     void 
     CsvDataReader::validate_filename(const std::string& filename) {
         if (!fs::exists(filename)) {
-            throw std::runtime_error("CsvDataReader::validate_filename() file does not exist");
+            throw std::runtime_error(
+                "CsvDataReader::validate_filename() file does not exist");
         }
     }
     

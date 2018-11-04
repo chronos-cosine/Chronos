@@ -15,6 +15,7 @@
 #define FILE_DATAREADER_H
 
 #include "File/CsvDataReader.h"
+#include "File/FileType.h"
 #include "File/JsonDataReader.h"
 
 #include <exception>
@@ -30,18 +31,19 @@ namespace File {
         DataReader& operator=(const DataReader&) = delete;
     public:
         static std::unique_ptr<std::vector<T>> 
-        read(const std::string& filename, const std::string& filetype);
+        read(const std::string& filename, const FileType& filetype);
         
     }; /* class DataReader */
         
     template <typename T>
     std::unique_ptr<std::vector<T>>
     DataReader<T>::read(const std::string& filename, 
-                        const std::string& filetype) {
-        if (filetype == "csv") {
-            return CsvDataReader::read<T>(filename);
-        } else {
-            throw std::runtime_error("DataReader<T>::read() filetype not yet supported");
+                        const FileType& filetype) {
+        switch (filetype) {
+            case FileType::CSV:
+                return CsvDataReader::read<T>(filename);
+            default:
+                throw std::runtime_error("DataReader<T>::read() filetype not yet supported");
         }
     }
     
