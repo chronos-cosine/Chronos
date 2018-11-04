@@ -25,15 +25,12 @@ namespace Collections {
         ICollection(const ICollection&) = delete;
         ICollection& operator=(const ICollection&) = delete;
     public:
-        virtual ~ICollection() { }
-        ICollection() { }
+        virtual ~ICollection() = default;
+        ICollection() = default;
         
         virtual void push(T item) = 0;
         virtual T pop() = 0;
-        virtual bool empty() = 0;
-    protected:
-        std::mutex __mutex;
-        std::condition_variable __condition_variable;
+        virtual bool empty() const = 0;
         
     }; /* class ICollection */
     

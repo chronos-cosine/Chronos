@@ -5,16 +5,15 @@
  */
 
 /* 
- * File:   Notifier/INotifier.h
+ * File:   INotifier.h
  * Author: Chronos Cosine <chronos.cosine@gmail.com>
  *
- * Created on 17 October 2018, 10:52 PM
+ * Created on 04 November 2018, 10:41 AM
  */
 
 #ifndef NOTIFIER_INOTIFIER_H
 #define NOTIFIER_INOTIFIER_H
 
-#include <iostream>
 #include <string>
 #include <sstream>
 
@@ -22,18 +21,16 @@ namespace Notifier {
     
     class INotifier {
     public:
-        virtual ~INotifier() { };
-        INotifier() { }
-        virtual void notify(const char* message) = 0; 
+        virtual ~INotifier() = default;
+        INotifier() = default;
         
-        virtual void notify(std::stringstream& message) {  
-            notify(message.str().c_str());
-            message.str(std::string());
-        }
-    };
+        virtual void notify(const char* message) = 0;
+        virtual void notify(const std::string& message) = 0;
+        virtual void notify(std::stringstream& message) = 0;
+        
+    }; /* class INotifier */
     
 } /* namespace Notifier */
-
 
 #endif /* NOTIFIER_INOTIFIER_H */
 

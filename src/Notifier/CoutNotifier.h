@@ -15,11 +15,11 @@
 #define NOTIFIER_COUTNOTIFIER_H
 
 #include <mutex>
-#include "Notifier/INotifier.h"
+#include "Notifier/NotifierBase.h"
 
 namespace Notifier {
     
-    class CoutNotifier : public INotifier {
+    class CoutNotifier : public NotifierBase {
     private:
         std::mutex __mutex;
     public:

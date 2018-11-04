@@ -18,10 +18,11 @@
 #include <memory>
 
 namespace Notifier {
+    Notifiable::Notifiable()
+        : notifier(std::shared_ptr<Notifier::NotifierBase>(nullptr)) {
+    }
     
-    Notifiable::~Notifiable() { }
-    
-    Notifiable::Notifiable(const std::shared_ptr<Notifier::INotifier>& notifier) 
+    Notifiable::Notifiable(const std::shared_ptr<Notifier::NotifierBase>& notifier) 
         : notifier(notifier) {
     }
         

@@ -16,7 +16,7 @@
 #include "Sorter/SortingMachine.h"
 #include "Sorter/Sorter.h"
 #include "Notifier/LogFileNotifier.h"
-#include "Notifier/INotifier.h"
+#include "Notifier/NotifierBase.h"
 #include "File/Spooler.h"
 #include "Collections/ConcurrentQueue.h"
 
@@ -30,7 +30,7 @@ int main(int argc, char** argv) {
     
     std::shared_ptr<Sorter::Settings> settings = 
         File::JsonDataReader<Sorter::Settings>::read("./Chronos-Sorter.settings");
-    std::shared_ptr<Notifier::INotifier> notifier
+    std::shared_ptr<Notifier::NotifierBase> notifier
             = std::make_shared<Notifier::LogFileNotifier>(
                 settings->log_file_reset_minutes,
                 settings->log_file_directory);

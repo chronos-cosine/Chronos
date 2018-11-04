@@ -27,37 +27,34 @@ namespace Collections {
         ConcurrentStack& operator=(const ConcurrentStack&) = delete;
     private:
         std::stack<T> __stack;
+        std::mutex __mutex;
+        std::condition_variable __condition_variable;
     public:
-        virtual ~ConcurrentStack();
-        ConcurrentStack();
+        virtual ~ConcurrentStack() = default;
+        ConcurrentStack() = default;
         
         virtual void push(T item);
         virtual T pop();
-        virtual bool empty();
+        virtual bool empty() const;
         typename std::stack<T>::size_type size() const;
+        
     }; /* class ConcurrentStack */
-    
-    template <typename T>
-    ConcurrentStack<T>::~ConcurrentStack() { }
-    
-    template <typename T>
-    ConcurrentStack<T>::ConcurrentStack() { }
-    
+        
     template <typename T>
     void 
     ConcurrentStack<T>::push(T item) {
-        std::lock_guard<std::mutex> lock(ICollection<T>::__mutex);
+        std::lock_guard<std::mutex> lock(__mutex);
         
         __stack.push(std::move(item));
-        ICollection<T>::__condition_variable.notify_one();
+        __condition_variable.notify_one();
     } 
     
     template <typename T>
     T 
     ConcurrentStack<T>::pop() {
-        std::unique_lock<std::mutex> lock(ICollection<T>::__mutex);
+        std::unique_lock<std::mutex> lock(__mutex);
         
-        ICollection<T>::__condition_variable.wait(lock, [this] { 
+        __condition_variable.wait(lock, [this] { 
             return !__stack.empty(); 
         });
         T item = std::move(__stack.top());
@@ -68,7 +65,7 @@ namespace Collections {
     
     template <typename T>
     bool 
-    ConcurrentQueue<T>::empty() {
+    ConcurrentQueue<T>::empty() const {
         return __stack.empty();
     } 
     

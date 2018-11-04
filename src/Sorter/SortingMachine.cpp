@@ -21,6 +21,7 @@
 #include "Sorter/Settings.h"
 #include "Notifier/CoutNotifier.h"
 
+#include <chrono>
 #include <experimental/filesystem>
 #include <exception>
 #include <map>
@@ -39,15 +40,15 @@ namespace Sorter {
     }
     
     SortingMachine::SortingMachine(const std::shared_ptr<Settings>& settings) 
-        : Processors::IProcessor(), 
-          __settings(settings), __completed(this), __match_found(this),
+        : __settings(settings), __completed(this), __match_found(this),
           __jobs(std::make_shared<Collections::ConcurrentQueue<std::string>>()) {
         initialise();
     } 
     
     SortingMachine::SortingMachine(const std::shared_ptr<Settings>& settings, 
-            const std::shared_ptr<Notifier::INotifier>& notifier)  
-        : Processors::IProcessor(30, notifier),
+            const std::shared_ptr<Notifier::NotifierBase>& notifier)  
+        : Processors::ProcessorBase(std::chrono::seconds(30)),
+          Notifier::Notifiable(notifier),
           __settings(settings), __completed(this), 
           __match_found(this),
           __jobs(std::make_shared<Collections::ConcurrentQueue<std::string>>()) {
@@ -220,7 +221,7 @@ namespace Sorter {
                 directory,
                 __settings->trigger_extension,
                 __settings->busy_extension,
-                10,
+                std::chrono::seconds(10),
                 __jobs);
             __spoolers.push_back(std::move(spooler));
         }
@@ -232,7 +233,7 @@ namespace Sorter {
             std::shared_ptr<Sorter> sorter = std::make_shared<Sorter>(
                 __matcher,
                 __jobs,
-                Processors::IProcessor::notifier);
+                Notifier::Notifiable::notifier);
             __sorters.push_back(std::move(sorter));
         }
     }
@@ -283,7 +284,7 @@ namespace Sorter {
             __sorter_threads.push_back(std::move(thread));
         }
         
-        Processors::IProcessor::start();
+        Processors::ProcessorBase::start();
     }
     
     void 
@@ -300,7 +301,7 @@ namespace Sorter {
         __spooler_threads.clear();
         __sorter_threads.clear();
         
-        Processors::IProcessor::stop();
+        Processors::ProcessorBase::stop();
     }
      
     void 

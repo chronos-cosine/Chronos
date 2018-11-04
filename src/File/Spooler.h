@@ -14,15 +14,18 @@
 #ifndef FILE_SPOOLER_H
 #define FILE_SPOOLER_H
 
-#include "Processors/IProcessor.h"
 #include "Collections/ICollection.h"
+#include "Notifier/Notifiable.h"
+#include "Processors/ProcessorBase.h"
 
+#include <chrono>
 #include <memory>
 #include <string>
 
 namespace File {
     
-   class Spooler : public Processors::IProcessor {
+   class Spooler : public Processors::ProcessorBase,
+                   public Notifier::Notifiable {
         Spooler() = delete;
         Spooler(const Spooler&) = delete;
     public:
@@ -30,7 +33,7 @@ namespace File {
         Spooler(const std::string& directory,
                 const std::string& trigger,
                 const std::string& busy_extension,
-                const unsigned short& sleep_time_seconds,
+                const std::chrono::seconds& sleep_time,
                 const std::shared_ptr<Collections::ICollection<std::string>>& collection);
    protected:
        virtual bool process();

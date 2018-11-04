@@ -14,7 +14,7 @@
 #ifndef NOTIFIER_NOTIFIABLE_H
 #define NOTIFIER_NOTIFIABLE_H
 
-#include "Notifier/INotifier.h"
+#include "Notifier/NotifierBase.h"
 
 #include <string>
 #include <sstream>
@@ -26,12 +26,13 @@ namespace Notifier {
         Notifiable(const Notifiable&) = delete;
         Notifiable& operator=(const Notifiable&) = delete;
     public:
-        virtual ~Notifiable();
-        Notifiable(const std::shared_ptr<INotifier>& notifier);
+        virtual ~Notifiable() = default;
+        Notifiable();
+        Notifiable(const std::shared_ptr<NotifierBase>& notifier);
     protected:
         void notify(const std::string& message);
         void notify(std::stringstream& message);
-        std::shared_ptr<INotifier> notifier;
+        std::shared_ptr<NotifierBase> notifier;
         
     }; /* class Notifiable */
     

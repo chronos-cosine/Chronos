@@ -15,9 +15,10 @@
 #define SORTER_SORTER_H
 
 #include "Collections/ICollection.h"
-#include "Notifier/INotifier.h"
+#include "Notifier/NotifierBase.h"
+#include "Notifier/Notifiable.h"
 #include "PatternMatcher/PatternMatchingMachine.h"
-#include "Processors/IProcessor.h"
+#include "Processors/ProcessorBase.h"
 #include "Sorter/Pattern.h"
 #include "Sorter/Job.h"
 
@@ -27,14 +28,15 @@
 
 namespace Sorter {
     
-    class Sorter : public Processors::IProcessor {
+    class Sorter : public Processors::ProcessorBase, 
+                   public Notifier::Notifiable {
         Sorter(const Sorter&) = delete;
         Sorter& operator=(const Sorter&) = delete;
     public:
         virtual ~Sorter();
         Sorter(const std::shared_ptr<PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter>>& matcher,
                const std::shared_ptr<Collections::ICollection<std::string>>& jobs,
-               const std::shared_ptr<Notifier::INotifier>& notifier);
+               const std::shared_ptr<Notifier::NotifierBase>& notifier);
     public:
     protected:
         virtual bool process(); 

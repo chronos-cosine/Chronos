@@ -46,14 +46,16 @@ if(Boost_FOUND)
         "${CHRONOS_SOURCE_ROOT}/Notifier/FileNotifier.cpp"
         "${CHRONOS_SOURCE_ROOT}/Notifier/FileNotifier.h"
         "${CHRONOS_SOURCE_ROOT}/Notifier/INotifier.h"
+        "${CHRONOS_SOURCE_ROOT}/Notifier/NotifierBase.cpp"
+        "${CHRONOS_SOURCE_ROOT}/Notifier/NotifierBase.h"
         "${CHRONOS_SOURCE_ROOT}/Notifier/LogFileNotifier.cpp"
         "${CHRONOS_SOURCE_ROOT}/Notifier/LogFileNotifier.h"
         "${CHRONOS_SOURCE_ROOT}/Notifier/Notifiable.cpp"
         "${CHRONOS_SOURCE_ROOT}/Notifier/Notifiable.h"
         "${CHRONOS_SOURCE_ROOT}/PatternMatcher/Node.h"
         "${CHRONOS_SOURCE_ROOT}/PatternMatcher/PatternMatchingMachine.h"
-        "${CHRONOS_SOURCE_ROOT}/Processors/IProcessor.cpp"
-        "${CHRONOS_SOURCE_ROOT}/Processors/IProcessor.h"
+        "${CHRONOS_SOURCE_ROOT}/Processors/ProcessorBase.cpp"
+        "${CHRONOS_SOURCE_ROOT}/Processors/ProcessorBase.h"
     )
     
     # creates the library 

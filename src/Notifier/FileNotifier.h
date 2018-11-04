@@ -14,13 +14,13 @@
 #ifndef NOTIFIER_FILENOTIFIER_H
 #define NOTIFIER_FILENOTIFIER_H
 
-#include "Notifier/INotifier.h"
+#include "Notifier/NotifierBase.h"
 #include <fstream>
 #include <mutex>
 
 namespace Notifier {
     
-    class FileNotifier : public INotifier {
+    class FileNotifier : public NotifierBase {
     private:
         std::string __file_path;
         std::ofstream __file_stream;

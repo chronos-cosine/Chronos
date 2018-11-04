@@ -5,47 +5,34 @@
  */
 
 /* 
- * File:   Processors/IProcessor.h
+ * File:   IProcessor.h
  * Author: Chronos Cosine <chronos.cosine@gmail.com>
  *
- * Created on 09 October 2018, 10:52 PM
+ * Created on 04 November 2018, 10:11 AM
  */
 
-#ifndef CORE_IPROCESSOR_H
-#define CORE_IPROCESSOR_H
-
-#include "Notifier/Notifiable.h"
-#include <mutex>
-#include <memory>
+#ifndef PROCESSORS_IPROCESSOR_H
+#define PROCESSORS_IPROCESSOR_H
 
 namespace Processors {
 
-    class IProcessor : public Notifier::Notifiable {
-    private:
-        std::mutex __mutex;
-        bool __is_running;
-        bool __is_executing;
-        unsigned int __sleep_time_seconds;
+    class IProcessor {
+        IProcessor(const IProcessor&) = delete;
+        IProcessor& operator=(const IProcessor&) = delete;
     public:
-        virtual ~IProcessor();
-        IProcessor();
-        IProcessor(const unsigned int& sleep_time_seconds);
-        IProcessor(const unsigned int& sleep_time_seconds, 
-                   const std::shared_ptr<Notifier::INotifier>& notifier);
+        virtual ~IProcessor() = default;
+        IProcessor() = default;
         
-        virtual void start();
-        virtual void stop();
-        
-        bool get_is_running() const; 
-        bool get_is_executing() const;
-    private:
-        bool set_is_running(const bool& value);
-        bool set_is_executing(const bool& value);
+        virtual void start() = 0;
+        virtual void stop() = 0;
+        virtual bool get_is_running() const = 0; 
+        virtual bool get_is_executing() const = 0;
     protected:
         virtual bool process() = 0;
-    };
-
+        
+    }; /* class IProcessor */
+    
 } /* namespace Processors */
 
-#endif /* CORE_IPROCESSOR_H */
+#endif /* PROCESSORS_IPROCESSOR_H */
 

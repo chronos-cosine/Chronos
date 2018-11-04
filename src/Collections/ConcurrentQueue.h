@@ -27,38 +27,34 @@ namespace Collections {
         ConcurrentQueue& operator=(const ConcurrentQueue&) = delete;
     private:
         std::queue<T> __queue;
+        std::mutex __mutex;
+        std::condition_variable __condition_variable;
     public:
-        virtual ~ConcurrentQueue();
-        ConcurrentQueue();
+        virtual ~ConcurrentQueue() = default;
+        ConcurrentQueue() = default;
         
         virtual void push(T item);
         virtual T pop();
-        virtual bool empty();
+        virtual bool empty() const;
         typename std::queue<T>::size_type size() const;
         
     }; /* class ConcurrentQueue */
     
     template <typename T>
-    ConcurrentQueue<T>::~ConcurrentQueue() { }
-    
-    template <typename T>
-    ConcurrentQueue<T>::ConcurrentQueue() { } 
-    
-    template <typename T>
     void 
     ConcurrentQueue<T>::push(T item) {
-        std::lock_guard<std::mutex> lock(ICollection<T>::__mutex);
+        std::lock_guard<std::mutex> lock(__mutex);
         
         __queue.push(std::move(item));
-        ICollection<T>::__condition_variable.notify_one();
+        __condition_variable.notify_one();
     } 
     
     template <typename T>
     T 
     ConcurrentQueue<T>::pop() {
-        std::unique_lock<std::mutex> lock(ICollection<T>::__mutex);
+        std::unique_lock<std::mutex> lock(__mutex);
         
-        ICollection<T>::__condition_variable.wait(lock, [this] { 
+        __condition_variable.wait(lock, [this] { 
             return !__queue.empty(); 
         });
         
@@ -70,7 +66,7 @@ namespace Collections {
     
     template <typename T>
     bool 
-    ConcurrentQueue<T>::empty() {
+    ConcurrentQueue<T>::empty() const {
         return __queue.empty();
     } 
     

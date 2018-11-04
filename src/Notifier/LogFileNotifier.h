@@ -15,7 +15,7 @@
 #define NOTIFIER_LOGFILENOTIFIER_H
 
 #include "Notifier/FileNotifier.h"
-#include "Notifier/INotifier.h"
+#include "Notifier/NotifierBase.h"
 
 #include <chrono>
 #include <fstream>
@@ -26,7 +26,7 @@
 
 namespace Notifier {
     
-    class LogFileNotifier : public INotifier {
+    class LogFileNotifier : public NotifierBase {
     private:
         std::chrono::system_clock::time_point __reset_time;
         unsigned short __reset_minutes; 

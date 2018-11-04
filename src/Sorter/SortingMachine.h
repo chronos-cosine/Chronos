@@ -17,7 +17,7 @@
 #include "Collections/ICollection.h"
 #include "File/Spooler.h"
 #include "PatternMatcher/PatternMatchingMachine.h"
-#include "Processors/IProcessor.h"
+#include "Processors/ProcessorBase.h"
 #include "Sorter/Bin.h"
 #include "Sorter/Job.h"
 #include "Sorter/Sorter.h"
@@ -32,14 +32,15 @@
 
 namespace Sorter {
     
-    class SortingMachine : public Processors::IProcessor {
+    class SortingMachine : public Processors::ProcessorBase,
+                           public Notifier::Notifiable {
         SortingMachine(const SortingMachine&) = delete;
         SortingMachine& operator=(const SortingMachine&) = delete;
     public:
         virtual ~SortingMachine();
         SortingMachine(const std::shared_ptr<Settings>& settings);
         SortingMachine(const std::shared_ptr<Settings>& settings, 
-                       const std::shared_ptr<Notifier::INotifier>& notifier);
+                       const std::shared_ptr<Notifier::NotifierBase>& notifier);
         
         virtual void start();
         virtual void stop();
