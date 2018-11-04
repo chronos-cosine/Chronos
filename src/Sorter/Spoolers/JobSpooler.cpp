@@ -26,15 +26,20 @@
 
 namespace Sorter {
     
-    JobSpooler::JobSpooler(const std::shared_ptr<Collections::ICollection<std::string>>& jobs,
-                           const Settings::SpoolerSettings& settings) {
+    JobSpooler::JobSpooler(const std::shared_ptr<Collections::ICollection<Job>>& jobs,
+                           const Settings::SpoolerSettings& settings) 
+      : __jobs_paths(std::make_shared<Collections::ICollection<std::string>>()),
+        __jobs(jobs) {
         for (const auto& directory: settings.directories) {
-            std::shared_ptr<File::Spooler> spooler = std::make_shared<File::Spooler>(directory, 
-                                  settings.trigger_extension,
-                                  settings.busy_extension,
-                                  std::chrono::seconds(30),
-                                  jobs);
-            __spoolers.push_back(std::move(spooler));
+            __spoolers.push_back(std::make_shared<File::Spooler>(
+                directory, 
+                settings.trigger_extension,
+                settings.busy_extension,
+                std::chrono::seconds(30),
+                __jobs_paths));
+            __job_file_readers.push_back(std::make_shared<JobSpoolerFileReader>(
+                __jobs_paths,
+                __jobs));
         }
     }
     
@@ -53,7 +58,13 @@ namespace Sorter {
             for (const auto& spooler: __spoolers) {
                 std::thread thread(&File::Spooler::start, spooler);
                 thread.detach();
-                __spooler_threads.push_back(std::move(thread));
+                __spooler_threads.push_back(std::move(thread)); 
+            }
+            for (const auto& job_file_reader: __job_file_readers) {
+                std::thread thread(&JobSpoolerFileReader::start, 
+                    job_file_reader);
+                thread.detach();
+                __job_file_reader_threads.push_back(std::move(thread)); 
             }
         }
         

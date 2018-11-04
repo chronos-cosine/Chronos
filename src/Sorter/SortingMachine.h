@@ -21,6 +21,7 @@
 #include "Sorter/Job.h"
 #include "Sorter/JobSpooler.h"
 #include "Sorter/Pattern.h"
+#include "Sorter/Sorter.h"
 #include "Sorter/Settings/SorterSettings.h"
 
 #include <map>
@@ -40,12 +41,13 @@ namespace Sorter {
         void init_patterns(const Settings::PatternSettings& pattern_settings);
         void init_pattern_matcher();
     private:
-        std::map<unsigned long long, Bin> __bins;
-        std::map<unsigned long long, Pattern> __patterns;
-        std::map<unsigned long long, std::map<BooleanOperator, std::set<Pattern>>> __bin_patterns;
+        std::shared_ptr<std::map<unsigned long long, Bin>> __bins;
+        std::shared_ptr<std::map<unsigned long long, Pattern>> __patterns;
+        std::shared_ptr<std::map<unsigned long long, std::map<BooleanOperator, std::set<Pattern>>>> __bin_patterns;
         std::shared_ptr<PatternMatcher::PatternMatchingMachine<Job, Pattern, SortingMachine>> __pattern_matcher;
-        std::shared_ptr<Collections::ICollection<std::string>> __jobs;
+        std::shared_ptr<Collections::ICollection<Job>> __jobs;
         std::shared_ptr<JobSpooler> __job_spooler;
+        std::shared_ptr<Sorter> __sorter;
         
     }; /* class SortingMachine */
     

@@ -27,9 +27,12 @@
 
 namespace Sorter {
     
-    SortingMachine::SortingMachine(const Settings::SorterSettings& sorter_settings) {
-        __jobs = std::make_shared<Collections::ConcurrentQueue<std::string>>();
-        __job_spooler = std::make_shared<JobSpooler>(__jobs, sorter_settings.spooler_settings);
+    SortingMachine::SortingMachine(const Settings::SorterSettings& sorter_settings) 
+      : __bins(std::make_shared<std::map<unsigned long long, Bin>>()),
+        __patterns(std::make_shared<std::map<unsigned long long, Pattern>>()),
+        __bin_patterns(std::make_shared<std::map<unsigned long long, std::map<BooleanOperator, std::set<Pattern>>>>()),
+        __jobs(std::make_shared<Collections::ConcurrentQueue<std::string>>()),
+        __job_spooler(std::make_shared<JobSpooler>(__jobs, sorter_settings.spooler_settings)) {
         init(sorter_settings);
     }
      
