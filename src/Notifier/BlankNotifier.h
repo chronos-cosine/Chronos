@@ -20,10 +20,11 @@ namespace Notifier {
     
     class BlankNotifier : public INotifier { 
     public:
-        virtual ~BlankNotifier() { }
-        BlankNotifier() { }
+        virtual ~BlankNotifier() = default;
+        BlankNotifier() = default;
         
         virtual void notify(const char* message) { }
+        virtual void notify(const std::string& message) { };
         virtual void notify(const std::stringstream& message) { }
     };
 

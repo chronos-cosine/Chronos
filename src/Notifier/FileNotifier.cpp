@@ -11,7 +11,8 @@
  * Created on 17 October 2018, 1:25 PM
  */
 
-#include "FileNotifier.h"
+#include "Notifier/FileNotifier.h" // <-- header >
+#include <exception>
 #include <fstream>
 #include <iostream>
 #include <iomanip>
@@ -20,20 +21,26 @@
 
 namespace Notifier {
     
-    FileNotifier::~FileNotifier() { }
-    
     FileNotifier::FileNotifier(const std::string& file_path)
-            : __file_path(file_path), __file_stream(file_path.c_str()) { }
+        : __file_path(file_path), 
+          __file(file_path) { 
+    }
 
     void 
     FileNotifier::notify(const char* message) {
         std::lock_guard<std::mutex> lock(__mutex);
         
-        auto time_t = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-        __file_stream << "| " << this 
-                      << " | " << std::put_time(std::localtime(&time_t), "%F %T") 
-                      << " | " << message 
-                      << std::endl;
+        if (!__file.is_open()) {
+            throw std::runtime_error("FileNotifier::notify() file is not open");
+        }
+        
+        auto time_t = std::chrono::system_clock::to_time_t(
+                        std::chrono::system_clock::now());
+        __file  << "| " 
+                << this 
+                << " | " << std::put_time(std::localtime(&time_t), "%F %T") 
+                << " | " << message 
+                << std::endl;
     }
 
 } /* namespace Notifier */

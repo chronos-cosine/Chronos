@@ -21,12 +21,14 @@
 namespace Notifier {
     
     class FileNotifier : public NotifierBase {
+        FileNotifier(const FileNotifier&) = delete;
+        FileNotifier& operator=(const FileNotifier&) = delete;
     private:
         std::string __file_path;
-        std::ofstream __file_stream;
+        std::ofstream __file;
         std::mutex __mutex;
     public:
-        virtual ~FileNotifier();
+        virtual ~FileNotifier() = default;
         FileNotifier(const std::string& file_path);
         
         virtual void notify(const char* message);

@@ -16,7 +16,7 @@
 
 #include "Notifier/INotifier.h"
 
-#include <iostream>
+#include <mutex>
 #include <string>
 #include <sstream>
 
@@ -29,6 +29,8 @@ namespace Notifier {
         
         virtual void notify(const std::string& message);
         virtual void notify(std::stringstream& message);
+    private:
+        std::mutex __mutex;
     };
     
 } /* namespace Notifier */

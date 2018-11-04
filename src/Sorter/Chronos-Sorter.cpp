@@ -20,6 +20,7 @@
 #include "File/Spooler.h"
 #include "Collections/ConcurrentQueue.h"
 
+#include <chrono>
 #include <iostream>
 #include <memory>
 #include <thread>
@@ -32,7 +33,7 @@ int main(int argc, char** argv) {
         File::JsonDataReader<Sorter::Settings>::read("./Chronos-Sorter.settings");
     std::shared_ptr<Notifier::NotifierBase> notifier
             = std::make_shared<Notifier::LogFileNotifier>(
-                settings->log_file_reset_minutes,
+                std::chrono::minutes(settings->log_file_reset_minutes),
                 settings->log_file_directory);
     Sorter::SortingMachine sorting_machine(settings, notifier);
     sorting_machine.start();

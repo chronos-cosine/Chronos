@@ -30,9 +30,10 @@ namespace Notifier {
         Notifiable();
         Notifiable(const std::shared_ptr<NotifierBase>& notifier);
     protected:
+        std::shared_ptr<NotifierBase> notifier;
+    protected:
         void notify(const std::string& message);
         void notify(std::stringstream& message);
-        std::shared_ptr<NotifierBase> notifier;
         
     }; /* class Notifiable */
     

@@ -11,9 +11,9 @@
  * Created on 17 October 2018, 10:52 PM
  */
 
-
 #include "Notifier/NotifierBase.h" // <-- Header -->
 
+#include <mutex>
 #include <string>
 #include <sstream>
 
@@ -25,8 +25,10 @@ namespace Notifier {
     }
     
     void
-    NotifierBase::notify(std::stringstream& message) {  
-        notify(message.str().c_str());
+    NotifierBase::notify(std::stringstream& message) {
+        std::lock_guard<std::mutex> lock(__mutex);
+        
+        notify(message.str());
         message.str(std::string());
     }
     

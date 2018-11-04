@@ -16,10 +16,9 @@
 
 #include "Notifier/FileNotifier.h"
 #include "Notifier/NotifierBase.h"
+#include "Processors/ProcessorBase.h"
 
 #include <chrono>
-#include <fstream>
-#include <mutex>
 #include <memory>
 #include <string>
 #include <thread>
@@ -27,23 +26,24 @@
 namespace Notifier {
     
     class LogFileNotifier : public NotifierBase {
-    private:
-        std::chrono::system_clock::time_point __reset_time;
-        unsigned short __reset_minutes; 
-        bool __is_running;
-        std::string __log_directory;
-        std::unique_ptr<FileNotifier> __file_notifier;
-        std::mutex __mutex;
-        std::unique_ptr<std::thread> __reset_thread;
+        LogFileNotifier(const LogFileNotifier&) = delete;
+        LogFileNotifier& operator=(const LogFileNotifier&) = delete;
     public:
-        virtual ~LogFileNotifier();
-        LogFileNotifier(const unsigned int& reset_minutes, const std::string& log_directory);
+        virtual ~LogFileNotifier() = default;
+        LogFileNotifier(const std::chrono::minutes& reset_time, 
+                        const std::string& log_directory);
         
         virtual void notify(const char* message);
     private:
-        void reset_file();
+        std::string __log_directory;
+        std::chrono::minutes __reset_time;
+        std::mutex __mutex;
+        std::unique_ptr<FileNotifier> __file_notifier;
+        std::chrono::system_clock::time_point __log_file_recycle_time_point;
+        std::thread __log_file_recycle_thread;
+    private:
         void create_file();
-
+        void reset_file();
     };
 
 } /* namespace Notifier */

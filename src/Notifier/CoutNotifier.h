@@ -20,11 +20,13 @@
 namespace Notifier {
     
     class CoutNotifier : public NotifierBase {
+        CoutNotifier(const CoutNotifier&) = delete;
+        CoutNotifier& operator=(const CoutNotifier&) = delete;
     private:
         std::mutex __mutex;
     public:
-        virtual ~CoutNotifier();
-        CoutNotifier();
+        virtual ~CoutNotifier() = default;
+        CoutNotifier() = default;
         
         virtual void notify(const char* message);
     };
