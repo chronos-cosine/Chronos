@@ -25,7 +25,7 @@ namespace Sorter {
     
     Sorter::Sorter(const std::shared_ptr<PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter>>& matcher,
                    const std::shared_ptr<Collections::ICollection<std::string>>& jobs,
-                   const std::shared_ptr<Notifier::NotifierBase>& notifier)
+                   const std::shared_ptr<Notifier::INotifier>& notifier)
             : Processors::ProcessorBase(std::chrono::seconds(5)), 
               Notifier::Notifiable(notifier),
               __matcher(matcher), 

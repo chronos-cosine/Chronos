@@ -36,22 +36,21 @@ namespace fs = std::experimental::filesystem;
 
 namespace Sorter {
     
-    SortingMachine::~SortingMachine() {
-    }
-    
     SortingMachine::SortingMachine(const std::shared_ptr<Settings>& settings) 
         : __settings(settings), __completed(this), __match_found(this),
-          __jobs(std::make_shared<Collections::ConcurrentQueue<std::string>>()) {
+          __jobs(std::make_shared<Collections::ConcurrentQueue<std::string>>()),
+          __notifier(std::shared_ptr<Notifier::INotifier>(nullptr)) {
         initialise();
     } 
     
     SortingMachine::SortingMachine(const std::shared_ptr<Settings>& settings, 
-            const std::shared_ptr<Notifier::NotifierBase>& notifier)  
+            const std::shared_ptr<Notifier::INotifier>& notifier)  
         : Processors::ProcessorBase(std::chrono::seconds(30)),
           Notifier::Notifiable(notifier),
           __settings(settings), __completed(this), 
           __match_found(this),
-          __jobs(std::make_shared<Collections::ConcurrentQueue<std::string>>()) {
+          __jobs(std::make_shared<Collections::ConcurrentQueue<std::string>>()),
+          __notifier(std::shared_ptr<Notifier::INotifier>(nullptr))  {
         initialise();
     }
     
@@ -233,7 +232,7 @@ namespace Sorter {
             std::shared_ptr<Sorter> sorter = std::make_shared<Sorter>(
                 __matcher,
                 __jobs,
-                Notifier::Notifiable::notifier);
+                __notifier);
             __sorters.push_back(std::move(sorter));
         }
     }

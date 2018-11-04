@@ -37,10 +37,10 @@ namespace Sorter {
         SortingMachine(const SortingMachine&) = delete;
         SortingMachine& operator=(const SortingMachine&) = delete;
     public:
-        virtual ~SortingMachine();
+        virtual ~SortingMachine() = default;
         SortingMachine(const std::shared_ptr<Settings>& settings);
         SortingMachine(const std::shared_ptr<Settings>& settings, 
-                       const std::shared_ptr<Notifier::NotifierBase>& notifier);
+                       const std::shared_ptr<Notifier::INotifier>& notifier);
         
         virtual void start();
         virtual void stop();
@@ -70,6 +70,7 @@ namespace Sorter {
         std::vector<std::shared_ptr<Sorter>> __sorters;
         std::vector<std::thread> __spooler_threads;
         std::vector<std::thread> __sorter_threads;
+        std::shared_ptr<Notifier::INotifier> __notifier;
     private:
         struct completed {
             SortingMachine* sorting_machine;

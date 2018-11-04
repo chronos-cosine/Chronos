@@ -30,13 +30,14 @@ namespace Sorter {
     
     class Sorter : public Processors::ProcessorBase, 
                    public Notifier::Notifiable {
+        Sorter() = delete;
         Sorter(const Sorter&) = delete;
         Sorter& operator=(const Sorter&) = delete;
     public:
         virtual ~Sorter();
         Sorter(const std::shared_ptr<PatternMatcher::PatternMatchingMachine<Job, Pattern, Sorter>>& matcher,
                const std::shared_ptr<Collections::ICollection<std::string>>& jobs,
-               const std::shared_ptr<Notifier::NotifierBase>& notifier);
+               const std::shared_ptr<Notifier::INotifier>& notifier);
     public:
     protected:
         virtual bool process(); 

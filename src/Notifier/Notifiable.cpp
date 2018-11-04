@@ -19,25 +19,32 @@
 
 namespace Notifier {
     Notifiable::Notifiable()
-        : notifier(std::shared_ptr<Notifier::NotifierBase>(nullptr)) {
+        : notifier(std::shared_ptr<Notifier::INotifier>(nullptr)) {
     }
     
-    Notifiable::Notifiable(const std::shared_ptr<Notifier::NotifierBase>& notifier) 
+    Notifiable::Notifiable(const std::shared_ptr<Notifier::INotifier>& notifier) 
         : notifier(notifier) {
+    }
+    
+    void 
+    Notifiable::notify(const char* message) {
+        if (nullptr != notifier) {
+            notifier->notify(message);
+        }
     }
         
     void 
     Notifiable::notify(const std::string& message) {
         if (nullptr != notifier) {
-            std::stringstream message_stream;
-            message_stream << this << " " << message;
-            notify(message_stream);
+            notifier->notify(message);
         }
     }
     
     void 
     Notifiable::notify(std::stringstream& message) {
-        notifier->notify(message);
+        if (nullptr != notifier) {
+            notifier->notify(message);
+        }
     }
         
 } /* namespace Notifier */
