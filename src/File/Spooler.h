@@ -20,30 +20,79 @@
 #include "Processors/ProcessorBase.h"
 
 #include <chrono>
+#include <experimental/filesystem>
 #include <memory>
 #include <string>
 
+namespace fs = std::experimental::filesystem;
+
 namespace File {
-    
-   class Spooler : public Processors::ProcessorBase {
-        Spooler() = delete;
-        Spooler(const Spooler&) = delete;
+   
+    template <typename T = fs::path>
+    class Spooler : public Processors::ProcessorBase {
+         Spooler() = delete;
+         Spooler(const Spooler&) = delete;
     public:
-        virtual ~Spooler() = default;
-        Spooler(const std::string& directory,
-                const std::string& trigger,
-                const std::string& busy_extension,
-                const std::chrono::seconds& sleep_time,
-                const std::shared_ptr<Collections::ICollection<std::string>>& collection);
-   protected:
-       virtual bool process();
+         virtual ~Spooler() = default;
+         Spooler(const std::string& directory,
+                 const std::string& trigger,
+                 const std::string& spooled_extension,
+                 const std::chrono::seconds& sleep_time,
+                 const std::shared_ptr<Collections::ICollection<T>>& collection);
+    protected:
+        virtual bool process();
     private:
-        std::string __directory;
-        std::string __trigger;
-        std::string __busy_extension;
-        std::shared_ptr<Collections::ICollection<std::string>> __collection;
-        
+         std::string __directory;
+         std::string __trigger;
+         std::string __spooled_extension;
+         std::shared_ptr<Collections::ICollection<T>> __collection;
+
     }; /* class Spooler */
+    
+    template <typename T>
+    Spooler<T>::Spooler(const std::string& directory,
+                     const std::string& trigger,
+                     const std::string& spooled_extension,
+                     const std::chrono::seconds& sleep_time,
+                     const std::shared_ptr<Collections::ICollection<T>>& collection)
+            : Processors::ProcessorBase(sleep_time), 
+              __directory(directory), 
+              __trigger(trigger), 
+              __spooled_extension(spooled_extension), 
+              __collection(collection) {
+    }
+    
+    template <typename T>
+    bool 
+    Spooler<T>::process() {
+        if (!fs::exists(__directory)) {
+            throw std::runtime_error("Spooler::process() directory does not exist");
+        }
+        
+        bool result = false;
+        for (const auto& item: fs::directory_iterator(__directory)) {
+            if (item.path().extension() == __trigger) {
+                if (!result) {
+                    result = true;
+                }
+                
+                std::string new_filename = __directory + 
+                                            item.path().stem().c_str() +
+                                            __spooled_extension;
+                fs::path new_path(new_filename);
+                
+                try {
+                    fs::rename(item, new_path);
+                } catch (const fs::filesystem_error& e) {
+                    return false;
+                }
+                
+                __collection->push(new_path);
+            }
+        }
+        
+        return result;
+    } 
     
 } /* namespace File */
 

@@ -15,8 +15,11 @@
 #define SORTER_JOB_H
 
 #include <boost/property_tree/ptree.hpp>
+#include <experimental/filesystem>
 #include <iostream>
 #include <string>
+
+namespace fs = std::experimental::filesystem;
 
 namespace pt = boost::property_tree;
 
@@ -24,14 +27,17 @@ namespace Sorter {
     struct Job {
         unsigned long long id;
         std::string document;
-        std::string filename;
+        fs::path file;
         
+        Job() = default;
+        Job(const fs::path& path);
         std::string::const_iterator begin() const;
         std::string::const_iterator end() const;
         
         bool operator<(const Job& rhs) const;
         bool operator==(const Job& rhs) const;
         bool operator!=(const Job& rhs) const;
+        Job& operator=(const fs::path& path);
         Job& operator<<(const boost::property_tree::ptree& rhs);
         
     }; /* struct Job */

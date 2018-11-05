@@ -11,15 +11,19 @@
  * Created on 04 October 2018, 10:52 PM
  */
 
-#include "Sorter/Settings/SorterSettings.h"
-#include "Sorter/SortingMachine.h"
+#include "Collections/ICollection.h"
+#include "Collections/ConcurrentQueue.h"
+#include "File/Spooler.h"
+#include "Sorter/Job.h"
 
 #include <iostream>
+#include <thread>
 
 int main(int argc, char** argv) {
     std::cout << "Starting Chronos-Sorter..." << std::endl;
-    Sorter::Settings::SorterSettings settings;
-    Sorter::SortingMachine sm(settings);
+ 
+    
+    spooler.start();
     
     return 0;
 }

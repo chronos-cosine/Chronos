@@ -33,26 +33,26 @@ namespace File {
         JsonDataReader(const JsonDataReader&) = delete;
         JsonDataReader& operator=(const JsonDataReader&) = delete;
     public:
-        static std::unique_ptr<T> read(const std::string& filename);
+        static std::unique_ptr<T> read(const fs::path& file);
     private:
-        static void validate_filename(const std::string& filename);
+        static void validate_filename(const fs::path& file);
         
     }; /* class JsonDataReader */
     
     template <typename T>
     void 
-    JsonDataReader<T>::validate_filename(const std::string& filename) {
-        if (!fs::exists(filename)) {
+    JsonDataReader<T>::validate_filename(const fs::path& file) {
+        if (!fs::exists(file)) {
             throw std::runtime_error("JsonDataReader::validate_filename() file does not exist");
         }
     }
     
     template <typename T>
     std::unique_ptr<T> 
-    JsonDataReader<T>::read(const std::string& filename) {
-        validate_filename(filename);
+    JsonDataReader<T>::read(const fs::path& path) {
+        validate_filename(path);
         
-        std::ifstream file(filename);
+        std::ifstream file(path);
         if (!file.is_open()) {
             throw std::runtime_error("JsonDataReader<T>::read() The file could not be opened");
         }

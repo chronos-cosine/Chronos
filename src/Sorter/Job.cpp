@@ -14,6 +14,9 @@
 #include "Job.h"
 
 #include "File/JsonDataWriter.h"
+#include "File/JsonDataReader.h"
+
+#include <memory>
 
 namespace Sorter {
     
@@ -48,6 +51,20 @@ namespace Sorter {
     std::string::const_iterator 
     Job::end() const {
         return document.end();
+    }
+    
+    Job::Job(const fs::path& path) {
+        *this = path;
+    }
+    
+    Job& 
+    Job::operator=(const fs::path& path) {
+        std::unique_ptr<Job> temp = File::JsonDataReader<Job>::read(path);
+        id = temp->id;
+        document = temp->document;
+        file = path;
+        
+        return *this;
     }
     
     std::ostream& 
