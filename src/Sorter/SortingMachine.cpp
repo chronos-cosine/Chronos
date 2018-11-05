@@ -26,7 +26,7 @@
 namespace Sorter {
     
     SortingMachine::SortingMachine(const Settings::SorterSettings& sorter_settings) 
-      : jobs(std::make_shared<Collections::ConcurrentQueue<Job>>()),
+      : __jobs(std::make_shared<Collections::ConcurrentQueue<Job>>()),
         __is_running(false),
         __bins(std::make_shared<std::map<unsigned long long, Bin>>()),
         __patterns(std::make_shared<std::map<unsigned long long, Pattern>>()),  
@@ -69,7 +69,7 @@ namespace Sorter {
                     spooler_settings.trigger_extension,
                     spooler_settings.busy_extension,
                     std::chrono::seconds(5),
-                    jobs));
+                    __jobs));
         }
     }
     
@@ -77,7 +77,10 @@ namespace Sorter {
     SortingMachine::create_sorters(const Settings::SorterSettings& sorter_settings) {
         for (unsigned short i = 0; i < sorter_settings.sorter_instances; ++i) {
             __sorters.push_back(
-                std::make_shared<Sorter>());
+                std::make_shared<Sorter>(__bins,
+                                         __patterns,
+                                         __bin_patterns,
+                                         __jobs));
         }
     }
     

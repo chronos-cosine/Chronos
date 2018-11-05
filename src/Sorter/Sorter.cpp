@@ -13,10 +13,19 @@
 
 #include "Sorter.h"
 
+#include <memory>
+#include <map>
+#include <set>
+
 namespace Sorter {
     
-    Sorter::Sorter() {
-        
+    Sorter::Sorter(std::shared_ptr<std::map<unsigned long long, Bin>> bins,
+               std::shared_ptr<std::map<unsigned long long, Pattern>> patterns,
+               std::shared_ptr<std::map<unsigned long long, std::map<BooleanOperator, 
+                        std::set<Pattern>>>> bin_patterns,
+               std::shared_ptr<Collections::ICollection<Job>> jobs) 
+        : __bins(bins), __patterns(patterns), __bin_patterns(bin_patterns),
+          __jobs(jobs) {
     }
     
     bool 

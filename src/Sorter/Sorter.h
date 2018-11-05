@@ -14,7 +14,16 @@
 #ifndef SORTER_SORTER_H
 #define SORTER_SORTER_H
 
+#include "Collections/ICollection.h"
 #include "Processors/ProcessorBase.h"
+#include "Sorter/BooleanOperator.h"
+#include "Sorter/Bin.h"
+#include "Sorter/Job.h"
+#include "Sorter/Pattern.h"
+
+#include <memory>
+#include <map>
+#include <set>
 
 namespace Sorter {
     
@@ -22,10 +31,19 @@ namespace Sorter {
         Sorter(const Sorter&) = delete;
     public:
         virtual ~Sorter() = default;
-        Sorter();
+        Sorter(std::shared_ptr<std::map<unsigned long long, Bin>> bins,
+               std::shared_ptr<std::map<unsigned long long, Pattern>> patterns,
+               std::shared_ptr<std::map<unsigned long long, std::map<BooleanOperator, 
+                        std::set<Pattern>>>> bin_patterns,
+               std::shared_ptr<Collections::ICollection<Job>> jobs);
     protected:
         virtual bool process();
     private:
+        std::shared_ptr<std::map<unsigned long long, Bin>> __bins;
+        std::shared_ptr<std::map<unsigned long long, Pattern>> __patterns;
+        std::shared_ptr<std::map<unsigned long long, std::map<BooleanOperator, 
+                        std::set<Pattern>>>> __bin_patterns;
+        std::shared_ptr<Collections::ICollection<Job>> __jobs;
 
     };
 } /* namespace Sorter */

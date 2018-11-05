@@ -53,7 +53,7 @@ namespace Sorter {
     private:
         std::mutex __mutex;
         bool __is_running;
-        std::shared_ptr<Collections::ICollection<Job>> jobs;
+        std::shared_ptr<Collections::ICollection<Job>> __jobs;
         std::vector<std::shared_ptr<File::Spooler<Job>>> __spoolers;
         std::vector<std::thread> __spooler_threads;
         std::vector<std::shared_ptr<Sorter>> __sorters;
