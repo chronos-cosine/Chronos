@@ -23,8 +23,8 @@ namespace Processors {
         virtual ~IProcessor() = default;
         IProcessor() = default;
         
-        virtual void start() = 0;
-        virtual void stop() = 0;
+        virtual bool start() = 0;
+        virtual bool stop() = 0;
         virtual bool get_is_running() const = 0; 
         virtual bool get_is_executing() const = 0;
         virtual bool get_is_stopping() const = 0;

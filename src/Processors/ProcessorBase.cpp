@@ -36,13 +36,12 @@ namespace Processors {
     
     bool 
     ProcessorBase::set_is_running(const bool& value) {
-        std::lock_guard<std::mutex> lock (__mutex);
+        std::lock_guard<std::mutex> lock(__mutex);
         
-        if (__is_running != value) {
+        if (__is_running != value && !__is_stopping) { 
             __is_running = value;
             __is_stopping = !__is_running;
-            
-            return true;
+            return true; 
         }
         
         return false;
@@ -75,10 +74,10 @@ namespace Processors {
         return __is_stopping;
     }
     
-    void
+    bool
     ProcessorBase::start() {
         if (!set_is_running(true)) {
-            return;
+            return false;
         }
         
         while (__is_running) {
@@ -91,11 +90,12 @@ namespace Processors {
         }
         
         __is_stopping = false;
+        return true;
     } 
     
-    void 
+    bool 
     ProcessorBase::stop() {
-        set_is_running(false);
+        return set_is_running(false);
     }
 
 } /* namespace Processors */

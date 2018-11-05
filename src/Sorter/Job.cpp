@@ -59,11 +59,7 @@ namespace Sorter {
     
     Job& 
     Job::operator=(const fs::path& path) {
-        std::unique_ptr<Job> temp = File::JsonDataReader<Job>::read(path);
-        id = temp->id;
-        document = temp->document;
-        file = path;
-        
+        *this = std::move(*File::JsonDataReader<Job>::read(path)); 
         return *this;
     }
     

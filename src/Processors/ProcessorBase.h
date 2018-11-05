@@ -34,8 +34,8 @@ namespace Processors {
         ProcessorBase();
         ProcessorBase(const std::chrono::seconds& sleep_time);
         
-        virtual void start();
-        virtual void stop();
+        virtual bool start();
+        virtual bool stop();
         
         bool get_is_stopping() const;
         bool get_is_running() const; 
