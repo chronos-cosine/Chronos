@@ -63,6 +63,37 @@ namespace Sorter {
         return *this;
     }
     
+    //friend operators
+    bool
+    operator<(const std::shared_ptr<Job>& lhs, const std::shared_ptr<Job>& rhs) {
+        if (nullptr == lhs && nullptr == rhs) {
+            return false;
+        } else if (nullptr == lhs) {
+            return true;
+        } else if (nullptr == rhs) {
+            return false;
+        }
+        
+        return *lhs < *rhs;
+    }
+    
+    bool
+    operator==(const std::shared_ptr<Job>& lhs, const std::shared_ptr<Job>& rhs) {
+        if (nullptr == lhs && nullptr == rhs) {
+            return true;
+        } else if (nullptr == lhs || nullptr == rhs) {
+            return false;
+        }
+        
+        return *lhs == *rhs;
+    }
+    
+    bool
+    operator!=(const std::shared_ptr<Job>& lhs, const std::shared_ptr<Job>& rhs) {
+        return !(lhs == rhs);
+    }
+
+    
     std::ostream& 
     operator<<(std::ostream& lhs, const Job& rhs) {
         File::JsonDataWriter<Job>::write(lhs, rhs);
@@ -85,6 +116,18 @@ namespace std {
         std::size_t 
         operator()(const Sorter::Job& job) const {
             return std::hash<unsigned long long>{}(job.id);
+        }
+    };
+    
+    template <>
+    struct hash<std::shared_ptr<Sorter::Job>> {
+        std::size_t 
+        operator()(const std::shared_ptr<Sorter::Job>& job) const {
+            if (nullptr == job)
+            {
+                return 0;
+            }
+            return std::hash<unsigned long long>{}(job->id);
         }
     };
 }

@@ -29,6 +29,7 @@ namespace Sorter {
             PatternSettings pattern_settings;
             ResultSettings result_settings;
             SpoolerSettings spooler_settings;
+            unsigned short sorter_instances;
         }; /* struct SorterSettings */
     
     } /* namespace Settings */

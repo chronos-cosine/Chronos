@@ -28,11 +28,12 @@ namespace Sorter {
             
         return id < rhs.id;
     }
-
+    
     bool 
     Bin::operator==(const Bin& rhs) const {
         return id == rhs.id;
     }
+    
 
     bool 
     Bin::operator!=(const Bin& rhs) const {
@@ -66,8 +67,39 @@ namespace Sorter {
         
         return *this;
     }
+    
+    //friend operators
+    bool
+    operator<(const std::shared_ptr<Bin>& lhs, const std::shared_ptr<Bin>& rhs) {
+        if (nullptr == lhs && nullptr == rhs) {
+            return false;
+        } else if (nullptr == lhs) {
+            return true;
+        } else if (nullptr == rhs) {
+            return false;
+        }
+        
+        return *lhs < *rhs;
+    }
 
-    std::ostream& operator<<(std::ostream& lhs, const Bin& rhs) {
+    bool
+    operator==(const std::shared_ptr<Bin>& lhs, const std::shared_ptr<Bin>& rhs) {
+        if (nullptr == lhs && nullptr == rhs) {
+            return true;
+        } else if (nullptr == lhs || nullptr == rhs) {
+            return false;
+        }
+        
+        return *lhs == *rhs;
+    }
+    
+    bool
+    operator!=(const std::shared_ptr<Bin>& lhs, const std::shared_ptr<Bin>& rhs) {
+        return !(lhs == rhs);
+    }
+
+    std::ostream& 
+    operator<<(std::ostream& lhs, const Bin& rhs) {
         File::JsonDataWriter<Bin>::write(lhs, rhs);
         return lhs;
     }
@@ -92,4 +124,16 @@ namespace std {
             return std::hash<unsigned long long>{}(bin.id);
         }
     };
+    
+    template <>
+    struct hash<std::shared_ptr<Sorter::Bin>> {
+        std::size_t 
+        operator()(const std::shared_ptr<Sorter::Bin>& bin) const {
+            if (nullptr == bin) {
+                return 0;
+            }
+            return std::hash<unsigned long long>{}(bin->id);
+        }
+    };
+    
 } /* namespace std */
