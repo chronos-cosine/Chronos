@@ -23,14 +23,16 @@ namespace Sorter {
                std::shared_ptr<std::map<unsigned long long, Pattern>> patterns,
                std::shared_ptr<std::map<unsigned long long, std::map<BooleanOperator, 
                         std::set<Pattern>>>> bin_patterns,
-               std::shared_ptr<Collections::ICollection<Job>> jobs) 
+               std::shared_ptr<Collections::IConcurrentCollection<Job>> jobs) 
         : __bins(bins), __patterns(patterns), __bin_patterns(bin_patterns),
           __jobs(jobs) {
     }
     
-    bool 
+    bool
     Sorter::process() {
-        return false;
-    } 
+        Job job = std::move(__jobs->pop());
+        
+        return true;
+    }
     
 } /* namespace Sorter */ 

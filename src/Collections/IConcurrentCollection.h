@@ -22,11 +22,11 @@
 namespace Collections {
     
     template <typename T>
-    class ICollection {
-        ICollection(const ICollection&) = delete;
+    class IConcurrentCollection {
+        IConcurrentCollection(const IConcurrentCollection&) = delete;
     public:
-        virtual ~ICollection() = default;
-        ICollection() = default;
+        virtual ~IConcurrentCollection() = default;
+        IConcurrentCollection() = default;
         
         virtual void push(T item) = 0;
         virtual T pop() = 0;

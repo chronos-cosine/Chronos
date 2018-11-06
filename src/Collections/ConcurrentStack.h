@@ -14,7 +14,7 @@
 #ifndef COLLECTIONS_CONCURRENTSTACK_H
 #define COLLECTIONS_CONCURRENTSTACK_H
 
-#include "Collections/ICollection.h"
+#include "Collections/IConcurrentCollection.h"
 #include "Collections/CollectionType.h"
 #include <condition_variable>
 #include <mutex>
@@ -23,7 +23,7 @@
 namespace Collections {
 
     template <typename T>
-    class ConcurrentStack : public ICollection<T> {
+    class ConcurrentStack : public IConcurrentCollection<T> {
         ConcurrentStack(const ConcurrentStack&) = delete;
     private:
         std::stack<T> stack;

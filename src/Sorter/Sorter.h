@@ -14,7 +14,7 @@
 #ifndef SORTER_SORTER_H
 #define SORTER_SORTER_H
 
-#include "Collections/ICollection.h"
+#include "Collections/IConcurrentCollection.h"
 #include "Processors/ProcessorBase.h"
 #include "Sorter/BooleanOperator.h"
 #include "Sorter/Bin.h"
@@ -35,7 +35,7 @@ namespace Sorter {
                std::shared_ptr<std::map<unsigned long long, Pattern>> patterns,
                std::shared_ptr<std::map<unsigned long long, std::map<BooleanOperator, 
                         std::set<Pattern>>>> bin_patterns,
-               std::shared_ptr<Collections::ICollection<Job>> jobs);
+               std::shared_ptr<Collections::IConcurrentCollection<Job>> jobs);
     protected:
         virtual bool process();
     private:
@@ -43,7 +43,7 @@ namespace Sorter {
         std::shared_ptr<std::map<unsigned long long, Pattern>> __patterns;
         std::shared_ptr<std::map<unsigned long long, std::map<BooleanOperator, 
                         std::set<Pattern>>>> __bin_patterns;
-        std::shared_ptr<Collections::ICollection<Job>> __jobs;
+        std::shared_ptr<Collections::IConcurrentCollection<Job>> __jobs;
 
     };
 } /* namespace Sorter */

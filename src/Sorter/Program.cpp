@@ -11,7 +11,7 @@
  * Created on 04 October 2018, 10:52 PM
  */
 
-#include "Collections/ICollection.h"
+#include "Collections/IConcurrentCollection.h"
 #include "Collections/ConcurrentQueue.h"
 #include "File/Spooler.h"
 #include "Sorter/Job.h"
@@ -22,7 +22,7 @@
 int main(int argc, char** argv) {
     std::cout << "Starting Chronos-Sorter..." << std::endl;
     
-    std::shared_ptr<Collections::ICollection<Sorter::Job>> collection
+    std::shared_ptr<Collections::IConcurrentCollection<Sorter::Job>> collection
         = std::make_shared<Collections::ConcurrentQueue<Sorter::Job>>();
     File::Spooler<Sorter::Job> spooler("./2/",
                  ".sjob",".sbusy", std::chrono::seconds(5), collection);

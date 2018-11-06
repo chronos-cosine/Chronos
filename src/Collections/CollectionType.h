@@ -24,19 +24,7 @@ namespace Collections {
         LIFO = 1,
         SORTED = 2
     };
-    
-    static CollectionType to_collection_type(const std::string& value) {
-        if ("fifo" == value) {
-            return CollectionType::FIFO;
-        } else if ("lifo" == value) {
-            return CollectionType::LIFO;
-        } else if ("sorted" == value) {
-            return CollectionType::SORTED;
-        } else {
-            throw std::runtime_error("Collections::to_collection_type() collection type not yet supported");
-        }
-    }
-    
+        
 } /* namespace Collections */
 
 #endif /* COLLECTIONS_TYPE_H */

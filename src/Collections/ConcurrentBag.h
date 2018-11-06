@@ -14,7 +14,7 @@
 #ifndef COLLECTIONS_CONCURRENTBAG_H
 #define COLLECTIONS_CONCURRENTBAG_H
 
-#include "Collections/ICollection.h"
+#include "Collections/IConcurrentCollection.h"
 #include "Collections/CollectionType.h"
 #include <condition_variable>
 #include <mutex>
@@ -23,7 +23,7 @@
 namespace Collections {
 
     template <typename T>
-    class ConcurrentBag : public ICollection<T> {
+    class ConcurrentBag : public IConcurrentCollection<T> {
         ConcurrentBag(const ConcurrentBag&) = delete;
     private:
         std::set<T> set;
