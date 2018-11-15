@@ -29,6 +29,8 @@ namespace Sorter {
             bool operator==(const Bin& rhs) const noexcept;
             bool operator!=(const Bin& rhs) const noexcept;
             bool operator<(const Bin& rhs) const noexcept;
+            Bin& operator=(const Bin& rhs);
+            Bin& operator=(const Bin&& rhs);
         };
         
     } /* namespace Models */

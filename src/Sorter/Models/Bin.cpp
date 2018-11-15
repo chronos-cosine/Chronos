@@ -11,6 +11,8 @@
  * Created on 15 November 2018, 1:20 PM
  */
 
+#include <boost/operators.hpp>
+
 #include "Bin.h"
 
 namespace Sorter {
@@ -45,6 +47,26 @@ namespace Sorter {
             }
             
             return id < rhs.id;
+        }
+        
+        Bin& 
+        Bin::operator=(const Bin& rhs) {
+            id = rhs.id;
+            name = rhs.name;
+            if (rhs.is_root()) {
+                parent_id = boost::optional<unsigned long long>();
+            } else {
+                parent_id = boost::optional<unsigned long long>(rhs.parent_id.get());
+            }
+        }
+        
+        Bin& 
+        Bin::operator=(const Bin&& rhs) {
+            if (this != rhs) {
+                id = std::move(rhs.id);
+                name = std::move(rhs.name);
+                parent_id = std::move(rhs.parent_id);
+            }
         }
         
     } /* namespace Models */
