@@ -47,7 +47,7 @@ namespace Geometry {
     }
     
     void 
-    Polygon::update_extremes(const Point& point) {
+    Polygon::update_extremes(const Point& point) noexcept {
         if (__maximum_x < point.x) {
             __maximum_x = point.x;
         }
@@ -91,28 +91,28 @@ namespace Geometry {
     }
     
     Point 
-    Polygon::top_left() const {
+    Polygon::top_left() const noexcept {
         return Point(__minimum_x, __minimum_y);
     }
     
     Point 
-    Polygon::bottom_right() const {
+    Polygon::bottom_right() const noexcept {
         return Point(__maximum_x, __maximum_y);
     }
     
     Size 
-    Polygon::size() const {
+    Polygon::size() const noexcept {
         return Size(__maximum_x - __minimum_x, 
                     __maximum_y - __minimum_y);
     }
     
     std::vector<Point>::const_iterator 
-    Polygon::begin() {
+    Polygon::begin() noexcept {
         return __points.begin();
     }
     
     std::vector<Point>::const_iterator 
-    Polygon::end() {
+    Polygon::end() noexcept {
         return __points.end();
     }
    

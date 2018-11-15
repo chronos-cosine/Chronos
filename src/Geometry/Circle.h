@@ -28,13 +28,13 @@ namespace Geometry {
         Circle(const Circle& circle);
         Circle();
         
-        double area() const;
-        double diameter() const;
+        double area() const noexcept;
+        double diameter() const noexcept;
         
-        bool operator==(const Circle& rhs) const;
-        bool operator!=(const Circle& rhs) const;
-        bool operator<(const Circle& rhs) const;
-        bool operator>(const Circle& rhs) const;
+        bool operator==(const Circle& rhs) const noexcept;
+        bool operator!=(const Circle& rhs) const noexcept;
+        bool operator<(const Circle& rhs) const noexcept;
+        bool operator>(const Circle& rhs) const noexcept;
                 
         friend std::ostream& operator<<(std::ostream& lhs, const Circle& rhs);
     };

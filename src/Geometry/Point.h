@@ -26,14 +26,14 @@ namespace Geometry {
         Point(const Point& point);
         Point();
         
-        Point operator+(const Point& rhs) const;
-        Point& operator+=(const Point& rhs);
-        Point operator-(const Point& rhs) const;
-        Point& operator-=(const Point& rhs);
-        bool operator==(const Point& rhs) const;
-        bool operator!=(const Point& rhs) const;
-        bool operator<(const Point& rhs) const;
-        bool operator>(const Point& rhs) const;
+        Point operator+(const Point& rhs) const noexcept;
+        Point& operator+=(const Point& rhs) noexcept;
+        Point operator-(const Point& rhs) const noexcept;
+        Point& operator-=(const Point& rhs) noexcept;
+        bool operator==(const Point& rhs) const noexcept;
+        bool operator!=(const Point& rhs) const noexcept;
+        bool operator<(const Point& rhs) const noexcept;
+        bool operator>(const Point& rhs) const noexcept;
         
         friend std::ostream& operator<<(std::ostream& lhs, const Point& rhs);
     };

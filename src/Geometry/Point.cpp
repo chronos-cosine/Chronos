@@ -30,12 +30,12 @@ namespace Geometry {
     }
         
     Point
-    Point::operator+(const Point& rhs) const {
+    Point::operator+(const Point& rhs) const noexcept {
         return Point(x + rhs.x, y + rhs.y);
     }
     
     Point& 
-    Point::operator+=(const Point& rhs) {
+    Point::operator+=(const Point& rhs) noexcept {
         x += rhs.x;
         y += rhs.y;
         
@@ -43,12 +43,12 @@ namespace Geometry {
     }
     
     Point 
-    Point::operator-(const Point& rhs) const {
+    Point::operator-(const Point& rhs) const noexcept {
         return Point(x - rhs.x, y - rhs.y);
     }
     
     Point& 
-    Point::operator-=(const Point& rhs) {
+    Point::operator-=(const Point& rhs) noexcept {
         x -= rhs.x;
         y -= rhs.y;
         
@@ -56,25 +56,25 @@ namespace Geometry {
     }
     
     bool 
-    Point::operator==(const Point& rhs) const {
+    Point::operator==(const Point& rhs) const noexcept {
         return rhs.x == x
                && rhs.y == y;
     }
     
     
     bool 
-    Point::operator!=(const Point& rhs) const {
+    Point::operator!=(const Point& rhs) const noexcept {
         return !(*this == rhs);
     }
     
     bool 
-    Point::operator<(const Point& rhs) const {
+    Point::operator<(const Point& rhs) const noexcept {
         return x < rhs.x
                && y < rhs.y;
     }
         
     bool 
-    Point::operator>(const Point& rhs) const {
+    Point::operator>(const Point& rhs) const noexcept {
         return x > rhs.x
                && y > rhs.y;
     }

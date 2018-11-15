@@ -31,22 +31,22 @@ namespace Geometry {
     }
     
     double
-    Size::area() const {
+    Size::area() const noexcept {
         return width * height;
     }
     
     bool 
-    Size::is_square() const {
+    Size::is_square() const noexcept {
         return width == height;
     }
         
     Size
-    Size::operator+(const Size& rhs) const {
+    Size::operator+(const Size& rhs) const noexcept {
         return Size(width + rhs.width, height + rhs.height);
     }
     
     Size& 
-    Size::operator+=(const Size& rhs) {
+    Size::operator+=(const Size& rhs) noexcept {
         width += rhs.width;
         height += rhs.height;
         
@@ -54,12 +54,12 @@ namespace Geometry {
     }
     
     Size 
-    Size::operator-(const Size& rhs) const {
+    Size::operator-(const Size& rhs) const noexcept {
         return Size(width - rhs.width, height - rhs.height);
     }
     
     Size& 
-    Size::operator-=(const Size& rhs) {
+    Size::operator-=(const Size& rhs) noexcept {
         width -= rhs.width;
         height -= rhs.height;
         
@@ -67,25 +67,25 @@ namespace Geometry {
     }
     
     bool 
-    Size::operator==(const Size& rhs) const {
+    Size::operator==(const Size& rhs) const noexcept {
         return rhs.width == width
                && rhs.height == height;
     }
     
     
     bool 
-    Size::operator!=(const Size& rhs) const {
+    Size::operator!=(const Size& rhs) const noexcept {
         return !(*this == rhs);
     }
     
     bool 
-    Size::operator<(const Size& rhs) const {
+    Size::operator<(const Size& rhs) const noexcept {
         return width < rhs.width
                && height < rhs.height;
     }
         
     bool 
-    Size::operator>(const Size& rhs) const {
+    Size::operator>(const Size& rhs) const noexcept {
         return width > rhs.width
                && height > rhs.height;
     }

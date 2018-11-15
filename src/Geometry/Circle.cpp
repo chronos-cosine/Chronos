@@ -31,33 +31,33 @@ namespace Geometry {
     }
     
     double 
-    Circle::area() const {
+    Circle::area() const noexcept {
         return M_PI * radius * radius;
     }
     
     double 
-    Circle::diameter() const {
+    Circle::diameter() const noexcept {
         return radius * 2;
     }
     
     bool 
-    Circle::operator==(const Circle& rhs) const {
+    Circle::operator==(const Circle& rhs) const noexcept {
         return rhs.center == center
                && rhs.radius == radius;
     }
         
     bool 
-    Circle::operator!=(const Circle& rhs) const {
+    Circle::operator!=(const Circle& rhs) const noexcept {
         return !(*this == rhs);
     }
         
     bool 
-    Circle::operator<(const Circle& rhs) const {
+    Circle::operator<(const Circle& rhs) const noexcept {
         return radius < rhs.radius;
     }
         
     bool 
-    Circle::operator>(const Circle& rhs) const {
+    Circle::operator>(const Circle& rhs) const noexcept {
         return radius > rhs.radius;
     }
            

@@ -32,34 +32,34 @@ namespace Geometry {
     }
      
     double 
-    Rectangle::area() const {
+    Rectangle::area() const noexcept {
         return size.area();
     }
     
     bool
-    Rectangle::is_square() const {
+    Rectangle::is_square() const noexcept {
         return size.is_square();
     }
     
     bool 
-    Rectangle::operator==(const Rectangle& rhs) const {
+    Rectangle::operator==(const Rectangle& rhs) const noexcept {
         return point == rhs.point
                && size == rhs.size;
     }
     
     bool 
-    Rectangle::operator!=(const Rectangle& rhs) const {
+    Rectangle::operator!=(const Rectangle& rhs) const noexcept {
         return !(*this == rhs);
     }
     
     bool 
-    Rectangle::operator<(const Rectangle& rhs) const {
+    Rectangle::operator<(const Rectangle& rhs) const noexcept {
         return point < rhs.point
                && size < rhs.size;
     }
     
     bool 
-    Rectangle::operator>(const Rectangle& rhs) const {
+    Rectangle::operator>(const Rectangle& rhs) const noexcept {
         return point > rhs.point
                && size > rhs.size;
     }

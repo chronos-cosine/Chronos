@@ -26,17 +26,17 @@ namespace Geometry {
         Size(const Size& size);
         Size();
         
-        double area() const;
-        bool is_square() const;
+        double area() const noexcept;
+        bool is_square() const noexcept;
         
-        Size operator+(const Size& rhs) const;
-        Size& operator+=(const Size& rhs);
-        Size operator-(const Size& rhs) const;
-        Size& operator-=(const Size& rhs);
-        bool operator==(const Size& rhs) const;
-        bool operator!=(const Size& rhs) const;
-        bool operator<(const Size& rhs) const;
-        bool operator>(const Size& rhs) const;
+        Size operator+(const Size& rhs) const noexcept;
+        Size& operator+=(const Size& rhs) noexcept;
+        Size operator-(const Size& rhs) const noexcept;
+        Size& operator-=(const Size& rhs) noexcept;
+        bool operator==(const Size& rhs) const noexcept;
+        bool operator!=(const Size& rhs) const noexcept;
+        bool operator<(const Size& rhs) const noexcept;
+        bool operator>(const Size& rhs) const noexcept;
                 
         friend std::ostream& operator<<(std::ostream& lhs, const Size& rhs);
     };

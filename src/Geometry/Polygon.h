@@ -37,19 +37,19 @@ namespace Geometry {
         void push(const Point& point);
         void clear();
         double area() const;
-        Point top_left() const;
-        Point bottom_right() const;
-        Size size() const;
+        Point top_left() const noexcept;
+        Point bottom_right() const noexcept;
+        Size size() const noexcept;
         
-        std::vector<Point>::const_iterator begin();
-        std::vector<Point>::const_iterator end();
+        std::vector<Point>::const_iterator begin() noexcept;
+        std::vector<Point>::const_iterator end() noexcept;
         
         bool operator==(const Polygon& rhs);
         bool operator!=(const Polygon& rhs);
         bool operator<(const Polygon& rhs);
         bool operator>(const Polygon& rhs);
     private:
-        void update_extremes(const Point& point);
+        void update_extremes(const Point& point) noexcept;
     };
 
 }

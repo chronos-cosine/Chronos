@@ -29,13 +29,13 @@ namespace Geometry {
         Rectangle(const Rectangle& rectangle);
         Rectangle();
         
-        double area() const;
-        bool is_square() const;
+        double area() const noexcept;
+        bool is_square() const noexcept;
         
-        bool operator==(const Rectangle& rhs) const;
-        bool operator!=(const Rectangle& rhs) const;
-        bool operator<(const Rectangle& rhs) const;
-        bool operator>(const Rectangle& rhs) const;
+        bool operator==(const Rectangle& rhs) const noexcept;
+        bool operator!=(const Rectangle& rhs) const noexcept;
+        bool operator<(const Rectangle& rhs) const noexcept;
+        bool operator>(const Rectangle& rhs) const noexcept;
                 
         friend std::ostream& operator<<(std::ostream& lhs, const Rectangle& rhs);
     };
