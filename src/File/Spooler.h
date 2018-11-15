@@ -14,7 +14,7 @@
 #ifndef FILE_SPOOLER_H
 #define FILE_SPOOLER_H
 
-#include "Collections/IConcurrentCollection.h"
+#include "Collections/ICollection.h"
 #include "Notifier/Notifiable.h"
 #include "Notifier/INotifier.h"
 #include "Processors/ProcessorBase.h"
@@ -38,14 +38,14 @@ namespace File {
                  const std::string& trigger,
                  const std::string& spooled_extension,
                  const std::chrono::seconds& sleep_time,
-                 const std::shared_ptr<Collections::IConcurrentCollection<T>>& collection);
+                 const std::shared_ptr<Collections::ICollection<T>>& collection);
     protected:
         virtual bool process();
     private:
          std::string __directory;
          std::string __trigger;
          std::string __spooled_extension;
-         std::shared_ptr<Collections::IConcurrentCollection<T>> __collection;
+         std::shared_ptr<Collections::ICollection<T>> __collection;
 
     }; /* class Spooler */
     
@@ -54,7 +54,7 @@ namespace File {
                      const std::string& trigger,
                      const std::string& spooled_extension,
                      const std::chrono::seconds& sleep_time,
-                     const std::shared_ptr<Collections::IConcurrentCollection<T>>& collection)
+                     const std::shared_ptr<Collections::ICollection<T>>& collection)
             : Processors::ProcessorBase(sleep_time), 
               __directory(directory), 
               __trigger(trigger), 

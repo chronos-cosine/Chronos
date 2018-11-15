@@ -13,7 +13,7 @@
 
 #include "SortingMachine.h"
 
-#include "Collections/ConcurrentQueue.h"
+#include "Collections/Concurrent/Queue.h"
 #include "File/DataReader.h"
 #include "File/Spooler.h"
 #include "Sorter/Settings/SpoolerSettings.h"
@@ -26,7 +26,7 @@
 namespace Sorter {
     
     SortingMachine::SortingMachine(const Settings::SorterSettings& sorter_settings) 
-      : __jobs(std::make_shared<Collections::ConcurrentQueue<Job>>()),
+      : __jobs(std::make_shared<Collections::Concurrent::Queue<Job>>()),
         __is_running(false),
         __bins(std::make_shared<std::map<unsigned long long, Bin>>()),
         __patterns(std::make_shared<std::map<unsigned long long, Pattern>>()),  
