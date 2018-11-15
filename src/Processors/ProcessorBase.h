@@ -35,15 +35,15 @@ namespace Processors {
         ProcessorBase(const std::chrono::seconds& sleep_time);
         
         virtual bool start();
-        virtual bool stop();
+        virtual bool stop() noexcept;
         
-        bool get_is_stopping() const;
-        bool get_is_running() const; 
-        bool get_is_executing() const;
+        bool get_is_stopping() const noexcept;
+        bool get_is_running() const noexcept; 
+        bool get_is_executing() const noexcept;
     protected:
-        bool set_is_stopping(const bool& value);
+        bool set_is_stopping(const bool& value) noexcept;
     private:
-        bool set_is_running(const bool& value);
+        bool set_is_running(const bool& value) noexcept;
         
     }; /* class ProcessorBase */
 

@@ -25,7 +25,10 @@ namespace Collections {
         
         template <typename T>
         class Bag : public ICollection<T> {
-            Bag(const Bag&) = delete;
+            Bag(const Bag&) = delete; 
+            Bag& operator=(const Bag&) = delete;
+            Bag(const Bag&&) = delete; 
+            Bag& operator=(const Bag&&) = delete;
         private:
             std::set<T> set;
             std::mutex mutex;
@@ -34,17 +37,17 @@ namespace Collections {
             virtual ~Bag() = default;
             Bag() = default;
 
-            virtual void push(T item);
-            virtual T pop();
-            virtual bool empty() const;
-            virtual CollectionType get_collection_type() const;
-            typename std::set<T>::size_type size() const;
+            virtual void push(T item) noexcept;
+            virtual T pop() noexcept;
+            virtual bool empty() const noexcept;
+            virtual CollectionType get_collection_type() const noexcept;
+            typename std::set<T>::size_type size() const noexcept;
 
         }; /* class Bag */
 
         template <typename T>
         void 
-        Bag<T>::push(T item) {
+        Bag<T>::push(T item) noexcept {
             std::lock_guard<std::mutex> lock(mutex);
 
             set.insert(std::move(item));
@@ -53,7 +56,7 @@ namespace Collections {
 
         template <typename T>
         T 
-        Bag<T>::pop() {
+        Bag<T>::pop() noexcept {
             std::unique_lock<std::mutex> lock(mutex);
 
             condition_variable.wait(lock, [this] { 
@@ -67,19 +70,19 @@ namespace Collections {
 
         template <typename T>
         bool 
-        Bag<T>::empty() const {
+        Bag<T>::empty() const noexcept {
             return set.empty();
         } 
 
         template <typename T>
         CollectionType 
-        Bag<T>::get_collection_type() const {
+        Bag<T>::get_collection_type() const noexcept {
             return Collections::CollectionType::SORTED;
         }
 
         template <typename T>
         typename std::stack<T>::size_type 
-        Bag<T>::size() const {
+        Bag<T>::size() const noexcept {
             return set.size();
         }
 

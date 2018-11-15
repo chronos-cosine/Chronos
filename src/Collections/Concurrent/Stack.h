@@ -26,6 +26,9 @@ namespace Collections {
         template <typename T>
         class Stack : public ICollection<T> {
             Stack(const Stack&) = delete;
+            Stack& operator=(const Stack&) = delete;
+            Stack(const Stack&&) = delete; 
+            Stack& operator=(const Stack&&) = delete;
         private:
             std::stack<T> stack;
             std::mutex mutex;
@@ -34,17 +37,17 @@ namespace Collections {
             virtual ~Stack() = default;
             Stack() = default;
 
-            virtual void push(T item);
-            virtual T pop();
-            virtual bool empty() const;
-            virtual CollectionType get_collection_type() const;
-            typename std::stack<T>::size_type size() const;
+            virtual void push(T item) noexcept;
+            virtual T pop() noexcept;
+            virtual bool empty() const noexcept;
+            virtual CollectionType get_collection_type() const noexcept;
+            typename std::stack<T>::size_type size() const noexcept;
 
         }; /* class Stack */
 
         template <typename T>
         void 
-        Stack<T>::push(T item) {
+        Stack<T>::push(T item) noexcept {
             std::lock_guard<std::mutex> lock(mutex);
 
             stack.push(std::move(item));
@@ -53,7 +56,7 @@ namespace Collections {
 
         template <typename T>
         T 
-        Stack<T>::pop() {
+        Stack<T>::pop() noexcept {
             std::unique_lock<std::mutex> lock(mutex);
 
             condition_variable.wait(lock, [this] { 
@@ -67,7 +70,7 @@ namespace Collections {
 
         template <typename T>
         bool 
-        Stack<T>::empty() const {
+        Stack<T>::empty() const noexcept {
             return stack.empty();
         } 
 
@@ -79,7 +82,7 @@ namespace Collections {
 
         template <typename T>
         typename std::stack<T>::size_type 
-        Stack<T>::size() const {
+        Stack<T>::size() const noexcept {
             return stack.size();
         }
     

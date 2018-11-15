@@ -16,25 +16,6 @@ find_package(Boost REQUIRED COMPONENTS filesystem)
 if(Boost_FOUND) 
     set (Sorter_SOURCES
         "${CMAKE_CURRENT_LIST_DIR}/Program.cpp"
-        "${CMAKE_CURRENT_LIST_DIR}/Bin.cpp"
-        "${CMAKE_CURRENT_LIST_DIR}/Bin.h"
-        "${CMAKE_CURRENT_LIST_DIR}/BooleanOperator.h"
-        "${CMAKE_CURRENT_LIST_DIR}/Job.cpp"
-        "${CMAKE_CURRENT_LIST_DIR}/Job.h"
-        "${CMAKE_CURRENT_LIST_DIR}/Pattern.cpp"
-        "${CMAKE_CURRENT_LIST_DIR}/Pattern.h"
-        "${CMAKE_CURRENT_LIST_DIR}/Sorter.cpp"
-        "${CMAKE_CURRENT_LIST_DIR}/Sorter.h"
-        "${CMAKE_CURRENT_LIST_DIR}/SortingMachine.cpp"
-        "${CMAKE_CURRENT_LIST_DIR}/SortingMachine.h"
-        "${CHRONOS_SOURCE_ROOT}/File/CsvDataReader.h"
-        "${CHRONOS_SOURCE_ROOT}/File/DataReader.h"
-        "${CHRONOS_SOURCE_ROOT}/File/FileType.h"
-        "${CHRONOS_SOURCE_ROOT}/File/JsonDataReader.h"
-        "${CHRONOS_SOURCE_ROOT}/File/Spooler.h"
-        "${CHRONOS_SOURCE_ROOT}/Processors/IProcessor.h"
-        "${CHRONOS_SOURCE_ROOT}/Processors/ProcessorBase.cpp"
-        "${CHRONOS_SOURCE_ROOT}/Processors/ProcessorBase.h"
     )
 
     # creates the library 

@@ -26,6 +26,9 @@ namespace Collections {
         template <typename T>
         class Queue : public ICollection<T> {
             Queue(const Queue&) = delete;
+            Queue& operator=(const Queue&) = delete;
+            Queue(const Queue&&) = delete; 
+            Queue& operator=(const Queue&&) = delete;
         private:
             std::queue<T> queue;
             std::mutex mutex;
@@ -34,17 +37,17 @@ namespace Collections {
             virtual ~Queue() = default;
             Queue() = default;
 
-            virtual void push(T item);
-            virtual T pop();
-            virtual bool empty() const;
-            virtual CollectionType get_collection_type() const;
-            typename std::queue<T>::size_type size() const;
+            virtual void push(T item) noexcept;
+            virtual T pop() noexcept;
+            virtual bool empty() const noexcept;
+            virtual CollectionType get_collection_type() const noexcept;
+            typename std::queue<T>::size_type size() const noexcept;
 
         }; /* class Queue */
 
         template <typename T>
         void 
-        Queue<T>::push(T item) {
+        Queue<T>::push(T item) noexcept {
             std::lock_guard<std::mutex> lock(mutex);
 
             queue.push(std::move(item));
@@ -53,7 +56,7 @@ namespace Collections {
 
         template <typename T>
         T 
-        Queue<T>::pop() {
+        Queue<T>::pop() noexcept {
             std::unique_lock<std::mutex> lock(mutex);
 
             condition_variable.wait(lock, [this] { 
@@ -68,19 +71,19 @@ namespace Collections {
 
         template <typename T>
         bool 
-        Queue<T>::empty() const {
+        Queue<T>::empty() const noexcept {
             return queue.empty();
         }
 
         template <typename T>
         CollectionType 
-        Queue<T>::get_collection_type() const {
+        Queue<T>::get_collection_type() const noexcept {
             return Collections::CollectionType::FIFO;
         }
 
         template <typename T>
         typename std::queue<T>::size_type 
-        Queue<T>::size() const {
+        Queue<T>::size() const noexcept {
             return queue.size();
         } 
     

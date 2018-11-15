@@ -35,7 +35,7 @@ namespace Processors {
     }
     
     bool 
-    ProcessorBase::set_is_running(const bool& value) {
+    ProcessorBase::set_is_running(const bool& value) noexcept {
         std::lock_guard<std::mutex> lock(__mutex);
         
         if (__is_running != value && !__is_stopping) { 
@@ -48,7 +48,7 @@ namespace Processors {
     }
     
     bool 
-    ProcessorBase::set_is_stopping(const bool& value) {
+    ProcessorBase::set_is_stopping(const bool& value) noexcept {
         std::lock_guard<std::mutex> lock (__mutex);
         
         if (__is_stopping != value) {
@@ -60,17 +60,17 @@ namespace Processors {
     }
     
     bool 
-    ProcessorBase::get_is_running() const {
+    ProcessorBase::get_is_running() const noexcept {
         return __is_running;
     } 
     
     bool 
-    ProcessorBase::get_is_executing() const {
+    ProcessorBase::get_is_executing() const noexcept {
         return __is_running;
     } 
         
     bool 
-    ProcessorBase::get_is_stopping() const {
+    ProcessorBase::get_is_stopping() const noexcept {
         return __is_stopping;
     }
     
@@ -94,7 +94,7 @@ namespace Processors {
     } 
     
     bool 
-    ProcessorBase::stop() {
+    ProcessorBase::stop() noexcept {
         return set_is_running(false);
     }
 

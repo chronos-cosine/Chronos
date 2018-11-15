@@ -11,30 +11,11 @@
  * Created on 04 October 2018, 10:52 PM
  */
 
-#include "Collections/Concurrent/Queue.h"
-#include "File/Spooler.h"
-#include "Sorter/Job.h"
-
 #include <iostream>
 #include <thread>
 
 int main(int argc, char** argv) {
     std::cout << "Starting Chronos-Sorter..." << std::endl;
-    
-    std::shared_ptr<Collections::ICollection<Sorter::Job>> collection
-        = std::make_shared<Collections::Concurrent::Queue<Sorter::Job>>();
-    File::Spooler<Sorter::Job> spooler("./2/",
-                 ".sjob",".sbusy", std::chrono::seconds(5), collection);
-    
-    
-    std::thread t([collection]() {
-        while (true) {
-            auto item = collection->pop();
-            std::cout << item.id << std::endl;
-        }
-    });
-    t.detach();
-    spooler.start();
     
     return 0;
 }

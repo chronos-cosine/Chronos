@@ -24,14 +24,17 @@ namespace Collections {
     template <typename T>
     class ICollection {
         ICollection(const ICollection&) = delete;
+        ICollection& operator=(const ICollection&) = delete;
+        ICollection(const ICollection&&) = delete;
+        ICollection& operator=(const ICollection&&) = delete;
     public:
         virtual ~ICollection() = default;
         ICollection() = default;
         
-        virtual void push(T item) = 0;
-        virtual T pop() = 0;
-        virtual bool empty() const = 0;
-        virtual CollectionType get_collection_type() const = 0;
+        virtual void push(T item) noexcept = 0;
+        virtual T pop() noexcept = 0;
+        virtual bool empty() const noexcept = 0;
+        virtual CollectionType get_collection_type() const noexcept = 0;
         
     }; /* class ICollection */
     

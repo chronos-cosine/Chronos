@@ -15,8 +15,6 @@
 #define FILE_SPOOLER_H
 
 #include "Collections/ICollection.h"
-#include "Notifier/Notifiable.h"
-#include "Notifier/INotifier.h"
 #include "Processors/ProcessorBase.h"
 
 #include <chrono>
@@ -32,9 +30,12 @@ namespace File {
     class Spooler : public Processors::ProcessorBase {
          Spooler() = delete;
          Spooler(const Spooler&) = delete;
+         Spooler& operator=(const Spooler&) = delete;
+         Spooler(const Spooler&&) = delete;
+         Spooler& operator=(const Spooler&&) = delete;
     public:
          virtual ~Spooler() = default;
-         Spooler(const std::string& directory,
+         Spooler(const fs::path& directory,
                  const std::string& trigger,
                  const std::string& spooled_extension,
                  const std::chrono::seconds& sleep_time,
@@ -42,7 +43,7 @@ namespace File {
     protected:
         virtual bool process();
     private:
-         std::string __directory;
+         fs::path __directory;
          std::string __trigger;
          std::string __spooled_extension;
          std::shared_ptr<Collections::ICollection<T>> __collection;
@@ -50,7 +51,7 @@ namespace File {
     }; /* class Spooler */
     
     template <typename T>
-    Spooler<T>::Spooler(const std::string& directory,
+    Spooler<T>::Spooler(const fs::path& directory,
                      const std::string& trigger,
                      const std::string& spooled_extension,
                      const std::chrono::seconds& sleep_time,
@@ -76,7 +77,7 @@ namespace File {
                     result = true;
                 }
                 
-                std::string new_filename = __directory + 
+                std::string new_filename = __directory.string() + 
                                             item.path().stem().c_str() +
                                             __spooled_extension;
                 fs::path new_path(new_filename);
@@ -95,8 +96,6 @@ namespace File {
     } 
     
 } /* namespace File */
-
-
 
 #endif /* FILE_SPOOLER_H */
 
