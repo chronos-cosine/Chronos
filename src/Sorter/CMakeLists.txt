@@ -16,6 +16,8 @@ find_package(Boost REQUIRED COMPONENTS filesystem)
 if(Boost_FOUND) 
     set (Sorter_SOURCES
         "${CMAKE_CURRENT_LIST_DIR}/Program.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/Models/Bin.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/Models/Bin.h"
     )
 
     # creates the library 
