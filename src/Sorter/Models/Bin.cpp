@@ -15,6 +15,10 @@
 
 namespace Sorter {
     namespace Models {
+        bool
+        Bin::is_root() const noexcept {
+            return !parent_id.is_initialized();
+        }
         
         bool 
         Bin::operator==(const Bin& rhs) const noexcept {

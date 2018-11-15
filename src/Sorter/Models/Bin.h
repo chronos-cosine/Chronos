@@ -25,6 +25,7 @@ namespace Sorter {
             std::string name;
             boost::optional<unsigned long long> parent_id;
             
+            bool is_root() const noexcept;
             bool operator==(const Bin& rhs) const noexcept;
             bool operator!=(const Bin& rhs) const noexcept;
             bool operator<(const Bin& rhs) const noexcept;
