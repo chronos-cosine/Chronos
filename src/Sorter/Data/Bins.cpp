@@ -14,10 +14,19 @@
 #include <memory>
 
 #include "Bins.h"
+#include "File/CsvDataReader.h"
 
+namespace fs = std::experimental::filesystem;
 
 namespace Sorter {
     namespace Data {
+        
+        Bins::Bins(const fs::path& bins_file) {
+            auto bins = File::CsvDataReader::read<Sorter::Models::Bin>(bins_file);
+            for (auto& bin: *bins) {
+                add(std::make_shared<Sorter::Models::Bin>(std::move(bin)));
+            }
+        }
         
         Bins::PatternIterator 
         Bins::patterns(const std::shared_ptr<Sorter::Models::Bin>& bin, 

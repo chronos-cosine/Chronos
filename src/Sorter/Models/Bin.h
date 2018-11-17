@@ -31,6 +31,7 @@ namespace Sorter {
             bool operator!=(const Bin& rhs) const noexcept;
             bool operator<(const Bin& rhs) const noexcept;
             Bin& operator=(const Bin& rhs);
+            Bin& operator<<(const std::vector<std::string>& rhs);
         };
         
     } /* namespace Models */

@@ -18,10 +18,13 @@
 #include "Sorter/Models/BooleanOperator.h"
 #include "Sorter/Models/Pattern.h"
 
+#include <experimental/filesystem>
 #include <functional>
 #include <map>
 #include <memory>
 #include <set>
+
+namespace fs = std::experimental::filesystem;
 
 namespace Sorter {
     namespace Data {
@@ -67,6 +70,9 @@ namespace Sorter {
             }; /* class PatternIterator */
             
         public:
+            virtual ~Bins() = default;
+            Bins(const fs::path& bins_file);
+            
             PatternIterator patterns(const std::shared_ptr<Sorter::Models::Bin>& bin, 
                                 const Sorter::Models::BooleanOperator& boolean_operator);
             PatternIterator patterns_end();
@@ -81,8 +87,7 @@ namespace Sorter {
                         std::set<std::shared_ptr<Sorter::Models::Pattern>>>> __patterns;
             
         }; /* class Bins */
-        
-                
+                        
     } /* namespace Data */
 } /* namespace Sorter */
 

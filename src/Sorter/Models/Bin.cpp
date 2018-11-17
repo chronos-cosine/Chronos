@@ -11,7 +11,9 @@
  * Created on 15 November 2018, 1:20 PM
  */
 
-#include <boost/operators.hpp>
+#include <boost/optional.hpp>
+#include <string>
+#include <vector>
 
 #include "Bin.h"
 
@@ -57,6 +59,20 @@ namespace Sorter {
                 parent_id = boost::optional<unsigned long long>();
             } else {
                 parent_id = boost::optional<unsigned long long>(rhs.parent_id.get());
+            }
+            
+            return *this;
+        }
+        
+        Bin& 
+        Bin::operator<<(const std::vector<std::string>& rhs) {
+            id = std::stoull(rhs[0]);
+            name = rhs[1];
+            unsigned long long temp = std::stoull(rhs[2]);
+            if (temp > 0) {
+                parent_id = boost::optional<unsigned long long>(temp);
+            } else {
+                parent_id = boost::optional<unsigned long long>();
             }
             
             return *this;

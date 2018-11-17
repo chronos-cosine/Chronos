@@ -20,6 +20,7 @@ if(Boost_FOUND)
         "${CMAKE_CURRENT_LIST_DIR}/Data/Bins.h"
         "${CMAKE_CURRENT_LIST_DIR}/Data/DataContext.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/Data/DataContext.h"
+        "${CHRONOS_SOURCE_ROOT}/File/CsvDataReader.h"
         "${CMAKE_CURRENT_LIST_DIR}/Models/Bin.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/Models/Bin.h"
         "${CMAKE_CURRENT_LIST_DIR}/Models/BooleanOperator.h"
