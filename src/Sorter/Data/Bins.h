@@ -37,7 +37,7 @@ namespace Sorter {
             public:
                 ForwardIterator(Sorter::Data::Bins& bins);
                 ForwardIterator(const ForwardIterator& iter);
-                ForwardIterator() = default;
+                ForwardIterator();
                 
                 ForwardIterator& operator++();
                 ForwardIterator operator++(int);
@@ -46,7 +46,7 @@ namespace Sorter {
                 std::shared_ptr<Sorter::Models::Bin> operator*();
                 std::shared_ptr<Sorter::Models::Bin> operator->();
             private:
-                std::map<unsigned long long, std::shared_ptr<Sorter::Models::Bin>>::iterator __iter;
+                std::shared_ptr<std::map<unsigned long long, std::shared_ptr<Sorter::Models::Bin>>::iterator> __iter;
                 
             }; /*  class ForwardIterator */
             
@@ -65,7 +65,7 @@ namespace Sorter {
                 std::shared_ptr<Sorter::Models::Pattern> operator*();
                 std::shared_ptr<Sorter::Models::Pattern> operator->();
             private:  
-                std::set<std::shared_ptr<Sorter::Models::Pattern>>::iterator __iter;
+                std::shared_ptr<std::set<std::shared_ptr<Sorter::Models::Pattern>>::iterator> __iter;
                 
             }; /* class PatternIterator */
             

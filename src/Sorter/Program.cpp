@@ -11,11 +11,20 @@
  * Created on 04 October 2018, 10:52 PM
  */
 
+#include "Data/Bins.h"
+
 #include <iostream>
 #include <thread>
 
 int main(int argc, char** argv) {
     std::cout << "Starting Chronos-Sorter..." << std::endl;
+    auto bins = Sorter::Data::Bins("./bins.dat");
+    
+    for (auto iter = bins.begin();
+         iter != bins.end();
+         ++iter) {
+        std::cout << iter->id << std::endl;
+    }
     
     return 0;
 }

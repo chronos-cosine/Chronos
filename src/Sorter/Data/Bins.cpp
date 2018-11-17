@@ -11,10 +11,11 @@
  * Created on 16 November 2018, 8:51 PM
  */
 
-#include <memory>
-
 #include "Bins.h"
 #include "File/CsvDataReader.h"
+
+#include <iostream>
+#include <memory>
 
 namespace fs = std::experimental::filesystem;
 
@@ -30,7 +31,7 @@ namespace Sorter {
         
         Bins::PatternIterator 
         Bins::patterns(const std::shared_ptr<Sorter::Models::Bin>& bin, 
-                            const Sorter::Models::BooleanOperator& boolean_operator) {
+                       const Sorter::Models::BooleanOperator& boolean_operator) {
             return Bins::PatternIterator(*this, bin, boolean_operator);
         }
         
@@ -58,25 +59,30 @@ namespace Sorter {
         Bins::add(const std::shared_ptr<Sorter::Models::Pattern>& pattern) {
             __patterns[pattern->bin_id][pattern->boolean_operator].insert(pattern);
         }
+                
+        Bins::ForwardIterator::ForwardIterator()
+            : __iter(std::make_shared<std::map<unsigned long long, std::shared_ptr<Sorter::Models::Bin>>::iterator>(nullptr)) {
+        }
         
         Bins::ForwardIterator::ForwardIterator(Sorter::Data::Bins& bins)
-            : __iter(bins.__bins.begin()) {
-            
+            : __iter(std::make_shared<std::map<unsigned long long, std::shared_ptr<Sorter::Models::Bin>>::iterator>(bins.__bins.begin())) {
         }
         
         Bins::ForwardIterator::ForwardIterator(const ForwardIterator& iter)
-            : __iter(iter.__iter) {
+            : __iter(std::make_shared<std::map<unsigned long long, std::shared_ptr<Sorter::Models::Bin>>::iterator>(iter.__iter)) {
             
         }
         
         Bins::ForwardIterator& 
         Bins::ForwardIterator::operator++() {
-            ++__iter;
+            std::cout << "Bins::ForwardIterator::operator++()" <<std::endl;
+            ++*__iter;
             return *this;
         }
         
         Bins::ForwardIterator
         Bins::ForwardIterator::operator++(int) {
+            std::cout << "Bins::ForwardIterator::operator++(int)" <<std::endl;
             Bins::ForwardIterator temp(*this);
             operator++();
             return temp;
@@ -84,7 +90,7 @@ namespace Sorter {
                 
         bool 
         Bins::ForwardIterator::operator==(const Bins::ForwardIterator& rhs) const {
-            return __iter->first == rhs.__iter->first;
+            return (*__iter)->first == (*(rhs.__iter))->first;
         }
                 
         bool 
@@ -94,21 +100,25 @@ namespace Sorter {
                 
         std::shared_ptr<Sorter::Models::Bin>
         Bins::ForwardIterator::operator*() {
-            return __iter->second;
+            std::cout << "Bins::ForwardIterator::operator*()" <<std::endl;
+            return (*__iter)->second;
         }
                 
         std::shared_ptr<Sorter::Models::Bin>
         Bins::ForwardIterator::operator->() {
-            return __iter->second;
+            std::cout << "Bins::ForwardIterator::operator->()" <<std::endl;
+            return (*__iter)->second;
         }
         
         Bins::PatternIterator::PatternIterator(Sorter::Data::Bins& bins,
                                 const std::shared_ptr<Sorter::Models::Bin>& bin,
                                 const Sorter::Models::BooleanOperator& boolean_operator) {
             if (bins.__patterns.find(bin->id) == bins.__patterns.end()) {
-                __iter = bins.__patterns.begin()->second.begin()->second.end();
+                __iter = std::make_shared<std::set<std::shared_ptr<Sorter::Models::Pattern>>::iterator>(
+                        bins.__patterns.begin()->second.begin()->second.end());
             } else {
-                __iter = bins.__patterns[bin->id][boolean_operator].begin();
+                __iter = std::make_shared<std::set<std::shared_ptr<Sorter::Models::Pattern>>::iterator>(
+                        bins.__patterns[bin->id][boolean_operator].begin());
             }
         }
         
@@ -118,7 +128,7 @@ namespace Sorter {
                 
         Bins::PatternIterator& 
         Bins::PatternIterator::operator++() {
-            ++__iter;
+            ++*__iter;
             return *this;
         }
         
@@ -131,7 +141,7 @@ namespace Sorter {
         
         bool 
         Bins::PatternIterator::operator==(const PatternIterator& rhs) const {
-            return *__iter == *rhs.__iter;
+            return *__iter == *(rhs.__iter);
         }
         
         bool 
@@ -141,12 +151,12 @@ namespace Sorter {
         
         std::shared_ptr<Sorter::Models::Pattern>
         Bins::PatternIterator::operator*() {
-            return *__iter;
+            return *(*__iter);
         }
         
         std::shared_ptr<Sorter::Models::Pattern>
         Bins::PatternIterator::operator->() {
-            return *__iter;
+            return *(*__iter);
         }
    
     } /* namespace Data */
