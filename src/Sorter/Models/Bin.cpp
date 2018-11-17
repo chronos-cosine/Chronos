@@ -58,15 +58,8 @@ namespace Sorter {
             } else {
                 parent_id = boost::optional<unsigned long long>(rhs.parent_id.get());
             }
-        }
-        
-        Bin& 
-        Bin::operator=(const Bin&& rhs) {
-            if (this != rhs) {
-                id = std::move(rhs.id);
-                name = std::move(rhs.name);
-                parent_id = std::move(rhs.parent_id);
-            }
+            
+            return *this;
         }
         
     } /* namespace Models */

@@ -24,13 +24,13 @@ namespace Sorter {
             unsigned long long id;
             std::string name;
             boost::optional<unsigned long long> parent_id;
+                        
+            bool is_root() const noexcept; 
             
-            bool is_root() const noexcept;
             bool operator==(const Bin& rhs) const noexcept;
             bool operator!=(const Bin& rhs) const noexcept;
             bool operator<(const Bin& rhs) const noexcept;
             Bin& operator=(const Bin& rhs);
-            Bin& operator=(const Bin&& rhs);
         };
         
     } /* namespace Models */
