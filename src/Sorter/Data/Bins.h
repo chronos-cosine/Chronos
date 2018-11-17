@@ -30,56 +30,49 @@ namespace Sorter {
             Bins(const Bins&) = delete;
             Bins& operator=(const Bins&) = delete;
         
-            template <typename T>
-            class ForwardIterator : public std::iterator<std::input_iterator_tag, T> {
+            class ForwardIterator : public std::iterator<std::input_iterator_tag, Sorter::Models::Bin> {
             public:
-                ForwardIterator(const std::shared_ptr<Sorter::Data::Bins>& bins);
+                ForwardIterator(Sorter::Data::Bins& bins);
                 ForwardIterator(const ForwardIterator& iter);
+                ForwardIterator() = default;
                 
                 ForwardIterator& operator++();
                 ForwardIterator operator++(int);
                 bool operator==(const ForwardIterator& rhs) const;
                 bool operator!=(const ForwardIterator& rhs) const;
-                T& operator*() const;
-                T& operator->() const;
+                std::shared_ptr<Sorter::Models::Bin>& operator*();
+                std::shared_ptr<Sorter::Models::Bin>& operator->();
             private:
                 std::map<unsigned long long, std::shared_ptr<Sorter::Models::Bin>>::iterator __iter;
             }; /*  class ForwardIterator */
             
-            template <typename T>
-            class PatternIterator : public std::iterator<std::input_iterator_tag, T> {
+            class PatternIterator : public std::iterator<std::input_iterator_tag, Sorter::Models::Pattern> {
             public:
-                PatternIterator(const std::shared_ptr<Sorter::Data::Bins>& bins, 
+                PatternIterator(Sorter::Data::Bins& bins,
+                                const std::shared_ptr<Sorter::Models::Bin>& bin,
                                 const Sorter::Models::BooleanOperator& boolean_operator);
                 PatternIterator(const PatternIterator& iter);
+                PatternIterator() = default;
                 
                 PatternIterator& operator++();
                 PatternIterator operator++(int);
                 bool operator==(const PatternIterator& rhs) const;
                 bool operator!=(const PatternIterator& rhs) const;
-                T& operator*() const;
-                T& operator->() const;
+                std::shared_ptr<Sorter::Models::Pattern>& operator*();
+                std::shared_ptr<Sorter::Models::Pattern>& operator->();
             private:  
                 std::set<std::shared_ptr<Sorter::Models::Pattern>>::iterator __iter;
             }; /* class PatternIterator */
             
         public:
-            typedef ForwardIterator<Sorter::Models::Bin> iterator;
-            typedef ForwardIterator<const Sorter::Models::Bin> const_iterator;
-            typedef PatternIterator<Sorter::Models::Pattern> pattern_iterator;
-            typedef PatternIterator<const Sorter::Models::Pattern> const_pattern_iterator;
-            
-            pattern_iterator patterns(const std::shared_ptr<Sorter::Data::Bins>& bins, 
+            PatternIterator patterns(const std::shared_ptr<Sorter::Models::Bin>& bin, 
                                 const Sorter::Models::BooleanOperator& boolean_operator);
-            pattern_iterator patterns_end();
-            const_pattern_iterator patterns(const std::shared_ptr<Sorter::Data::Bins>& bins, 
-                                const Sorter::Models::BooleanOperator& boolean_operator) const;
-            const_pattern_iterator patterns_end() const;
+            PatternIterator patterns_end();
             
-            iterator begin();
-            const_iterator begin() const;
-            iterator end();
-            const_iterator end() const;
+            ForwardIterator begin();
+            ForwardIterator end();
+            void add(const std::shared_ptr<Sorter::Models::Bin>& bin);
+            void add(const std::shared_ptr<Sorter::Models::Pattern>& pattern);
         private:
             std::map<unsigned long long, std::shared_ptr<Sorter::Models::Bin>> __bins;
             std::map<unsigned long long, std::map<Sorter::Models::BooleanOperator,
@@ -87,108 +80,93 @@ namespace Sorter {
             
         }; /* class Bins */
         
-        template <typename T>
-        Bins::ForwardIterator<T>::ForwardIterator(const std::shared_ptr<Sorter::Data::Bins>& bins)
-            : __iter(bins->__bins.begin()) {
+        Bins::ForwardIterator::ForwardIterator(Sorter::Data::Bins& bins)
+            : __iter(bins.__bins.begin()) {
             
         }
         
-        template <typename T>
-        Bins::ForwardIterator<T>::ForwardIterator(const ForwardIterator& iter)
+        Bins::ForwardIterator::ForwardIterator(const ForwardIterator& iter)
             : __iter(iter.__iter) {
             
         }
         
-        template <typename T>
-        Bins::ForwardIterator<T>& 
-        Bins::ForwardIterator<T>::operator++() {
+        Bins::ForwardIterator& 
+        Bins::ForwardIterator::operator++() {
             ++__iter;
             return *this;
         }
         
-        template <typename T>
-        Bins::ForwardIterator<T>
-        Bins::ForwardIterator<T>::operator++(int) {
-            Bins::ForwardIterator<T> temp(*this);
+        Bins::ForwardIterator
+        Bins::ForwardIterator::operator++(int) {
+            Bins::ForwardIterator temp(*this);
             operator++();
             return temp;
         }
                 
-        template <typename T>
         bool 
-        Bins::ForwardIterator<T>::operator==(const Bins::ForwardIterator<T>& rhs) const {
+        Bins::ForwardIterator::operator==(const Bins::ForwardIterator& rhs) const {
             return __iter->first == rhs.__iter->first;
         }
                 
-        template <typename T>
         bool 
-        Bins::ForwardIterator<T>::operator!=(const Bins::ForwardIterator<T>& rhs) const {
+        Bins::ForwardIterator::operator!=(const Bins::ForwardIterator& rhs) const {
             return !(*this == rhs);
         }
                 
-        template <typename T>
-        T& 
-        Bins::ForwardIterator<T>::operator*() const {
-            return *__iter->second;
+        std::shared_ptr<Sorter::Models::Bin>& 
+        Bins::ForwardIterator::operator*() {
+            return __iter->second;
         }
                 
-        template <typename T>
-        T& 
-        Bins::ForwardIterator<T>::operator->() const {
-            return *__iter->second;
+        std::shared_ptr<Sorter::Models::Bin>& 
+        Bins::ForwardIterator::operator->() {
+            return __iter->second;
         }
         
-        template <typename T>
-        Bins::PatternIterator<T>::PatternIterator(const std::shared_ptr<Sorter::Data::Bins>& bins, 
-                        const Sorter::Models::BooleanOperator& boolean_operator) {
-            if (bins->__patterns.find(boolean_operator) == bins->__patterns.end()) {
-                __iter = bins->__patterns.end();
+        Bins::PatternIterator::PatternIterator(Sorter::Data::Bins& bins,
+                                const std::shared_ptr<Sorter::Models::Bin>& bin,
+                                const Sorter::Models::BooleanOperator& boolean_operator) {
+            if (bins.__patterns.find(bin->id) == bins.__patterns.end()) {
+                __iter = bins.__patterns.begin()->second.begin()->second.end();
             } else {
-                __iter = bins->__patterns[boolean_operator].begin();
+                __iter = bins.__patterns[bin->id][boolean_operator].begin();
             }
         }
         
-        template <typename T>
-        Bins::PatternIterator<T>::PatternIterator(const PatternIterator& iter)
+        Bins::PatternIterator::PatternIterator(const PatternIterator& iter)
            : __iter(iter.__iter) {
         }
                 
-        template <typename T>
-        Bins::PatternIterator<T>& 
-        Bins::PatternIterator<T>::operator++() {
+        Bins::PatternIterator& 
+        Bins::PatternIterator::operator++() {
             ++__iter;
             return *this;
         }
         
-        template <typename T>
-        Bins::PatternIterator<T> 
-        Bins::PatternIterator<T>::operator++(int) {
-            Bins::PatternIterator<T> temp(*this);
+        Bins::PatternIterator
+        Bins::PatternIterator::operator++(int) {
+            Bins::PatternIterator temp(*this);
             operator++();
             return temp;
         }
         
-        template <typename T>
         bool 
-        Bins::PatternIterator<T>::operator==(const PatternIterator& rhs) const {
+        Bins::PatternIterator::operator==(const PatternIterator& rhs) const {
             return *__iter == *rhs.__iter;
         }
         
-        template <typename T>
         bool 
-        Bins::PatternIterator<T>::operator!=(const PatternIterator& rhs) const {
+        Bins::PatternIterator::operator!=(const PatternIterator& rhs) const {
             return !(*this == rhs);
         }
         
-        template <typename T>
-        T& 
-        Bins::PatternIterator<T>::operator*() const {
+        std::shared_ptr<Sorter::Models::Pattern>& 
+        Bins::PatternIterator::operator*() {
             return *__iter;
         }
         
-        template <typename T>
-        T& 
-        Bins::PatternIterator<T>::operator->() const {
+        std::shared_ptr<Sorter::Models::Pattern>& 
+        Bins::PatternIterator::operator->() {
             return *__iter;
         }
                 

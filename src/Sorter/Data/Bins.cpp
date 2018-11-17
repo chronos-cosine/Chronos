@@ -19,6 +19,36 @@
 namespace Sorter {
     namespace Data {
         
+        Bins::PatternIterator 
+        Bins::patterns(const std::shared_ptr<Sorter::Models::Bin>& bin, 
+                            const Sorter::Models::BooleanOperator& boolean_operator) {
+            return Bins::PatternIterator(*this, bin, boolean_operator);
+        }
+        
+        Bins::PatternIterator 
+        Bins::patterns_end() {
+            return Bins::PatternIterator();
+        }
+        
+        Bins::ForwardIterator 
+        Bins::begin() {
+            return Bins::ForwardIterator(*this);
+        }
+        
+        Bins::ForwardIterator 
+        Bins::end() {
+            return Bins::ForwardIterator();
+        }
+        
+        void 
+        Bins::add(const std::shared_ptr<Sorter::Models::Bin>& bin) {
+            __bins[bin->id] = bin;
+        }
+        
+        void 
+        Bins::add(const std::shared_ptr<Sorter::Models::Pattern>& pattern) {
+            __patterns[pattern->bin_id][pattern->boolean_operator].insert(pattern);
+        }
    
     } /* namespace Data */
 } /* namespace Sorter */

@@ -20,9 +20,10 @@ namespace Sorter {
     namespace Data {
         
         class DataContext {
+            DataContext(const DataContext&) = delete;
+        public:
+            Bins bins;
             
-        private:
-            Bins __bins;
         }; /* class DataContext */
                 
     } /* namespace Data */
