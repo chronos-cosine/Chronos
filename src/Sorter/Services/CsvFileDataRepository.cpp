@@ -27,7 +27,7 @@ namespace Sorter {
             auto bins = File::CsvDataReader::read<Sorter::Models::Bin>(__bins_file);
             
             for (auto& bin: *bins) {
-                dc->bins.insert(std::make_shared<Sorter::Models::Bin>(std::move(bin)));
+                dc->bins[bin.id] = std::make_shared<Sorter::Models::Bin>(std::move(bin));
             }
         }
         
@@ -36,7 +36,7 @@ namespace Sorter {
             auto patterns = File::CsvDataReader::read<Sorter::Models::Pattern>(__patterns_file);
             
             for (auto& pattern: *patterns) {
-                dc->patterns.insert(std::make_shared<Sorter::Models::Pattern>(std::move(pattern)));
+                dc->patterns[pattern.id] = std::make_shared<Sorter::Models::Pattern>(std::move(pattern));
             }
         }
         
@@ -46,6 +46,7 @@ namespace Sorter {
             
             read_bins(dc);
             read_patterns(dc);
+            dc->link_bin_patterns();
             
             return dc;
         }

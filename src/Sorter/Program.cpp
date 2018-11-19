@@ -20,7 +20,8 @@
 int main(int argc, char** argv) {
     std::cout << "Starting Chronos-Sorter..." << std::endl;
     std::shared_ptr<Sorter::Services::IDataRepository> dr = 
-            std::make_shared<Sorter::Services::CsvFileDataRepository>("./bins.dat", "./patterns.dat");
+        std::make_shared<Sorter::Services::CsvFileDataRepository>(
+            "./bins.dat", "./patterns.dat");
     
     
     return 0;

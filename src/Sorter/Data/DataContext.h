@@ -17,6 +17,7 @@
 #include "Sorter/Models/Bin.h"
 #include "Sorter/Models/Pattern.h"
 
+#include <map>
 #include <memory>
 #include <set>
 
@@ -32,8 +33,11 @@ namespace Sorter {
             virtual ~DataContext() = default;
             DataContext() = default;
             
-            std::set<std::shared_ptr<Sorter::Models::Bin>> bins;
-            std::set<std::shared_ptr<Sorter::Models::Pattern>> patterns;
+            void link_bin_patterns();
+            void clear();
+            
+            std::map<unsigned long long, std::shared_ptr<Sorter::Models::Bin>> bins;
+            std::map<unsigned long long, std::shared_ptr<Sorter::Models::Pattern>> patterns;
             
         }; /* class DataContext */
                 
