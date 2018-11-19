@@ -14,7 +14,7 @@
 #ifndef SORTER_SERVICES_FILEDATAREPOSITORY_H
 #define SORTER_SERVICES_FILEDATAREPOSITORY_H
 
-#include "IDataRepository.h"
+#include "Sorter/Services/IDataRepository.h"
 
 #include <experimental/filesystem>
 
@@ -38,6 +38,7 @@ namespace Sorter {
         private:
             fs::path __bins_file;
             fs::path __patterns_file;
+            
         }; /* class IDataRepository */
                 
     } /* namespace Services */

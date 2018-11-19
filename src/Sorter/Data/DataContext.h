@@ -19,7 +19,6 @@
 
 #include <map>
 #include <memory>
-#include <set>
 
 namespace Sorter {
     namespace Data {
