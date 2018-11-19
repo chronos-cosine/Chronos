@@ -11,18 +11,25 @@
  * Created on 04 October 2018, 10:52 PM
  */
 
-#include "Services/CsvFileDataRepository.h"
+#include "Repositories/CsvFileDataRepository.h"
+#include "SortingMachine.h"
 
+#include <chrono>
+#include <experimental/filesystem>
 #include <iostream>
 #include <memory>
 #include <thread>
+#include <vector>
+
+namespace fs = std::experimental::filesystem;
 
 int main(int argc, char** argv) {
     std::cout << "Starting Chronos-Sorter..." << std::endl;
-    std::shared_ptr<Sorter::Services::IDataRepository> dr = 
-        std::make_shared<Sorter::Services::CsvFileDataRepository>(
-            "./bins.dat", "./patterns.dat");
+    std::vector<fs::path> paths;
+    paths.push_back("./1/");
+    paths.push_back("./2/");
     
+    Sorter::SortingMachine sm(paths, std::chrono::seconds(4));
     
     return 0;
 }

@@ -15,7 +15,7 @@
 #include "File/CsvDataReader.h"
 
 namespace Sorter {
-    namespace Services {
+    namespace Repositories {
         
         CsvFileDataRepository::CsvFileDataRepository(const fs::path bins_file,
                               const fs::path patterns_file) 
@@ -51,5 +51,5 @@ namespace Sorter {
             return dc;
         }
                 
-    } /* namespace Services */
+    } /* namespace Repositories */
 } /* namespace Sorter */

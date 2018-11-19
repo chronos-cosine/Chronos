@@ -15,7 +15,14 @@
 find_package(Boost REQUIRED COMPONENTS filesystem)
 if(Boost_FOUND) 
     set (Sorter_SOURCES
+        "${CHRONOS_SOURCE_ROOT}/Collections/Concurrent/Queue.h"
+        "${CHRONOS_SOURCE_ROOT}/Collections/ICollection.h"
         "${CHRONOS_SOURCE_ROOT}/File/CsvDataReader.h"
+        "${CHRONOS_SOURCE_ROOT}/File/JsonDataReader.h"
+        "${CHRONOS_SOURCE_ROOT}/File/Spooler.h"
+        "${CHRONOS_SOURCE_ROOT}/Processors/IProcessor.h"
+        "${CHRONOS_SOURCE_ROOT}/Processors/ProcessorBase.cpp"
+        "${CHRONOS_SOURCE_ROOT}/Processors/ProcessorBase.h"
         "${CMAKE_CURRENT_LIST_DIR}/Data/DataContext.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/Data/DataContext.h"
         "${CMAKE_CURRENT_LIST_DIR}/Models/Bin.cpp"
@@ -27,9 +34,11 @@ if(Boost_FOUND)
         "${CMAKE_CURRENT_LIST_DIR}/Models/Pattern.h"
         "${CMAKE_CURRENT_LIST_DIR}/Models/Result.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/Models/Result.h"
-        "${CMAKE_CURRENT_LIST_DIR}/Services/CsvFileDataRepository.cpp"
-        "${CMAKE_CURRENT_LIST_DIR}/Services/CsvFileDataRepository.h"
-        "${CMAKE_CURRENT_LIST_DIR}/Services/IDataRepository.h"
+        "${CMAKE_CURRENT_LIST_DIR}/Repositories/CsvFileDataRepository.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/Repositories/CsvFileDataRepository.h"
+        "${CMAKE_CURRENT_LIST_DIR}/Repositories/IDataRepository.h"
+        "${CMAKE_CURRENT_LIST_DIR}/SortingMachine.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/SortingMachine.h"
         "${CMAKE_CURRENT_LIST_DIR}/Program.cpp"
     )
 

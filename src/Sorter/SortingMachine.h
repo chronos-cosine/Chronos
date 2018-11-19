@@ -14,26 +14,34 @@
 #ifndef SORTER_SORTINGMACHINE_H
 #define SORTER_SORTINGMACHINE_H
 
+#include "Collections/ICollection.h"
 #include "File/Spooler.h"
-#include "Processors/ProcessorBase.h"
 #include "Sorter/Models/Job.h"
 
 #include <experimental/filesystem>
 #include <vector>
+#include <thread>
 
 namespace fs = std::experimental::filesystem;
 
 namespace Sorter {
     
-    class SortingMachine : public Processors::ProcessorBase {
+    class SortingMachine {
     public:
         virtual ~SortingMachine() = default; 
         SortingMachine(const std::vector<fs::path>& paths, 
                        const std::chrono::seconds& sleep_time);
+    public:
+        void start();
+        void stop();
     private:
-        void initialise_spoolers(const std::vector<fs::path>& paths);
+        void initialise_producers(const std::vector<fs::path>& paths,
+                const std::chrono::seconds& sleep_time);
+        void initialise_consumers();
     private:
-        std::vector<std::shared_ptr<File::Spooler<Sorter::Models::Job>>> producers;
+        std::shared_ptr<Collections::ICollection<Sorter::Models::Job>> collection;
+        std::vector<File::Spooler<Sorter::Models::Job>> producers;
+        std::vector<std::thread> producer_threads;
         
     }; /* class SortingMachine */ 
     

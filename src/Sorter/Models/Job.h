@@ -14,9 +14,13 @@
 #ifndef SORTER_MODELS_JOB_H
 #define SORTER_MODELS_JOB_H
 
+#include <boost/property_tree/ptree.hpp>
+#include <experimental/filesystem>
 #include <memory>
 #include <string>
 #include <vector>
+
+namespace fs = std::experimental::filesystem;
 
 namespace Sorter {
     namespace Models {
@@ -24,6 +28,9 @@ namespace Sorter {
         struct Job {
             unsigned long long id;
             std::string document;
+            
+            Job() = default;
+            Job(const fs::path& path);
             
             std::string::const_iterator begin() const;
             std::string::const_iterator end() const;
@@ -33,6 +40,7 @@ namespace Sorter {
             bool operator<(const Job& rhs) const noexcept;
             Job& operator=(const Job& rhs);
             Job& operator<<(const std::vector<std::string>& rhs);
+            Job& operator<<(const boost::property_tree::ptree& rhs);
             
         }; /* struct Job */
         

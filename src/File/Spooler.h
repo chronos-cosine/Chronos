@@ -31,10 +31,12 @@ namespace File {
          Spooler() = delete;
          Spooler(const Spooler&) = delete;
          Spooler& operator=(const Spooler&) = delete;
-         Spooler(const Spooler&&) = delete;
-         Spooler& operator=(const Spooler&&) = delete;
     public:
          virtual ~Spooler() = default;
+         
+         Spooler(const Spooler&& other);
+         Spooler& operator=(const Spooler&& other);
+         
          Spooler(const fs::path& directory,
                  const std::string& trigger,
                  const std::string& spooled_extension,
@@ -49,6 +51,24 @@ namespace File {
          std::shared_ptr<Collections::ICollection<T>> __collection;
 
     }; /* class Spooler */
+    
+    
+    template <typename T>
+    Spooler<T>::Spooler(const Spooler&& other) 
+        : __directory(std::move(other.__directory)),
+          __trigger(std::move(other.__trigger)),
+          __spooled_extension(std::move(other.__spooled_extension)), 
+          __collection(std::move(other.__collection)) {
+    }
+    
+    template <typename T>
+    Spooler<T>& 
+    Spooler<T>::operator=(const Spooler&& other) {
+        __directory = std::move(other.__directory);
+        __trigger = std::move(other.__trigger);
+        __spooled_extension = std::move(other.__spooled_extension);
+        __collection = std::move(other.__collection);
+    }
     
     template <typename T>
     Spooler<T>::Spooler(const fs::path& directory,

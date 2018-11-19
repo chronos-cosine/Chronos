@@ -12,10 +12,15 @@
  */
 
 #include "Job.h"
-
+#include "File/JsonDataReader.h"
 
 namespace Sorter {
     namespace Models {
+        
+        Job::Job(const fs::path& path) {
+            auto temp = File::JsonDataReader<Job>::read(path);
+            *this = std::move(*temp);
+        }
         
         std::string::const_iterator 
         Job::begin() const {
@@ -54,6 +59,14 @@ namespace Sorter {
         Job::operator<<(const std::vector<std::string>& rhs) {
             id = std::stoull(rhs[0]);
             document = rhs[1];
+            
+            return *this;
+        }
+        
+        Job& 
+        Job::operator<<(const boost::property_tree::ptree& rhs) {
+            id = rhs.get<unsigned long long>("id");
+            document = rhs.get<std::string>("document");
             
             return *this;
         }

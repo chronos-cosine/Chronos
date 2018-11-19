@@ -14,14 +14,14 @@
 #ifndef SORTER_SERVICES_FILEDATAREPOSITORY_H
 #define SORTER_SERVICES_FILEDATAREPOSITORY_H
 
-#include "Sorter/Services/IDataRepository.h"
+#include "Sorter/Repositories/IDataRepository.h"
 
 #include <experimental/filesystem>
 
 namespace fs = std::experimental::filesystem;
 
 namespace Sorter {
-    namespace Services {
+    namespace Repositories {
         
         class CsvFileDataRepository : public IDataRepository {
             CsvFileDataRepository(const CsvFileDataRepository&) = delete;
@@ -41,7 +41,7 @@ namespace Sorter {
             
         }; /* class IDataRepository */
                 
-    } /* namespace Services */
+    } /* namespace Repositories */
 } /* namespace Sorter */
 
 #endif /* SORTER_SERVICES_FILEDATAREPOSITORY_H */

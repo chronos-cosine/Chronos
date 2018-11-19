@@ -14,7 +14,6 @@
 #ifndef COLLECTIONS_ICOLLECTION_H
 #define COLLECTIONS_ICOLLECTION_H
 
-#include "Collections/CollectionType.h"
 #include <condition_variable>
 #include <memory>
 #include <mutex>
@@ -34,7 +33,6 @@ namespace Collections {
         virtual void push(T item) noexcept = 0;
         virtual T pop() noexcept = 0;
         virtual bool empty() const noexcept = 0;
-        virtual CollectionType get_collection_type() const noexcept = 0;
         
     }; /* class ICollection */
     

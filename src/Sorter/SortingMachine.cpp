@@ -11,19 +11,38 @@
  * Created on 19 November 2018, 11:14 AM
  */
 
+#include "Collections/Concurrent/Queue.h"
 #include "SortingMachine.h"
+#include "Sorter/Models/Job.h"
+
+#include <chrono>
+#include <experimental/filesystem>
+
+namespace fs = std::experimental::filesystem;
 
 namespace Sorter {
     
     SortingMachine::SortingMachine(const std::vector<fs::path>& paths, 
                        const std::chrono::seconds& sleep_time) 
-    {
-        initialise(paths);
+      : Processors::ProcessorBase(sleep_time), 
+        collection(std::make_shared<
+            Collections::Concurrent::Queue<Sorter::Models::Job>>()) {
+        initialise_producers(paths, sleep_time);
     }
     
     void 
-    SortingMachine::initialise_spoolers(const std::vector<fs::path>& paths) {
-        
+    SortingMachine::initialise_producers(const std::vector<fs::path>& paths, 
+            const std::chrono::seconds& sleep_time) {
+        for (auto& path: paths) {
+            File::Spooler<Sorter::Models::Job> producer(path, 
+                    ".sjob", ".sdone", sleep_time, collection);
+            producers.push_back(std::move(producer));
+        }
+    }
+    
+    bool 
+    SortingMachine::process() {
+        return false;
     }
     
 } /* namespace Sorter */

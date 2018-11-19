@@ -19,7 +19,7 @@
 #include <memory>
 
 namespace Sorter {
-    namespace Services {
+    namespace Repositories {
         
         class IDataRepository {
             IDataRepository(const IDataRepository&) = delete;
@@ -31,7 +31,7 @@ namespace Sorter {
             virtual std::shared_ptr<Sorter::Data::DataContext> create_data_context() = 0;
         }; /* class IDataRepository */
                 
-    } /* namespace Services */
+    } /* namespace Repositories */
 } /* namespace Sorter */
 
 #endif /* SORTER_SERVICES_IDATAREPOSITORY_H */
