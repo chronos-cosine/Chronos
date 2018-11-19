@@ -33,20 +33,20 @@ namespace File {
     public:
         template <typename T>
         static std::unique_ptr<std::vector<T>>
-        read(const std::string& filename);
+        read(const fs::path& filename);
        
         static std::unique_ptr<std::vector<std::vector<std::string>>>
-        read(const std::string& filename);
+        read(const fs::path& filename);
     private:
         static char get_separator(const std::string& line);
         static std::unique_ptr<std::vector<std::string>> 
             split(const std::string& line, const char& separator);
-        static void validate_filename(const std::string& filename);
+        static void validate_filename(const fs::path& filename);
         
     };  /* class CsvDataReader */
     
     void 
-    CsvDataReader::validate_filename(const std::string& filename) {
+    CsvDataReader::validate_filename(const fs::path& filename) {
         if (!fs::exists(filename)) {
             throw std::runtime_error(
                 "CsvDataReader::validate_filename() file does not exist");
@@ -77,7 +77,7 @@ namespace File {
     }
     
     std::unique_ptr<std::vector<std::vector<std::string>>>
-    CsvDataReader::read(const std::string& filename) {
+    CsvDataReader::read(const fs::path& filename) {
         validate_filename(filename);
         
         std::ifstream file(filename);
@@ -103,7 +103,7 @@ namespace File {
 
     template <typename T>
     std::unique_ptr<std::vector<T>>
-    CsvDataReader::read(const std::string& filename) {
+    CsvDataReader::read(const fs::path& filename) {
         std::unique_ptr<std::vector<T>> object = std::make_unique<std::vector<T>>();
         std::unique_ptr<std::vector<std::vector<std::string>>> data = read(filename);
         for (const std::vector<std::string>& row: *data) {

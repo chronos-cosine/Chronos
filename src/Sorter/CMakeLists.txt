@@ -16,7 +16,6 @@ find_package(Boost REQUIRED COMPONENTS filesystem)
 if(Boost_FOUND) 
     set (Sorter_SOURCES
         "${CHRONOS_SOURCE_ROOT}/File/CsvDataReader.h"
-        "${CMAKE_CURRENT_LIST_DIR}/Program.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/Data/DataContext.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/Data/DataContext.h"
         "${CMAKE_CURRENT_LIST_DIR}/Models/Bin.cpp"
@@ -28,6 +27,10 @@ if(Boost_FOUND)
         "${CMAKE_CURRENT_LIST_DIR}/Models/Pattern.h"
         "${CMAKE_CURRENT_LIST_DIR}/Models/Result.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/Models/Result.h"
+        "${CMAKE_CURRENT_LIST_DIR}/Services/CsvFileDataRepository.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/Services/CsvFileDataRepository.h"
+        "${CMAKE_CURRENT_LIST_DIR}/Services/IDataRepository.h"
+        "${CMAKE_CURRENT_LIST_DIR}/Program.cpp"
     )
 
     # creates the library 
