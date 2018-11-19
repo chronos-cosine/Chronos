@@ -17,9 +17,11 @@
 #include "BooleanOperator.h"
 
 #include <string>
+#include <vector>
 
 namespace Sorter {
     namespace Models {
+        struct Bin;
         
         struct Pattern {
             unsigned long long id;
@@ -27,10 +29,16 @@ namespace Sorter {
             BooleanOperator boolean_operator;
             unsigned long long bin_id;
             
+            std::shared_ptr<Bin> bin;
+            
+            std::string::iterator begin() const;
+            std::string::iterator end() const;
+            
             bool operator==(const Pattern& rhs) const noexcept;
             bool operator!=(const Pattern& rhs) const noexcept;
             bool operator<(const Pattern& rhs) const noexcept;
             Pattern& operator=(const Pattern& rhs);
+            Pattern& operator<<(const std::vector<std::string>& rhs);
             
         }; /* struct Pattern */
         
