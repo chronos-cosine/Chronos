@@ -15,7 +15,6 @@
 #define COLLECTIONS_CONCURRENTBAG_H
 
 #include "Collections/ICollection.h"
-#include "Collections/CollectionType.h"
 #include <condition_variable>
 #include <mutex>
 #include <set>
@@ -24,30 +23,29 @@ namespace Collections {
     namespace Concurrent {
         
         template <typename T>
-        class Bag : public ICollection<T> {
-            Bag(const Bag&) = delete; 
-            Bag& operator=(const Bag&) = delete;
-            Bag(const Bag&&) = delete; 
-            Bag& operator=(const Bag&&) = delete;
+        class Set : public ICollection<T> {
+            Set(const Set&) = delete; 
+            Set& operator=(const Set&) = delete;
+            Set(const Set&&) = delete; 
+            Set& operator=(const Set&&) = delete;
         private:
             std::set<T> set;
             std::mutex mutex;
             std::condition_variable condition_variable;
         public:
-            virtual ~Bag() = default;
-            Bag() = default;
+            virtual ~Set() = default;
+            Set() = default;
 
             virtual void push(T item) noexcept;
             virtual T pop() noexcept;
             virtual bool empty() const noexcept;
-            virtual CollectionType get_collection_type() const noexcept;
             typename std::set<T>::size_type size() const noexcept;
 
         }; /* class Bag */
 
         template <typename T>
         void 
-        Bag<T>::push(T item) noexcept {
+        Set<T>::push(T item) noexcept {
             std::lock_guard<std::mutex> lock(mutex);
 
             set.insert(std::move(item));
@@ -56,7 +54,7 @@ namespace Collections {
 
         template <typename T>
         T 
-        Bag<T>::pop() noexcept {
+        Set<T>::pop() noexcept {
             std::unique_lock<std::mutex> lock(mutex);
 
             condition_variable.wait(lock, [this] { 
@@ -70,19 +68,13 @@ namespace Collections {
 
         template <typename T>
         bool 
-        Bag<T>::empty() const noexcept {
+        Set<T>::empty() const noexcept {
             return set.empty();
         } 
 
         template <typename T>
-        CollectionType 
-        Bag<T>::get_collection_type() const noexcept {
-            return Collections::CollectionType::SORTED;
-        }
-
-        template <typename T>
         typename std::stack<T>::size_type 
-        Bag<T>::size() const noexcept {
+        Set<T>::size() const noexcept {
             return set.size();
         }
 

@@ -16,8 +16,6 @@
 
 namespace Sorter {
     namespace Data {
-        
-        class DataContext ;
-                
+          
     } /* namespace Data */
 } /* namespace Sorter */

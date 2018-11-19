@@ -15,7 +15,6 @@
 #define COLLECTIONS_CONCURRENT_QUEUE_H
 
 #include "Collections/ICollection.h"
-#include "Collections/CollectionType.h"
 #include <condition_variable>
 #include <mutex>
 #include <queue>
@@ -40,7 +39,6 @@ namespace Collections {
             virtual void push(T item) noexcept;
             virtual T pop() noexcept;
             virtual bool empty() const noexcept;
-            virtual CollectionType get_collection_type() const noexcept;
             typename std::queue<T>::size_type size() const noexcept;
 
         }; /* class Queue */
@@ -73,12 +71,6 @@ namespace Collections {
         bool 
         Queue<T>::empty() const noexcept {
             return queue.empty();
-        }
-
-        template <typename T>
-        CollectionType 
-        Queue<T>::get_collection_type() const noexcept {
-            return Collections::CollectionType::FIFO;
         }
 
         template <typename T>
