@@ -25,6 +25,9 @@ namespace Sorter {
         
         class DataContext {
             DataContext(const DataContext&) = delete;
+            DataContext& operator=(const DataContext&) = delete;
+            DataContext(DataContext&&) = delete;
+            DataContext& operator=(DataContext&&) = delete;
         public:
             std::set<std::shared_ptr<Sorter::Models::Bin>> bins;
             std::set<std::shared_ptr<Sorter::Models::Pattern>> patterns;

@@ -32,8 +32,8 @@ namespace Sorter {
             
             std::shared_ptr<Bin> bin;
             
-            std::string::iterator begin() const;
-            std::string::iterator end() const;
+            std::string::const_iterator begin() const;
+            std::string::const_iterator end() const;
             
             bool operator==(const Pattern& rhs) const noexcept;
             bool operator!=(const Pattern& rhs) const noexcept;

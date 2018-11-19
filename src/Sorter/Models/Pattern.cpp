@@ -16,6 +16,16 @@
 namespace Sorter {
     namespace Models {
         
+        std::string::const_iterator 
+        Pattern::begin() const {
+            return value.begin();
+        }
+        
+        std::string::const_iterator 
+        Pattern::end() const {
+            return value.end();
+        }
+        
         bool 
         Pattern::operator==(const Pattern& rhs) const noexcept {
             return id == rhs.id;
