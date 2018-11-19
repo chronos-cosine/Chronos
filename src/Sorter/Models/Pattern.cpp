@@ -55,6 +55,8 @@ namespace Sorter {
             value = rhs[1];
             boolean_operator = (BooleanOperator)std::stoi(rhs[2]);
             bin_id = std::stoull(rhs[3]);
+            
+            return *this;
         }
             
     } /* namespace Models */

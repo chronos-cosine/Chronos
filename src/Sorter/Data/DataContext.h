@@ -14,7 +14,11 @@
 #ifndef SORTER_DATA_DATACONTEXT_H
 #define SORTER_DATA_DATACONTEXT_H
 
-#include "Bins.h"
+#include "Sorter/Models/Bin.h"
+#include "Sorter/Models/Pattern.h"
+
+#include <memory>
+#include <set>
 
 namespace Sorter {
     namespace Data {
@@ -22,7 +26,8 @@ namespace Sorter {
         class DataContext {
             DataContext(const DataContext&) = delete;
         public:
-            Bins bins;
+            std::set<std::shared_ptr<Sorter::Models::Bin>> bins;
+            std::set<std::shared_ptr<Sorter::Models::Pattern>> patterns;
             
         }; /* class DataContext */
                 

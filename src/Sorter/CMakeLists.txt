@@ -15,12 +15,10 @@
 find_package(Boost REQUIRED COMPONENTS filesystem)
 if(Boost_FOUND) 
     set (Sorter_SOURCES
+        "${CHRONOS_SOURCE_ROOT}/File/CsvDataReader.h"
         "${CMAKE_CURRENT_LIST_DIR}/Program.cpp"
-        "${CMAKE_CURRENT_LIST_DIR}/Data/Bins.cpp"
-        "${CMAKE_CURRENT_LIST_DIR}/Data/Bins.h"
         "${CMAKE_CURRENT_LIST_DIR}/Data/DataContext.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/Data/DataContext.h"
-        "${CHRONOS_SOURCE_ROOT}/File/CsvDataReader.h"
         "${CMAKE_CURRENT_LIST_DIR}/Models/Bin.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/Models/Bin.h"
         "${CMAKE_CURRENT_LIST_DIR}/Models/BooleanOperator.h"

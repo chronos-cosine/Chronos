@@ -16,6 +16,7 @@
 
 #include "BooleanOperator.h"
 
+#include <memory>
 #include <string>
 #include <vector>
 
