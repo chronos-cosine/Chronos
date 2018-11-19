@@ -46,12 +46,16 @@ namespace Sorter {
         Job::operator=(const Job& rhs) {
             id = rhs.id;
             document = rhs.document;
+            
+            return *this;
         }
         
         Job& 
         Job::operator<<(const std::vector<std::string>& rhs) {
             id = std::stoull(rhs[0]);
             document = rhs[1];
+            
+            return *this;
         }
           
     } /* namespace Models */

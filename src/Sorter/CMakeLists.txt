@@ -22,8 +22,12 @@ if(Boost_FOUND)
         "${CMAKE_CURRENT_LIST_DIR}/Models/Bin.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/Models/Bin.h"
         "${CMAKE_CURRENT_LIST_DIR}/Models/BooleanOperator.h"
+        "${CMAKE_CURRENT_LIST_DIR}/Models/Job.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/Models/Job.h"
         "${CMAKE_CURRENT_LIST_DIR}/Models/Pattern.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/Models/Pattern.h"
+        "${CMAKE_CURRENT_LIST_DIR}/Models/Result.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/Models/Result.h"
     )
 
     # creates the library 
