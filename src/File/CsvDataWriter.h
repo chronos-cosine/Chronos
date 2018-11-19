@@ -15,8 +15,11 @@
 #define FILE_CSVDATAWRITER_H
 
 #include <boost/property_tree/ptree.hpp>
+#include <experimental/filesystem>
 #include <fstream>
 #include <string>
+
+namespace fs = std::experimental::filesystem;
 
 namespace File {
     
@@ -27,7 +30,7 @@ namespace File {
         CsvDataWriter& operator=(const CsvDataWriter&) = delete;
     public:
         static void write(const T& data, 
-                          const std::string& destination, 
+                          const fs::path& destination, 
                           const char separator = '|') ;
         
     }; /* class CsvDataWriter */
@@ -35,7 +38,7 @@ namespace File {
     template <typename T>
     void 
     CsvDataWriter<T>::write(const T& data, 
-                            const std::string& destination, 
+                            const fs::path& destination, 
                             const char separator) {
         std::ofstream file(destination);
         

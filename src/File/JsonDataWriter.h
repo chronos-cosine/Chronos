@@ -16,9 +16,12 @@
 
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
+#include <experimental/filesystem>
 #include <string>
 #include <fstream>
 #include <iostream>
+
+namespace fs = std::experimental::filesystem;
 
 namespace File {
     
@@ -30,7 +33,7 @@ namespace File {
     public:
         static std::ostream& write(std::ostream& ostream, const T& data);
         
-        static void write(const T& data, const std::string& destination);
+        static void write(const T& data, const fs::path& destination);
 
     }; /* class JsonDataWriter */
     
@@ -47,7 +50,7 @@ namespace File {
         
     template <typename T>
     void 
-    JsonDataWriter<T>::write(const T& data, const std::string& destination) {
+    JsonDataWriter<T>::write(const T& data, const fs::path& destination) {
         std::ofstream file(destination);
         if (!file.is_open()) {
             throw std::runtime_error("JsonDataWriter::write() The file could not be opened");

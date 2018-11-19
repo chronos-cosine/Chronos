@@ -19,8 +19,11 @@
 #include "File/JsonDataReader.h"
 
 #include <exception>
+#include <experimental/filesystem>
 #include <string>
 #include <vector>
+
+namespace fs = std::experimental::filesystem;
 
 namespace File {
     
@@ -31,13 +34,13 @@ namespace File {
         DataReader& operator=(const DataReader&) = delete;
     public:
         static std::unique_ptr<std::vector<T>> 
-        read(const std::string& filename, const FileType& filetype);
+        read(const fs::path& filename, const FileType& filetype);
         
     }; /* class DataReader */
         
     template <typename T>
     std::unique_ptr<std::vector<T>>
-    DataReader<T>::read(const std::string& filename, 
+    DataReader<T>::read(const fs::path& filename, 
                         const FileType& filetype) {
         switch (filetype) {
             case FileType::CSV:

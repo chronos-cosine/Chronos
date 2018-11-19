@@ -18,6 +18,10 @@
 #include "File/FileType.h"
 #include "File/JsonDataWriter.h"
 
+#include <experimental/filesystem>
+
+namespace fs = std::experimental::filesystem;
+
 namespace File {
     
     template <typename T>
@@ -27,7 +31,7 @@ namespace File {
         DataWriter& operator=(const DataWriter&) = delete;
     public:
         static void write(const T& data, 
-                          const std::string& filename, 
+                          const fs::path& filename, 
                           const FileType& filetype);
         
     }; /* class DataWriter */
@@ -35,7 +39,7 @@ namespace File {
     template <typename T>
     void
     DataWriter<T>::write(const T& data, 
-                      const std::string& filename, 
+                      const fs::path& filename, 
                       const FileType& filetype) {
         switch (filetype) {
             case FileType::CSV:
