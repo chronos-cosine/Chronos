@@ -120,8 +120,8 @@ namespace PatternMatcher {
         std::queue<std::shared_ptr<Node<PATTERN>>> queue;
 
         for (auto& a: root->states) {
-            queue.push(a.second.get());
-            a.second->failure = root.get();
+            queue.push(a.second);
+            a.second->failure = root;
         }
 
         while (!queue.empty()) {
@@ -130,7 +130,7 @@ namespace PatternMatcher {
 
             for (auto& s: r->states) {
                 char a = s.first;
-                queue.push(s.second.get());
+                queue.push(s.second);
                 std::shared_ptr<Node<PATTERN>> state = r->failure;
                 while (nullptr == state->g(a)) {
                     state = state->failure; 

@@ -52,7 +52,7 @@ namespace PatternMatcher {
             if (is_root) {
                 return std::enable_shared_from_this<Node<PATTERN>>::shared_from_this();
             } else {
-                return std::make_shared<Node<PATTERN>>(nullptr);
+                return std::shared_ptr<Node<PATTERN>>(nullptr);
             }
         }
         else {
