@@ -15,12 +15,16 @@
 
 namespace Sorter {
     namespace Services {
+        
+        MultiPatternMatcher::MultiPatternMatcher(
+            const std::vector<std::shared_ptr<Sorter::Models::Pattern>>& patterns) 
+            : __matcher(patterns) {
+        }
     
         void 
         MultiPatternMatcher::process(const std::shared_ptr<Sorter::Models::Job>& job) {
             
         }
-      
-    
+          
     } /* namespace Services */
 } /* namespace Sorter */ 

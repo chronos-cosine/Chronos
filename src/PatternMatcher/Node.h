@@ -21,7 +21,7 @@
 namespace PatternMatcher {
 
     template <typename PATTERN>
-    class Node {
+    class Node : public std::enable_shared_from_this<Node<PATTERN>> {
         Node() = delete;
         Node(const Node&) = delete;
         Node& operator=(const Node&) = delete;
@@ -29,35 +29,42 @@ namespace PatternMatcher {
         //members
         char value;
         bool is_root;
-        Node<PATTERN>* failure;
-        std::map<char, std::unique_ptr<Node<PATTERN>>> states;
-        std::set<PATTERN> output;
+        std::shared_ptr<Node<PATTERN>> failure;
+        std::map<char, std::shared_ptr<Node<PATTERN>>> states;
+        std::set<std::shared_ptr<PATTERN>> output;
     public:
-        //ctors
-        virtual ~Node() { }
-        Node(char v, bool i = false) 
+        virtual ~Node() = default;
+        Node(char v, bool i = false);
+
+        std::shared_ptr<Node<PATTERN>> g(const char& a);
+        bool operator<(const Node<PATTERN>& rhs) const;
+    };
+    
+    template <typename PATTERN>
+    Node<PATTERN>::Node(char v, bool i) 
             : value(v), is_root(i), failure(nullptr) { }
 
-        //member functions
-        Node<PATTERN>* g(const char& a) {
-            auto result = states.find(a);
-            if (states.end() == result) {
-                if (is_root) {
-                    return this;
-                } else {
-                    return nullptr;
-                }
-            }
-            else {
-                return result->second.get();
+    template <typename PATTERN>
+    std::shared_ptr<Node<PATTERN>> 
+    Node<PATTERN>::g(const char& a) {
+        auto result = states.find(a);
+        if (states.end() == result) {
+            if (is_root) {
+                return std::enable_shared_from_this<Node<PATTERN>>::shared_from_this();
+            } else {
+                return std::make_shared<Node<PATTERN>>(nullptr);
             }
         }
+        else {
+            return result->second;
+        }
+    }
 
-        //operators
-        bool operator<(const Node<PATTERN>& rhs) const {
-            return value < rhs.value;
-        } 
-    };
+    template <typename PATTERN>
+    bool 
+    Node<PATTERN>::operator<(const Node<PATTERN>& rhs) const {
+        return value < rhs.value;
+    } 
     
 } /* namespace PatternMatcher */
 

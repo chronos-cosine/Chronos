@@ -17,9 +17,12 @@
 #include "Collections/IMap.h"
 #include "PatternMatcher/PatternMatchingMachine.h"
 #include "Sorter/Models/Job.h"
+#include "Sorter/Models/Pattern.h"
+#include "Sorter/Models/Result.h"
 #include "Sorter/Services/IDataProvider.h"
 
 #include <memory>
+#include <set>
 
 namespace Sorter {
     namespace Services {
@@ -27,13 +30,18 @@ namespace Sorter {
         class MultiPatternMatcher : public IDataProvider {
         public:
             virtual ~MultiPatternMatcher() = default;
-            MultiPatternMatcher() = default; 
+            MultiPatternMatcher(const std::vector<std::shared_ptr<Sorter::Models::Pattern>>& patterns); 
             
             virtual void process(const std::shared_ptr<Sorter::Models::Job>& job);
         private:
-            PatternMatcher::PatternMatchingMachine<> __matcher;
+            void match_found();
+        private:
+            
+            PatternMatcher::PatternMatchingMachine<Sorter::Models::Job, 
+                                                   Sorter::Models::Pattern,
+                                                   MultiPatternMatcher> __matcher;
             std::shared_ptr<Collections::IMap<std::shared_ptr<Sorter::Models::Job>, 
-                            void>> __results;
+                            std::set<std::shared_ptr<Sorter::Models::Result>>>> __results;
             
         }; /* class MultiPatternMatcher */ 
     
