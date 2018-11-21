@@ -12,7 +12,7 @@
  */
 
 #include "Repositories/CsvFileDataRepository.h"
-#include "SortingMachine.h"
+#include "Services/SortingMachine.h"
 
 #include <chrono>
 #include <experimental/filesystem>
@@ -29,7 +29,7 @@ int main(int argc, char** argv) {
     paths.push_back("./1/");
     paths.push_back("./2/");
     
-    Sorter::SortingMachine sm(paths, std::chrono::seconds(4));
+    Sorter::Services::SortingMachine sm(paths, std::chrono::seconds(4), 1);
     
     return 0;
 }

@@ -15,8 +15,10 @@
 find_package(Boost REQUIRED COMPONENTS filesystem)
 if(Boost_FOUND) 
     set (Sorter_SOURCES
+        "${CHRONOS_SOURCE_ROOT}/Collections/Concurrent/Map.h"
         "${CHRONOS_SOURCE_ROOT}/Collections/Concurrent/Queue.h"
         "${CHRONOS_SOURCE_ROOT}/Collections/ICollection.h"
+        "${CHRONOS_SOURCE_ROOT}/Collections/IMap.h"
         "${CHRONOS_SOURCE_ROOT}/File/CsvDataReader.h"
         "${CHRONOS_SOURCE_ROOT}/File/JsonDataReader.h"
         "${CHRONOS_SOURCE_ROOT}/File/Spooler.h"
@@ -36,9 +38,13 @@ if(Boost_FOUND)
         "${CMAKE_CURRENT_LIST_DIR}/Models/Result.h"
         "${CMAKE_CURRENT_LIST_DIR}/Repositories/CsvFileDataRepository.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/Repositories/CsvFileDataRepository.h"
-        "${CMAKE_CURRENT_LIST_DIR}/Repositories/IDataRepository.h"
-        "${CMAKE_CURRENT_LIST_DIR}/SortingMachine.cpp"
-        "${CMAKE_CURRENT_LIST_DIR}/SortingMachine.h"
+        "${CMAKE_CURRENT_LIST_DIR}/Repositories/IDataRepository.h" 
+        "${CMAKE_CURRENT_LIST_DIR}/Services/IDataProvider.h" 
+        "${CMAKE_CURRENT_LIST_DIR}/Services/MultiPatternMatcher.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/Services/MultiPatternMatcher.h" 
+        "${CMAKE_CURRENT_LIST_DIR}/Services/SortingMachine.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/Services/SortingMachine.h" 
+        "${CMAKE_CURRENT_LIST_DIR}/Steps/IStep.h"
         "${CMAKE_CURRENT_LIST_DIR}/Program.cpp"
     )
 
