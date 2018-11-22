@@ -25,7 +25,7 @@ namespace fs = std::experimental::filesystem;
 namespace Sorter {
     namespace Models {
         
-        struct Job {
+        struct Job : std::enable_shared_from_this<Job> {
             unsigned long long id;
             std::string document;
             
@@ -34,6 +34,7 @@ namespace Sorter {
             
             std::string::const_iterator begin() const;
             std::string::const_iterator end() const;
+            std::shared_ptr<Job> ptr();
             
             bool operator==(const Job& rhs) const noexcept;
             bool operator!=(const Job& rhs) const noexcept;

@@ -19,6 +19,46 @@
 
 namespace Sorter {
     namespace Models {
+        std::shared_ptr<Bin> 
+        Bin::ptr() {
+            return std::enable_shared_from_this<Bin>::shared_from_this();
+        }
+        
+        bool
+        operator==(const std::shared_ptr<Bin>& lhs, 
+                   const std::shared_ptr<Bin>& rhs) {
+            if (lhs == nullptr
+                && rhs == nullptr) {
+                return true;
+            } else if (lhs == nullptr
+                || rhs == nullptr) {
+                return false;
+            }
+            
+            return (*lhs == *rhs);
+        }
+        
+        bool
+        operator!=(const std::shared_ptr<Bin>& lhs, 
+                   const std::shared_ptr<Bin>& rhs) {
+            return !(lhs == rhs);
+        }
+        
+        bool
+        operator<(const std::shared_ptr<Bin>& lhs, 
+                  const std::shared_ptr<Bin>& rhs) {
+            if (lhs == nullptr
+                && rhs == nullptr) {
+                return false;
+            } else if (lhs == nullptr) {
+                return true;
+            } else if (rhs == nullptr) {
+                return false;
+            }
+            
+            return (*lhs < *rhs);
+        }
+        
         bool
         Bin::is_root() const noexcept {
             return !parent_id.is_initialized();

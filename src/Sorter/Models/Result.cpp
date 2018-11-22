@@ -16,8 +16,50 @@
 #include "Pattern.h"
 #include "Result.h"
 
+#include <memory>
+
 namespace Sorter {
     namespace Models {
+        
+        std::shared_ptr<Result> 
+        Result::ptr() {
+            return std::enable_shared_from_this<Result>::shared_from_this();
+        }
+            
+        bool
+        operator==(const std::shared_ptr<Result>& lhs, 
+                   const std::shared_ptr<Result>& rhs) {
+            if (lhs == nullptr
+                && rhs == nullptr) {
+                return true;
+            } else if (lhs == nullptr
+                || rhs == nullptr) {
+                return false;
+            }
+            
+            return (*lhs == *rhs);
+        }
+        
+        bool
+        operator!=(const std::shared_ptr<Result>& lhs, 
+                   const std::shared_ptr<Result>& rhs) {
+            return !(lhs == rhs);
+        }
+        
+        bool
+        operator<(const std::shared_ptr<Result>& lhs, 
+                  const std::shared_ptr<Result>& rhs) {
+            if (lhs == nullptr
+                && rhs == nullptr) {
+                return false;
+            } else if (lhs == nullptr) {
+                return true;
+            } else if (rhs == nullptr) {
+                return false;
+            }
+            
+            return (*lhs < *rhs);
+        }
         
         bool 
         Result::operator==(const Result& rhs) const noexcept {

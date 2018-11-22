@@ -24,7 +24,7 @@ namespace Sorter {
     namespace Models {
         struct Bin;
         
-        struct Pattern {
+        struct Pattern : std::enable_shared_from_this<Pattern> {
             unsigned long long id;
             std::string value;
             BooleanOperator boolean_operator;
@@ -34,12 +34,14 @@ namespace Sorter {
             
             std::string::const_iterator begin() const;
             std::string::const_iterator end() const;
+            std::shared_ptr<Pattern> ptr();
             
             bool operator==(const Pattern& rhs) const noexcept;
             bool operator!=(const Pattern& rhs) const noexcept;
             bool operator<(const Pattern& rhs) const noexcept;
             Pattern& operator=(const Pattern& rhs);
             Pattern& operator<<(const std::vector<std::string>& rhs);
+            
             
         }; /* struct Pattern */
         

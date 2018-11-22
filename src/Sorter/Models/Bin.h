@@ -24,14 +24,15 @@ namespace Sorter {
         
         struct Pattern;
         
-        struct Bin {
+        struct Bin : std::enable_shared_from_this<Bin> {
             unsigned long long id;
             std::string name;
             boost::optional<unsigned long long> parent_id;
             
             boost::optional<std::shared_ptr<Bin>> parent;
             std::set<std::shared_ptr<Pattern>> patterns;
-            bool is_root() const noexcept; 
+            bool is_root() const noexcept;
+            std::shared_ptr<Bin> ptr();
             
             bool operator==(const Bin& rhs) const noexcept;
             bool operator!=(const Bin& rhs) const noexcept;

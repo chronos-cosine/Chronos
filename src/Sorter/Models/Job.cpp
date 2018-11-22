@@ -17,6 +17,46 @@
 namespace Sorter {
     namespace Models {
         
+        std::shared_ptr<Job> 
+        Job::ptr() {
+            return std::enable_shared_from_this<Job>::shared_from_this();
+        }
+        
+        bool
+        operator==(const std::shared_ptr<Job>& lhs, 
+                   const std::shared_ptr<Job>& rhs) {
+            if (lhs == nullptr
+                && rhs == nullptr) {
+                return true;
+            } else if (lhs == nullptr
+                || rhs == nullptr) {
+                return false;
+            }
+            
+            return (*lhs == *rhs);
+        }
+        
+        bool
+        operator!=(const std::shared_ptr<Job>& lhs, 
+                   const std::shared_ptr<Job>& rhs) {
+            return !(lhs == rhs);
+        }
+        
+        bool
+        operator<(const std::shared_ptr<Job>& lhs, 
+                  const std::shared_ptr<Job>& rhs) {
+            if (lhs == nullptr
+                && rhs == nullptr) {
+                return false;
+            } else if (lhs == nullptr) {
+                return true;
+            } else if (rhs == nullptr) {
+                return false;
+            }
+            
+            return (*lhs < *rhs);
+        }
+        
         Job::Job(const fs::path& path) {
             auto temp = File::JsonDataReader<Job>::read(path);
             *this = std::move(*temp);

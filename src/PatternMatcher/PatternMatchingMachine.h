@@ -28,11 +28,11 @@ namespace PatternMatcher {
         PatternMatchingMachine() = delete;
         PatternMatchingMachine(const PatternMatchingMachine&) = delete;
     public:
-        std::function<void(SENDER* /* sender */, 
-                const INPUT& /* input */,
+        std::function<void(const std::shared_ptr<SENDER>& /* sender */, 
+                const std::shared_ptr<INPUT>& /* input */,
                 const unsigned long long& /* total_matches */)> completed;
-        std::function<void(SENDER* /* sender */, 
-                const INPUT& /* input */,
+        std::function<void(const std::shared_ptr<SENDER>& /* sender */, 
+                const std::shared_ptr<INPUT>& /* input */,
                 const unsigned long long& /* position */,
                 const std::set<std::shared_ptr<PATTERN>>& /* patterns */)> match_found;
     private:
@@ -41,7 +41,7 @@ namespace PatternMatcher {
         ~PatternMatchingMachine();
         PatternMatchingMachine(const std::vector<std::shared_ptr<PATTERN>>& patterns);
         
-        void match(const INPUT& input, SENDER* sender) const;
+        void match(const std::shared_ptr<INPUT>& input, const std::shared_ptr<SENDER>& sender) const;
     private:
         void enter(const std::shared_ptr<PATTERN>& pattern);
         void construct_goto_function(const std::vector<std::shared_ptr<PATTERN>>& patterns);
@@ -62,13 +62,14 @@ namespace PatternMatcher {
     
     template <typename INPUT, typename PATTERN, typename SENDER>
     void 
-    PatternMatchingMachine<INPUT, PATTERN, SENDER>::match(const INPUT& input,
-                                                          SENDER* sender) const { 
+    PatternMatchingMachine<INPUT, PATTERN, SENDER>::match(
+            const std::shared_ptr<INPUT>& input,
+            const std::shared_ptr<SENDER>& sender) const { 
         unsigned long long patterns_found = 0;
         unsigned long long position = 0;
-        Node<PATTERN>* state = root.get();
+        std::shared_ptr<Node<PATTERN>> state = root;
 
-        for (const char a: input) { 
+        for (const char a: *input) { 
             ++position;
             while (nullptr == state->g(a)) {
                 state = state->failure;

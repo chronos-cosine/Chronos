@@ -16,6 +16,46 @@
 namespace Sorter {
     namespace Models {
         
+        std::shared_ptr<Pattern> 
+        Pattern::ptr() {
+            return std::enable_shared_from_this<Pattern>::shared_from_this();
+        }
+        
+        bool
+        operator==(const std::shared_ptr<Pattern>& lhs, 
+                   const std::shared_ptr<Pattern>& rhs) {
+            if (lhs == nullptr
+                && rhs == nullptr) {
+                return true;
+            } else if (lhs == nullptr
+                || rhs == nullptr) {
+                return false;
+            }
+            
+            return (*lhs == *rhs);
+        }
+        
+        bool
+        operator!=(const std::shared_ptr<Pattern>& lhs, 
+                   const std::shared_ptr<Pattern>& rhs) {
+            return !(lhs == rhs);
+        }
+        
+        bool
+        operator<(const std::shared_ptr<Pattern>& lhs, 
+                  const std::shared_ptr<Pattern>& rhs) {
+            if (lhs == nullptr
+                && rhs == nullptr) {
+                return false;
+            } else if (lhs == nullptr) {
+                return true;
+            } else if (rhs == nullptr) {
+                return false;
+            }
+            
+            return (*lhs < *rhs);
+        }
+                
         std::string::const_iterator 
         Pattern::begin() const {
             return value.begin();
