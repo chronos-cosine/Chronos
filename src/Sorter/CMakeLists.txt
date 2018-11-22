@@ -42,11 +42,13 @@ if(Boost_FOUND)
         "${CMAKE_CURRENT_LIST_DIR}/Repositories/CsvFileDataRepository.h"
         "${CMAKE_CURRENT_LIST_DIR}/Repositories/IDataRepository.h" 
         "${CMAKE_CURRENT_LIST_DIR}/Services/IDataProvider.h" 
+        "${CMAKE_CURRENT_LIST_DIR}/Services/IDataValidator.h" 
         "${CMAKE_CURRENT_LIST_DIR}/Services/MultiPatternMatcher.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/Services/MultiPatternMatcher.h" 
         "${CMAKE_CURRENT_LIST_DIR}/Services/SortingMachine.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/Services/SortingMachine.h" 
-        "${CMAKE_CURRENT_LIST_DIR}/Steps/IStep.h"
+        "${CMAKE_CURRENT_LIST_DIR}/Services/SortingProcess.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/Services/SortingProcess.h" 
         "${CMAKE_CURRENT_LIST_DIR}/Program.cpp"
     )
 

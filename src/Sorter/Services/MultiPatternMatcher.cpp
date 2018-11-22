@@ -16,13 +16,13 @@
 namespace Sorter {
     namespace Services {
         
-        
         MultiPatternMatcher::match_found::match_found(const std::shared_ptr<MultiPatternMatcher>& sender)
             : __sender(sender) {
         }
 
         void 
-        MultiPatternMatcher::match_found::operator()(const std::shared_ptr<MultiPatternMatcher>& sender, 
+        MultiPatternMatcher::match_found::operator()(
+            const std::shared_ptr<MultiPatternMatcher>& sender, 
             const std::shared_ptr<Sorter::Models::Job>& input,
             const unsigned long long& position,
             const std::set<std::shared_ptr<Sorter::Models::Pattern>>& patterns) {
@@ -42,7 +42,7 @@ namespace Sorter {
                 if (iter != __sender->__results->at(input).end()) {
                     (*iter)->pattern_matches[pattern].insert(position);
                 } else {
-                    __sender->__results->at(input).insert(result);
+                    __sender->__results->at(input).insert(std::move(result));
                 }
             } 
         }

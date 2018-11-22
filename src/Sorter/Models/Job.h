@@ -24,10 +24,12 @@ namespace fs = std::experimental::filesystem;
 
 namespace Sorter {
     namespace Models {
+        struct Result;
         
         struct Job : std::enable_shared_from_this<Job> {
             unsigned long long id;
             std::string document;
+            std::set<std::shared_ptr<Result>> results;
             
             Job() = default;
             Job(const fs::path& path);

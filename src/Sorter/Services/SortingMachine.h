@@ -15,8 +15,9 @@
 #define SORTER_SORTINGMACHINE_H
 
 #include "Collections/ICollection.h"
-#include "File/Spooler.h"
+#include "Processors/IProcessor.h"
 #include "Sorter/Models/Job.h"
+#include "Sorter/Models/Result.h"
 
 #include <experimental/filesystem>
 #include <mutex>
@@ -47,12 +48,12 @@ namespace Sorter {
             void stop_producer_threads();
             void stop_consumer_threads();
         private:
-            std::shared_ptr<Collections::ICollection<Sorter::Models::Job>> job_collection;
-            std::shared_ptr<Collections::ICollection<Sorter::Models::Job>> result_collection;
-            std::vector<std::shared_ptr<Processors::IProcessor>> producers;
-            std::vector<std::shared_ptr<Processors::IProcessor>> consumers;
-            std::vector<std::thread> producer_threads;
-            std::vector<std::thread> consumer_threads;
+            std::shared_ptr<Collections::ICollection<Sorter::Models::Job>> jobs;
+            std::shared_ptr<Collections::ICollection<Sorter::Models::Job>> results;
+            std::vector<std::shared_ptr<Processors::IProcessor>> job_producers;
+            std::vector<std::shared_ptr<Processors::IProcessor>> job_consumers;
+            std::vector<std::thread> job_producer_threads;
+            std::vector<std::thread> job_consumer_threads;
             std::mutex __mutex;
             bool __is_running;
             bool __is_stopping;
