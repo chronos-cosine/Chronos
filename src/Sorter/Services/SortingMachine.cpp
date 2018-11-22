@@ -27,11 +27,13 @@ namespace Sorter {
     
         SortingMachine::SortingMachine(const std::vector<fs::path>& paths, 
                            const std::chrono::seconds& sleep_time,
-                           const unsigned short& consumer_count) 
+                           const unsigned short& consumer_count,
+                           const std::shared_ptr<Sorter::Data::DataContext>& dc) 
           : jobs(std::make_shared<
                 Collections::Concurrent::Queue<Sorter::Models::Job>>()),
             results(std::make_shared<
                 Collections::Concurrent::Queue<Sorter::Models::Job>>()),
+            __data_context(dc),
             __is_running(false),
             __is_stopping(false) {
             initialise_producers(paths, sleep_time);
@@ -51,7 +53,7 @@ namespace Sorter {
         void 
         SortingMachine::initialise_consumers(const unsigned short& consumer_count) {
             for (unsigned short i = 0; i < consumer_count; ++i) {
-                job_consumers.push_back(std::make_shared<SortingProcess>(jobs, results));
+                job_consumers.push_back(std::make_shared<SortingProcess>(jobs, results, __data_context));
             }
         }
 

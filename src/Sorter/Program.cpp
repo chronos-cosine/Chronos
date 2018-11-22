@@ -25,11 +25,13 @@ namespace fs = std::experimental::filesystem;
 
 int main(int argc, char** argv) {
     std::cout << "Starting Chronos-Sorter..." << std::endl;
+    Sorter::Repositories::CsvFileDataRepository repository("./bins.dat", "./patterns.dat");
+    
     std::vector<fs::path> paths;
     paths.push_back("./1/");
     paths.push_back("./2/");
     
-    Sorter::Services::SortingMachine sm(paths, std::chrono::seconds(4), 1);
+    Sorter::Services::SortingMachine sm(paths, std::chrono::seconds(4), 1, repository.create_data_context());
     
     return 0;
 }
