@@ -17,6 +17,7 @@
 #include "Collections/IMap.h"
 
 #include <condition_variable>
+#include <iostream>
 #include <map>
 #include <mutex>
 
@@ -29,11 +30,12 @@ namespace Collections {
             virtual ~Map() = default;
             Map() = default;
             
-            virtual bool exist(const KEY& key) const noexcept;
+            virtual bool exist(const KEY& key);
             virtual void insert(const KEY& key, const VALUE& value);
             virtual void erase(const KEY& key);
             virtual VALUE& at(const KEY& key);
             virtual VALUE& operator[](const KEY& key);
+                   
         private:
             std::mutex mutex;
             std::map<KEY, VALUE> map;
@@ -41,8 +43,9 @@ namespace Collections {
                 
         template <typename KEY, typename VALUE>
         bool 
-        Map<KEY, VALUE>::exist(const KEY& key) const noexcept {
+        Map<KEY, VALUE>::exist(const KEY& key){
             std::lock_guard<std::mutex> lock(mutex);
+            std::cout << "Map<KEY, VALUE>::exist()" << std::endl;
             
             return map.find(key) != map.end();
         }
@@ -51,14 +54,16 @@ namespace Collections {
         void  
         Map<KEY, VALUE>::insert(const KEY& key, const VALUE& value) {
             std::lock_guard<std::mutex> lock(mutex);
+            std::cout << "Map<KEY, VALUE>::insert()" << std::endl;
             
-            map.insert(key, value);
+            map[key] = value;
         }
             
         template <typename KEY, typename VALUE>
         void  
         Map<KEY, VALUE>::erase(const KEY& key) {
             std::lock_guard<std::mutex> lock(mutex);
+            std::cout << "Map<KEY, VALUE>::erase()" << std::endl;
             
             map.erase(key);
         }
@@ -67,6 +72,7 @@ namespace Collections {
         VALUE&  
         Map<KEY, VALUE>::at(const KEY& key) {
             std::lock_guard<std::mutex> lock(mutex);
+            std::cout << "Map<KEY, VALUE>::at()" << std::endl;
             
             return map.at(key);
         }
@@ -74,6 +80,7 @@ namespace Collections {
         template <typename KEY, typename VALUE>
         VALUE&  
         Map<KEY, VALUE>::operator[](const KEY& key) {
+            std::cout << "Map<KEY, VALUE>::operator[]" << std::endl;
             return at(key);
         }
 

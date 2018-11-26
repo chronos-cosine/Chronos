@@ -28,11 +28,10 @@ namespace Sorter {
     namespace Services {
         namespace DataProviders {
     
-            class MultiPatternMatcher : public IDataProvider,
-                                        public std::enable_shared_from_this<MultiPatternMatcher> {
+            class MultiPatternMatcher : public IDataProvider {
                 struct match_found {
                     void operator()(
-                        const std::shared_ptr<MultiPatternMatcher>& sender, 
+                        MultiPatternMatcher* sender, 
                         const std::shared_ptr<Sorter::Models::Job>& input,
                         const unsigned long long& position,
                         const std::set<std::shared_ptr<Sorter::Models::Pattern>>& patterns);

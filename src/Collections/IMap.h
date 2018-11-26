@@ -26,8 +26,7 @@ namespace Collections {
         virtual ~IMap() = default;
         IMap() = default;
         
-        virtual bool exist(const KEY& key) const noexcept = 0;
-        virtual bool empty() const noexcept = 0;
+        virtual bool exist(const KEY& key) = 0;
         virtual void insert(const KEY& key, const VALUE& value) = 0;
         virtual void erase(const KEY& key) = 0;
         virtual VALUE& at(const KEY& key) = 0;
