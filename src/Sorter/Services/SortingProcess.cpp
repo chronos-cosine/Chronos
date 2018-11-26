@@ -24,8 +24,8 @@ namespace Sorter {
     namespace Services {
         
         SortingProcess::SortingProcess(
-                    const std::shared_ptr<Collections::ICollection<Sorter::Models::Job>>& jobs,
-                    const std::shared_ptr<Collections::ICollection<Sorter::Models::Job>>& results,
+                    const std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>>& jobs,
+                    const std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>>& results,
                     const std::shared_ptr<Sorter::Data::DataContext>& dc) 
                 : __jobs(jobs), __results(results) {
             std::cout << "SortingProcess::SortingProcess()" << std::endl;
@@ -44,27 +44,30 @@ namespace Sorter {
         
         bool 
         SortingProcess::process() {
-            auto job = __jobs->pop();
+            std::cout << "SortingProcess::process()" 
+                      << std::endl;
+
+            auto job = std::move(__jobs->pop());
             
             // populate data to validate
             for (auto& data_provider: __data_providers) {
-                data_provider->process(job.ptr());
+                data_provider->process(job);
             }
             
             // validate the data
             for (auto& data_validator: __data_validators) {
-                data_validator->process(job.ptr());
+                data_validator->process(job);
             }
             
             // erase false matches
             std::set<std::shared_ptr<Sorter::Models::Result>> to_erase;
-            for (auto& result: job.results) {
+            for (auto& result: job->results) {
                 if (!result->passed) {
                     to_erase.insert(result);
                 }
             }
             for (auto& result: to_erase) {
-                job.results.erase(result);
+                job->results.erase(result);
             }
             
             return true;

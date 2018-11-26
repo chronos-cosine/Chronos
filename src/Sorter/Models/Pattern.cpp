@@ -16,11 +16,6 @@
 namespace Sorter {
     namespace Models {
         
-        std::shared_ptr<Pattern> 
-        Pattern::ptr() {
-            return std::enable_shared_from_this<Pattern>::shared_from_this();
-        }
-        
         bool
         operator==(const std::shared_ptr<Pattern>& lhs, 
                    const std::shared_ptr<Pattern>& rhs) {

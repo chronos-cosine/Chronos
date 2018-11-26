@@ -17,11 +17,6 @@
 namespace Sorter {
     namespace Models {
         
-        std::shared_ptr<Job> 
-        Job::ptr() {
-            return std::enable_shared_from_this<Job>::shared_from_this();
-        }
-        
         bool
         operator==(const std::shared_ptr<Job>& lhs, 
                    const std::shared_ptr<Job>& rhs) {
@@ -110,6 +105,6 @@ namespace Sorter {
             
             return *this;
         }
-          
+        
     } /* namespace Models */
 } /* namespace Sorter */

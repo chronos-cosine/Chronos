@@ -26,7 +26,7 @@ namespace Sorter {
     namespace Models {
         struct Result;
         
-        struct Job : std::enable_shared_from_this<Job> {
+        struct Job {
             unsigned long long id;
             std::string document;
             std::set<std::shared_ptr<Result>> results;
@@ -36,7 +36,6 @@ namespace Sorter {
             
             std::string::const_iterator begin() const;
             std::string::const_iterator end() const;
-            std::shared_ptr<Job> ptr();
             
             bool operator==(const Job& rhs) const noexcept;
             bool operator!=(const Job& rhs) const noexcept;

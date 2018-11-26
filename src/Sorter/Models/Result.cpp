@@ -24,12 +24,7 @@ namespace Sorter {
         Result::Result() 
             : passed(true), job(nullptr), bin(nullptr), pattern_matches() {
         }
-        
-        std::shared_ptr<Result> 
-        Result::ptr() {
-            return std::enable_shared_from_this<Result>::shared_from_this();
-        }
-            
+          
         bool
         operator==(const std::shared_ptr<Result>& lhs, 
                    const std::shared_ptr<Result>& rhs) {

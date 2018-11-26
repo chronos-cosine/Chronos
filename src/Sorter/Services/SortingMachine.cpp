@@ -31,9 +31,9 @@ namespace Sorter {
                            const unsigned short& consumer_count,
                            const std::shared_ptr<Sorter::Data::DataContext>& dc) 
           : jobs(std::make_shared<
-                Collections::Concurrent::Queue<Sorter::Models::Job>>()),
+                Collections::Concurrent::Queue<std::shared_ptr<Sorter::Models::Job>>>()),
             results(std::make_shared<
-                Collections::Concurrent::Queue<Sorter::Models::Job>>()),
+                Collections::Concurrent::Queue<std::shared_ptr<Sorter::Models::Job>>>()),
             __data_context(dc),
             __is_running(false),
             __is_stopping(false) {

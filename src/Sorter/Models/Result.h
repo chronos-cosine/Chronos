@@ -27,16 +27,14 @@ namespace Sorter {
         struct Job;
         struct Pattern;
         
-        struct Result : std::enable_shared_from_this<Result> {
+        struct Result {
             Result();
             
             bool passed;
             std::shared_ptr<Job> job;
             std::shared_ptr<Bin> bin;
             std::map<std::shared_ptr<Pattern>, std::set<unsigned long long>> pattern_matches;
-            
-            std::shared_ptr<Result> ptr();
-            
+                        
             bool operator==(const Result& rhs) const noexcept;
             bool operator!=(const Result& rhs) const noexcept;
             bool operator<(const Result& rhs) const noexcept;

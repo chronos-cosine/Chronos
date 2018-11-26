@@ -31,8 +31,7 @@ int main(int argc, char** argv) {
     auto data_context = repository.create_data_context();
     
     std::vector<fs::path> paths;
-    paths.push_back("./1/");
-    paths.push_back("./2/");
+    paths.push_back("./jobs/");
     
     Sorter::Services::SortingMachine sm(paths, 
                                         std::chrono::seconds(4), 

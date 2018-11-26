@@ -29,14 +29,14 @@ namespace Sorter {
         class SortingProcess : public Processors::ProcessorBase {
         public:
             virtual ~SortingProcess() = default;
-            SortingProcess(const std::shared_ptr<Collections::ICollection<Sorter::Models::Job>>& jobs,
-                           const std::shared_ptr<Collections::ICollection<Sorter::Models::Job>>& results,
+            SortingProcess(const std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>>& jobs,
+                           const std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>>& results,
                            const std::shared_ptr<Sorter::Data::DataContext>& dc);
         protected:
             virtual bool process();
         private:
-            std::shared_ptr<Collections::ICollection<Sorter::Models::Job>> __jobs;
-            std::shared_ptr<Collections::ICollection<Sorter::Models::Job>> __results;
+            std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>> __jobs;
+            std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>> __results;
             std::vector<std::shared_ptr<IDataProvider>> __data_providers;
             std::vector<std::shared_ptr<IDataValidator>> __data_validators;
             

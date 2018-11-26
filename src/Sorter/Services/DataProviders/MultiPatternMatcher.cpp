@@ -28,9 +28,6 @@ namespace Sorter {
                           << std::endl;
 
                 __matcher.match_found = __match_found;
-                
-                std::cout << "MultiPatternMatcher::MultiPatternMatcher() 1" 
-                          << std::endl;
             }
 
             void 

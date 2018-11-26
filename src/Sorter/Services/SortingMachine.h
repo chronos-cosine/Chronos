@@ -51,8 +51,8 @@ namespace Sorter {
             void stop_producer_threads();
             void stop_consumer_threads();
         private:
-            std::shared_ptr<Collections::ICollection<Sorter::Models::Job>> jobs;
-            std::shared_ptr<Collections::ICollection<Sorter::Models::Job>> results;
+            std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>> jobs;
+            std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>> results;
             std::vector<std::shared_ptr<Processors::IProcessor>> job_producers;
             std::vector<std::shared_ptr<Processors::IProcessor>> job_consumers;
             std::vector<std::thread> job_producer_threads;

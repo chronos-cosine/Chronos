@@ -41,14 +41,14 @@ namespace File {
                  const std::string& trigger,
                  const std::string& spooled_extension,
                  const std::chrono::seconds& sleep_time,
-                 const std::shared_ptr<Collections::ICollection<T>>& collection);
+                 const std::shared_ptr<Collections::ICollection<std::shared_ptr<T>>>& collection);
     protected:
         virtual bool process();
     private:
          fs::path __directory;
          std::string __trigger;
          std::string __spooled_extension;
-         std::shared_ptr<Collections::ICollection<T>> __collection;
+         std::shared_ptr<Collections::ICollection<std::shared_ptr<T>>> __collection;
 
     }; /* class Spooler */
     
@@ -75,7 +75,7 @@ namespace File {
                      const std::string& trigger,
                      const std::string& spooled_extension,
                      const std::chrono::seconds& sleep_time,
-                     const std::shared_ptr<Collections::ICollection<T>>& collection)
+                     const std::shared_ptr<Collections::ICollection<std::shared_ptr<T>>>& collection)
             : Processors::ProcessorBase(sleep_time), 
               __directory(directory), 
               __trigger(trigger), 
@@ -108,7 +108,8 @@ namespace File {
                     return false;
                 }
                 
-                __collection->push(new_path);
+                std::shared_ptr<T> item = std::make_shared<T>(new_path);
+                __collection->push(item);
             }
         }
         
