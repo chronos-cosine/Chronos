@@ -13,10 +13,10 @@
 
 #include "Sorter/Data/DataContext.h"
 #include "Sorter/Services/DataProviders/MultiPatternMatcher.h"
-#include "SortingProcess.h"
-#include "DataValidators/NotDataValidator.h"
-#include "DataValidators/AndDataValidator.h"
-#include "DataValidators/OrDataValidator.h"
+#include "Sorter/Services/DataValidators/NotDataValidator.h"
+#include "Sorter/Services/DataValidators/AndDataValidator.h"
+#include "Sorter/Services/DataValidators/OrDataValidator.h"
+#include "Sorter/Services/SortingProcess.h"
 
 namespace Sorter {
     namespace Services {
