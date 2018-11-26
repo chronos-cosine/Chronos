@@ -27,7 +27,7 @@ namespace Sorter {
                 patterns.push_back(pair.second);
             }
             
-            __data_providers.push_back(std::make_shared<MultiPatternMatcher>(std::move(patterns)));
+            __data_providers.push_back(std::make_shared<DataProviders::MultiPatternMatcher>(std::move(patterns)));
             //__data_validators.push_back(std::make_shared<NOT>());
             //__data_validators.push_back(std::make_shared<OR>());
             //__data_validators.push_back(std::make_shared<AND>());

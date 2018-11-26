@@ -62,7 +62,7 @@ namespace Sorter {
             bool __is_stopping;
 
         }; /* class SortingMachine */ 
-    
+
     } /* namespace Services */
 } /* namespace Sorter */
 

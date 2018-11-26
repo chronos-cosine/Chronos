@@ -14,6 +14,10 @@
 #ifndef SORTER_SERVICES_IDATAVALIDATOR_H
 #define SORTER_SERVICES_IDATAVALIDATOR_H
 
+#include "Sorter/Models/Job.h"
+
+#include <memory>
+
 namespace Sorter {
     namespace Services {
     
@@ -22,7 +26,7 @@ namespace Sorter {
             virtual ~IDataValidator() = default;
             IDataValidator() = default;
             
-            virtual bool process(const std::shared_ptr<Sorter::Models::Job>& job) = 0;
+            virtual void process(const std::shared_ptr<Sorter::Models::Job>& job) = 0;
             
             
         }; /* class IDataProvider */ 

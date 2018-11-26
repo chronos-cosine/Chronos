@@ -14,19 +14,26 @@
 #ifndef SORTER_SERVICES_ANDDATAVALIDATOR_H
 #define SORTER_SERVICES_ANDDATAVALIDATOR_H
 
+#include "Sorter/Data/DataContext.h"
 #include "Sorter/Services/IDataValidator.h"
+
+#include <memory>
 
 namespace Sorter {
     namespace Services {
+        namespace DataValidators {
     
-        class AndDataValidator : public IDataValidator {
-        public:
-            virtual ~AndDataValidator() = default;
-            AndDataValidator() = default;
-            
-            virtual bool process(const std::shared_ptr<Sorter::Models::Job>& job);
-        };
+            class AndDataValidator : public IDataValidator {
+            public:
+                virtual ~AndDataValidator() = default;
+                AndDataValidator(const std::shared_ptr<Sorter::Data::DataContext>& data_context);
+
+                virtual void process(const std::shared_ptr<Sorter::Models::Job>& job);
+            private:
+                std::shared_ptr<Sorter::Data::DataContext> __data_context;
+            };
     
+        } /* namespace DataValidators */
     } /* namespace Services */
 } /* namespace Sorter */
 

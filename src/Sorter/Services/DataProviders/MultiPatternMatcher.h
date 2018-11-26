@@ -11,8 +11,8 @@
  * Created on 21 November 2018, 1:29 PM
  */
 
-#ifndef SORTER_SERVICES_MULTIPATTERNMATCHER_H
-#define SORTER_SERVICES_MULTIPATTERNMATCHER_H
+#ifndef SORTER_SERVICES_DATAPROVIDERS_MULTIPATTERNMATCHER_H
+#define SORTER_SERVICES_DATAPROVIDERS_MULTIPATTERNMATCHER_H
 
 #include "Collections/IMap.h"
 #include "PatternMatcher/PatternMatchingMachine.h"
@@ -26,36 +26,38 @@
 
 namespace Sorter {
     namespace Services {
+        namespace DataProviders {
     
-        class MultiPatternMatcher : public IDataProvider,
-                                    public std::enable_shared_from_this<MultiPatternMatcher> {
-            struct match_found {
-                match_found(const std::shared_ptr<MultiPatternMatcher>& sender);
-                void operator()(
-                    const std::shared_ptr<MultiPatternMatcher>& sender, 
-                    const std::shared_ptr<Sorter::Models::Job>& input,
-                    const unsigned long long& position,
-                    const std::set<std::shared_ptr<Sorter::Models::Pattern>>& patterns);
+            class MultiPatternMatcher : public IDataProvider,
+                                        public std::enable_shared_from_this<MultiPatternMatcher> {
+                struct match_found {
+                    match_found(const std::shared_ptr<MultiPatternMatcher>& sender);
+                    void operator()(
+                        const std::shared_ptr<MultiPatternMatcher>& sender, 
+                        const std::shared_ptr<Sorter::Models::Job>& input,
+                        const unsigned long long& position,
+                        const std::set<std::shared_ptr<Sorter::Models::Pattern>>& patterns);
+                private:
+                    std::shared_ptr<MultiPatternMatcher> __sender;
+                }; /* struct match_found */
+            public:
+                virtual ~MultiPatternMatcher() = default;
+                MultiPatternMatcher(const std::vector<std::shared_ptr<Sorter::Models::Pattern>>& patterns); 
+
+                virtual void process(const std::shared_ptr<Sorter::Models::Job>& job);
             private:
-                std::shared_ptr<MultiPatternMatcher> __sender;
-            }; /* struct match_found */
-        public:
-            virtual ~MultiPatternMatcher() = default;
-            MultiPatternMatcher(const std::vector<std::shared_ptr<Sorter::Models::Pattern>>& patterns); 
-            
-            virtual void process(const std::shared_ptr<Sorter::Models::Job>& job);
-        private:
-            match_found match_found;
-            PatternMatcher::PatternMatchingMachine<Sorter::Models::Job, 
-                                                   Sorter::Models::Pattern,
-                                                   MultiPatternMatcher> __matcher;
-            std::shared_ptr<Collections::IMap<std::shared_ptr<Sorter::Models::Job>, 
-                            std::set<std::shared_ptr<Sorter::Models::Result>>>> __results;
-            
-        }; /* class MultiPatternMatcher */ 
+                match_found match_found;
+                PatternMatcher::PatternMatchingMachine<Sorter::Models::Job, 
+                                                       Sorter::Models::Pattern,
+                                                       MultiPatternMatcher> __matcher;
+                std::shared_ptr<Collections::IMap<std::shared_ptr<Sorter::Models::Job>, 
+                                std::set<std::shared_ptr<Sorter::Models::Result>>>> __results;
+
+            }; /* class MultiPatternMatcher */ 
     
+        } /* namespace DataProviders */
     } /* namespace Services */
 } /* namespace Sorter */ 
 
-#endif /* SORTER_SERVICES_MULTIPATTERNMATCHER_H */
+#endif /* SORTER_SERVICES_DATAPROVIDERS_MULTIPATTERNMATCHER_H */
 

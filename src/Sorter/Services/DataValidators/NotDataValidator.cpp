@@ -15,11 +15,19 @@
 
 namespace Sorter {
     namespace Services {
+        namespace DataValidators {
+            
+            NotDataValidator::NotDataValidator(
+                const std::shared_ptr<Sorter::Data::DataContext>& data_context) 
+                    : __data_context(data_context) {
+                
+            }
+        
+            void 
+            NotDataValidator::process(const std::shared_ptr<Sorter::Models::Job>& job) {
+                return;
+            }
     
-        bool 
-        NotDataValidator::process(const std::shared_ptr<Sorter::Models::Job>& job) {
-            return false;
-        }
-    
+        } /* namespace DataValidators */
     } /* namespace Services */
 } /* namespace Sorter */
