@@ -21,6 +21,10 @@
 namespace Sorter {
     namespace Models {
         
+        boost::property_tree::ptree&
+        operator<<(boost::property_tree::ptree& lhs, const Result& result) { 
+        }
+        
         Result::Result() 
             : passed(true), job(nullptr), bin(nullptr), pattern_matches() {
         }

@@ -63,8 +63,7 @@ namespace Collections {
                 return !queue.empty(); 
             });
 
-            std::cout << "Queue<T>::pop()" 
-                      << std::endl;
+            std::cout << "Queue<T>::pop()" << std::endl;
             T item = std::move(queue.front());
             queue.pop();
 

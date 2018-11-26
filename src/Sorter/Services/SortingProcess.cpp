@@ -11,6 +11,7 @@
  * Created on 22 November 2018, 9:29 AM
  */
 
+#include "File/JsonDataWriter.h"
 #include "Sorter/Data/DataContext.h"
 #include "Sorter/Services/DataProviders/MultiPatternMatcher.h"
 #include "Sorter/Services/DataValidators/NotDataValidator.h"
@@ -18,7 +19,11 @@
 #include "Sorter/Services/DataValidators/OrDataValidator.h"
 #include "Sorter/Services/SortingProcess.h"
 
+#include <experimental/filesystem>
+#include <fstream>
 #include <iostream>
+
+namespace fs = std::experimental::filesystem;
 
 namespace Sorter {
     namespace Services {
@@ -44,8 +49,7 @@ namespace Sorter {
         
         bool 
         SortingProcess::process() {
-            std::cout << "SortingProcess::process()" 
-                      << std::endl;
+            std::cout << "SortingProcess::process()"<< std::endl;
 
             auto job = std::move(__jobs->pop());
             
@@ -69,6 +73,11 @@ namespace Sorter {
             for (auto& result: to_erase) {
                 job->results.erase(result);
             }
+            
+            std::string name = "./" + std::to_string(job->id) + ".result";
+            std::fstream result_output(name);
+           
+            File::JsonDataWriter<Sorter::Models::Job>::write(result_output, *job);
             
             return true;
         }

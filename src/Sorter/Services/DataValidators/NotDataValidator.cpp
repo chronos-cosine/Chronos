@@ -17,6 +17,7 @@
 #include "Sorter/Models/Result.h"
 #include "Sorter/Models/BooleanOperator.h"
 
+#include <iostream>
 #include <map>
 
 namespace Sorter {
@@ -26,11 +27,13 @@ namespace Sorter {
             NotDataValidator::NotDataValidator(
                 const std::shared_ptr<Sorter::Data::DataContext>& data_context) 
                     : __data_context(data_context) {
+                std::cout << "NotDataValidator::NotDataValidator()"<< std::endl;
                 
             }
         
             void 
             NotDataValidator::process(const std::shared_ptr<Sorter::Models::Job>& job) {
+                std::cout << "NotDataValidator::process()"<< std::endl;
                 for (auto& result: job->results) {
                     if (!result->passed) {
                         continue;

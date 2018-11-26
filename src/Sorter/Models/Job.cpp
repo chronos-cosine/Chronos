@@ -14,8 +14,27 @@
 #include "Job.h"
 #include "File/JsonDataReader.h"
 
+#include <boost/property_tree/ptree.hpp>
+
 namespace Sorter {
     namespace Models {
+        
+        boost::property_tree::ptree&
+        operator<<(boost::property_tree::ptree& lhs, const Job& job) {
+            lhs.put("id", job.id);
+            lhs.put("document", job.document);
+            
+            boost::property_tree::ptree results;
+            for (auto& result: job.results) {
+                boost::property_tree::ptree temp;
+                temp << *result;
+                
+                results.push_back(std::make_pair("", std::move(temp)));
+            }
+            lhs.put("results", results);
+            
+            return lhs;
+        }
         
         bool
         operator==(const std::shared_ptr<Job>& lhs, 
