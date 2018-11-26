@@ -14,8 +14,11 @@
 #ifndef SORTER_MODELS_BIN_H
 #define SORTER_MODELS_BIN_H
 
+#include "Sorter/Models/BooleanOperator.h"
+
 #include <boost/optional.hpp>
 #include <memory>
+#include <map>
 #include <set>
 #include <string>
 
@@ -30,7 +33,8 @@ namespace Sorter {
             boost::optional<unsigned long long> parent_id;
             
             boost::optional<std::shared_ptr<Bin>> parent;
-            std::set<std::shared_ptr<Pattern>> patterns;
+            std::map<Sorter::Models::BooleanOperator, 
+                     std::set<std::shared_ptr<Pattern>>> patterns;
             bool is_root() const noexcept;
             std::shared_ptr<Bin> ptr();
             

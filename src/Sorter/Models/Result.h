@@ -28,6 +28,8 @@ namespace Sorter {
         struct Pattern;
         
         struct Result : std::enable_shared_from_this<Result> {
+            Result();
+            
             bool passed;
             std::shared_ptr<Job> job;
             std::shared_ptr<Bin> bin;

@@ -35,17 +35,12 @@ namespace Sorter {
                         continue;
                     }
                     
-                    auto& bin = result->bin;
-                    
-                    for (auto& pair: __data_context->patterns[bin->id]) {
-                        auto& pattern = pair.second;
-                        if (Sorter::Models::BooleanOperator::AND 
-                            == pattern->boolean_operator) {
-                            if (result->pattern_matches.find(pattern)
-                                == result->pattern_matches.end()) {
-                                result->passed = false;
-                                break;
-                            }
+                    for (auto& pattern: __data_context->bins[result->bin->id]
+                                        ->patterns[Sorter::Models::BooleanOperator::AND]) {
+                        if (result->pattern_matches.find(pattern)
+                            == result->pattern_matches.end()) {
+                            result->passed = false;
+                            break;
                         }
                     }
                 }

@@ -20,14 +20,15 @@ namespace Sorter {
         
         void 
         DataContext::link_bin_patterns() {
-            for(auto& pattern: patterns) {
-                if (bins.find(pattern.second->bin_id) == bins.end()) {
+            for(auto& pair: patterns) {
+                if (bins.find(pair.second->bin_id) == bins.end()) {
                     throw std::runtime_error(
                         "DataContext::link_bin_patterns() pattern.bin_id not found in bins");
                 }
                 
-                bins[pattern.second->bin_id]->patterns.insert(pattern.second);
-                pattern.second->bin = bins[pattern.second->bin_id];
+                bins[pair.second->bin_id]->patterns[pair.second->boolean_operator]
+                                         .insert(pair.second);
+                pair.second->bin = bins[pair.second->bin_id];
             }
         }
         

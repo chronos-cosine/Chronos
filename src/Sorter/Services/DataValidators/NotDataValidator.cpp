@@ -12,6 +12,12 @@
  */
 
 #include "NotDataValidator.h"
+#include "Sorter/Models/Job.h"
+#include "Sorter/Models/Pattern.h"
+#include "Sorter/Models/Result.h"
+#include "Sorter/Models/BooleanOperator.h"
+
+#include <map>
 
 namespace Sorter {
     namespace Services {
@@ -25,7 +31,19 @@ namespace Sorter {
         
             void 
             NotDataValidator::process(const std::shared_ptr<Sorter::Models::Job>& job) {
-                return;
+                for (auto& result: job->results) {
+                    if (!result->passed) {
+                        continue;
+                    }
+                    
+                    for (auto& pair: result->pattern_matches) {
+                        if (Sorter::Models::BooleanOperator::NOT 
+                            == pair.first->boolean_operator) {
+                            result->passed = false;
+                        }
+                        break;
+                    }
+                }
             }
     
         } /* namespace DataValidators */
