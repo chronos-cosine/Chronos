@@ -18,6 +18,8 @@
 #include "Sorter/Services/DataValidators/OrDataValidator.h"
 #include "Sorter/Services/SortingProcess.h"
 
+#include <iostream>
+
 namespace Sorter {
     namespace Services {
         
@@ -26,12 +28,15 @@ namespace Sorter {
                     const std::shared_ptr<Collections::ICollection<Sorter::Models::Job>>& results,
                     const std::shared_ptr<Sorter::Data::DataContext>& dc) 
                 : __jobs(jobs), __results(results) {
+            std::cout << "SortingProcess::SortingProcess()" << std::endl;
+            
             std::vector<std::shared_ptr<Sorter::Models::Pattern>> patterns;
+            
             for (auto& pair: dc->patterns) {
                 patterns.push_back(pair.second);
             }
             
-            __data_providers.push_back(std::make_shared<DataProviders::MultiPatternMatcher>(std::move(patterns)));
+            __data_providers.push_back(std::make_shared<DataProviders::MultiPatternMatcher>(patterns));
             __data_validators.push_back(std::make_shared<DataValidators::NotDataValidator>(dc));
             __data_validators.push_back(std::make_shared<DataValidators::OrDataValidator>(dc));
             __data_validators.push_back(std::make_shared<DataValidators::AndDataValidator>(dc));

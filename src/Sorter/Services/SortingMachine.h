@@ -41,6 +41,7 @@ namespace Sorter {
         public:
             bool start();
             bool stop();
+            bool get_is_running() const noexcept; 
         private:
             void initialise_producers(const std::vector<fs::path>& paths,
                     const std::chrono::seconds& sleep_time);

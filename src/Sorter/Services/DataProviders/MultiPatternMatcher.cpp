@@ -13,12 +13,24 @@
 
 #include "MultiPatternMatcher.h"
 
+#include <iostream>
+#include <memory>
+
 namespace Sorter {
     namespace Services {
         namespace DataProviders {
         
-            MultiPatternMatcher::match_found::match_found(const std::shared_ptr<MultiPatternMatcher>& sender)
-                : __sender(sender) {
+            MultiPatternMatcher::MultiPatternMatcher(
+                const std::vector<std::shared_ptr<Sorter::Models::Pattern>>& patterns) 
+                : __matcher(patterns) {
+                
+                std::cout << "MultiPatternMatcher::MultiPatternMatcher()" 
+                          << std::endl;
+
+                __matcher.match_found = __match_found;
+                
+                std::cout << "MultiPatternMatcher::MultiPatternMatcher() 1" 
+                          << std::endl;
             }
 
             void 
@@ -28,8 +40,11 @@ namespace Sorter {
                 const unsigned long long& position,
                 const std::set<std::shared_ptr<Sorter::Models::Pattern>>& patterns) {
 
-                if (!__sender->__results->exist(input)) {
-                    __sender->__results->insert(input, 
+                std::cout << "MultiPatternMatcher::match_found::operator()" 
+                          << std::endl;
+                        
+                if (!sender->__results->exist(input)) {
+                    sender->__results->insert(input, 
                         std::set<std::shared_ptr<Sorter::Models::Result>>());
                 }
 
@@ -39,25 +54,19 @@ namespace Sorter {
                     result->bin = pattern->bin;
                     result->pattern_matches[pattern].insert(position);
 
-                    auto iter = __sender->__results->at(input).find(result);
-                    if (iter != __sender->__results->at(input).end()) {
+                    auto iter = sender->__results->at(input).find(result);
+                    if (iter != sender->__results->at(input).end()) {
                         (*iter)->pattern_matches[pattern].insert(position);
                     } else {
-                        __sender->__results->at(input).insert(std::move(result));
+                        sender->__results->at(input).insert(std::move(result));
                     }
                 } 
             }
 
-            MultiPatternMatcher::MultiPatternMatcher(
-                const std::vector<std::shared_ptr<Sorter::Models::Pattern>>& patterns) 
-                : __matcher(patterns), 
-                  match_found(std::enable_shared_from_this<
-                     MultiPatternMatcher>::shared_from_this()) {
-                __matcher.match_found = match_found;
-            }
-
             void 
             MultiPatternMatcher::process(const std::shared_ptr<Sorter::Models::Job>& job) {
+                std::cout << "MultiPatternMatcher::process()" 
+                          << std::endl;
                 __matcher.match(job, std::enable_shared_from_this<
                                         MultiPatternMatcher>::shared_from_this());
             }

@@ -31,14 +31,11 @@ namespace Sorter {
             class MultiPatternMatcher : public IDataProvider,
                                         public std::enable_shared_from_this<MultiPatternMatcher> {
                 struct match_found {
-                    match_found(const std::shared_ptr<MultiPatternMatcher>& sender);
                     void operator()(
                         const std::shared_ptr<MultiPatternMatcher>& sender, 
                         const std::shared_ptr<Sorter::Models::Job>& input,
                         const unsigned long long& position,
                         const std::set<std::shared_ptr<Sorter::Models::Pattern>>& patterns);
-                private:
-                    std::shared_ptr<MultiPatternMatcher> __sender;
                 }; /* struct match_found */
             public:
                 virtual ~MultiPatternMatcher() = default;
@@ -46,7 +43,7 @@ namespace Sorter {
 
                 virtual void process(const std::shared_ptr<Sorter::Models::Job>& job);
             private:
-                match_found match_found;
+                match_found __match_found;
                 PatternMatcher::PatternMatchingMachine<Sorter::Models::Job, 
                                                        Sorter::Models::Pattern,
                                                        MultiPatternMatcher> __matcher;
