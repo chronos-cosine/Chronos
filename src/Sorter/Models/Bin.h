@@ -17,6 +17,7 @@
 #include "Sorter/Models/BooleanOperator.h"
 
 #include <boost/optional.hpp>
+#include <boost/property_tree/ptree.hpp>
 #include <memory>
 #include <map>
 #include <set>
@@ -42,6 +43,10 @@ namespace Sorter {
             bool operator<(const Bin& rhs) const noexcept;
             Bin& operator=(const Bin& rhs);
             Bin& operator<<(const std::vector<std::string>& rhs);
+            
+            friend boost::property_tree::ptree& 
+            operator<<(boost::property_tree::ptree& lhs, const Bin& bin);
+            
         }; /* struct Bin */
         
     } /* namespace Models */
