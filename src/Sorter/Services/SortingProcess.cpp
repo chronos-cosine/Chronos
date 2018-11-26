@@ -51,6 +51,17 @@ namespace Sorter {
                 data_validator->process(job.ptr());
             }
             
+            // erase false matches
+            std::set<std::shared_ptr<Sorter::Models::Result>> to_erase;
+            for (auto& result: job.results) {
+                if (!result->passed) {
+                    to_erase.insert(result);
+                }
+            }
+            for (auto& result: to_erase) {
+                job.results.erase(result);
+            }
+            
             return true;
         }
 
