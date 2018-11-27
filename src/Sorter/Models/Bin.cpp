@@ -117,12 +117,6 @@ namespace Sorter {
         boost::property_tree::ptree& 
         operator<<(boost::property_tree::ptree& lhs, const Bin& bin) {
             lhs.put("id", bin.id);
-            lhs.put("name", name);
-            if (!bin.is_root()) {
-                lhs.put("parent_id", bin.parent_id.get());
-            } else {
-                lhs.put("parent_id", "null");
-            }
             
             return lhs;
         }

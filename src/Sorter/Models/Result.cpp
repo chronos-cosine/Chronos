@@ -80,5 +80,12 @@ namespace Sorter {
             }
         }
         
+        boost::property_tree::ptree& 
+        operator<<(boost::property_tree::ptree& lhs, const Result& result) {
+            lhs.put("passed", result.passed);
+            
+            return lhs;
+        }
+        
     } /* namespace Models */
 } /* namespace Sorter */

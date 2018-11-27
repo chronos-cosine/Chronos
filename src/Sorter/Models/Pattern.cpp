@@ -103,6 +103,13 @@ namespace Sorter {
             
             return *this;
         }
+        
+        boost::property_tree::ptree& 
+        operator<<(boost::property_tree::ptree& lhs, const Pattern& pattern) {
+            lhs.put("id", pattern.id);
+            
+            return lhs;
+        }
             
     } /* namespace Models */
 } /* namespace Sorter */

@@ -24,15 +24,6 @@ namespace Sorter {
             lhs.put("id", job.id);
             lhs.put("document", job.document);
             
-//            boost::property_tree::ptree results;
-//            for (auto& result: job.results) {
-//                boost::property_tree::ptree temp;
-//                temp << *result;
-//                
-//                results.push_back(std::make_pair("", std::move(temp)));
-//            }
-//            lhs.put("results", results);
-//            
             return lhs;
         }
         

@@ -15,6 +15,7 @@
 #define SORTER_MODELS_RESULT_H
 
 #include <boost/optional.hpp>
+#include <boost/property_tree/ptree.hpp>
 #include <map>
 #include <memory>
 #include <set>
@@ -39,6 +40,9 @@ namespace Sorter {
             bool operator!=(const Result& rhs) const noexcept;
             bool operator<(const Result& rhs) const noexcept;
                         
+            friend boost::property_tree::ptree& 
+            operator<<(boost::property_tree::ptree& lhs, const Result& result);
+            
         }; /* struct Result */
         
     } /* namespace Models */

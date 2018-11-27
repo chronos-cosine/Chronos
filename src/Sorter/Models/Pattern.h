@@ -16,6 +16,7 @@
 
 #include "BooleanOperator.h"
 
+#include <boost/property_tree/ptree.hpp>
 #include <memory>
 #include <string>
 #include <vector>
@@ -41,6 +42,8 @@ namespace Sorter {
             Pattern& operator=(const Pattern& rhs);
             Pattern& operator<<(const std::vector<std::string>& rhs);
             
+            friend boost::property_tree::ptree& 
+            operator<<(boost::property_tree::ptree& lhs, const Pattern& pattern);
             
         }; /* struct Pattern */
         
