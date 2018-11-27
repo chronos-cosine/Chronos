@@ -42,8 +42,8 @@ namespace Sorter {
             Pattern& operator=(const Pattern& rhs);
             Pattern& operator<<(const std::vector<std::string>& rhs);
             
-            friend boost::property_tree::ptree& 
-            operator<<(boost::property_tree::ptree& lhs, const Pattern& pattern);
+            boost::property_tree::ptree& 
+            operator>>(boost::property_tree::ptree& lhs);
             
         }; /* struct Pattern */
         

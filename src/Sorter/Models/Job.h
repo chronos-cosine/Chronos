@@ -44,8 +44,8 @@ namespace Sorter {
             Job& operator<<(const std::vector<std::string>& rhs);
             Job& operator<<(const boost::property_tree::ptree& rhs);
             
-            friend boost::property_tree::ptree& 
-            operator<<(boost::property_tree::ptree& lhs, const Job& job);
+            boost::property_tree::ptree& 
+            operator>>(boost::property_tree::ptree& lhs);
             
         }; /* struct Job */
         

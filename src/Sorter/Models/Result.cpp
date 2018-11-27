@@ -17,6 +17,7 @@
 #include "Result.h"
 
 #include <memory>
+#include <utility>
 
 namespace Sorter {
     namespace Models {
@@ -81,8 +82,29 @@ namespace Sorter {
         }
         
         boost::property_tree::ptree& 
-        operator<<(boost::property_tree::ptree& lhs, const Result& result) {
-            lhs.put("passed", result.passed);
+        Result::operator>>(boost::property_tree::ptree& lhs) {
+            lhs.put("passed", passed);
+            if (job != nullptr) {
+                lhs.put("job_id", job->id);
+            }
+            
+            if (bin != nullptr) {
+                lhs.put("bin_id", bin->id);
+            }
+            
+            boost::property_tree::ptree ptree_pattern_matches;
+            for (auto& pair: pattern_matches) {
+                boost::property_tree::ptree ptree_pattern;
+                boost::property_tree::ptree ptree_positions;
+                *pair.first >> ptree_pattern;
+                ptree_pattern_matches.add_child("pattern", std::move(ptree_pattern));
+                
+                for (auto& index: pair.second) {
+                    ptree_positions.push_back(std::make_pair("", index));
+                }
+                ptree_pattern_matches.add_child("positions", std::move(ptree_positions));
+            } 
+            lhs.add_child("pattern_matches", std::move(ptree_pattern_matches));
             
             return lhs;
         }

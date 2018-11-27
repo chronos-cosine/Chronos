@@ -13,16 +13,37 @@
 
 #include "Job.h"
 #include "File/JsonDataReader.h"
+#include "Sorter/Models/Result.h"
 
 #include <boost/property_tree/ptree.hpp>
+#include <set>
 
 namespace Sorter {
     namespace Models {
         
+        Job& 
+        Job::operator<<(const boost::property_tree::ptree& rhs) {
+            id = rhs.get<unsigned long long>("id");
+            document = rhs.get<std::string>("document");
+             
+            return *this;
+        }
+        
         boost::property_tree::ptree&
-        operator<<(boost::property_tree::ptree& lhs, const Job& job) {
-            lhs.put("id", job.id);
-            lhs.put("document", job.document);
+        Job::operator>>(boost::property_tree::ptree& lhs) {
+            lhs.put("id", id);
+            lhs.put("document", document);
+            
+            if (results.size() > 0) {
+                boost::property_tree::ptree ptree_results;
+                for (auto& result: results) {
+                    boost::property_tree::ptree temp;
+                    *result >> temp;
+                    ptree_results.add_child("", std::move(temp));
+                }
+                
+                lhs.add_child("results", ptree_results);
+            }
             
             return lhs;
         }
@@ -108,13 +129,6 @@ namespace Sorter {
             return *this;
         }
         
-        Job& 
-        Job::operator<<(const boost::property_tree::ptree& rhs) {
-            id = rhs.get<unsigned long long>("id");
-            document = rhs.get<std::string>("document");
-            
-            return *this;
-        }
         
     } /* namespace Models */
 } /* namespace Sorter */

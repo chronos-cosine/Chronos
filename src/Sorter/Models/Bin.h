@@ -44,8 +44,8 @@ namespace Sorter {
             Bin& operator=(const Bin& rhs);
             Bin& operator<<(const std::vector<std::string>& rhs);
             
-            friend boost::property_tree::ptree& 
-            operator<<(boost::property_tree::ptree& lhs, const Bin& bin);
+            boost::property_tree::ptree& 
+            operator>>(boost::property_tree::ptree& lhs);
             
         }; /* struct Bin */
         

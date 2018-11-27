@@ -77,7 +77,7 @@ namespace Sorter {
             std::string name = "./" + std::to_string(job->id) + ".result";
             std::fstream result_output(name);
            
-//            File::JsonDataWriter<Sorter::Models::Job>::write(result_output, *job);
+            File::JsonDataWriter<Sorter::Models::Job>::write(result_output, *job);
             
             return true;
         }

@@ -40,8 +40,8 @@ namespace Sorter {
             bool operator!=(const Result& rhs) const noexcept;
             bool operator<(const Result& rhs) const noexcept;
                         
-            friend boost::property_tree::ptree& 
-            operator<<(boost::property_tree::ptree& lhs, const Result& result);
+            boost::property_tree::ptree& 
+            operator>>(boost::property_tree::ptree& lhs);
             
         }; /* struct Result */
         
