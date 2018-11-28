@@ -82,7 +82,7 @@ namespace Sorter {
         }
         
         boost::property_tree::ptree& 
-        Result::operator>>(boost::property_tree::ptree& lhs) {
+        Result::operator>>(boost::property_tree::ptree& lhs) const {
             lhs.put("passed", passed);
             if (job != nullptr) {
                 lhs.put("job_id", job->id);
@@ -100,7 +100,7 @@ namespace Sorter {
                 ptree_pattern_matches.add_child("pattern", std::move(ptree_pattern));
                 
                 for (auto& index: pair.second) {
-                    ptree_positions.push_back(std::make_pair("", index));
+                    ptree_positions.add("", index);
                 }
                 ptree_pattern_matches.add_child("positions", std::move(ptree_positions));
             } 

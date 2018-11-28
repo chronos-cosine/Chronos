@@ -115,7 +115,7 @@ namespace Sorter {
         }
         
         boost::property_tree::ptree& 
-         Bin::operator>>(boost::property_tree::ptree& lhs) {
+         Bin::operator>>(boost::property_tree::ptree& lhs) const {
             lhs.put("id", id);
             lhs.put("name", name);
             

@@ -45,7 +45,7 @@ namespace Sorter {
             Job& operator<<(const boost::property_tree::ptree& rhs);
             
             boost::property_tree::ptree& 
-            operator>>(boost::property_tree::ptree& lhs);
+            operator>>(boost::property_tree::ptree& lhs) const;
             
         }; /* struct Job */
         

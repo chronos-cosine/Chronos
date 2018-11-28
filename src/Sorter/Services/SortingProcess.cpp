@@ -13,6 +13,7 @@
 
 #include "File/JsonDataWriter.h"
 #include "Sorter/Data/DataContext.h"
+#include "Sorter/Models/Job.h"
 #include "Sorter/Services/DataProviders/MultiPatternMatcher.h"
 #include "Sorter/Services/DataValidators/NotDataValidator.h"
 #include "Sorter/Services/DataValidators/AndDataValidator.h"
@@ -74,9 +75,10 @@ namespace Sorter {
                 job->results.erase(result);
             }
             
-            std::string name = "./" + std::to_string(job->id) + ".result";
-            std::fstream result_output(name);
+            std::string name = "./results/" + std::to_string(job->id) + ".result";
+            std::ofstream result_output(name);
            
+            std::cout << "writing job >> " << job->id << std::endl;
             File::JsonDataWriter<Sorter::Models::Job>::write(result_output, *job);
             
             return true;

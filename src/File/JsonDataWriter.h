@@ -41,7 +41,7 @@ namespace File {
     std::ostream& 
     JsonDataWriter<T>::write(std::ostream& ostream, const T& data) {
         boost::property_tree::ptree temp;
-        temp << data;
+        data >> temp;
 
         boost::property_tree::write_json(ostream, temp);
 

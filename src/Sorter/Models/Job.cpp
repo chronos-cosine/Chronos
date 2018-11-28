@@ -30,7 +30,7 @@ namespace Sorter {
         }
         
         boost::property_tree::ptree&
-        Job::operator>>(boost::property_tree::ptree& lhs) {
+        Job::operator>>(boost::property_tree::ptree& lhs) const {
             lhs.put("id", id);
             lhs.put("document", document);
             

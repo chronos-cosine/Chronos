@@ -41,7 +41,7 @@ namespace Sorter {
             bool operator<(const Result& rhs) const noexcept;
                         
             boost::property_tree::ptree& 
-            operator>>(boost::property_tree::ptree& lhs);
+            operator>>(boost::property_tree::ptree& lhs) const;
             
         }; /* struct Result */
         

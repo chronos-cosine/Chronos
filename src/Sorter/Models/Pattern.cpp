@@ -105,7 +105,7 @@ namespace Sorter {
         }
         
         boost::property_tree::ptree& 
-        Pattern::operator>>(boost::property_tree::ptree& lhs) {
+        Pattern::operator>>(boost::property_tree::ptree& lhs) const {
             lhs.put("id", id);
             lhs.put("value", value);
             lhs.put("boolean_operator", boolean_operator);
