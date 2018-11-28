@@ -11,7 +11,7 @@
  * Created on 21 November 2018, 1:29 PM
  */
 
-#include "MultiPatternMatcher.h"
+#include "Sorter/Services/DataProviders/MultiPatternMatcher.h"
 #include "Collections/Concurrent/Map.h"
 
 #include <iostream>

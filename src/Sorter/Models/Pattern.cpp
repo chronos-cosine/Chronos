@@ -11,7 +11,7 @@
  * Created on 16 November 2018, 8:01 PM
  */
 
-#include "Pattern.h"
+#include "Sorter/Models/Pattern.h"
 
 namespace Sorter {
     namespace Models {

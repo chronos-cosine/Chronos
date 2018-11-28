@@ -11,10 +11,10 @@
  * Created on 19 November 2018, 8:37 AM
  */
 
-#include "Bin.h"
-#include "Job.h"
-#include "Pattern.h"
-#include "Result.h"
+#include "Sorter/Models/Bin.h"
+#include "Sorter/Models/Job.h"
+#include "Sorter/Models/Pattern.h"
+#include "Sorter/Models/Result.h"
 
 #include <memory>
 

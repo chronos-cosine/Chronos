@@ -11,8 +11,8 @@
  * Created on 19 November 2018, 8:27 AM
  */
 
-#include "Job.h"
 #include "File/JsonDataReader.h"
+#include "Sorter/Models/Job.h"
 #include "Sorter/Models/Result.h"
 
 #include <boost/property_tree/ptree.hpp>

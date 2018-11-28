@@ -19,8 +19,8 @@
 #include "Processors/ProcessorBase.h"
 #include "Sorter/Models/Job.h"
 #include "Sorter/Models/Result.h"
-#include "IDataProvider.h"
-#include "IDataValidator.h"
+#include "Sorter/Services/IDataProvider.h"
+#include "Sorter/Services/IDataValidator.h"
 
 #include <memory>
 #include <string>

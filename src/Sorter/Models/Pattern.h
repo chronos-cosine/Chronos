@@ -14,7 +14,7 @@
 #ifndef SORTER_MODELS_PATTERN_H
 #define SORTER_MODELS_PATTERN_H
 
-#include "BooleanOperator.h"
+#include "Sorter/Models/BooleanOperator.h"
 
 #include <boost/property_tree/ptree.hpp>
 #include <memory>

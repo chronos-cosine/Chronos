@@ -15,7 +15,7 @@
 #include <string>
 #include <vector>
 
-#include "Bin.h"
+#include "Sorter/Models/Bin.h"
 
 namespace Sorter {
     namespace Models {

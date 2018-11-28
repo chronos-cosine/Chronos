@@ -13,8 +13,8 @@
 
 #include "Collections/Concurrent/Queue.h"
 #include "File/Spooler.h"
-#include "SortingMachine.h"
-#include "SortingProcess.h"
+#include "Sorter/Services/SortingMachine.h"
+#include "Sorter/Services/SortingProcess.h"
 #include "Sorter/Models/Job.h"
 
 #include <chrono>

@@ -11,7 +11,7 @@
  * Created on 22 November 2018, 10:25 AM
  */
 
-#include "AndDataValidator.h"
+#include "Sorter/Services/DataValidators/AndDataValidator.h"
 #include "Sorter/Models/Job.h"
 #include "Sorter/Models/Pattern.h"
 #include "Sorter/Models/Result.h"
