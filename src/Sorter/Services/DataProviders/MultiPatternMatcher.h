@@ -46,8 +46,6 @@ namespace Sorter {
                 PatternMatcher::PatternMatchingMachine<Sorter::Models::Job, 
                                                        Sorter::Models::Pattern,
                                                        MultiPatternMatcher> __matcher;
-                std::shared_ptr<Collections::IMap<std::shared_ptr<Sorter::Models::Job>, 
-                                std::set<std::shared_ptr<Sorter::Models::Result>>>> __results;
 
             }; /* class MultiPatternMatcher */ 
     

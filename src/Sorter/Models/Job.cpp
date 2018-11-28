@@ -39,7 +39,7 @@ namespace Sorter {
                 for (auto& result: results) {
                     boost::property_tree::ptree temp;
                     *result >> temp;
-                    ptree_results.add_child("", std::move(temp));
+                    ptree_results.push_back(std::make_pair("", std::move(temp)));
                 }
                 
                 lhs.add_child("results", ptree_results);

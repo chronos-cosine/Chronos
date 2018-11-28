@@ -78,7 +78,6 @@ namespace Sorter {
             std::string name = "./results/" + std::to_string(job->id) + ".result";
             std::ofstream result_output(name);
            
-            std::cout << "writing job >> " << job->id << std::endl;
             File::JsonDataWriter<Sorter::Models::Job>::write(result_output, *job);
             
             return true;

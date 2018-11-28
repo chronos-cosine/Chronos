@@ -19,7 +19,7 @@
 
 namespace Sorter {
     namespace Models {
-        
+
         bool
         operator==(const std::shared_ptr<Bin>& lhs, 
                    const std::shared_ptr<Bin>& rhs) {
@@ -30,16 +30,16 @@ namespace Sorter {
                 || rhs == nullptr) {
                 return false;
             }
-            
+
             return (*lhs == *rhs);
         }
-        
+
         bool
         operator!=(const std::shared_ptr<Bin>& lhs, 
                    const std::shared_ptr<Bin>& rhs) {
             return !(lhs == rhs);
         }
-        
+
         bool
         operator<(const std::shared_ptr<Bin>& lhs, 
                   const std::shared_ptr<Bin>& rhs) {
@@ -51,25 +51,25 @@ namespace Sorter {
             } else if (rhs == nullptr) {
                 return false;
             }
-            
+
             return (*lhs < *rhs);
         }
-        
+
         bool
         Bin::is_root() const noexcept {
             return !parent_id.is_initialized();
         }
-        
+
         bool 
         Bin::operator==(const Bin& rhs) const noexcept {
             return id == rhs.id;
         }
-        
+
         bool 
         Bin::operator!=(const Bin& rhs) const noexcept {
             return !(*this == rhs);
         }
-        
+
         bool 
         Bin::operator<(const Bin& rhs) const noexcept {
             if (parent_id.is_initialized()) {
@@ -83,10 +83,10 @@ namespace Sorter {
             } else if (rhs.parent_id.is_initialized()) {
                 return true;
             }
-            
+
             return id < rhs.id;
         }
-        
+
         Bin& 
         Bin::operator=(const Bin& rhs) {
             id = rhs.id;
@@ -96,10 +96,10 @@ namespace Sorter {
             } else {
                 parent_id = boost::optional<unsigned long long>(rhs.parent_id.get());
             }
-            
+
             return *this;
         }
-        
+
         Bin& 
         Bin::operator<<(const std::vector<std::string>& rhs) {
             id = std::stoull(rhs[0]);
@@ -110,21 +110,21 @@ namespace Sorter {
             } else {
                 parent_id = boost::optional<unsigned long long>();
             }
-            
+
             return *this;
         }
-        
+
         boost::property_tree::ptree& 
-         Bin::operator>>(boost::property_tree::ptree& lhs) const {
+        Bin::operator>>(boost::property_tree::ptree& lhs) const {
             lhs.put("id", id);
             lhs.put("name", name);
-            
+
             if (is_root()) {
                 lhs.put("parent_id", "null");
             } else {
                 lhs.put("parent_id", parent_id.get());
             }
-            
+
             return lhs;
         }
         

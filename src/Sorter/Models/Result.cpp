@@ -17,7 +17,6 @@
 #include "Result.h"
 
 #include <memory>
-#include <utility>
 
 namespace Sorter {
     namespace Models {
@@ -99,8 +98,10 @@ namespace Sorter {
                 *pair.first >> ptree_pattern;
                 ptree_pattern_matches.add_child("pattern", std::move(ptree_pattern));
                 
-                for (auto& index: pair.second) {
-                    ptree_positions.add("", index);
+                for (unsigned long long index: pair.second) {
+                    boost::property_tree::ptree item;
+                    item.put("", index);
+                    ptree_positions.push_back(std::make_pair("", std::move(item)));
                 }
                 ptree_pattern_matches.add_child("positions", std::move(ptree_positions));
             } 
