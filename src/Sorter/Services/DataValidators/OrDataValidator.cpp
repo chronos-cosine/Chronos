@@ -26,14 +26,28 @@ namespace Sorter {
     
             OrDataValidator::OrDataValidator(
                 const std::shared_ptr<Sorter::Data::DataContext>& data_context) 
-                    : __data_context(data_context) {
-                std::cout << "OrDataValidator::OrDataValidator()"<< std::endl;
-                
+                    : __data_context(data_context), __notifier(nullptr) {
+            }
+            
+            OrDataValidator::OrDataValidator(
+                const std::shared_ptr<Sorter::Data::DataContext>& data_context,
+                const std::shared_ptr<Notifier::INotifier>& notifier) 
+                    : __data_context(data_context), __notifier(notifier) {
+                notify("OrDataValidator::OrDataValidator()");
+            }
+            
+            
+            void 
+            OrDataValidator::notify(const std::string& message) {
+                if (nullptr != __notifier) {
+                    __notifier->notify(message);
+                }
             }
         
             void 
             OrDataValidator::process(const std::shared_ptr<Sorter::Models::Job>& job) {
-                std::cout << "OrDataValidator::process()"<< std::endl;
+                notify("OrDataValidator::process()");
+                
                 for (auto& result: job->results) {
                     if (!result->passed) {
                         continue;

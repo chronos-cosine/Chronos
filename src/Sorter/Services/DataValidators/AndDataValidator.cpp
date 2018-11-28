@@ -26,13 +26,27 @@ namespace Sorter {
             
             AndDataValidator::AndDataValidator(
                 const std::shared_ptr<Sorter::Data::DataContext>& data_context) 
-                    : __data_context(data_context) {
-                std::cout << "AndDataValidator::AndDataValidator()"<< std::endl;
+                    : __data_context(data_context), __notifier(nullptr) {
+            }
+            
+            AndDataValidator::AndDataValidator(
+                const std::shared_ptr<Sorter::Data::DataContext>& data_context,
+                const std::shared_ptr<Notifier::INotifier>& notifier) 
+                    : __data_context(data_context), __notifier(notifier) {
+                notify("AndDataValidator::AndDataValidator()");
+            }
+            
+            void 
+            AndDataValidator::notify(const std::string& message) {
+                if (nullptr != __notifier) {
+                    __notifier->notify(message);
+                }
             }
     
             void 
             AndDataValidator::process(const std::shared_ptr<Sorter::Models::Job>& job) {
-                std::cout << "AndDataValidator::process()"<< std::endl;
+                notify("AndDataValidator::process()");
+                
                 for (auto& result: job->results) {
                     if (!result->passed) {
                         continue;

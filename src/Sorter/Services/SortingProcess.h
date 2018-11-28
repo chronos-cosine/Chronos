@@ -15,6 +15,7 @@
 #define SORTER_SERVICES_SORTINGPROCESS_H
 
 #include "Collections/ICollection.h"
+#include "Notifier/INotifier.h"
 #include "Processors/ProcessorBase.h"
 #include "Sorter/Models/Job.h"
 #include "Sorter/Models/Result.h"
@@ -22,6 +23,7 @@
 #include "IDataValidator.h"
 
 #include <memory>
+#include <string>
 
 namespace Sorter {
     namespace Services {
@@ -32,9 +34,21 @@ namespace Sorter {
             SortingProcess(const std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>>& jobs,
                            const std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>>& results,
                            const std::shared_ptr<Sorter::Data::DataContext>& dc);
+            SortingProcess(const std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>>& jobs,
+                           const std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>>& results,
+                           const std::shared_ptr<Sorter::Data::DataContext>& dc,
+                           const std::shared_ptr<Notifier::INotifier> notifier);
         protected:
             virtual bool process();
         private:
+            void init(const std::shared_ptr<Sorter::Data::DataContext>& dc);
+            void populate(const std::shared_ptr<Sorter::Models::Job>& job);
+            void validate(const std::shared_ptr<Sorter::Models::Job>& job);
+            void remove_invalid(const std::shared_ptr<Sorter::Models::Job>& job);
+            void save(const std::shared_ptr<Sorter::Models::Job>& job);
+            void notify(const std::string& message);
+        private:
+            std::shared_ptr<Notifier::INotifier> __notifier;
             std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>> __jobs;
             std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>> __results;
             std::vector<std::shared_ptr<IDataProvider>> __data_providers;

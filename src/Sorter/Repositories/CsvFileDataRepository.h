@@ -14,9 +14,12 @@
 #ifndef SORTER_SERVICES_FILEDATAREPOSITORY_H
 #define SORTER_SERVICES_FILEDATAREPOSITORY_H
 
+#include "Notifier/INotifier.h"
 #include "Sorter/Repositories/IDataRepository.h"
 
 #include <experimental/filesystem>
+#include <memory>
+#include <string>
 
 namespace fs = std::experimental::filesystem;
 
@@ -30,14 +33,19 @@ namespace Sorter {
             virtual ~CsvFileDataRepository() = default;
             CsvFileDataRepository(const fs::path bins_file,
                                   const fs::path patterns_file);
+            CsvFileDataRepository(const fs::path bins_file,
+                                  const fs::path patterns_file,
+                                  const std::shared_ptr<Notifier::INotifier>& notifier);
             
             virtual std::shared_ptr<Sorter::Data::DataContext> create_data_context();
         private:
             void read_bins(const std::shared_ptr<Sorter::Data::DataContext>& dc);
             void read_patterns(const std::shared_ptr<Sorter::Data::DataContext>& dc);
+            void notify(const std::string& message);
         private:
             fs::path __bins_file;
             fs::path __patterns_file;
+            std::shared_ptr<Notifier::INotifier> __notifier;
             
         }; /* class IDataRepository */
                 

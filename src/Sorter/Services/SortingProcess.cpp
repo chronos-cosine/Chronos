@@ -33,8 +33,21 @@ namespace Sorter {
                     const std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>>& jobs,
                     const std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>>& results,
                     const std::shared_ptr<Sorter::Data::DataContext>& dc) 
-                : __jobs(jobs), __results(results) {
-            std::cout << "SortingProcess::SortingProcess()" << std::endl;
+                : __jobs(jobs), __results(results), __notifier(nullptr) {
+        }
+        
+        SortingProcess::SortingProcess(
+                    const std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>>& jobs,
+                    const std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>>& results,
+                    const std::shared_ptr<Sorter::Data::DataContext>& dc,
+                    const std::shared_ptr<Notifier::INotifier> notifier) 
+                : __jobs(jobs), __results(results), __notifier(notifier) {
+            notify("SortingProcess::SortingProcess()");
+        }
+        
+        void 
+        SortingProcess::init(const std::shared_ptr<Sorter::Data::DataContext>& dc) {
+            notify("SortingProcess::init()");
             
             std::vector<std::shared_ptr<Sorter::Models::Pattern>> patterns;
             
@@ -50,21 +63,39 @@ namespace Sorter {
         
         bool 
         SortingProcess::process() {
-            std::cout << "SortingProcess::process()"<< std::endl;
+            notify("SortingProcess::process()");
 
             auto job = std::move(__jobs->pop());
+            populate(job);
+            validate(job);
+            remove_invalid(job);
+            save(job);
             
-            // populate data to validate
+            return true;
+        }
+        
+        void 
+        SortingProcess::populate(const std::shared_ptr<Sorter::Models::Job>& job) {
+            notify("SortingProcess::populate()");
+            
             for (auto& data_provider: __data_providers) {
                 data_provider->process(job);
             }
+        }
+        
+        void 
+        SortingProcess::validate(const std::shared_ptr<Sorter::Models::Job>& job) {
+            notify("SortingProcess::validate()");
             
-            // validate the data
             for (auto& data_validator: __data_validators) {
                 data_validator->process(job);
             }
+        }
+        
+        void 
+        SortingProcess::remove_invalid(const std::shared_ptr<Sorter::Models::Job>& job) {
+            notify("SortingProcess::remove_invalid()");
             
-            // erase false matches
             std::set<std::shared_ptr<Sorter::Models::Result>> to_erase;
             for (auto& result: job->results) {
                 if (!result->passed) {
@@ -74,13 +105,23 @@ namespace Sorter {
             for (auto& result: to_erase) {
                 job->results.erase(result);
             }
+        }
+        
+        void 
+        SortingProcess::save(const std::shared_ptr<Sorter::Models::Job>& job) {
+            notify("SortingProcess::save()");
             
             std::string name = "./results/" + std::to_string(job->id) + ".result";
             std::ofstream result_output(name);
            
             File::JsonDataWriter<Sorter::Models::Job>::write(result_output, *job);
-            
-            return true;
+        }
+        
+        void 
+        SortingProcess::notify(const std::string& message) {
+            if (nullptr != __notifier) {
+                __notifier->notify(message);
+            }
         }
 
     } /* namespace Services */

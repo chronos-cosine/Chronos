@@ -26,14 +26,27 @@ namespace Sorter {
             
             NotDataValidator::NotDataValidator(
                 const std::shared_ptr<Sorter::Data::DataContext>& data_context) 
-                    : __data_context(data_context) {
-                std::cout << "NotDataValidator::NotDataValidator()"<< std::endl;
-                
+                    : __data_context(data_context), __notifier(nullptr) {
+            }
+            
+            NotDataValidator::NotDataValidator(
+                const std::shared_ptr<Sorter::Data::DataContext>& data_context,
+                const std::shared_ptr<Notifier::INotifier>& notifier) 
+                    : __data_context(data_context), __notifier(notifier) {
+                notify("NotDataValidator::NotDataValidator()");
+            }
+                        
+            void 
+            NotDataValidator::notify(const std::string& message) {
+                if (nullptr != __notifier) {
+                    __notifier->notify(message);
+                }
             }
         
             void 
             NotDataValidator::process(const std::shared_ptr<Sorter::Models::Job>& job) {
-                std::cout << "NotDataValidator::process()"<< std::endl;
+                notify("NotDataValidator::process()");
+                
                 for (auto& result: job->results) {
                     if (!result->passed) {
                         continue;

@@ -22,6 +22,7 @@ if(Boost_FOUND)
         "${CHRONOS_SOURCE_ROOT}/File/CsvDataReader.h"
         "${CHRONOS_SOURCE_ROOT}/File/JsonDataReader.h"
         "${CHRONOS_SOURCE_ROOT}/File/Spooler.h"
+        "${CHRONOS_SOURCE_ROOT}/Notifier/INotifier.h"
         "${CHRONOS_SOURCE_ROOT}/PatternMatcher/Node.h"
         "${CHRONOS_SOURCE_ROOT}/PatternMatcher/PatternMatchingMachine.h"
         "${CHRONOS_SOURCE_ROOT}/Processors/IProcessor.h"

@@ -36,8 +36,34 @@ namespace Sorter {
                 Collections::Concurrent::Queue<std::shared_ptr<Sorter::Models::Job>>>()),
             __data_context(dc),
             __is_running(false),
-            __is_stopping(false) {
-            std::cout << "SortingMachine::SortingMachine()" << std::endl;
+            __is_stopping(false),
+            __notifier(nullptr) {
+            init(paths, sleep_time, consumer_count);
+        }
+        
+        SortingMachine::SortingMachine(const std::vector<fs::path>& paths, 
+                           const std::chrono::seconds& sleep_time,
+                           const unsigned short& consumer_count,
+                           const std::shared_ptr<Sorter::Data::DataContext>& dc,
+                           const std::shared_ptr<Notifier::INotifier> notifier) 
+          : jobs(std::make_shared<
+                Collections::Concurrent::Queue<std::shared_ptr<Sorter::Models::Job>>>()),
+            results(std::make_shared<
+                Collections::Concurrent::Queue<std::shared_ptr<Sorter::Models::Job>>>()),
+            __data_context(dc),
+            __is_running(false),
+            __is_stopping(false),
+            __notifier(notifier) {
+            notify("SortingMachine::SortingMachine()");
+            
+            init(paths, sleep_time, consumer_count);
+        }
+        
+        void 
+        SortingMachine::init(const std::vector<fs::path>& paths,
+                             const std::chrono::seconds& sleep_time,
+                             const unsigned short& consumer_count) {
+            notify("SortingMachine::init()");
             
             initialise_producers(paths, sleep_time);
             initialise_consumers(consumer_count);
@@ -45,8 +71,8 @@ namespace Sorter {
 
         void 
         SortingMachine::initialise_producers(const std::vector<fs::path>& paths, 
-                const std::chrono::seconds& sleep_time) {
-            std::cout << "SortingMachine::initialise_producers()" << std::endl;
+                                        const std::chrono::seconds& sleep_time) {
+            notify("SortingMachine::initialise_producers()");
             
             for (auto& path: paths) {
                 auto producer = std::make_shared<File::Spooler<Sorter::Models::Job>>(path, 
@@ -57,7 +83,7 @@ namespace Sorter {
 
         void 
         SortingMachine::initialise_consumers(const unsigned short& consumer_count) {
-            std::cout << "SortingMachine::initialise_consumers()" << std::endl;
+            notify("SortingMachine::initialise_consumers()");
             
             for (unsigned short i = 0; i < consumer_count; ++i) {
                 job_consumers.push_back(std::make_shared<SortingProcess>(
@@ -67,7 +93,7 @@ namespace Sorter {
 
         void 
         SortingMachine::create_producer_threads() {
-            std::cout << "SortingMachine::create_producer_threads()" << std::endl;
+            notify("SortingMachine::create_producer_threads()");
             
             for (auto& producer: job_producers) {
                 std::thread thread(&Processors::IProcessor::start, producer);
@@ -78,7 +104,7 @@ namespace Sorter {
 
         void 
         SortingMachine::create_consumer_threads() {
-            std::cout << "SortingMachine::create_consumer_threads()" << std::endl;
+            notify("SortingMachine::create_consumer_threads()");
             
             for (auto& consumer: job_consumers) {
                 std::thread thread(&Processors::IProcessor::start, consumer);
@@ -89,7 +115,7 @@ namespace Sorter {
 
         void 
         SortingMachine::stop_producer_threads() {
-            std::cout << "SortingMachine::stop_producer_threads()" << std::endl;
+            notify("SortingMachine::stop_producer_threads()");
             
             for (auto& producer: job_producers) {
                 producer->stop();
@@ -98,7 +124,7 @@ namespace Sorter {
 
         void 
         SortingMachine::stop_consumer_threads() {
-            std::cout << "SortingMachine::stop_consumer_threads()" << std::endl;
+            notify("SortingMachine::stop_consumer_threads()");
             
             for (auto& consumer: job_consumers) {
                 consumer->stop();
@@ -113,7 +139,7 @@ namespace Sorter {
         bool 
         SortingMachine::start() {
             std::lock_guard<std::mutex> lock(__mutex);
-            std::cout << "SortingMachine::start()" << std::endl;
+            notify("SortingMachine::start()");
             
             if (__is_running || __is_stopping) { 
                 return false;
@@ -129,7 +155,7 @@ namespace Sorter {
         bool 
         SortingMachine::stop() {
             std::lock_guard<std::mutex> lock(__mutex);
-            std::cout << "SortingMachine::stop()" << std::endl;
+            notify("SortingMachine::stop()");
 
             if (!__is_running || __is_stopping) {
                 return false;
@@ -144,6 +170,13 @@ namespace Sorter {
 
             __is_stopping = false;
             return true;
+        }
+        
+        void 
+        SortingMachine::notify(const std::string& message) {
+            if (nullptr != __notifier) {
+                __notifier->notify(message);
+            }
         }
     
     } /* namespace Services */

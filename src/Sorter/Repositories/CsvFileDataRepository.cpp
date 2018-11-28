@@ -19,11 +19,31 @@ namespace Sorter {
         
         CsvFileDataRepository::CsvFileDataRepository(const fs::path bins_file,
                               const fs::path patterns_file) 
-                : __bins_file(bins_file), __patterns_file(patterns_file) {
+                : __bins_file(bins_file), 
+                  __patterns_file(patterns_file), 
+                  __notifier(nullptr) {
+        }
+        
+        CsvFileDataRepository::CsvFileDataRepository(const fs::path bins_file,
+                              const fs::path patterns_file,
+                              const std::shared_ptr<Notifier::INotifier>& notifier)
+                : __bins_file(bins_file), 
+                  __patterns_file(patterns_file), 
+                  __notifier(notifier) {
+            notify("CsvFileDataRepository::CsvFileDataRepository()");
+        }
+        
+        void 
+        CsvFileDataRepository::notify(const std::string& message) {
+            if (nullptr != __notifier) {
+                __notifier->notify(message);
+            }
         }
         
         void 
         CsvFileDataRepository::read_bins(const std::shared_ptr<Sorter::Data::DataContext>& dc) {
+            notify("CsvFileDataRepository::read_bins()");
+            
             auto bins = File::CsvDataReader::read<Sorter::Models::Bin>(__bins_file);
             
             for (auto& bin: *bins) {
@@ -33,6 +53,8 @@ namespace Sorter {
         
         void 
         CsvFileDataRepository::read_patterns(const std::shared_ptr<Sorter::Data::DataContext>& dc) {
+            notify("CsvFileDataRepository::read_patterns()");
+            
             auto patterns = File::CsvDataReader::read<Sorter::Models::Pattern>(__patterns_file);
             
             for (auto& pattern: *patterns) {
@@ -42,6 +64,8 @@ namespace Sorter {
         
         std::shared_ptr<Sorter::Data::DataContext> 
         CsvFileDataRepository::create_data_context() {
+            notify("CsvFileDataRepository::create_data_context()");
+            
             auto dc = std::make_shared<Sorter::Data::DataContext>();
             
             read_bins(dc);

@@ -15,6 +15,7 @@
 #define SORTER_SORTINGMACHINE_H
 
 #include "Collections/ICollection.h"
+#include "Notifier/INotifier.h"
 #include "Processors/IProcessor.h"
 #include "Sorter/Data/DataContext.h"
 #include "Sorter/Models/Job.h"
@@ -23,6 +24,7 @@
 #include <experimental/filesystem>
 #include <mutex>
 #include <memory>
+#include <string>
 #include <vector>
 #include <thread>
 
@@ -38,11 +40,19 @@ namespace Sorter {
                            const std::chrono::seconds& sleep_time,
                            const unsigned short& consumer_count,
                            const std::shared_ptr<Sorter::Data::DataContext>& dc);
+            SortingMachine(const std::vector<fs::path>& paths, 
+                           const std::chrono::seconds& sleep_time,
+                           const unsigned short& consumer_count,
+                           const std::shared_ptr<Sorter::Data::DataContext>& dc,
+                           const std::shared_ptr<Notifier::INotifier> notifier);
         public:
             bool start();
             bool stop();
             bool get_is_running() const noexcept; 
         private:
+            void init(const std::vector<fs::path>& paths,
+                      const std::chrono::seconds& sleep_time,
+                      const unsigned short& consumer_count);
             void initialise_producers(const std::vector<fs::path>& paths,
                     const std::chrono::seconds& sleep_time);
             void initialise_consumers(const unsigned short& consumer_count);
@@ -50,7 +60,9 @@ namespace Sorter {
             void create_consumer_threads();
             void stop_producer_threads();
             void stop_consumer_threads();
+            void notify(const std::string& message);
         private:
+            std::shared_ptr<Notifier::INotifier> __notifier;
             std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>> jobs;
             std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>> results;
             std::vector<std::shared_ptr<Processors::IProcessor>> job_producers;
