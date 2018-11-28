@@ -34,10 +34,6 @@ int main(int argc, char** argv) {
                                                            notifier);
     
     auto data_context = repository.create_data_context();
-    for (auto& p: data_context->patterns) {
-        std::cout << p.first << std::endl;
-    }
-    
     std::vector<fs::path> paths;
     paths.push_back("./jobs/");
     

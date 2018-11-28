@@ -36,6 +36,7 @@ namespace Sorter {
                 : __jobs(jobs), 
                   __results(results), 
                   __notifier(nullptr) {
+            init(dc);
         }
         
         SortingProcess::SortingProcess(
@@ -47,6 +48,7 @@ namespace Sorter {
                   __results(results), 
                   __notifier(notifier) {
             notify("SortingProcess::SortingProcess()");
+            init(dc);
         }
         
         void 
