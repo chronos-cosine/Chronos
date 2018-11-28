@@ -87,7 +87,7 @@ namespace Sorter {
             
             for (unsigned short i = 0; i < consumer_count; ++i) {
                 job_consumers.push_back(std::make_shared<SortingProcess>(
-                    jobs, results, __data_context));
+                    jobs, results, __data_context, __notifier));
             }
         }
 

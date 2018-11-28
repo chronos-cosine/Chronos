@@ -59,10 +59,10 @@ namespace Sorter {
                 patterns.push_back(pair.second);
             }
             
-            __data_providers.push_back(std::make_shared<DataProviders::MultiPatternMatcher>(patterns));
-            __data_validators.push_back(std::make_shared<DataValidators::NotDataValidator>(dc));
-            __data_validators.push_back(std::make_shared<DataValidators::OrDataValidator>(dc));
-            __data_validators.push_back(std::make_shared<DataValidators::AndDataValidator>(dc));
+            __data_providers.push_back(std::make_shared<DataProviders::MultiPatternMatcher>(patterns, __notifier));
+            __data_validators.push_back(std::make_shared<DataValidators::NotDataValidator>(dc, __notifier));
+            __data_validators.push_back(std::make_shared<DataValidators::OrDataValidator>(dc, __notifier));
+            __data_validators.push_back(std::make_shared<DataValidators::AndDataValidator>(dc, __notifier));
         }
         
         bool 
