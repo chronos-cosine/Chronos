@@ -48,7 +48,6 @@ namespace Collections {
         void 
         Queue<T>::push(T item) noexcept {
             std::lock_guard<std::mutex> lock(mutex);
-            std::cout << "Queue<T>::push()" << std::endl;
 
             queue.push(std::move(item));
             condition_variable.notify_one();
@@ -63,7 +62,6 @@ namespace Collections {
                 return !queue.empty(); 
             });
 
-            std::cout << "Queue<T>::pop()" << std::endl;
             T item = std::move(queue.front());
             queue.pop();
 

@@ -24,7 +24,7 @@ namespace Sorter {
         }
         
         DataContext::DataContext(const std::shared_ptr<Notifier::INotifier>& notifier)
-            : __notifier(notifier) {
+                : __notifier(notifier) {
             notify("DataContext::DataContext()");
         }
         

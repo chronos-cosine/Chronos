@@ -45,7 +45,6 @@ namespace Collections {
         bool 
         Map<KEY, VALUE>::exist(const KEY& key){
             std::lock_guard<std::mutex> lock(mutex);
-            std::cout << "Map<KEY, VALUE>::exist()" << std::endl;
             
             return map.find(key) != map.end();
         }
@@ -54,7 +53,6 @@ namespace Collections {
         void  
         Map<KEY, VALUE>::insert(const KEY& key, const VALUE& value) {
             std::lock_guard<std::mutex> lock(mutex);
-            std::cout << "Map<KEY, VALUE>::insert()" << std::endl;
             
             map[key] = value;
         }
@@ -63,7 +61,6 @@ namespace Collections {
         void  
         Map<KEY, VALUE>::erase(const KEY& key) {
             std::lock_guard<std::mutex> lock(mutex);
-            std::cout << "Map<KEY, VALUE>::erase()" << std::endl;
             
             map.erase(key);
         }
@@ -72,7 +69,6 @@ namespace Collections {
         VALUE&  
         Map<KEY, VALUE>::at(const KEY& key) {
             std::lock_guard<std::mutex> lock(mutex);
-            std::cout << "Map<KEY, VALUE>::at()" << std::endl;
             
             return map.at(key);
         }
@@ -80,7 +76,6 @@ namespace Collections {
         template <typename KEY, typename VALUE>
         VALUE&  
         Map<KEY, VALUE>::operator[](const KEY& key) {
-            std::cout << "Map<KEY, VALUE>::operator[]" << std::endl;
             return at(key);
         }
 

@@ -24,7 +24,6 @@ namespace Notifier {
         virtual ~INotifier() = default;
         INotifier() = default;
         
-        virtual void notify(const char* message) = 0;
         virtual void notify(const std::string& message) = 0;
         virtual void notify(std::stringstream& message) = 0;
         

@@ -14,13 +14,12 @@
 #include "Sorter/Repositories/CsvFileDataRepository.h"
 #include "File/CsvDataReader.h"
 
-#include <iostream>
-
 namespace Sorter {
     namespace Repositories {
         
-        CsvFileDataRepository::CsvFileDataRepository(const fs::path bins_file,
-                              const fs::path patterns_file) 
+        CsvFileDataRepository::CsvFileDataRepository(
+                        const fs::path bins_file,
+                        const fs::path patterns_file) 
                 : __bins_file(bins_file), 
                   __patterns_file(patterns_file), 
                   __notifier(nullptr) {
@@ -33,13 +32,6 @@ namespace Sorter {
                   __patterns_file(patterns_file), 
                   __notifier(notifier) {
             notify("CsvFileDataRepository::CsvFileDataRepository()");
-        }
-        
-        void 
-        CsvFileDataRepository::notify(const std::string& message) const {
-            if (nullptr != __notifier) {
-                __notifier->notify(message);
-            }
         }
         
         void 
@@ -76,6 +68,13 @@ namespace Sorter {
             
             return dc;
         }
-                
+        
+        void 
+        CsvFileDataRepository::notify(const std::string& message) {
+            if (nullptr != __notifier) {
+                __notifier->notify(message);
+            }
+        }
+         
     } /* namespace Repositories */
 } /* namespace Sorter */

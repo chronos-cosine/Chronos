@@ -19,10 +19,20 @@
 namespace Notifier {
     
     void 
-    CoutNotifier::notify(const char* message) {
+    CoutNotifier::notify(const std::string& message) {
         std::lock_guard<std::mutex> lock(__mutex);
         
-        std::cout << this << ": " << message << std::endl;
+        std::cout << this 
+                  << ": " 
+                  << message 
+                  << std::endl;
+    }
+    
+    void
+    CoutNotifier::notify(std::stringstream& message) {
+        std::lock_guard<std::mutex> lock(__mutex);
+        notify(message.str());
+        message.str(std::string());
     }
     
 } /* namespace Notifier */

@@ -14,12 +14,14 @@
 #ifndef NOTIFIER_COUTNOTIFIER_H
 #define NOTIFIER_COUTNOTIFIER_H
 
+#include "Notifier/INotifier.h"
+
 #include <mutex>
-#include "Notifier/NotifierBase.h"
+#include <string>
 
 namespace Notifier {
     
-    class CoutNotifier : public NotifierBase {
+    class CoutNotifier : public INotifier {
         CoutNotifier(const CoutNotifier&) = delete;
         CoutNotifier& operator=(const CoutNotifier&) = delete;
     private:
@@ -28,7 +30,8 @@ namespace Notifier {
         virtual ~CoutNotifier() = default;
         CoutNotifier() = default;
         
-        virtual void notify(const char* message);
+        virtual void notify(const std::string& message);
+        virtual void notify(std::stringstream& message);
     };
 
 } /* namespace Notifier */

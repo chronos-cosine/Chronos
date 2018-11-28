@@ -14,13 +14,13 @@
 #ifndef NOTIFIER_FILENOTIFIER_H
 #define NOTIFIER_FILENOTIFIER_H
 
-#include "Notifier/NotifierBase.h"
+#include "Notifier/INotifier.h"
 #include <fstream>
 #include <mutex>
 
 namespace Notifier {
     
-    class FileNotifier : public NotifierBase {
+    class FileNotifier : public INotifier {
         FileNotifier(const FileNotifier&) = delete;
         FileNotifier& operator=(const FileNotifier&) = delete;
     private:
@@ -31,7 +31,8 @@ namespace Notifier {
         virtual ~FileNotifier() = default;
         FileNotifier(const std::string& file_path);
         
-        virtual void notify(const char* message);
+        virtual void notify(const std::string& message);
+        virtual void notify(std::stringstream& message);
     };
 } /* namespace Notifier */
     

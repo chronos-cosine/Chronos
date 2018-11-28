@@ -27,13 +27,6 @@ namespace Notifier {
     }
     
     void 
-    Notifiable::notify(const char* message) {
-        if (nullptr != notifier) {
-            notifier->notify(message);
-        }
-    }
-        
-    void 
     Notifiable::notify(const std::string& message) {
         if (nullptr != notifier) {
             notifier->notify(message);

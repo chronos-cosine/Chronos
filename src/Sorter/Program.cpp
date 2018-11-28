@@ -29,11 +29,13 @@ int main(int argc, char** argv) {
         notifier = std::make_shared<Notifier::CoutNotifier>();
     notifier->notify("Starting Chronos-Sorter...");
     
-    Sorter::Repositories::CsvFileDataRepository 
-        repository("./bins.dat", "./patterns.dat", notifier);
+    std::shared_ptr<Sorter::Repositories::IDataRepository>
+        repository = std::make_shared<
+            Sorter::Repositories::CsvFileDataRepository>("./bins.dat", 
+                                                         "./patterns.dat", 
+                                                         notifier);
     
-    notifier->notify("Starting Chronos-Sorter...");
-    auto data_context = repository.create_data_context();
+    auto data_context = repository->create_data_context();
     
     std::vector<fs::path> paths;
     paths.push_back("./jobs/");

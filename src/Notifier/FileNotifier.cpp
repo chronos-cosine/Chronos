@@ -27,7 +27,7 @@ namespace Notifier {
     }
 
     void 
-    FileNotifier::notify(const char* message) {
+    FileNotifier::notify(const std::string& message) {
         std::lock_guard<std::mutex> lock(__mutex);
         
         if (!__file.is_open()) {
@@ -41,6 +41,13 @@ namespace Notifier {
                 << " | " << std::put_time(std::localtime(&time_t), "%F %T") 
                 << " | " << message 
                 << std::endl;
+    }
+    
+    void
+    FileNotifier::notify(std::stringstream& message) {
+        std::lock_guard<std::mutex> lock(__mutex);
+        notify(message.str());
+        message.str(std::string());
     }
 
 } /* namespace Notifier */

@@ -44,13 +44,6 @@ namespace Sorter {
                 
                 __matcher.match_found = __match_found;
             }
-            
-            void 
-            MultiPatternMatcher::notify(const std::string& message) const {
-                if (nullptr != __notifier) {
-                    __notifier->notify(message);
-                }
-            }
 
             void 
             MultiPatternMatcher::match_found::operator()(
@@ -81,6 +74,13 @@ namespace Sorter {
                 notify("MultiPatternMatcher::process()");
                 
                 __matcher.match(job, this);
+            }
+            
+            void 
+            MultiPatternMatcher::notify(const std::string& message) {
+                if (nullptr != __notifier) {
+                    __notifier->notify(message);
+                }
             }
           
         } /* namespace DataProviders */

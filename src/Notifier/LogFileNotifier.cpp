@@ -70,10 +70,17 @@ namespace Notifier {
     }
 
     void 
-    LogFileNotifier::notify(const char* message) {
+    LogFileNotifier::notify(const std::string& message) {
         std::lock_guard<std::mutex> lock(__mutex);
         
         __file_notifier->notify(message);
+    }
+    
+    void
+    LogFileNotifier::notify(std::stringstream& message) {
+        std::lock_guard<std::mutex> lock(__mutex);
+        notify(message.str());
+        message.str(std::string());
     }
 
 } /* namespace Notifier */

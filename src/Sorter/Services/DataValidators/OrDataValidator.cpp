@@ -40,7 +40,7 @@ namespace Sorter {
             
             
             void 
-            OrDataValidator::notify(const std::string& message) const {
+            OrDataValidator::notify(const std::string& message) {
                 if (nullptr != __notifier) {
                     __notifier->notify(message);
                 }

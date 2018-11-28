@@ -31,23 +31,24 @@ namespace Sorter {
             CsvFileDataRepository& operator=(const CsvFileDataRepository&) = delete;
         public:
             virtual ~CsvFileDataRepository() = default;
-            CsvFileDataRepository(const fs::path bins_file,
-                                  const fs::path patterns_file);
+            
             CsvFileDataRepository(const fs::path bins_file,
                                   const fs::path patterns_file,
                                   const std::shared_ptr<Notifier::INotifier>& notifier);
+            CsvFileDataRepository(const fs::path bins_file,
+                                  const fs::path patterns_file);
             
             virtual std::shared_ptr<Sorter::Data::DataContext> create_data_context();
         private:
             void read_bins(const std::shared_ptr<Sorter::Data::DataContext>& dc);
             void read_patterns(const std::shared_ptr<Sorter::Data::DataContext>& dc);
-            void notify(const std::string& message) const;
+            void notify(const std::string& message);
         private:
+            std::shared_ptr<Notifier::INotifier> __notifier;
             fs::path __bins_file;
             fs::path __patterns_file;
-            std::shared_ptr<Notifier::INotifier> __notifier;
             
-        }; /* class IDataRepository */
+        }; /* class CsvFileDataRepository */
                 
     } /* namespace Repositories */
 } /* namespace Sorter */

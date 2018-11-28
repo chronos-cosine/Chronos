@@ -15,8 +15,9 @@
 #define NOTIFIER_LOGFILENOTIFIER_H
 
 #include "Notifier/FileNotifier.h"
-#include "Notifier/NotifierBase.h"
+#include "Notifier/INotifier.h"
 #include "Processors/ProcessorBase.h"
+#include "INotifier.h"
 
 #include <chrono>
 #include <memory>
@@ -25,7 +26,7 @@
 
 namespace Notifier {
     
-    class LogFileNotifier : public NotifierBase {
+    class LogFileNotifier : public INotifier {
         LogFileNotifier(const LogFileNotifier&) = delete;
         LogFileNotifier& operator=(const LogFileNotifier&) = delete;
     public:
@@ -33,7 +34,8 @@ namespace Notifier {
         LogFileNotifier(const std::chrono::minutes& reset_time, 
                         const std::string& log_directory);
         
-        virtual void notify(const char* message);
+        virtual void notify(const std::string& message);
+        virtual void notify(std::stringstream& message);
     private:
         std::string __log_directory;
         std::chrono::minutes __reset_time;

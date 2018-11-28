@@ -39,7 +39,7 @@ namespace Sorter {
             }
             
             void 
-            AndDataValidator::notify(const std::string& message) const {
+            AndDataValidator::notify(const std::string& message) {
                 if (nullptr != __notifier) {
                     __notifier->notify(message);
                 }

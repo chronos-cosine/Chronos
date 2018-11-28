@@ -133,8 +133,6 @@ namespace Sorter {
         
         bool 
         SortingMachine::get_is_running() const noexcept {
-            notify("SortingMachine::get_is_running()");
-            
             return __is_running && !__is_stopping;
         }
 
@@ -177,7 +175,7 @@ namespace Sorter {
         }
         
         void 
-        SortingMachine::notify(const std::string& message) const {
+        SortingMachine::notify(const std::string& message) {
             if (nullptr != __notifier) {
                 __notifier->notify(message);
             }

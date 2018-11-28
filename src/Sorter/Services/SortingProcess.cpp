@@ -122,7 +122,7 @@ namespace Sorter {
         }
         
         void 
-        SortingProcess::notify(const std::string& message) const {
+        SortingProcess::notify(const std::string& message) {
             if (nullptr != __notifier) {
                 __notifier->notify(message);
             }

@@ -46,7 +46,7 @@ namespace Sorter {
             void validate(const std::shared_ptr<Sorter::Models::Job>& job);
             void remove_invalid(const std::shared_ptr<Sorter::Models::Job>& job);
             void save(const std::shared_ptr<Sorter::Models::Job>& job);
-            void notify(const std::string& message) const;
+            void notify(const std::string& message);
         private:
             std::shared_ptr<Notifier::INotifier> __notifier;
             std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>> __jobs;

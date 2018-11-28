@@ -29,8 +29,6 @@ if(Boost_FOUND)
         "${CHRONOS_SOURCE_ROOT}/Notifier/LogFileNotifier.cpp"
         "${CHRONOS_SOURCE_ROOT}/Notifier/LogFileNotifier.h"
         "${CHRONOS_SOURCE_ROOT}/Notifier/INotifier.h"
-        "${CHRONOS_SOURCE_ROOT}/Notifier/NotifierBase.cpp"
-        "${CHRONOS_SOURCE_ROOT}/Notifier/NotifierBase.h"
         "${CHRONOS_SOURCE_ROOT}/PatternMatcher/Node.h"
         "${CHRONOS_SOURCE_ROOT}/PatternMatcher/PatternMatchingMachine.h"
         "${CHRONOS_SOURCE_ROOT}/Processors/IProcessor.h"

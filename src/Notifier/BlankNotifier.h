@@ -22,8 +22,7 @@ namespace Notifier {
     public:
         virtual ~BlankNotifier() = default;
         BlankNotifier() = default;
-        
-        virtual void notify(const char* message) { }
+         
         virtual void notify(const std::string& message) { };
         virtual void notify(const std::stringstream& message) { }
     };

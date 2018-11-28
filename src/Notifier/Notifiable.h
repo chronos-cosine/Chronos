@@ -30,7 +30,6 @@ namespace Notifier {
         Notifiable();
         Notifiable(const std::shared_ptr<INotifier>& notifier);
     public:
-        virtual void notify(const char* message);
         virtual void notify(const std::string& message);
         virtual void notify(std::stringstream& message);
     private:

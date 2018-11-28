@@ -34,7 +34,7 @@ namespace Sorter {
 
                 virtual void process(const std::shared_ptr<Sorter::Models::Job>& job);
             private:
-                void notify(const std::string& message) const;
+                void notify(const std::string& message);
             private:
                 std::shared_ptr<Sorter::Data::DataContext> __data_context;
                 std::shared_ptr<Notifier::INotifier> __notifier;
