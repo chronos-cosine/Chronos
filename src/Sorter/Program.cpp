@@ -11,7 +11,7 @@
  * Created on 04 October 2018, 10:52 PM
  */
 
-#include "Notifier/CoutNotifier.h"
+#include "Notifier/LogFileNotifier.h"
 #include "Repositories/CsvFileDataRepository.h"
 #include "Services/SortingMachine.h"
 
@@ -25,8 +25,9 @@
 namespace fs = std::experimental::filesystem;
 
 int main(int argc, char** argv) {
-    std::shared_ptr<Notifier::INotifier> 
-        notifier = std::make_shared<Notifier::CoutNotifier>();
+    std::shared_ptr<Notifier::INotifier> notifier = std::make_shared<Notifier::LogFileNotifier>(
+            std::chrono::minutes(15),
+            "./logs/");
     notifier->notify("Starting Chronos-Sorter...");
     
     Sorter::Repositories::CsvFileDataRepository repository("./bins.dat", 
