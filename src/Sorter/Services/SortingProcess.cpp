@@ -33,15 +33,19 @@ namespace Sorter {
                     const std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>>& jobs,
                     const std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>>& results,
                     const std::shared_ptr<Sorter::Data::DataContext>& dc) 
-                : __jobs(jobs), __results(results), __notifier(nullptr) {
+                : __jobs(jobs), 
+                  __results(results), 
+                  __notifier(nullptr) {
         }
         
         SortingProcess::SortingProcess(
                     const std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>>& jobs,
                     const std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>>& results,
                     const std::shared_ptr<Sorter::Data::DataContext>& dc,
-                    const std::shared_ptr<Notifier::INotifier> notifier) 
-                : __jobs(jobs), __results(results), __notifier(notifier) {
+                    const std::shared_ptr<Notifier::INotifier>& notifier) 
+                : __jobs(jobs), 
+                  __results(results), 
+                  __notifier(notifier) {
             notify("SortingProcess::SortingProcess()");
         }
         
@@ -118,7 +122,7 @@ namespace Sorter {
         }
         
         void 
-        SortingProcess::notify(const std::string& message) {
+        SortingProcess::notify(const std::string& message) const {
             if (nullptr != __notifier) {
                 __notifier->notify(message);
             }

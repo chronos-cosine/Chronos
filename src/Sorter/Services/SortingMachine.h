@@ -44,7 +44,7 @@ namespace Sorter {
                            const std::chrono::seconds& sleep_time,
                            const unsigned short& consumer_count,
                            const std::shared_ptr<Sorter::Data::DataContext>& dc,
-                           const std::shared_ptr<Notifier::INotifier> notifier);
+                           const std::shared_ptr<Notifier::INotifier>& notifier);
         public:
             bool start();
             bool stop();
@@ -60,7 +60,7 @@ namespace Sorter {
             void create_consumer_threads();
             void stop_producer_threads();
             void stop_consumer_threads();
-            void notify(const std::string& message);
+            void notify(const std::string& message) const;
         private:
             std::shared_ptr<Notifier::INotifier> __notifier;
             std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>> jobs;

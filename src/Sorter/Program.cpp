@@ -32,6 +32,7 @@ int main(int argc, char** argv) {
     Sorter::Repositories::CsvFileDataRepository 
         repository("./bins.dat", "./patterns.dat", notifier);
     
+    notifier->notify("Starting Chronos-Sorter...");
     auto data_context = repository.create_data_context();
     
     std::vector<fs::path> paths;

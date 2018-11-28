@@ -24,7 +24,8 @@ namespace Sorter {
             MultiPatternMatcher::MultiPatternMatcher(
                     const std::vector<std::shared_ptr<Sorter::Models::Pattern>>& patterns,
                     const std::shared_ptr<Notifier::INotifier>& notifier) 
-                : __matcher(patterns), __notifier(notifier) {
+                : __matcher(patterns), 
+                  __notifier(notifier) {
                 notify("MultiPatternMatcher::MultiPatternMatcher()");
                 
                 init();
@@ -32,7 +33,8 @@ namespace Sorter {
             
             MultiPatternMatcher::MultiPatternMatcher(
                 const std::vector<std::shared_ptr<Sorter::Models::Pattern>>& patterns) 
-                : __matcher(patterns), __notifier(nullptr) {
+                : __matcher(patterns), 
+                  __notifier(nullptr) {
                 init();
             }
             
@@ -44,7 +46,7 @@ namespace Sorter {
             }
             
             void 
-            MultiPatternMatcher::notify(const std::string& message) {
+            MultiPatternMatcher::notify(const std::string& message) const {
                 if (nullptr != __notifier) {
                     __notifier->notify(message);
                 }

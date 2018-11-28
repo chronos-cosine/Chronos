@@ -41,7 +41,7 @@ namespace Sorter {
         private:
             void read_bins(const std::shared_ptr<Sorter::Data::DataContext>& dc);
             void read_patterns(const std::shared_ptr<Sorter::Data::DataContext>& dc);
-            void notify(const std::string& message);
+            void notify(const std::string& message) const;
         private:
             fs::path __bins_file;
             fs::path __patterns_file;

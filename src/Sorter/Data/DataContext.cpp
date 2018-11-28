@@ -18,8 +18,27 @@
 namespace Sorter {
     namespace Data {
         
+        DataContext::DataContext() 
+            : __notifier(nullptr) {
+            
+        }
+        
+        DataContext::DataContext(const std::shared_ptr<Notifier::INotifier>& notifier)
+            : __notifier(notifier) {
+            notify("DataContext::DataContext()");
+        }
+        
+        void 
+        DataContext::notify(const std::string& message) const {
+            if (nullptr != __notifier) {
+                __notifier->notify(message);
+            }
+        }
+        
         void 
         DataContext::link_bin_patterns() {
+            notify("DataContext::link_bin_patterns()");
+            
             for(auto& pair: patterns) {
                 if (bins.find(pair.second->bin_id) == bins.end()) {
                     throw std::runtime_error(
@@ -34,6 +53,8 @@ namespace Sorter {
         
         void 
         DataContext::clear() {
+            notify("DataContext::clear()");
+            
             bins.clear();
             patterns.clear();
         }

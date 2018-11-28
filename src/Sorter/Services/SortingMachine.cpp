@@ -45,7 +45,7 @@ namespace Sorter {
                            const std::chrono::seconds& sleep_time,
                            const unsigned short& consumer_count,
                            const std::shared_ptr<Sorter::Data::DataContext>& dc,
-                           const std::shared_ptr<Notifier::INotifier> notifier) 
+                           const std::shared_ptr<Notifier::INotifier>& notifier) 
           : jobs(std::make_shared<
                 Collections::Concurrent::Queue<std::shared_ptr<Sorter::Models::Job>>>()),
             results(std::make_shared<
@@ -133,13 +133,16 @@ namespace Sorter {
         
         bool 
         SortingMachine::get_is_running() const noexcept {
+            notify("SortingMachine::get_is_running()");
+            
             return __is_running && !__is_stopping;
         }
 
         bool 
         SortingMachine::start() {
-            std::lock_guard<std::mutex> lock(__mutex);
             notify("SortingMachine::start()");
+            
+            std::lock_guard<std::mutex> lock(__mutex);
             
             if (__is_running || __is_stopping) { 
                 return false;
@@ -154,8 +157,9 @@ namespace Sorter {
 
         bool 
         SortingMachine::stop() {
-            std::lock_guard<std::mutex> lock(__mutex);
             notify("SortingMachine::stop()");
+            
+            std::lock_guard<std::mutex> lock(__mutex);
 
             if (!__is_running || __is_stopping) {
                 return false;
@@ -173,7 +177,7 @@ namespace Sorter {
         }
         
         void 
-        SortingMachine::notify(const std::string& message) {
+        SortingMachine::notify(const std::string& message) const {
             if (nullptr != __notifier) {
                 __notifier->notify(message);
             }

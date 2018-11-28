@@ -14,6 +14,7 @@
 #ifndef SORTER_DATA_DATACONTEXT_H
 #define SORTER_DATA_DATACONTEXT_H
 
+#include "Notifier/INotifier.h"
 #include "Sorter/Models/Bin.h"
 #include "Sorter/Models/Pattern.h"
 
@@ -30,13 +31,18 @@ namespace Sorter {
             DataContext& operator=(DataContext&&) = delete;
         public:
             virtual ~DataContext() = default;
-            DataContext() = default;
+            DataContext();
+            DataContext(const std::shared_ptr<Notifier::INotifier>& notifier);
             
             void link_bin_patterns();
             void clear();
-            
+        public:
             std::map<unsigned long long, std::shared_ptr<Sorter::Models::Bin>> bins;
             std::map<unsigned long long, std::shared_ptr<Sorter::Models::Pattern>> patterns;
+        private:
+            void notify(const std::string& message) const;
+        private:
+            std::shared_ptr<Notifier::INotifier> __notifier;
             
         }; /* class DataContext */
                 

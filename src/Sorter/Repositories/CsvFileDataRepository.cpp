@@ -14,6 +14,8 @@
 #include "Sorter/Repositories/CsvFileDataRepository.h"
 #include "File/CsvDataReader.h"
 
+#include <iostream>
+
 namespace Sorter {
     namespace Repositories {
         
@@ -34,7 +36,7 @@ namespace Sorter {
         }
         
         void 
-        CsvFileDataRepository::notify(const std::string& message) {
+        CsvFileDataRepository::notify(const std::string& message) const {
             if (nullptr != __notifier) {
                 __notifier->notify(message);
             }

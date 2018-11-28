@@ -37,7 +37,7 @@ namespace Sorter {
             SortingProcess(const std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>>& jobs,
                            const std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>>& results,
                            const std::shared_ptr<Sorter::Data::DataContext>& dc,
-                           const std::shared_ptr<Notifier::INotifier> notifier);
+                           const std::shared_ptr<Notifier::INotifier>& notifier);
         protected:
             virtual bool process();
         private:
@@ -46,7 +46,7 @@ namespace Sorter {
             void validate(const std::shared_ptr<Sorter::Models::Job>& job);
             void remove_invalid(const std::shared_ptr<Sorter::Models::Job>& job);
             void save(const std::shared_ptr<Sorter::Models::Job>& job);
-            void notify(const std::string& message);
+            void notify(const std::string& message) const;
         private:
             std::shared_ptr<Notifier::INotifier> __notifier;
             std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>> __jobs;
