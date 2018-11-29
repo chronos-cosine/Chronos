@@ -14,11 +14,19 @@
 #ifndef SORTER_SERVICES_DATAPROVIDERS_PATTERNLESSBINDATAPROVIDER_H
 #define SORTER_SERVICES_DATAPROVIDERS_PATTERNLESSBINDATAPROVIDER_H
 
+#include "Sorter/Data/DataContext.h"
+#include "Sorter/Models/Bin.h"
+#include "Sorter/Models/Job.h"
+#include "Sorter/Services/IDataProvider.h"
+
+#include <memory>
+#include <string>
+
 namespace Sorter {
     namespace Services {
         namespace DataProviders {
                     
-            class PatternlessBinDataProvider {
+            class PatternlessBinDataProvider : public IDataProvider {
             public:
                 virtual ~PatternlessBinDataProvider() = default;
                 PatternlessBinDataProvider(

@@ -15,6 +15,7 @@
 #include "Sorter/Data/DataContext.h"
 #include "Sorter/Models/Job.h"
 #include "Sorter/Services/DataProviders/MultiPatternMatcher.h"
+#include "Sorter/Services/DataProviders/PatternlessBinDataProvider.h"
 #include "Sorter/Services/DataValidators/NotDataValidator.h"
 #include "Sorter/Services/DataValidators/AndDataValidator.h"
 #include "Sorter/Services/DataValidators/HierarchyValidator.h"
@@ -63,6 +64,7 @@ namespace Sorter {
             }
             
             m_data_providers.push_back(std::make_shared<DataProviders::MultiPatternMatcher>(patterns, m_notifier));
+            m_data_providers.push_back(std::make_shared<DataProviders::PatternlessBinDataProvider>(t_data_context, m_notifier));
             m_data_validators.push_back(std::make_shared<DataValidators::NotDataValidator>(t_data_context, m_notifier));
             m_data_validators.push_back(std::make_shared<DataValidators::OrDataValidator>(t_data_context, m_notifier));
             m_data_validators.push_back(std::make_shared<DataValidators::AndDataValidator>(t_data_context, m_notifier));

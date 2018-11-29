@@ -52,6 +52,8 @@ if(Boost_FOUND)
         "${CMAKE_CURRENT_LIST_DIR}/Services/IDataValidator.h" 
         "${CMAKE_CURRENT_LIST_DIR}/Services/DataProviders/MultiPatternMatcher.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/Services/DataProviders/MultiPatternMatcher.h" 
+        "${CMAKE_CURRENT_LIST_DIR}/Services/DataProviders/PatternlessBinDataProvider.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/Services/DataProviders/PatternlessBinDataProvider.h" 
         "${CMAKE_CURRENT_LIST_DIR}/Services/DataValidators/AndDataValidator.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/Services/DataValidators/AndDataValidator.h" 
         "${CMAKE_CURRENT_LIST_DIR}/Services/DataValidators/HierarchyValidator.cpp"

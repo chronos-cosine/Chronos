@@ -16,6 +16,7 @@
 #include "Sorter/Models/Bin.h"
 #include "Sorter/Models/Job.h"
 #include "Sorter/Models/Pattern.h"
+#include "Sorter/Models/Result.h"
 
 #include <memory>
 #include <string>
@@ -58,7 +59,7 @@ namespace Sorter {
                 
                 for (auto& pair: t_data_context->bins) {
                     if (pair.second->patterns.size() == 0) {
-                        m_bins.push_back(pair.second);
+                        m_bins.insert(pair.second);
                     }
                 }
             }
