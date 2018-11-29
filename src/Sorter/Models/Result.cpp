@@ -22,7 +22,10 @@ namespace Sorter {
     namespace Models {
         
         Result::Result() 
-            : passed(true), job(nullptr), bin(nullptr), pattern_matches() {
+          : passed(true), 
+            job(nullptr), 
+            bin(nullptr), 
+            pattern_matches() {
         }
           
         bool

@@ -17,7 +17,6 @@
 #include "Sorter/Models/Result.h"
 #include "Sorter/Models/BooleanOperator.h"
 
-#include <iostream>
 #include <map>
 
 namespace Sorter {
@@ -50,6 +49,8 @@ namespace Sorter {
                 notify("NotDataValidator::process()");
                 
                 for (auto& result: t_job->results) {
+                    std::cout << "NotDataValidator::testing " << result->bin->name << std::endl;
+                    
                     if (!result->passed) {
                         continue;
                     }

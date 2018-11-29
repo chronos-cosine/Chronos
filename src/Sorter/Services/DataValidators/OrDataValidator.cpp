@@ -17,7 +17,6 @@
 #include "Sorter/Models/Result.h"
 #include "Sorter/Models/BooleanOperator.h"
 
-#include <iostream>
 #include <map>
 
 namespace Sorter {
@@ -57,12 +56,14 @@ namespace Sorter {
                     
                     if (m_data_context->bins[result->bin->id]->patterns.find(Sorter::Models::BooleanOperator::OR)
                         != m_data_context->bins[result->bin->id]->patterns.end()) {
+                        result->passed = false;
                         for (auto& pair: result->pattern_matches) {
-                            if (nullptr != pair.first 
-                                && Sorter::Models::BooleanOperator::OR == pair.first->boolean_operator) {
-                                result->passed = false;
+                            if (nullptr != pair.first) {
+                                if (Sorter::Models::BooleanOperator::OR == pair.first->boolean_operator) {
+                                    result->passed = true;
+                                    break;
+                                }
                             }
-                            break;
                         }
                     }
                 }

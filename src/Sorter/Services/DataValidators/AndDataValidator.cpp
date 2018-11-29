@@ -17,7 +17,6 @@
 #include "Sorter/Models/Result.h"
 #include "Sorter/Models/BooleanOperator.h"
 
-#include <iostream>
 #include <map>
 
 namespace Sorter {
@@ -50,14 +49,14 @@ namespace Sorter {
                 notify("AndDataValidator::process()");
                 
                 for (auto& result: t_job->results) {
+                    std::cout << "AndDataValidator::testing " << result->bin->name << std::endl;
+                    
                     if (!result->passed) {
                         continue;
                     }
                     
-                    for (auto& pattern: m_data_context->bins[result->bin->id]
-                                        ->patterns[Sorter::Models::BooleanOperator::AND]) {
-                        if (result->pattern_matches.find(pattern)
-                            == result->pattern_matches.end()) {
+                    for (auto& pattern: m_data_context->bins[result->bin->id]->patterns[Sorter::Models::BooleanOperator::AND]) {
+                        if (result->pattern_matches.find(pattern) == result->pattern_matches.end()) {
                             result->passed = false;
                             break;
                         }

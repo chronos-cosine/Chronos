@@ -17,7 +17,6 @@
 #include "Sorter/Models/Result.h"
 #include "Sorter/Models/BooleanOperator.h"
 
-#include <iostream>
 #include <map>
 
 namespace Sorter {
@@ -50,12 +49,13 @@ namespace Sorter {
                 notify("HierarchyValidator::process()");
                 
                 for (auto& result: t_job->results) {
-                    if (!result->passed
-                        || result->bin->is_root()) {
+                    std::cout << "HierarchyValidator::testing " << result->bin->name << std::endl;
+                    auto bin = result->bin;
+                    
+                    if (bin->is_root()) {
                         continue;
                     }
                     
-                    auto bin = result->bin;
                     do {
                         bin = m_data_context->bins[bin->parent_id.get()];
                         for (auto& check: t_job->results) {
