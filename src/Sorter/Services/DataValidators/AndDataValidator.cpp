@@ -25,36 +25,36 @@ namespace Sorter {
         namespace DataValidators {
             
             AndDataValidator::AndDataValidator(
-                const std::shared_ptr<Sorter::Data::DataContext>& data_context) 
-                    : __data_context(data_context), 
-                      __notifier(nullptr) {
+                const std::shared_ptr<Sorter::Data::DataContext>& t_data_context) 
+                    : m_data_context(t_data_context), 
+                      m_notifier(nullptr) {
             }
             
             AndDataValidator::AndDataValidator(
-                const std::shared_ptr<Sorter::Data::DataContext>& data_context,
-                const std::shared_ptr<Notifier::INotifier>& notifier) 
-                    : __data_context(data_context), 
-                      __notifier(notifier) {
+                const std::shared_ptr<Sorter::Data::DataContext>& t_data_context,
+                const std::shared_ptr<Notifier::INotifier>& t_notifier) 
+                    : m_data_context(t_data_context), 
+                      m_notifier(t_notifier) {
                 notify("AndDataValidator::AndDataValidator()");
             }
             
             void 
-            AndDataValidator::notify(const std::string& message) {
-                if (nullptr != __notifier) {
-                    __notifier->notify(message);
+            AndDataValidator::notify(const std::string& t_message) {
+                if (nullptr != m_notifier) {
+                    m_notifier->notify(t_message);
                 }
             }
     
             void 
-            AndDataValidator::process(const std::shared_ptr<Sorter::Models::Job>& job) {
+            AndDataValidator::process(const std::shared_ptr<Sorter::Models::Job>& t_job) {
                 notify("AndDataValidator::process()");
                 
-                for (auto& result: job->results) {
+                for (auto& result: t_job->results) {
                     if (!result->passed) {
                         continue;
                     }
                     
-                    for (auto& pattern: __data_context->bins[result->bin->id]
+                    for (auto& pattern: m_data_context->bins[result->bin->id]
                                         ->patterns[Sorter::Models::BooleanOperator::AND]) {
                         if (result->pattern_matches.find(pattern)
                             == result->pattern_matches.end()) {

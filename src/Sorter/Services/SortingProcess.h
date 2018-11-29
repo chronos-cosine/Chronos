@@ -31,28 +31,28 @@ namespace Sorter {
         class SortingProcess : public Processors::ProcessorBase {
         public:
             virtual ~SortingProcess() = default;
-            SortingProcess(const std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>>& jobs,
-                           const std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>>& results,
-                           const std::shared_ptr<Sorter::Data::DataContext>& dc);
-            SortingProcess(const std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>>& jobs,
-                           const std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>>& results,
-                           const std::shared_ptr<Sorter::Data::DataContext>& dc,
-                           const std::shared_ptr<Notifier::INotifier>& notifier);
+            SortingProcess(const std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>>& t_jobs,
+                           const std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>>& t_results,
+                           const std::shared_ptr<Sorter::Data::DataContext>& t_data_context);
+            SortingProcess(const std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>>& t_jobs,
+                           const std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>>& t_results,
+                           const std::shared_ptr<Sorter::Data::DataContext>& t_data_context,
+                           const std::shared_ptr<Notifier::INotifier>& t_notifier);
         protected:
             virtual bool process();
         private:
-            void init(const std::shared_ptr<Sorter::Data::DataContext>& dc);
-            void populate(const std::shared_ptr<Sorter::Models::Job>& job);
-            void validate(const std::shared_ptr<Sorter::Models::Job>& job);
-            void remove_invalid(const std::shared_ptr<Sorter::Models::Job>& job);
-            void save(const std::shared_ptr<Sorter::Models::Job>& job);
-            void notify(const std::string& message);
+            void init(const std::shared_ptr<Sorter::Data::DataContext>& t_data_context);
+            void populate(const std::shared_ptr<Sorter::Models::Job>& t_job);
+            void validate(const std::shared_ptr<Sorter::Models::Job>& t_job);
+            void remove_invalid(const std::shared_ptr<Sorter::Models::Job>& t_job);
+            void save(const std::shared_ptr<Sorter::Models::Job>& t_job);
+            void notify(const std::string& t_message);
         private:
-            std::shared_ptr<Notifier::INotifier> __notifier;
-            std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>> __jobs;
-            std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>> __results;
-            std::vector<std::shared_ptr<IDataProvider>> __data_providers;
-            std::vector<std::shared_ptr<IDataValidator>> __data_validators;
+            std::shared_ptr<Notifier::INotifier> m_notifier;
+            std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>> m_jobs;
+            std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>> m_results;
+            std::vector<std::shared_ptr<IDataProvider>> m_data_providers;
+            std::vector<std::shared_ptr<IDataValidator>> m_data_validators;
             
         }; /* class SortingProcess */
 

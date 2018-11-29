@@ -137,8 +137,8 @@ namespace std {
     struct hash<Sorter::Models::Bin> {
         
         std::size_t 
-        operator()(const Sorter::Models::Bin& bin) const {
-            return std::hash<unsigned long long>{}(bin.id);
+        operator()(const Sorter::Models::Bin& t_bin) const {
+            return std::hash<unsigned long long>{}(t_bin.id);
         }
         
     }; /* struct hash<Sorter::Models::Bin> */

@@ -32,7 +32,7 @@ namespace Sorter {
         public:
             virtual ~DataContext() = default;
             DataContext();
-            DataContext(const std::shared_ptr<Notifier::INotifier>& notifier);
+            DataContext(const std::shared_ptr<Notifier::INotifier>& t_notifier);
             
             void link_bin_patterns();
             void clear();
@@ -40,9 +40,9 @@ namespace Sorter {
             std::map<unsigned long long, std::shared_ptr<Sorter::Models::Bin>> bins;
             std::map<unsigned long long, std::shared_ptr<Sorter::Models::Pattern>> patterns;
         private:
-            void notify(const std::string& message) const;
+            void notify(const std::string& t_message) const;
         private:
-            std::shared_ptr<Notifier::INotifier> __notifier;
+            std::shared_ptr<Notifier::INotifier> m_notifier;
             
         }; /* class DataContext */
                 

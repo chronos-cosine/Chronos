@@ -132,3 +132,18 @@ namespace Sorter {
         
     } /* namespace Models */
 } /* namespace Sorter */
+
+
+namespace std {
+    
+    template<>
+    struct hash<Sorter::Models::Job> {
+        
+        std::size_t 
+        operator()(const Sorter::Models::Job& t_job) const {
+            return std::hash<unsigned long long>{}(t_job.id);
+        }
+        
+    }; /* struct hash<Sorter::Models::Job> */
+    
+} /* namespace std */

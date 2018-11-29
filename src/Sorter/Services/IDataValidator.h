@@ -26,7 +26,7 @@ namespace Sorter {
             virtual ~IDataValidator() = default;
             IDataValidator() = default;
             
-            virtual void process(const std::shared_ptr<Sorter::Models::Job>& job) = 0;
+            virtual void process(const std::shared_ptr<Sorter::Models::Job>& t_job) = 0;
             
             
         }; /* class IDataProvider */ 

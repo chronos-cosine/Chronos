@@ -32,21 +32,21 @@ namespace Sorter {
         public:
             virtual ~CsvFileDataRepository() = default;
             
-            CsvFileDataRepository(const fs::path bins_file,
-                                  const fs::path patterns_file,
-                                  const std::shared_ptr<Notifier::INotifier>& notifier);
-            CsvFileDataRepository(const fs::path bins_file,
-                                  const fs::path patterns_file);
+            CsvFileDataRepository(const fs::path t_bins_file,
+                                  const fs::path t_patterns_file,
+                                  const std::shared_ptr<Notifier::INotifier>& t_notifier);
+            CsvFileDataRepository(const fs::path t_bins_file,
+                                  const fs::path t_patterns_file);
             
             virtual std::shared_ptr<Sorter::Data::DataContext> create_data_context();
         private:
-            void read_bins(const std::shared_ptr<Sorter::Data::DataContext>& dc);
-            void read_patterns(const std::shared_ptr<Sorter::Data::DataContext>& dc);
-            void notify(const std::string& message);
+            void read_bins(const std::shared_ptr<Sorter::Data::DataContext>& t_dc);
+            void read_patterns(const std::shared_ptr<Sorter::Data::DataContext>& t_dc);
+            void notify(const std::string& t_message);
         private:
-            std::shared_ptr<Notifier::INotifier> __notifier;
-            fs::path __bins_file;
-            fs::path __patterns_file;
+            std::shared_ptr<Notifier::INotifier> m_notifier;
+            fs::path m_bins_file;
+            fs::path m_patterns_file;
             
         }; /* class CsvFileDataRepository */
                 

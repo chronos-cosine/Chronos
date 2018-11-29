@@ -123,10 +123,10 @@ namespace std {
     struct hash<Sorter::Models::Pattern> {
         
         std::size_t 
-        operator()(const Sorter::Models::Pattern& pattern) const {
-            return std::hash<unsigned long long>{}(pattern.id);
+        operator()(const Sorter::Models::Pattern& t_pattern) const {
+            return std::hash<unsigned long long>{}(t_pattern.id);
         }
         
-    }; /* struct hash<Sorter::Models::Bin> */
+    }; /* struct hash<Sorter::Models::Pattern> */
     
 } /* namespace std */

@@ -25,31 +25,31 @@ namespace Sorter {
         namespace DataValidators {
             
             NotDataValidator::NotDataValidator(
-                const std::shared_ptr<Sorter::Data::DataContext>& data_context) 
-                    : __data_context(data_context), 
-                      __notifier(nullptr) {
+                const std::shared_ptr<Sorter::Data::DataContext>& t_data_context) 
+                    : m_data_context(t_data_context), 
+                      m_notifier(nullptr) {
             }
             
             NotDataValidator::NotDataValidator(
-                const std::shared_ptr<Sorter::Data::DataContext>& data_context,
-                const std::shared_ptr<Notifier::INotifier>& notifier) 
-                    : __data_context(data_context), 
-                      __notifier(notifier) {
+                const std::shared_ptr<Sorter::Data::DataContext>& t_data_context,
+                const std::shared_ptr<Notifier::INotifier>& t_notifier) 
+                    : m_data_context(t_data_context), 
+                      m_notifier(t_notifier) {
                 notify("NotDataValidator::NotDataValidator()");
             }
                         
             void 
-            NotDataValidator::notify(const std::string& message) {
-                if (nullptr != __notifier) {
-                    __notifier->notify(message);
+            NotDataValidator::notify(const std::string& t_message) {
+                if (nullptr != m_notifier) {
+                    m_notifier->notify(t_message);
                 }
             }
         
             void 
-            NotDataValidator::process(const std::shared_ptr<Sorter::Models::Job>& job) {
+            NotDataValidator::process(const std::shared_ptr<Sorter::Models::Job>& t_job) {
                 notify("NotDataValidator::process()");
                 
-                for (auto& result: job->results) {
+                for (auto& result: t_job->results) {
                     if (!result->passed) {
                         continue;
                     }

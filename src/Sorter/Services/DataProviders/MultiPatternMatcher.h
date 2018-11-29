@@ -33,27 +33,27 @@ namespace Sorter {
             class MultiPatternMatcher : public IDataProvider {
                 struct match_found {
                     void operator()(
-                        MultiPatternMatcher* sender, 
-                        const std::shared_ptr<Sorter::Models::Job>& input,
-                        const unsigned long long& position,
-                        const std::set<std::shared_ptr<Sorter::Models::Pattern>>& patterns);
+                        MultiPatternMatcher* t_sender, 
+                        const std::shared_ptr<Sorter::Models::Job>& t_input,
+                        const unsigned long long& t_position,
+                        const std::set<std::shared_ptr<Sorter::Models::Pattern>>& t_patterns);
                 }; /* struct match_found */
             public:
                 virtual ~MultiPatternMatcher() = default;
-                MultiPatternMatcher(const std::vector<std::shared_ptr<Sorter::Models::Pattern>>& patterns,
-                           const std::shared_ptr<Notifier::INotifier>& notifier); 
-                MultiPatternMatcher(const std::vector<std::shared_ptr<Sorter::Models::Pattern>>& patterns); 
+                MultiPatternMatcher(const std::vector<std::shared_ptr<Sorter::Models::Pattern>>& t_patterns,
+                           const std::shared_ptr<Notifier::INotifier>& t_notifier); 
+                MultiPatternMatcher(const std::vector<std::shared_ptr<Sorter::Models::Pattern>>& t_patterns); 
 
-                virtual void process(const std::shared_ptr<Sorter::Models::Job>& job);
+                virtual void process(const std::shared_ptr<Sorter::Models::Job>& t_job);
             private:
                 void init();
-                void notify(const std::string& message);
+                void notify(const std::string& t_message);
             private:
-                match_found __match_found;
+                match_found m_match_found;
                 PatternMatcher::PatternMatchingMachine<Sorter::Models::Job, 
                                                        Sorter::Models::Pattern,
-                                                       MultiPatternMatcher> __matcher;
-                std::shared_ptr<Notifier::INotifier> __notifier;
+                                                       MultiPatternMatcher> m_matcher;
+                std::shared_ptr<Notifier::INotifier> m_notifier;
 
             }; /* class MultiPatternMatcher */ 
     

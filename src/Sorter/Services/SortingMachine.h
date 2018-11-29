@@ -32,49 +32,49 @@ namespace fs = std::experimental::filesystem;
 
 namespace Sorter {
     namespace Services {
-    
+
         class SortingMachine {
         public:
-            virtual ~SortingMachine() = default; 
-            SortingMachine(const std::vector<fs::path>& paths, 
-                           const std::chrono::seconds& sleep_time,
-                           const unsigned short& consumer_count,
-                           const std::shared_ptr<Sorter::Data::DataContext>& dc);
-            SortingMachine(const std::vector<fs::path>& paths, 
-                           const std::chrono::seconds& sleep_time,
-                           const unsigned short& consumer_count,
-                           const std::shared_ptr<Sorter::Data::DataContext>& dc,
-                           const std::shared_ptr<Notifier::INotifier>& notifier);
+            virtual ~SortingMachine() = default;
+            SortingMachine(const std::vector<fs::path>& t_paths,
+                    const std::chrono::seconds& t_sleep_time,
+                    const unsigned short& t_consumer_count,
+                    const std::shared_ptr<Sorter::Data::DataContext>& t_data_context);
+            SortingMachine(const std::vector<fs::path>& t_paths,
+                    const std::chrono::seconds& t_sleep_time,
+                    const unsigned short& t_consumer_count,
+                    const std::shared_ptr<Sorter::Data::DataContext>& t_data_context,
+                    const std::shared_ptr<Notifier::INotifier>& t_notifier);
         public:
             bool start();
             bool stop();
-            bool get_is_running() const noexcept; 
+            bool get_is_running() const noexcept;
         private:
-            void init(const std::vector<fs::path>& paths,
-                      const std::chrono::seconds& sleep_time,
-                      const unsigned short& consumer_count);
-            void initialise_producers(const std::vector<fs::path>& paths,
-                    const std::chrono::seconds& sleep_time);
-            void initialise_consumers(const unsigned short& consumer_count);
+            void init(const std::vector<fs::path>& t_paths,
+                    const std::chrono::seconds& t_sleep_time,
+                    const unsigned short& t_consumer_count);
+            void initialise_producers(const std::vector<fs::path>& t_paths,
+                    const std::chrono::seconds& t_sleep_time);
+            void initialise_consumers(const unsigned short& t_consumer_count);
             void create_producer_threads();
             void create_consumer_threads();
             void stop_producer_threads();
             void stop_consumer_threads();
-            void notify(const std::string& message);
+            void notify(const std::string& t_message);
         private:
-            std::shared_ptr<Notifier::INotifier> __notifier;
-            std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>> jobs;
-            std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>> results;
-            std::vector<std::shared_ptr<Processors::IProcessor>> job_producers;
-            std::vector<std::shared_ptr<Processors::IProcessor>> job_consumers;
-            std::vector<std::thread> job_producer_threads;
-            std::vector<std::thread> job_consumer_threads;
-            std::shared_ptr<Sorter::Data::DataContext> __data_context;
-            std::mutex __mutex;
-            bool __is_running;
-            bool __is_stopping;
+            std::shared_ptr<Notifier::INotifier> m_notifier;
+            std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>> m_jobs;
+            std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>> m_results;
+            std::vector<std::shared_ptr<Processors::IProcessor>> m_job_producers;
+            std::vector<std::shared_ptr<Processors::IProcessor>> m_job_consumers;
+            std::vector<std::thread> m_job_producer_threads;
+            std::vector<std::thread> m_job_consumer_threads;
+            std::shared_ptr<Sorter::Data::DataContext> m_data_context;
+            std::mutex m_mutex;
+            bool m_is_running;
+            bool m_is_stopping;
 
-        }; /* class SortingMachine */ 
+        }; /* class SortingMachine */
 
     } /* namespace Services */
 } /* namespace Sorter */

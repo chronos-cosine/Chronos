@@ -28,17 +28,17 @@ namespace Sorter {
             class AndDataValidator : public IDataValidator {
             public:
                 virtual ~AndDataValidator() = default;
-                AndDataValidator(const std::shared_ptr<Sorter::Data::DataContext>& data_context,
-                           const std::shared_ptr<Notifier::INotifier>& notifier);
-                AndDataValidator(const std::shared_ptr<Sorter::Data::DataContext>& data_context);
+                AndDataValidator(const std::shared_ptr<Sorter::Data::DataContext>& t_data_context,
+                           const std::shared_ptr<Notifier::INotifier>& t_notifier);
+                AndDataValidator(const std::shared_ptr<Sorter::Data::DataContext>& t_data_context);
 
-                virtual void process(const std::shared_ptr<Sorter::Models::Job>& job);
+                virtual void process(const std::shared_ptr<Sorter::Models::Job>& t_job);
             private:
-                void notify(const std::string& message);
+                void notify(const std::string& t_message);
             private:
-                std::shared_ptr<Sorter::Data::DataContext> __data_context;
-                std::shared_ptr<Notifier::INotifier> __notifier;
-            };
+                std::shared_ptr<Sorter::Data::DataContext> m_data_context;
+                std::shared_ptr<Notifier::INotifier> m_notifier;
+            }; /* class AndDataValidator */
     
         } /* namespace DataValidators */
     } /* namespace Services */
