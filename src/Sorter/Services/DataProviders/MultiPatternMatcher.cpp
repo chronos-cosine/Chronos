@@ -14,7 +14,6 @@
 #include "Sorter/Services/DataProviders/MultiPatternMatcher.h"
 #include "Collections/Concurrent/Map.h"
 
-#include <iostream>
 #include <memory>
 
 namespace Sorter {
@@ -47,7 +46,6 @@ namespace Sorter {
                 t_sender->notify("MultiPatternMatcher::match_found::operator()");
                 
                 for (auto& pattern: t_patterns) {
-                    std::cout << "found " << pattern->value << std::endl;
                     auto result = std::make_shared<Sorter::Models::Result>();
                     result->job = t_job;
                     result->bin = pattern->bin;
