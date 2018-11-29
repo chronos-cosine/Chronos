@@ -36,16 +36,21 @@ int main(int argc, char** argv) {
     
     auto data_context = repository.create_data_context();
     std::vector<fs::path> paths;
-    paths.push_back("./jobs/");
+    paths.push_back("./1/");
+    paths.push_back("./2/");
+    paths.push_back("./3/");
+    paths.push_back("./4/");
+    
+    std::chrono::seconds sleep_time(5);
     
     Sorter::Services::SortingMachine sm(paths, 
-                                        std::chrono::seconds(4), 
-                                        1, 
+                                        sleep_time, 
+                                        6, 
                                         data_context,
                                         notifier);
     sm.start();
     while (sm.get_is_running()) {
-        std::this_thread::sleep_for(std::chrono::seconds(5));
+        std::this_thread::sleep_for(sleep_time);
     }
     
     return 0;

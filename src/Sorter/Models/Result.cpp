@@ -16,6 +16,7 @@
 #include "Sorter/Models/Pattern.h"
 #include "Sorter/Models/Result.h"
 
+#include <boost/functional/hash.hpp>
 #include <memory>
 
 namespace Sorter {
@@ -24,45 +25,9 @@ namespace Sorter {
         Result::Result() 
           : passed(true), 
             job(nullptr), 
-            bin(nullptr), 
-            pattern_matches() {
+            bin(nullptr) {
         }
           
-        bool
-        operator==(const std::shared_ptr<Result>& lhs, 
-                   const std::shared_ptr<Result>& rhs) {
-            if (lhs == nullptr
-                && rhs == nullptr) {
-                return true;
-            } else if (lhs == nullptr
-                || rhs == nullptr) {
-                return false;
-            }
-            
-            return (*lhs == *rhs);
-        }
-        
-        bool
-        operator!=(const std::shared_ptr<Result>& lhs, 
-                   const std::shared_ptr<Result>& rhs) {
-            return !(lhs == rhs);
-        }
-        
-        bool
-        operator<(const std::shared_ptr<Result>& lhs, 
-                  const std::shared_ptr<Result>& rhs) {
-            if (lhs == nullptr
-                && rhs == nullptr) {
-                return false;
-            } else if (lhs == nullptr) {
-                return true;
-            } else if (rhs == nullptr) {
-                return false;
-            }
-            
-            return (*lhs < *rhs);
-        }
-        
         bool 
         Result::operator==(const Result& rhs) const noexcept {
             return job->id == rhs.job->id
@@ -115,6 +80,41 @@ namespace Sorter {
             return lhs;
         }
         
+        bool
+        operator==(const std::shared_ptr<Result>& lhs, 
+                   const std::shared_ptr<Result>& rhs) {
+            if (lhs == nullptr
+                && rhs == nullptr) {
+                return true;
+            } else if (lhs == nullptr
+                || rhs == nullptr) {
+                return false;
+            }
+            
+            return (*lhs == *rhs);
+        }
+        
+        bool
+        operator!=(const std::shared_ptr<Result>& lhs, 
+                   const std::shared_ptr<Result>& rhs) {
+            return !(lhs == rhs);
+        }
+        
+        bool
+        operator<(const std::shared_ptr<Result>& lhs, 
+                  const std::shared_ptr<Result>& rhs) {
+            if (lhs == nullptr
+                && rhs == nullptr) {
+                return false;
+            } else if (lhs == nullptr) {
+                return true;
+            } else if (rhs == nullptr) {
+                return false;
+            }
+            
+            return (*lhs < *rhs);
+        }
+        
     } /* namespace Models */
 } /* namespace Sorter */
 
@@ -122,13 +122,23 @@ namespace Sorter {
 namespace std {
     
     template<>
-    struct hash<Sorter::Models::Pattern> {
+    struct hash<Sorter::Models::Result> {
         
         std::size_t 
-        operator()(const Sorter::Models::Pattern& t_pattern) const {
-            return std::hash<unsigned long long>{}(t_pattern.id);
+        operator()(const Sorter::Models::Result& t_result) const {
+            std::size_t seed = 0;
+            
+            if (nullptr != t_result.bin) {
+                boost::hash_combine(seed, t_result.bin->id);
+            }
+            
+            if (nullptr != t_result.job) {
+                boost::hash_combine(seed, t_result.job->id);
+            }
+                
+            return seed; 
         }
         
-    }; /* struct hash<Sorter::Models::Pattern> */
+    }; /* struct hash<Sorter::Models::Result> */
     
 } /* namespace std */

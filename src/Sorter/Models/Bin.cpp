@@ -21,41 +21,6 @@ namespace Sorter {
     namespace Models {
 
         bool
-        operator==(const std::shared_ptr<Bin>& lhs, 
-                   const std::shared_ptr<Bin>& rhs) {
-            if (lhs == nullptr
-                && rhs == nullptr) {
-                return true;
-            } else if (lhs == nullptr
-                || rhs == nullptr) {
-                return false;
-            }
-
-            return (*lhs == *rhs);
-        }
-
-        bool
-        operator!=(const std::shared_ptr<Bin>& lhs, 
-                   const std::shared_ptr<Bin>& rhs) {
-            return !(lhs == rhs);
-        }
-
-        bool
-        operator<(const std::shared_ptr<Bin>& lhs, 
-                  const std::shared_ptr<Bin>& rhs) {
-            if (lhs == nullptr
-                && rhs == nullptr) {
-                return false;
-            } else if (lhs == nullptr) {
-                return true;
-            } else if (rhs == nullptr) {
-                return false;
-            }
-
-            return (*lhs < *rhs);
-        }
-
-        bool
         Bin::is_root() const noexcept {
             return !parent_id.is_initialized();
         }
@@ -127,6 +92,42 @@ namespace Sorter {
 
             return lhs;
         }
+        
+        bool
+        operator==(const std::shared_ptr<Bin>& lhs, 
+                   const std::shared_ptr<Bin>& rhs) {
+            if (lhs == nullptr
+                && rhs == nullptr) {
+                return true;
+            } else if (lhs == nullptr
+                || rhs == nullptr) {
+                return false;
+            }
+
+            return (*lhs == *rhs);
+        }
+
+        bool
+        operator!=(const std::shared_ptr<Bin>& lhs, 
+                   const std::shared_ptr<Bin>& rhs) {
+            return !(lhs == rhs);
+        }
+
+        bool
+        operator<(const std::shared_ptr<Bin>& lhs, 
+                  const std::shared_ptr<Bin>& rhs) {
+            if (lhs == nullptr
+                && rhs == nullptr) {
+                return false;
+            } else if (lhs == nullptr) {
+                return true;
+            } else if (rhs == nullptr) {
+                return false;
+            }
+
+            return (*lhs < *rhs);
+        }
+
         
     } /* namespace Models */
 } /* namespace Sorter */

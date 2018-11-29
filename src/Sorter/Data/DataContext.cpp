@@ -40,6 +40,7 @@ namespace Sorter {
             
             for (auto& pair: patterns) {
                 if (bins.find(pair.second->bin_id) == bins.end()) {
+                    notify("DataContext::link_bin_patterns() pattern.bin_id not found in bins");
                     throw std::runtime_error(
                         "DataContext::link_bin_patterns() pattern.bin_id not found in bins");
                 }
