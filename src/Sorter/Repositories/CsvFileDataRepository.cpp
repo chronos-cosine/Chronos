@@ -35,24 +35,24 @@ namespace Sorter {
         }
         
         void 
-        CsvFileDataRepository::read_bins(const std::shared_ptr<Sorter::Data::DataContext>& t_dc) {
+        CsvFileDataRepository::read_bins(const std::shared_ptr<Sorter::Data::DataContext>& t_data_context) {
             notify("CsvFileDataRepository::read_bins()");
             
             auto bins = File::CsvDataReader::read<Sorter::Models::Bin>(m_bins_file);
             
             for (auto& bin: *bins) {
-                t_dc->bins[bin.id] = std::make_shared<Sorter::Models::Bin>(std::move(bin));
+                t_data_context->bins[bin.id] = std::make_shared<Sorter::Models::Bin>(bin);
             }
         }
         
         void 
-        CsvFileDataRepository::read_patterns(const std::shared_ptr<Sorter::Data::DataContext>& t_dc) {
+        CsvFileDataRepository::read_patterns(const std::shared_ptr<Sorter::Data::DataContext>& t_data_context) {
             notify("CsvFileDataRepository::read_patterns()");
             
             auto patterns = File::CsvDataReader::read<Sorter::Models::Pattern>(m_patterns_file);
             
             for (auto& pattern: *patterns) {
-                t_dc->patterns[pattern.id] = std::make_shared<Sorter::Models::Pattern>(std::move(pattern));
+                t_data_context->patterns[pattern.id] = std::make_shared<Sorter::Models::Pattern>(pattern);
             }
         }
         
@@ -60,13 +60,13 @@ namespace Sorter {
         CsvFileDataRepository::create_data_context() {
             notify("CsvFileDataRepository::create_data_context()");
             
-            auto dc = std::make_shared<Sorter::Data::DataContext>();
+            std::shared_ptr<Sorter::Data::DataContext> data_context(std::make_shared<Sorter::Data::DataContext>(m_notifier));
             
-            read_bins(dc);
-            read_patterns(dc);
-            dc->link_bin_patterns();
+            read_bins(data_context);
+            read_patterns(data_context);
+            data_context->link_bin_patterns();
             
-            return dc;
+            return data_context;
         }
         
         void 

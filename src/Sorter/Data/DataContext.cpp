@@ -13,7 +13,7 @@
 
 #include "Sorter/Data/DataContext.h"
 
-#include <exception>
+#include <exception> 
 
 namespace Sorter {
     namespace Data {
@@ -39,14 +39,13 @@ namespace Sorter {
         DataContext::link_bin_patterns() {
             notify("DataContext::link_bin_patterns()");
             
-            for(auto& pair: patterns) {
+            for (auto& pair: patterns) {
                 if (bins.find(pair.second->bin_id) == bins.end()) {
                     throw std::runtime_error(
                         "DataContext::link_bin_patterns() pattern.bin_id not found in bins");
                 }
                 
-                bins[pair.second->bin_id]->patterns[pair.second->boolean_operator]
-                                         .insert(pair.second);
+                bins[pair.second->bin_id]->patterns[pair.second->boolean_operator].insert(pair.second);
                 pair.second->bin = bins[pair.second->bin_id];
             }
         }

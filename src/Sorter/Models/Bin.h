@@ -34,8 +34,7 @@ namespace Sorter {
             boost::optional<unsigned long long> parent_id;
             
             boost::optional<std::shared_ptr<Bin>> parent;
-            std::map<Sorter::Models::BooleanOperator, 
-                     std::set<std::shared_ptr<Pattern>>> patterns;
+            std::map<Sorter::Models::BooleanOperator, std::set<std::shared_ptr<Pattern>>> patterns;
             bool is_root() const noexcept;
             
             bool operator==(const Bin& rhs) const noexcept;

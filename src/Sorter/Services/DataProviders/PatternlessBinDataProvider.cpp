@@ -58,7 +58,7 @@ namespace Sorter {
                 notify("PatternlessBinDataProvider::init()");
                 
                 for (auto& pair: t_data_context->bins) {
-                    if (pair.second->patterns.size() == 0) {
+                    if ((pair.second)->patterns.size() == 0) {
                         m_bins.insert(pair.second);
                     }
                 }

@@ -95,15 +95,17 @@ namespace Sorter {
             for (auto& pair: pattern_matches) {
                 boost::property_tree::ptree ptree_pattern;
                 boost::property_tree::ptree ptree_positions;
-                *pair.first >> ptree_pattern;
-                ptree_pattern_matches.add_child("pattern", std::move(ptree_pattern));
-                
-                for (unsigned long long index: pair.second) {
-                    boost::property_tree::ptree item;
-                    item.put("", index);
-                    ptree_positions.push_back(std::make_pair("", std::move(item)));
+                if (nullptr != pair.first) {
+                    *pair.first >> ptree_pattern;
+                    ptree_pattern_matches.add_child("pattern", std::move(ptree_pattern));
+
+                    for (unsigned long long index: pair.second) {
+                        boost::property_tree::ptree item;
+                        item.put("", index);
+                        ptree_positions.push_back(std::make_pair("", std::move(item)));
+                    }
+                    ptree_pattern_matches.add_child("positions", std::move(ptree_positions));
                 }
-                ptree_pattern_matches.add_child("positions", std::move(ptree_positions));
             } 
             lhs.add_child("pattern_matches", std::move(ptree_pattern_matches));
             
