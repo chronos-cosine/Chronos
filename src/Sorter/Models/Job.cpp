@@ -47,42 +47,7 @@ namespace Sorter {
             
             return lhs;
         }
-        
-        bool
-        operator==(const std::shared_ptr<Job>& lhs, 
-                   const std::shared_ptr<Job>& rhs) {
-            if (lhs == nullptr
-                && rhs == nullptr) {
-                return true;
-            } else if (lhs == nullptr
-                || rhs == nullptr) {
-                return false;
-            }
-            
-            return (*lhs == *rhs);
-        }
-        
-        bool
-        operator!=(const std::shared_ptr<Job>& lhs, 
-                   const std::shared_ptr<Job>& rhs) {
-            return !(lhs == rhs);
-        }
-        
-        bool
-        operator<(const std::shared_ptr<Job>& lhs, 
-                  const std::shared_ptr<Job>& rhs) {
-            if (lhs == nullptr
-                && rhs == nullptr) {
-                return false;
-            } else if (lhs == nullptr) {
-                return true;
-            } else if (rhs == nullptr) {
-                return false;
-            }
-            
-            return (*lhs < *rhs);
-        }
-        
+                
         Job::Job(const fs::path& path) {
             auto temp = File::JsonDataReader<Job>::read(path);
             *this = std::move(*temp);
@@ -145,5 +110,19 @@ namespace std {
         }
         
     }; /* struct hash<Sorter::Models::Job> */
+        
+    template<>
+    struct hash<std::shared_ptr<Sorter::Models::Job>> {
+        
+        std::size_t 
+        operator()(const std::shared_ptr<Sorter::Models::Job>& t_job) const {
+            if (nullptr == t_job) {
+                return 0;
+            }
+            
+            return std::hash<unsigned long long>{}(t_job->id);
+        }
+        
+    }; /* struct hash<std::shared_ptr<Sorter::Models::Job>> */
     
 } /* namespace std */

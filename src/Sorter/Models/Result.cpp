@@ -60,19 +60,22 @@ namespace Sorter {
             }
             
             boost::property_tree::ptree ptree_pattern_matches;
+            
             for (auto& pair: pattern_matches) {
+                boost::property_tree::ptree ptree_pattern_match;
                 boost::property_tree::ptree ptree_pattern;
                 boost::property_tree::ptree ptree_positions;
                 if (nullptr != pair.first) {
                     *pair.first >> ptree_pattern;
-                    ptree_pattern_matches.add_child("pattern", std::move(ptree_pattern));
+                    ptree_pattern_match.add_child("pattern", std::move(ptree_pattern));
 
                     for (unsigned long long index: pair.second) {
-                        boost::property_tree::ptree item;
-                        item.put("", index);
-                        ptree_positions.push_back(std::make_pair("", std::move(item)));
+                        boost::property_tree::ptree position;
+                        position.put("", index);
+                        ptree_positions.push_back(std::make_pair("", std::move(position)));
                     }
-                    ptree_pattern_matches.add_child("positions", std::move(ptree_positions));
+                    ptree_pattern_match.add_child("positions", std::move(ptree_positions));
+                    ptree_pattern_matches.push_back(std::make_pair("", std::move(ptree_pattern_match)));
                 }
             } 
             lhs.add_child("pattern_matches", std::move(ptree_pattern_matches));
@@ -80,40 +83,6 @@ namespace Sorter {
             return lhs;
         }
         
-        bool
-        operator==(const std::shared_ptr<Result>& lhs, 
-                   const std::shared_ptr<Result>& rhs) {
-            if (lhs == nullptr
-                && rhs == nullptr) {
-                return true;
-            } else if (lhs == nullptr
-                || rhs == nullptr) {
-                return false;
-            }
-            
-            return (*lhs == *rhs);
-        }
-        
-        bool
-        operator!=(const std::shared_ptr<Result>& lhs, 
-                   const std::shared_ptr<Result>& rhs) {
-            return !(lhs == rhs);
-        }
-        
-        bool
-        operator<(const std::shared_ptr<Result>& lhs, 
-                  const std::shared_ptr<Result>& rhs) {
-            if (lhs == nullptr
-                && rhs == nullptr) {
-                return false;
-            } else if (lhs == nullptr) {
-                return true;
-            } else if (rhs == nullptr) {
-                return false;
-            }
-            
-            return (*lhs < *rhs);
-        }
         
     } /* namespace Models */
 } /* namespace Sorter */
@@ -140,5 +109,30 @@ namespace std {
         }
         
     }; /* struct hash<Sorter::Models::Result> */
+    
+    
+    template<>
+    struct hash<std::shared_ptr<Sorter::Models::Result>> {
+        
+        std::size_t 
+        operator()(const std::shared_ptr<Sorter::Models::Result>& t_result) const {
+            if (nullptr == t_result) {
+                return 0;
+            }
+            
+            std::size_t seed = 0;
+            
+            if (nullptr != t_result->bin) {
+                boost::hash_combine(seed, t_result->bin->id);
+            }
+            
+            if (nullptr != t_result->job) {
+                boost::hash_combine(seed, t_result->job->id);
+            }
+                
+            return seed; 
+        }
+        
+    }; /* struct hash<std::shared_ptr<Sorter::Models::Result>> */
     
 } /* namespace std */

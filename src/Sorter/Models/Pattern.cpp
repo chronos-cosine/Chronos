@@ -15,42 +15,7 @@
 
 namespace Sorter {
     namespace Models {
-        
-        bool
-        operator==(const std::shared_ptr<Pattern>& lhs, 
-                   const std::shared_ptr<Pattern>& rhs) {
-            if (lhs == nullptr
-                && rhs == nullptr) {
-                return true;
-            } else if (lhs == nullptr
-                || rhs == nullptr) {
-                return false;
-            }
-            
-            return (*lhs == *rhs);
-        }
-        
-        bool
-        operator!=(const std::shared_ptr<Pattern>& lhs, 
-                   const std::shared_ptr<Pattern>& rhs) {
-            return !(lhs == rhs);
-        }
-        
-        bool
-        operator<(const std::shared_ptr<Pattern>& lhs, 
-                  const std::shared_ptr<Pattern>& rhs) {
-            if (lhs == nullptr
-                && rhs == nullptr) {
-                return false;
-            } else if (lhs == nullptr) {
-                return true;
-            } else if (rhs == nullptr) {
-                return false;
-            }
-            
-            return (*lhs < *rhs);
-        }
-                
+          
         std::string::const_iterator 
         Pattern::begin() const {
             return value.begin();
@@ -128,5 +93,20 @@ namespace std {
         }
         
     }; /* struct hash<Sorter::Models::Pattern> */
+    
+    
+    template<>
+    struct hash<std::shared_ptr<Sorter::Models::Pattern>> {
+        
+        std::size_t 
+        operator()(const std::shared_ptr<Sorter::Models::Pattern>& t_pattern) const {
+            if (nullptr == t_pattern) {
+                return 0;
+            }
+            
+            return std::hash<unsigned long long>{}(t_pattern->id);
+        }
+        
+    }; /* struct hash<std::shared_ptr<Sorter::Models::Pattern>> */
     
 } /* namespace std */

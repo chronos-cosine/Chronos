@@ -46,17 +46,22 @@ namespace Sorter {
                 t_sender->notify("MultiPatternMatcher::match_found::operator()");
                 
                 for (auto& pattern: t_patterns) {
-                    auto result = std::make_shared<Sorter::Models::Result>();
-                    result->job = t_job;
-                    result->bin = pattern->bin;
-                    result->pattern_matches[pattern].insert(t_position);
-                    
-                    auto iter = t_job->results.find(result);
-                    if (iter == t_job->results.end()) {
-                        t_job->results.insert(result);
+                    bool found = false;
+                    for (auto& result: t_job->results) {
+                        if (*result->job == *t_job
+                            && *result->bin == *pattern->bin) {
+                            result->pattern_matches[pattern].insert(t_position);
+                            found = true;
+                            break;
+                        }
                     }
-                    else {
-                        (*iter)->pattern_matches[pattern].insert(t_position);
+                    
+                    if (!found) {
+                        auto result = std::make_shared<Sorter::Models::Result>();
+                        result->job = t_job;
+                        result->bin = pattern->bin;
+                        result->pattern_matches[pattern].insert(t_position);
+                        t_job->results.insert(result);
                     }
                 } 
             }

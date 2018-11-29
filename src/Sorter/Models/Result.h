@@ -43,6 +43,7 @@ namespace Sorter {
             boost::property_tree::ptree& 
             operator>>(boost::property_tree::ptree& lhs) const;
             
+            
         }; /* struct Result */
         
     } /* namespace Models */

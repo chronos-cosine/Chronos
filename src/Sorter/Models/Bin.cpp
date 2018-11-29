@@ -92,43 +92,7 @@ namespace Sorter {
 
             return lhs;
         }
-        
-        bool
-        operator==(const std::shared_ptr<Bin>& lhs, 
-                   const std::shared_ptr<Bin>& rhs) {
-            if (lhs == nullptr
-                && rhs == nullptr) {
-                return true;
-            } else if (lhs == nullptr
-                || rhs == nullptr) {
-                return false;
-            }
-
-            return (*lhs == *rhs);
-        }
-
-        bool
-        operator!=(const std::shared_ptr<Bin>& lhs, 
-                   const std::shared_ptr<Bin>& rhs) {
-            return !(lhs == rhs);
-        }
-
-        bool
-        operator<(const std::shared_ptr<Bin>& lhs, 
-                  const std::shared_ptr<Bin>& rhs) {
-            if (lhs == nullptr
-                && rhs == nullptr) {
-                return false;
-            } else if (lhs == nullptr) {
-                return true;
-            } else if (rhs == nullptr) {
-                return false;
-            }
-
-            return (*lhs < *rhs);
-        }
-
-        
+                
     } /* namespace Models */
 } /* namespace Sorter */
 
@@ -143,5 +107,19 @@ namespace std {
         }
         
     }; /* struct hash<Sorter::Models::Bin> */
+    
+    template<>
+    struct hash<std::shared_ptr<Sorter::Models::Bin>> {
+        
+        std::size_t 
+        operator()(const std::shared_ptr<Sorter::Models::Bin>& t_bin) const {
+            if (nullptr == t_bin) {
+                return 0;
+            }
+            
+            return std::hash<unsigned long long>{}(t_bin->id);
+        }
+        
+    }; /* struct hash<std::shared_ptr<Sorter::Models::Bin>> */
     
 } /* namespace std */

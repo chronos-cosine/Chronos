@@ -17,6 +17,7 @@
 #include "Collections/IMap.h"
 #include "Notifier/INotifier.h"
 #include "PatternMatcher/PatternMatchingMachine.h"
+#include "Sorter/Models/Bin.h"
 #include "Sorter/Models/Job.h"
 #include "Sorter/Models/Pattern.h"
 #include "Sorter/Models/Result.h"
