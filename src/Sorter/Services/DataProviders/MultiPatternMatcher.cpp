@@ -23,17 +23,17 @@ namespace Sorter {
             MultiPatternMatcher::MultiPatternMatcher(
                     const std::vector<std::shared_ptr<Sorter::Models::Pattern>>& t_patterns,
                     const std::shared_ptr<Notifier::INotifier>& t_notifier) 
-                : m_matcher(t_patterns), 
-                  m_notifier(t_notifier) {
+              : m_matcher(t_patterns), 
+                m_notifier(t_notifier) {
                 notify("MultiPatternMatcher::MultiPatternMatcher()");
                 
                 m_matcher.match_found = m_match_found;
             }
             
             MultiPatternMatcher::MultiPatternMatcher(
-                const std::vector<std::shared_ptr<Sorter::Models::Pattern>>& t_patterns) 
-                : m_matcher(t_patterns), 
-                  m_notifier(nullptr) {
+                    const std::vector<std::shared_ptr<Sorter::Models::Pattern>>& t_patterns) 
+              : m_matcher(t_patterns), 
+                m_notifier(nullptr) {
                 m_matcher.match_found = m_match_found;
             }
             
