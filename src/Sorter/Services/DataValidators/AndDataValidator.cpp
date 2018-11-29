@@ -49,8 +49,6 @@ namespace Sorter {
                 notify("AndDataValidator::process()");
                 
                 for (auto& result: t_job->results) {
-                    std::cout << "AndDataValidator::testing " << result->bin->name << std::endl;
-                    
                     if (!result->passed) {
                         continue;
                     }

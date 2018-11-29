@@ -49,8 +49,6 @@ namespace Sorter {
                 notify("NotDataValidator::process()");
                 
                 for (auto& result: t_job->results) {
-                    std::cout << "NotDataValidator::testing " << result->bin->name << std::endl;
-                    
                     if (!result->passed) {
                         continue;
                     }

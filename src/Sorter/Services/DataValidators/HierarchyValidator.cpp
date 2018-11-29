@@ -49,7 +49,6 @@ namespace Sorter {
                 notify("HierarchyValidator::process()");
                 
                 for (auto& result: t_job->results) {
-                    std::cout << "HierarchyValidator::testing " << result->bin->name << std::endl;
                     auto bin = result->bin;
                     
                     if (bin->is_root()) {
