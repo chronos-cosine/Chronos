@@ -5,14 +5,14 @@
  */
 
 /* 
- * File:   AndDataValidator.h
+ * File:   HierarchyValidator.h
  * Author: user
  *
- * Created on 22 November 2018, 10:25 AM
+ * Created on 29 November 2018, 7:12 AM
  */
 
-#ifndef SORTER_SERVICES_DATAVALIDATORS_ANDDATAVALIDATOR_H
-#define SORTER_SERVICES_DATAVALIDATORS_ANDDATAVALIDATOR_H
+#ifndef SORTER_SERVICES_DATAVALIDATORS_HIERARCHYVALIDATOR_H
+#define SORTER_SERVICES_DATAVALIDATORS_HIERARCHYVALIDATOR_H
 
 #include "Notifier/INotifier.h"
 #include "Sorter/Data/DataContext.h"
@@ -25,12 +25,12 @@ namespace Sorter {
     namespace Services {
         namespace DataValidators {
     
-            class AndDataValidator : public IDataValidator {
+            class HierarchyValidator : public IDataValidator {
             public:
-                virtual ~AndDataValidator() = default;
-                AndDataValidator(const std::shared_ptr<Sorter::Data::DataContext>& t_data_context,
+                virtual ~HierarchyValidator() = default;
+                HierarchyValidator(const std::shared_ptr<Sorter::Data::DataContext>& t_data_context,
                            const std::shared_ptr<Notifier::INotifier>& t_notifier);
-                AndDataValidator(const std::shared_ptr<Sorter::Data::DataContext>& t_data_context);
+                HierarchyValidator(const std::shared_ptr<Sorter::Data::DataContext>& t_data_context);
 
                 virtual void process(const std::shared_ptr<Sorter::Models::Job>& t_job);
             private:
@@ -38,11 +38,10 @@ namespace Sorter {
             private:
                 std::shared_ptr<Sorter::Data::DataContext> m_data_context;
                 std::shared_ptr<Notifier::INotifier> m_notifier;
-            }; /* class AndDataValidator */
+            };
     
         } /* namespace DataValidators */
     } /* namespace Services */
 } /* namespace Sorter */
 
-#endif /* SORTER_SERVICES_DATAVALIDATORS_ANDDATAVALIDATOR_H */
-
+#endif /* SORTER_SERVICES_DATAVALIDATORS_HIERARCHYVALIDATOR_H */

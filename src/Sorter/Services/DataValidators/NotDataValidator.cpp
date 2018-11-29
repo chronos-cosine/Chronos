@@ -55,8 +55,8 @@ namespace Sorter {
                     }
                     
                     for (auto& pair: result->pattern_matches) {
-                        if (Sorter::Models::BooleanOperator::NOT 
-                            == pair.first->boolean_operator) {
+                        if (nullptr != pair.first 
+                            && Sorter::Models::BooleanOperator::NOT == pair.first->boolean_operator) {
                             result->passed = false;
                         }
                         break;

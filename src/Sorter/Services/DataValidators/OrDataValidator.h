@@ -11,8 +11,8 @@
  * Created on 22 November 2018, 10:25 AM
  */
 
-#ifndef SORTER_SERVICES_ORDATAVALIDATOR_H
-#define SORTER_SERVICES_ORDATAVALIDATOR_H
+#ifndef SORTER_SERVICES_DATAVALIDATORS_ORDATAVALIDATOR_H
+#define SORTER_SERVICES_DATAVALIDATORS_ORDATAVALIDATOR_H
 
 #include "Notifier/INotifier.h"
 #include "Sorter/Data/DataContext.h"
@@ -28,9 +28,11 @@ namespace Sorter {
             class OrDataValidator : public IDataValidator {
             public:
                 virtual ~OrDataValidator() = default;
-                OrDataValidator(const std::shared_ptr<Sorter::Data::DataContext>& t_data_context,
-                           const std::shared_ptr<Notifier::INotifier>& t_notifier);
-                OrDataValidator(const std::shared_ptr<Sorter::Data::DataContext>& t_data_context);
+                OrDataValidator(
+                    const std::shared_ptr<Sorter::Data::DataContext>& t_data_context,
+                    const std::shared_ptr<Notifier::INotifier>& t_notifier);
+                OrDataValidator(
+                    const std::shared_ptr<Sorter::Data::DataContext>& t_data_context);
 
                 virtual void process(const std::shared_ptr<Sorter::Models::Job>& t_job);
             private:
@@ -44,5 +46,5 @@ namespace Sorter {
     } /* namespace Services */
 } /* namespace Sorter */
 
-#endif /* SORTER_SERVICES_ORDATAVALIDATOR_H */
+#endif /* SORTER_SERVICES_DATAVALIDATORS_ORDATAVALIDATOR_H */
 

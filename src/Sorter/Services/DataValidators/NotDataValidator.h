@@ -11,8 +11,8 @@
  * Created on 22 November 2018, 10:24 AM
  */
 
-#ifndef SORTER_SERVICES_NOTDATAVALIDATOR_H
-#define SORTER_SERVICES_NOTDATAVALIDATOR_H
+#ifndef SORTER_SERVICES_DATAVALIDATORS_NOTDATAVALIDATOR_H
+#define SORTER_SERVICES_DATAVALIDATORS_NOTDATAVALIDATOR_H
 
 #include "Notifier/INotifier.h"
 #include "Sorter/Data/DataContext.h"
@@ -44,5 +44,5 @@ namespace Sorter {
     } /* namespace Services */
 } /* namespace Sorter */
 
-#endif /* SORTER_SERVICES_NOTDATAVALIDATOR_H */
+#endif /* SORTER_SERVICES_DATAVALIDATORS_NOTDATAVALIDATOR_H */
 

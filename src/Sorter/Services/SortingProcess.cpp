@@ -17,6 +17,7 @@
 #include "Sorter/Services/DataProviders/MultiPatternMatcher.h"
 #include "Sorter/Services/DataValidators/NotDataValidator.h"
 #include "Sorter/Services/DataValidators/AndDataValidator.h"
+#include "Sorter/Services/DataValidators/HierarchyValidator.h"
 #include "Sorter/Services/DataValidators/OrDataValidator.h"
 #include "Sorter/Services/SortingProcess.h"
 
@@ -65,6 +66,7 @@ namespace Sorter {
             m_data_validators.push_back(std::make_shared<DataValidators::NotDataValidator>(t_data_context, m_notifier));
             m_data_validators.push_back(std::make_shared<DataValidators::OrDataValidator>(t_data_context, m_notifier));
             m_data_validators.push_back(std::make_shared<DataValidators::AndDataValidator>(t_data_context, m_notifier));
+            m_data_validators.push_back(std::make_shared<DataValidators::HierarchyValidator>(t_data_context, m_notifier));
         }
         
         bool 
