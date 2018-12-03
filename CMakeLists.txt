@@ -34,9 +34,5 @@ set(CHRONOS_VERSION_PATCH 1)
 set(CMAKE_CXX_FLAGS "-std=c++17 -pthread")
 set(CMAKE_STATIC_LIBRARY_PREFIX "")
 
-
-# ================ PODOFO SOURCE =========================
-add_subdirectory(include/podofo)
-
 # ================ MAIN SOURCE =========================
 add_subdirectory(src)
