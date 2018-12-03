@@ -18,6 +18,8 @@
 #include <podofo/podofo.h>
 #include <string>
 
+#include "TextExtractor.h"
+
 namespace fs = std::experimental::filesystem;
 
 /*
@@ -27,31 +29,21 @@ int main(int argc, char** argv) {
     std::cout << "Chronos-Pdf-Rasterisor..." << std::endl;
     
     std::string filename("/home/user/Documents/temp/pdf/De tijd/25/DeTijd_DeTijd_20181025_001.pdf");
-    
+     
     if (fs::exists(filename)) {
-        PoDoFo::PdfMemDocument document(filename.c_str());
-        for (int i = 0; i < document.GetPageCount(); ++i) {
-            std::cout << "Looping through page " << i << std::endl;
-            PoDoFo::PdfPage* page = document.GetPage(i);
-            PoDoFo::PdfContentsTokenizer tok(page);
-            const char* token = nullptr;
-            PoDoFo::PdfVariant var;
-            PoDoFo::EPdfContentsType type;
-            while (tok.ReadNext(type, token, var)) {
-                std::cout << token << std::endl;
-                switch (type) {
-                    case PoDoFo::ePdfContentsType_Keyword:
-                        // process token: it contains the current command
-                        //   pop from var stack as necessary
-                        break;
-                    case PoDoFo::ePdfContentsType_Variant:
-                        // process var: push it onto a stack
-                        break;
-                    default:
-                        // should not happen!
-                        break;
-                }
+        
+        try {
+            TextExtractor extractor;
+            extractor.Init( filename.c_str() );
+            
+            for (auto& pair: extractor.data) {
+                std::cout.precision(10);
+                std::cout << std::fixed << pair.first << ": " << pair.second << std::endl << std::endl;
             }
+        } catch( PdfError & e ) {
+            fprintf( stderr, "Error: An error %i ocurred during processing the pdf file.\n", e.GetError() );
+            e.PrintErrorMsg();
+            return e.GetError();
         }
     }
     

@@ -18,47 +18,24 @@
 namespace Geometry {
     
     Point::Point()
-        : x(0), y(0) {
+      : x(0), 
+        y(0) {
     }
     
-    Point::Point(const Point& point) 
-        : x(point.x), y(point.y) {
+    Point::Point(const Point& t_point) 
+      : x(t_point.x), 
+        y(t_point.y) {
     }
     
-    Point::Point(const double& _x, const double& _y)
-        : x(_x), y(_y) {
+    Point::Point(double t_x, double t_y)
+      : x(t_x), 
+        y(t_y) {
     }
-        
-    Point
-    Point::operator+(const Point& rhs) const noexcept {
-        return Point(x + rhs.x, y + rhs.y);
-    }
-    
-    Point& 
-    Point::operator+=(const Point& rhs) noexcept {
-        x += rhs.x;
-        y += rhs.y;
-        
-        return *this;
-    }
-    
-    Point 
-    Point::operator-(const Point& rhs) const noexcept {
-        return Point(x - rhs.x, y - rhs.y);
-    }
-    
-    Point& 
-    Point::operator-=(const Point& rhs) noexcept {
-        x -= rhs.x;
-        y -= rhs.y;
-        
-        return *this;
-    }
-    
+
     bool 
     Point::operator==(const Point& rhs) const noexcept {
-        return rhs.x == x
-               && rhs.y == y;
+        return x == rhs.x
+               && y == rhs.y;
     }
     
     
@@ -69,18 +46,16 @@ namespace Geometry {
     
     bool 
     Point::operator<(const Point& rhs) const noexcept {
-        return x < rhs.x
-               && y < rhs.y;
-    }
+        if (x != rhs.x) { 
+            return x < rhs.x;
+        }
         
-    bool 
-    Point::operator>(const Point& rhs) const noexcept {
-        return x > rhs.x
-               && y > rhs.y;
+        return y < rhs.y;
     }
-    
+            
     std::ostream& 
     operator<<(std::ostream& lhs, const Point& rhs) {
+        
         lhs << "{\"x\": " 
                 << rhs.x 
                 << ", \"y\": " 
@@ -97,8 +72,8 @@ namespace std {
         std::size_t operator()(const Geometry::Point& point) const {
             std::size_t seed = 0;
             
-            boost::hash_combine(seed, point.x);
-            boost::hash_combine(seed, point.y);
+            boost::hash_combine<double>(seed, point.x);
+            boost::hash_combine<double>(seed, point.y);
             
             return seed;
         }

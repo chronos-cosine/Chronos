@@ -22,18 +22,13 @@ namespace Geometry {
         double x;
         double y;
         
-        Point(const double& x, const double& y);
+        Point(double t_x, double t_y);
         Point(const Point& point);
         Point();
         
-        Point operator+(const Point& rhs) const noexcept;
-        Point& operator+=(const Point& rhs) noexcept;
-        Point operator-(const Point& rhs) const noexcept;
-        Point& operator-=(const Point& rhs) noexcept;
         bool operator==(const Point& rhs) const noexcept;
         bool operator!=(const Point& rhs) const noexcept;
         bool operator<(const Point& rhs) const noexcept;
-        bool operator>(const Point& rhs) const noexcept;
         
         friend std::ostream& operator<<(std::ostream& lhs, const Point& rhs);
     };

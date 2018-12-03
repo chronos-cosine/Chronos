@@ -17,6 +17,10 @@ find_package (Boost REQUIRED COMPONENTS filesystem)
 if (Boost_FOUND)
 #    if (podofo_FOUND)
         set (Rasterisor_SOURCES
+            "${CHRONOS_SOURCE_ROOT}/Geometry/Point.cpp"
+            "${CHRONOS_SOURCE_ROOT}/Geometry/Point.h"
+            "${CMAKE_CURRENT_LIST_DIR}/TextExtractor.cpp"
+            "${CMAKE_CURRENT_LIST_DIR}/TextExtractor.h"
             "${CMAKE_CURRENT_LIST_DIR}/Program.cpp"
         )
 
