@@ -33,14 +33,14 @@ int main(int argc, char** argv) {
     if (fs::exists(filename)) {
         
         try {
-            TextExtractor extractor;
+            Pdf::TextExtractor::TextExtractor extractor;
             extractor.Init( filename.c_str() );
             
             for (auto& pair: extractor.data) {
                 std::cout.precision(10);
                 std::cout << std::fixed << pair.first << ": " << pair.second << std::endl << std::endl;
             }
-        } catch( PdfError & e ) {
+        } catch( PoDoFo::PdfError & e ) {
             fprintf( stderr, "Error: An error %i ocurred during processing the pdf file.\n", e.GetError() );
             e.PrintErrorMsg();
             return e.GetError();

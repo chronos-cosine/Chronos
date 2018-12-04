@@ -1,3 +1,4 @@
+
 ##
  # To change this license header, choose License Headers in Project Properties.
  # To change this template file, choose Tools | Templates
@@ -10,9 +11,8 @@
  #
  # Created on 30 October 2018, 10:52 PM
  ##
+ 
+#add_subdirectory(Rasterisor)
+#add_subdirectory(Splitter)
+add_subdirectory(TextExtractor)
 
-set(CHRONOS_SOURCE_ROOT ${CMAKE_CURRENT_LIST_DIR})
-include_directories(${CMAKE_CURRENT_LIST_DIR})
-
-add_subdirectory(Sorter)
-add_subdirectory(Pdf)

@@ -18,52 +18,37 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef _TEXT_EXTRACTOR_H_
-#define _TEXT_EXTRACTOR_H_
+#ifndef CHRONOS_PDF_TEXTEXTRACTOR_H
+#define CHRONOS_PDF_TEXTEXTRACTOR_H
 
-#include <podofo/podofo.h>
-#include <cstdio>
+#include "Geometry/Point.h"
 
-using namespace PoDoFo;
+#include <map>
+#include <podofo/podofo.h> 
 
 #ifndef MAX_PATH
 #define MAX_PATH 512
 #endif // MAX_PATH
 
-#include "Geometry/Point.h"
-#include <map>
 
-/** This class uses the PoDoFo lib to parse 
- *  a PDF file and to write all text it finds
- *  in this PDF document to stdout.
- */
-class TextExtractor {
- public:
-    TextExtractor();
-    virtual ~TextExtractor();
+namespace Pdf {
+    namespace TextExtractor {
+        class TextExtractor {
+        public:
+            TextExtractor();
+            virtual ~TextExtractor();
 
-    void Init( const char* pszInput );
-    std::map<Geometry::Point, std::string> data;
+            void Init( const char* pszInput );
+            std::map<Geometry::Point, std::string> data;
 
- private:
-    /** Extract all text from the given page
-     *
-     *  \param pDocument the owning document
-     *  \param pPage extract the text of this page.
-     */
-    void ExtractText( PdfMemDocument* pDocument, PdfPage* pPage );
+        private: 
+            void ExtractText(PoDoFo::PdfMemDocument* pDocument, 
+                             PoDoFo::PdfPage* pPage ); 
+            void AddTextElement(double dCurPosX, double dCurPosY, 
+                                PoDoFo::PdfFont* pCurFont, 
+                                const PoDoFo::PdfString& rString);
+        }; /* class TextExtractor */
+    } /* namespace TextExtractor */
+} /* namespace Pdf */
 
-    /** Adds a text string to a list which can be sorted by 
-     *  position on the page later, so that the whole structure 
-     *  of the text including formatting can be reconstructed.
-     *
-     *  \param dCurPosX x position of the text
-     *  \param dCurPosY y position of the text
-     *  \param pCurFont font of the text
-     *  \param rString the actual string
-     */
-    void AddTextElement( double dCurPosX, double dCurPosY, 
-                         PdfFont* pCurFont, const PdfString & rString );
-};
-
-#endif // _TEXT_EXTRACTOR_H_
+#endif /* CHRONOS_PDF_TEXTEXTRACTOR_H */
