@@ -11,6 +11,7 @@
  * Created on 04 December 2018, 10:47 AM
  */
 
+#include "Collections/Concurrent/Queue.h"
 #include "File/Spooler.h"
 #include "Pdf/Splitter/Services/SplittingMachine.h"
 #include "Pdf/Splitter/Services/PdfSplitter.h"
@@ -22,7 +23,9 @@ namespace Pdf {
             SplittingMachine::SplittingMachine(const std::vector<fs::path>& t_paths,
                                                const std::chrono::seconds& t_sleep_time,
                                                const unsigned short& t_consumer_count) 
-              : m_is_running(false),
+              : m_jobs(std::make_shared<
+                Collections::Concurrent::Queue<std::shared_ptr<Pdf::Splitter::Models::Job>>>()),
+                m_is_running(false),
                 m_is_stopping(false),
                 m_notifier(nullptr) {
                 init(t_paths, t_sleep_time, t_consumer_count);
@@ -32,7 +35,9 @@ namespace Pdf {
                                 const std::chrono::seconds& t_sleep_time,
                                 const unsigned short& t_consumer_count,
                                 const std::shared_ptr<Notifier::INotifier>& t_notifier)
-              : m_is_running(false),
+              : m_jobs(std::make_shared<
+                Collections::Concurrent::Queue<std::shared_ptr<Pdf::Splitter::Models::Job>>>()),
+                m_is_running(false),
                 m_is_stopping(false),
                 m_notifier(t_notifier) {
                 notify("SplittingMachine::SplittingMachine()");
