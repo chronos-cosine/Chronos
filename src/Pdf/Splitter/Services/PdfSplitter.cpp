@@ -13,6 +13,12 @@
 
 #include "Pdf/Splitter/Services/PdfSplitter.h"
 
+#include <experimental/filesystem>
+#include <podofo/podofo.h>
+#include <sstream>
+
+namespace fs = std::experimental::filesystem;
+
 namespace Pdf {
     namespace Splitter { 
         namespace Services { 
@@ -31,7 +37,30 @@ namespace Pdf {
 
             bool 
             PdfSplitter::process() {
-                return false;
+                notify("PdfSplitter::process()");
+
+                auto job = std::move(m_jobs->pop());
+                if (fs::exists(job->filename)) {
+                    
+                    PoDoFo::PdfMemDocument input_document;
+
+                    input_document.Load(job->filename.c_str());
+
+                    for (int i = 0; i < input_document.GetPageCount(); ++i) { 
+                        PoDoFo::PdfPage* page = input_document.GetPage(i);
+                        
+                        std::stringstream ss;
+                        ss << "./output/" 
+                           << std::setw(4) << std::setfill('0') << i
+                           << ".pdf";
+                        
+                        PoDoFo::PdfStreamedDocument output_document(ss.str());
+                        output_document.GetPagesTree()->InsertPage(0, page);
+                        output_document.Close();
+                    }
+                } 
+
+                return true;
             }
            
             void 
