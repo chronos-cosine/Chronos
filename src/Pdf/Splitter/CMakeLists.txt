@@ -15,6 +15,29 @@
 find_package (Boost REQUIRED COMPONENTS filesystem) 
 if (Boost_FOUND) 
     set (PDF_Splitter_SOURCES
+        "${CHRONOS_SOURCE_ROOT}/Collections/Concurrent/Map.h"
+        "${CHRONOS_SOURCE_ROOT}/Collections/Concurrent/Queue.h"
+        "${CHRONOS_SOURCE_ROOT}/Collections/ICollection.h"
+        "${CHRONOS_SOURCE_ROOT}/Collections/IMap.h"
+        "${CHRONOS_SOURCE_ROOT}/File/CsvDataReader.h"
+        "${CHRONOS_SOURCE_ROOT}/File/JsonDataReader.h"
+        "${CHRONOS_SOURCE_ROOT}/File/Spooler.h"
+        "${CHRONOS_SOURCE_ROOT}/Notifier/CoutNotifier.cpp"
+        "${CHRONOS_SOURCE_ROOT}/Notifier/CoutNotifier.h"
+        "${CHRONOS_SOURCE_ROOT}/Notifier/FileNotifier.cpp"
+        "${CHRONOS_SOURCE_ROOT}/Notifier/FileNotifier.h"
+        "${CHRONOS_SOURCE_ROOT}/Notifier/LogFileNotifier.cpp"
+        "${CHRONOS_SOURCE_ROOT}/Notifier/LogFileNotifier.h"
+        "${CHRONOS_SOURCE_ROOT}/Notifier/INotifier.h"
+        "${CHRONOS_SOURCE_ROOT}/PatternMatcher/Node.h"
+        "${CHRONOS_SOURCE_ROOT}/PatternMatcher/PatternMatchingMachine.h"
+        "${CHRONOS_SOURCE_ROOT}/Processors/IProcessor.h"
+        "${CHRONOS_SOURCE_ROOT}/Processors/ProcessorBase.cpp"
+        "${CHRONOS_SOURCE_ROOT}/Processors/ProcessorBase.h"
+        "${CMAKE_CURRENT_LIST_DIR}/Models/Job.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/Models/Job.h"
+        "${CMAKE_CURRENT_LIST_DIR}/Services/SplittingMachine.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/Services/SplittingMachine.h"
         "${CMAKE_CURRENT_LIST_DIR}/Program.cpp"
     )
 
