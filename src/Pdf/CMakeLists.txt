@@ -12,7 +12,7 @@
  # Created on 30 October 2018, 10:52 PM
  ##
  
-#add_subdirectory(Rasterisor)
-#add_subdirectory(Splitter)
+add_subdirectory(Rasterisor)
+add_subdirectory(Splitter)
 add_subdirectory(TextExtractor)
 

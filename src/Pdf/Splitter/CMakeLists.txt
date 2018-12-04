@@ -14,19 +14,15 @@
 # finds boost, triggers an error otherwise
 find_package (Boost REQUIRED COMPONENTS filesystem) 
 if (Boost_FOUND) 
-    set (PDF_TextExtractor_SOURCES
-        "${CHRONOS_SOURCE_ROOT}/Geometry/Point.cpp"
-        "${CHRONOS_SOURCE_ROOT}/Geometry/Point.h"
-        "${CMAKE_CURRENT_LIST_DIR}/TextExtractor.cpp"
-        "${CMAKE_CURRENT_LIST_DIR}/TextExtractor.h"
+    set (PDF_Splitter_SOURCES
         "${CMAKE_CURRENT_LIST_DIR}/Program.cpp"
     )
 
     # creates the library 
     include_directories(${Boost_INCLUDE_DIRS})  
-    add_executable(Chronos-Pdf-TextExtractor ${PDF_TextExtractor_SOURCES})
+    add_executable(Chronos-Pdf-Splitter ${PDF_Splitter_SOURCES})
 
-    target_link_libraries(Chronos-Pdf-TextExtractor
+    target_link_libraries(Chronos-Pdf-Splitter
                           podofo
                           stdc++fs
                           Boost::filesystem) 
