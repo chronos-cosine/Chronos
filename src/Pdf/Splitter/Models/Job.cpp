@@ -86,6 +86,6 @@ namespace std {
             return std::hash<unsigned long long>{}(t_job.id);
         }
         
-    }; /* struct hash<Sorter::Models::Job> */
+    }; /* struct hash<Pdf::Splitter::Models::Job> */
          
 } /* namespace std */

@@ -13,34 +13,41 @@
 
 #include "File/Spooler.h"
 #include "Pdf/Splitter/Services/SplittingMachine.h"
+#include "PdfSplitter.h"
 
 namespace Pdf {
     namespace Splitter { 
         namespace Services { 
               
-            SplittingMachine::SplittingMachine(const std::vector<fs::path>& t_paths) 
+            SplittingMachine::SplittingMachine(const std::vector<fs::path>& t_paths,
+                                               const std::chrono::seconds& t_sleep_time,
+                                               const unsigned short& t_consumer_count) 
               : m_is_running(false),
                 m_is_stopping(false),
                 m_notifier(nullptr) {
-                init(t_paths, std::chrono::seconds(5));
+                init(t_paths, t_sleep_time, t_consumer_count);
             }
             
             SplittingMachine::SplittingMachine(const std::vector<fs::path>& t_paths,
-                                 const std::shared_ptr<Notifier::INotifier>& t_notifier)
+                                const std::chrono::seconds& t_sleep_time,
+                                const unsigned short& t_consumer_count,
+                                const std::shared_ptr<Notifier::INotifier>& t_notifier)
               : m_is_running(false),
                 m_is_stopping(false),
                 m_notifier(t_notifier) {
                 notify("SplittingMachine::SplittingMachine()");
                 
-                init(t_paths, std::chrono::seconds(5));
+                init(t_paths, t_sleep_time, t_consumer_count);
             }
             
             void 
             SplittingMachine::init(const std::vector<fs::path>& t_paths,
-                          const std::chrono::seconds& t_sleep_time) {
+                          const std::chrono::seconds& t_sleep_time,
+                          const unsigned short& t_consumer_count) {
                 notify("SplittingMachine::init()");
                 
                 initialise_producers(t_paths, t_sleep_time);
+                initialise_consumers(t_consumer_count);
             }
             
             void 
@@ -56,6 +63,16 @@ namespace Pdf {
             }
             
             void 
+            SplittingMachine::initialise_consumers(const unsigned short& t_consumer_count) {
+                notify("SplittingMachine::initialise_consumers()");
+
+                for (unsigned short i = 0; i < t_consumer_count; ++i) {
+                    m_job_consumers.push_back(std::make_shared<PdfSplitter>(m_jobs,
+                            m_notifier));
+                }
+            }
+
+            void 
             SplittingMachine::create_producer_threads() {
                 notify("SplittingMachine::create_producer_threads()");
 
@@ -66,6 +83,17 @@ namespace Pdf {
                 }
             }
                  
+            void 
+            SplittingMachine::create_consumer_threads() {
+                notify("SplittingMachine::create_consumer_threads()");
+
+                for (auto& consumer: m_job_consumers) {
+                    std::thread thread(&Processors::IProcessor::start, consumer);
+                    thread.detach();
+                    m_job_consumer_threads.push_back(std::move(thread));
+                }
+            }
+            
             bool 
             SplittingMachine::start() {
                 notify("SplittingMachine::start()");
@@ -77,6 +105,7 @@ namespace Pdf {
                 }
 
                 m_is_running = true;
+                create_producer_threads();
                 create_producer_threads();
 
                 return true;
@@ -93,7 +122,8 @@ namespace Pdf {
                 }
 
                 m_is_stopping = true;
-                stop_producer_threads(); 
+                stop_producer_threads();
+                stop_consumer_threads();
 
                 m_job_producer_threads.clear();
 
@@ -107,6 +137,15 @@ namespace Pdf {
 
                 for (auto& producer: m_job_producers) {
                     producer->stop();
+                }
+            }
+            
+            void 
+            SplittingMachine::stop_consumer_threads() {
+                notify("SplittingMachine::stop_consumer_threads()");
+
+                for (auto& consumer: m_job_consumers) {
+                    consumer->stop();
                 }
             }
             

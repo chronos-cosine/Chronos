@@ -36,6 +36,8 @@ if (Boost_FOUND)
         "${CHRONOS_SOURCE_ROOT}/Processors/ProcessorBase.h"
         "${CMAKE_CURRENT_LIST_DIR}/Models/Job.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/Models/Job.h"
+        "${CMAKE_CURRENT_LIST_DIR}/Services/PdfSplitter.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/Services/PdfSplitter.h"
         "${CMAKE_CURRENT_LIST_DIR}/Services/SplittingMachine.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/Services/SplittingMachine.h"
         "${CMAKE_CURRENT_LIST_DIR}/Program.cpp"
