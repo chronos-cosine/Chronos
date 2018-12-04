@@ -13,7 +13,7 @@
 
 #include "File/Spooler.h"
 #include "Pdf/Splitter/Services/SplittingMachine.h"
-#include "PdfSplitter.h"
+#include "Pdf/Splitter/Services/PdfSplitter.h"
 
 namespace Pdf {
     namespace Splitter { 
