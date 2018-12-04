@@ -106,7 +106,7 @@ namespace Pdf {
 
                 m_is_running = true;
                 create_producer_threads();
-                create_producer_threads();
+                create_consumer_threads();
 
                 return true;
             }
@@ -126,6 +126,7 @@ namespace Pdf {
                 stop_consumer_threads();
 
                 m_job_producer_threads.clear();
+                m_job_consumer_threads.clear();
 
                 m_is_stopping = false;
                 return true;

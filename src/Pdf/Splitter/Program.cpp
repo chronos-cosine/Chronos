@@ -11,6 +11,7 @@
  * Created on 04 December 2018, 7:07 AM
  */
  
+#include "Notifier/CoutNotifier.h"
 #include "Notifier/LogFileNotifier.h"
 #include "Pdf/Splitter/Services/SplittingMachine.h"
 
@@ -22,10 +23,10 @@
 #include <vector>
  
 int main(int argc, char** argv) {
-
-    std::shared_ptr<Notifier::INotifier> notifier = std::make_shared<Notifier::LogFileNotifier>(
-            std::chrono::minutes(15),
-            "./logs/");
+   std::shared_ptr<Notifier::INotifier> notifier = std::make_shared<Notifier::CoutNotifier>();
+//    std::shared_ptr<Notifier::INotifier> notifier = std::make_shared<Notifier::LogFileNotifier>(
+//            std::chrono::minutes(15),
+//            "./logs/");
     notifier->notify("Starting Chronos-Pdf-Splitter...");
         
     std::vector<fs::path> paths;
@@ -38,7 +39,7 @@ int main(int argc, char** argv) {
     
     Pdf::Splitter::Services::SplittingMachine sm(paths, 
                                         sleep_time,
-                                        4,
+                                        1,
                                         notifier);
     sm.start();
     while (sm.get_is_running()) {
