@@ -30,10 +30,7 @@ int main(int argc, char** argv) {
     notifier->notify("Starting Chronos-Pdf-Splitter...");
         
     std::vector<fs::path> paths;
-    paths.push_back("./1/");
-    paths.push_back("./2/");
-    paths.push_back("./3/");
-    paths.push_back("./4/");
+    paths.push_back("./1/"); 
     
     std::chrono::seconds sleep_time(5);
     

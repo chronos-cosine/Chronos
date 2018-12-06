@@ -24,7 +24,7 @@ namespace Pdf {
                                                const std::chrono::seconds& t_sleep_time,
                                                const unsigned short& t_consumer_count) 
               : m_jobs(std::make_shared<
-                Collections::Concurrent::Queue<std::shared_ptr<Pdf::Splitter::Models::Job>>>()),
+                    Collections::Concurrent::Queue<std::shared_ptr<Pdf::Splitter::Models::Job>>>()),
                 m_is_running(false),
                 m_is_stopping(false),
                 m_notifier(nullptr) {
@@ -36,7 +36,7 @@ namespace Pdf {
                                 const unsigned short& t_consumer_count,
                                 const std::shared_ptr<Notifier::INotifier>& t_notifier)
               : m_jobs(std::make_shared<
-                Collections::Concurrent::Queue<std::shared_ptr<Pdf::Splitter::Models::Job>>>()),
+                    Collections::Concurrent::Queue<std::shared_ptr<Pdf::Splitter::Models::Job>>>()),
                 m_is_running(false),
                 m_is_stopping(false),
                 m_notifier(t_notifier) {

@@ -41,7 +41,7 @@ namespace Pdf {
                 notify("PdfSplitter::process()");
 
                 auto job = std::move(m_jobs->pop());
-                    notify("m_jobs->pop()");
+                notify("m_jobs->pop()");
                 if (fs::exists(job->filename)) {
                     
                     notify("s::exists(job->filename)");
@@ -58,13 +58,13 @@ namespace Pdf {
                         notify("input_document.GetPage(i)");
                         std::stringstream ss;
                         ss << "./output/" 
-                           << std::setw(4) << std::setfill('0') << i
+                           << std::setw(4) << std::setfill('0') << (i + 1)
                            << ".pdf";
                         
                         PoDoFo::PdfStreamedDocument output_document(ss.str().c_str());
                         
-                        notify("output_document");
-                        output_document.GetPagesTree()->InsertPage(0, page);
+                        notify("output_document");  
+                        output_document.InsertExistingPageAt(input_document, i, output_document.GetPageCount());
                         notify("InsertPage");
                         output_document.Close();
                     }
