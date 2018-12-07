@@ -37,10 +37,12 @@ namespace Pdf {
                 virtual ~SplittingMachine() = default;
                 SplittingMachine(const std::vector<fs::path>& t_paths,
                                  const std::chrono::seconds& t_sleep_time,
-                                 const unsigned short& t_consumer_count); 
+                                 const unsigned short& t_consumer_count,
+                                 const std::string& t_output_directory); 
                 SplittingMachine(const std::vector<fs::path>& t_paths,
                                  const std::chrono::seconds& t_sleep_time,
                                  const unsigned short& t_consumer_count,
+                                 const std::string& t_output_directory,
                                  const std::shared_ptr<Notifier::INotifier>& t_notifier); 
             public:
                 bool start();
@@ -68,6 +70,7 @@ namespace Pdf {
                 std::mutex m_mutex;
                 bool m_is_running;
                 bool m_is_stopping;
+                std::string m_output_directory;
             };
             
         } /* namespace Models */

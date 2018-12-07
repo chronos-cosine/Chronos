@@ -37,6 +37,7 @@ int main(int argc, char** argv) {
     Pdf::Splitter::Services::SplittingMachine sm(paths, 
                                         sleep_time,
                                         1,
+                                        "./output/",
                                         notifier);
     sm.start();
     while (sm.get_is_running()) {

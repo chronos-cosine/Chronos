@@ -30,8 +30,10 @@ namespace Pdf {
             class PdfSplitter : public Processors::ProcessorBase {
             public:
                 virtual ~PdfSplitter() = default;
-                PdfSplitter(const std::shared_ptr<Collections::ICollection<std::shared_ptr<Pdf::Splitter::Models::Job>>>& t_jobs); 
                 PdfSplitter(const std::shared_ptr<Collections::ICollection<std::shared_ptr<Pdf::Splitter::Models::Job>>>& t_jobs,
+                            const std::string& t_output_directory); 
+                PdfSplitter(const std::shared_ptr<Collections::ICollection<std::shared_ptr<Pdf::Splitter::Models::Job>>>& t_jobs,
+                            const std::string& t_output_directory,
                     const std::shared_ptr<Notifier::INotifier>& t_notifier); 
             protected:
                 virtual bool process();
@@ -40,7 +42,7 @@ namespace Pdf {
             private:
                 std::shared_ptr<Notifier::INotifier> m_notifier;
                 std::shared_ptr<Collections::ICollection<std::shared_ptr<Pdf::Splitter::Models::Job>>> m_jobs;
-
+                std::string m_output_directory;
             };
             
         } /* namespace Models */

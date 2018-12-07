@@ -24,14 +24,18 @@ namespace Pdf {
     namespace Splitter { 
         namespace Services { 
             
-            PdfSplitter::PdfSplitter(const std::shared_ptr<Collections::ICollection<std::shared_ptr<Pdf::Splitter::Models::Job>>>& t_jobs)
+            PdfSplitter::PdfSplitter(const std::shared_ptr<Collections::ICollection<std::shared_ptr<Pdf::Splitter::Models::Job>>>& t_jobs,
+                    const std::string& t_output_directory)
               : m_jobs(t_jobs), 
+                m_output_directory(t_output_directory),
                 m_notifier(nullptr) {
             }
             
             PdfSplitter::PdfSplitter(const std::shared_ptr<Collections::ICollection<std::shared_ptr<Pdf::Splitter::Models::Job>>>& t_jobs,
-                const std::shared_ptr<Notifier::INotifier>& t_notifier) 
+                    const std::string& t_output_directory,
+                    const std::shared_ptr<Notifier::INotifier>& t_notifier) 
               : m_jobs(t_jobs), 
+                m_output_directory(t_output_directory),
                 m_notifier(t_notifier) {
                 notify("PdfSplitter::PdfSplitter()");
             }
@@ -41,34 +45,24 @@ namespace Pdf {
                 notify("PdfSplitter::process()");
 
                 auto job = std::move(m_jobs->pop());
-                notify("m_jobs->pop()");
                 if (fs::exists(job->filename)) {
-                    
-                    notify("s::exists(job->filename)");
-                    
                     PoDoFo::PdfMemDocument input_document;
 
                     input_document.Load(job->filename.c_str());
+                    fs::path filename(job->filename);
 
-                    for (int i = 0; i < input_document.GetPageCount(); ++i) { 
-                        
-                        notify("loop");
-                        PoDoFo::PdfPage* page = input_document.GetPage(i);
-                        
-                        notify("input_document.GetPage(i)");
+                    for (int i = 0; i < input_document.GetPageCount(); ++i) {
                         std::stringstream ss;
-                        ss << "./output/" 
+                        ss << m_output_directory
+                           << filename.filename().stem().string() << "_"
                            << std::setw(4) << std::setfill('0') << (i + 1)
-                           << ".pdf";
+                           << ".pdf"; 
                         
-                        PoDoFo::PdfStreamedDocument output_document(ss.str().c_str());
-                        
-                        notify("output_document");  
+                        PoDoFo::PdfMemDocument output_document;
                         output_document.InsertExistingPageAt(input_document, i, output_document.GetPageCount());
-                        notify("InsertPage");
-                        output_document.Close();
+                        output_document.Write(ss.str().c_str());
                     }
-                } 
+                }
 
                 return true;
             }
@@ -83,4 +77,3 @@ namespace Pdf {
         } /* namespace Models */
     } /* namespace Splitter */
 } /* namespace Pdf */
-

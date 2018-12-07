@@ -22,11 +22,13 @@ namespace Pdf {
               
             SplittingMachine::SplittingMachine(const std::vector<fs::path>& t_paths,
                                                const std::chrono::seconds& t_sleep_time,
-                                               const unsigned short& t_consumer_count) 
+                                               const unsigned short& t_consumer_count,
+                                               const std::string& t_output_directory) 
               : m_jobs(std::make_shared<
                     Collections::Concurrent::Queue<std::shared_ptr<Pdf::Splitter::Models::Job>>>()),
                 m_is_running(false),
                 m_is_stopping(false),
+                m_output_directory(t_output_directory),
                 m_notifier(nullptr) {
                 init(t_paths, t_sleep_time, t_consumer_count);
             }
@@ -34,11 +36,13 @@ namespace Pdf {
             SplittingMachine::SplittingMachine(const std::vector<fs::path>& t_paths,
                                 const std::chrono::seconds& t_sleep_time,
                                 const unsigned short& t_consumer_count,
+                                const std::string& t_output_directory,
                                 const std::shared_ptr<Notifier::INotifier>& t_notifier)
               : m_jobs(std::make_shared<
                     Collections::Concurrent::Queue<std::shared_ptr<Pdf::Splitter::Models::Job>>>()),
                 m_is_running(false),
                 m_is_stopping(false),
+                m_output_directory(t_output_directory),
                 m_notifier(t_notifier) {
                 notify("SplittingMachine::SplittingMachine()");
                 
@@ -73,6 +77,7 @@ namespace Pdf {
 
                 for (unsigned short i = 0; i < t_consumer_count; ++i) {
                     m_job_consumers.push_back(std::make_shared<PdfSplitter>(m_jobs,
+                            m_output_directory,
                             m_notifier));
                 }
             }
