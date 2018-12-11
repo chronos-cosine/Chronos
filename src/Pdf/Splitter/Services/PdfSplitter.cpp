@@ -50,18 +50,20 @@ namespace Pdf {
 
                     input_document.Load(job->filename.c_str());
                     std::string filename(fs::path(job->filename)
-                                                .filename().stem().string());
+                                    .filename().stem().string());
 
-                    for (int i = 0; i < input_document.GetPageCount(); ++i) {
-                        std::stringstream new_filename;
+                    std::stringstream new_filename;
+                    int max = input_document.GetPageCount();
+                    for (int i = 0; i < max; ++i) {
+                        new_filename.str(std::string());
+                        new_filename.clear();
                         new_filename << m_output_directory
                            << filename << "_"
                            << std::setw(4) << std::setfill('0') << (i + 1)
                            << ".pdf"; 
                         
                         PoDoFo::PdfMemDocument output_document;
-                        output_document.InsertExistingPageAt(input_document, i, 
-                                            output_document.GetPageCount());
+                        output_document.InsertExistingPageAt(input_document, i, 0);
                         output_document.Write(new_filename.str().c_str());
                     }
                 }

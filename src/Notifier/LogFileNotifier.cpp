@@ -81,6 +81,7 @@ namespace Notifier {
         std::lock_guard<std::mutex> lock(__mutex);
         notify(message.str());
         message.str(std::string());
+        message.clear();
     }
 
 } /* namespace Notifier */
