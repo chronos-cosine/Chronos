@@ -18,8 +18,8 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#ifndef CHRONOS_PDF_TEXTEXTRACTOR_H
-#define CHRONOS_PDF_TEXTEXTRACTOR_H
+#ifndef PDF_TEXTEXTRACTOR_SERVICES_TEXTEXTRACTOR_H
+#define PDF_TEXTEXTRACTOR_SERVICES_TEXTEXTRACTOR_H
 
 #include "Geometry/Point.h"
 
@@ -33,22 +33,25 @@
 
 namespace Pdf {
     namespace TextExtractor {
-        class TextExtractor {
-        public:
-            TextExtractor();
-            virtual ~TextExtractor();
+        namespace Services {
+            class TextExtractor {
+            public:
+                virtual ~TextExtractor() = default;
+                TextExtractor() = default;
 
-            void Init( const char* pszInput );
-            std::map<Geometry::Point, std::string> data;
+                void Init( const char* pszInput );
+                std::map<Geometry::Point, std::string> data;
 
-        private: 
-            void ExtractText(PoDoFo::PdfMemDocument* pDocument, 
-                             PoDoFo::PdfPage* pPage ); 
-            void AddTextElement(double dCurPosX, double dCurPosY, 
-                                PoDoFo::PdfFont* pCurFont, 
-                                const PoDoFo::PdfString& rString);
-        }; /* class TextExtractor */
+            private: 
+                void ExtractText(PoDoFo::PdfMemDocument* pDocument, 
+                                 PoDoFo::PdfPage* pPage ); 
+                void AddTextElement(double dCurPosX, double dCurPosY, 
+                                    PoDoFo::PdfFont* pCurFont, 
+                                    const PoDoFo::PdfString& rString);
+            }; /* class TextExtractor */
+                    
+        } /* namespace Services */
     } /* namespace TextExtractor */
 } /* namespace Pdf */
 
-#endif /* CHRONOS_PDF_TEXTEXTRACTOR_H */
+#endif /* PDF_TEXTEXTRACTOR_SERVICES_TEXTEXTRACTOR_H */
