@@ -10,8 +10,5 @@
  #
  # Created on 30 October 2018, 10:52 PM
  ##
-
-set(CHRONOS_SOURCE_ROOT ${CMAKE_CURRENT_LIST_DIR})
-include_directories(${CMAKE_CURRENT_LIST_DIR})
-
-add_subdirectory(Apps)
+add_subdirectory(Sorter)
+add_subdirectory(Pdf)
