@@ -25,20 +25,9 @@ namespace Pdf {
              
             struct TextResult { 
                 Geometry::Point point;
-                PoDoFo::PdfFont pdf_font;
+                int font_size;
+                int page_number;
                 std::string text;
-                
-                TextResult() = default;
-
-                bool operator==(const TextResult& rhs) const noexcept;
-                bool operator!=(const TextResult& rhs) const noexcept;
-                bool operator<(const TextResult& rhs) const noexcept;
-                Job& operator=(const TextResult& rhs);
-                Job& operator<<(const std::vector<std::string>& rhs);
-                Job& operator<<(const boost::property_tree::ptree& rhs);
-
-                boost::property_tree::ptree& 
-                operator>>(boost::property_tree::ptree& lhs) const;
             };
 
         } /* namespace Models */

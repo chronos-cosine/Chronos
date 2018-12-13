@@ -18,41 +18,7 @@ namespace Pdf {
     namespace TextExtractor { 
         namespace Models { 
               
-            bool 
-            TextResult::operator==(const TextResult& rhs) const noexcept {
-                
-            }
-            
-            bool 
-            TextResult::operator!=(const TextResult& rhs) const noexcept {
-                
-            }
-            
-            bool 
-            TextResult::operator<(const TextResult& rhs) const noexcept {
-                
-            }
-            
-            Job& 
-            TextResult::operator=(const TextResult& rhs) {
-                
-            }
-            
-            Job& 
-            TextResult::operator<<(const std::vector<std::string>& rhs) {
-                
-            }
-            
-            Job& 
-            TextResult::operator<<(const boost::property_tree::ptree& rhs) {
-                
-            }
-            
-
-            boost::property_tree::ptree&  
-            TextResult::operator>>(boost::property_tree::ptree& lhs) const {
-                
-            }
+           
             
         } /* namespace Models */
     } /* namespace TextExtractor */
