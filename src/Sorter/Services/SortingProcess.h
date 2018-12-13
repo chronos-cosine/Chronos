@@ -15,7 +15,7 @@
 #define SORTER_SERVICES_SORTINGPROCESS_H
 
 #include "Collections/ICollection.h"
-#include "Notifier/INotifier.h"
+#include "Notifier/Notifiable.h"
 #include "Processors/ProcessorBase.h"
 #include "Sorter/Models/Job.h"
 #include "Sorter/Models/Result.h"
@@ -28,7 +28,8 @@
 namespace Sorter {
     namespace Services {
         
-        class SortingProcess : public Processors::ProcessorBase {
+        class SortingProcess : public Processors::ProcessorBase,
+                               public Notifier::Notifiable {
         public:
             virtual ~SortingProcess() = default;
             SortingProcess(const std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>>& t_jobs,
@@ -46,9 +47,7 @@ namespace Sorter {
             void validate(const std::shared_ptr<Sorter::Models::Job>& t_job);
             void remove_invalid(const std::shared_ptr<Sorter::Models::Job>& t_job);
             void save(const std::shared_ptr<Sorter::Models::Job>& t_job);
-            void notify(const std::string& t_message);
         private:
-            std::shared_ptr<Notifier::INotifier> m_notifier;
             std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>> m_jobs;
             std::shared_ptr<Collections::ICollection<std::shared_ptr<Sorter::Models::Job>>> m_results;
             std::vector<std::shared_ptr<IDataProvider>> m_data_providers;

@@ -11,7 +11,7 @@
  * Created on 02 November 2018, 4:26 PM
  */
 
-#include "Notifiable.h"
+#include "Notifier/Notifiable.h"
 
 #include <string>
 #include <sstream>
@@ -19,24 +19,30 @@
 
 namespace Notifier {
     Notifiable::Notifiable()
-        : notifier(std::shared_ptr<Notifier::INotifier>(nullptr)) {
+        : m_notifier(std::shared_ptr<Notifier::INotifier>(nullptr)) {
     }
     
-    Notifiable::Notifiable(const std::shared_ptr<Notifier::INotifier>& notifier) 
-        : notifier(notifier) {
+    Notifiable::Notifiable(const std::shared_ptr<Notifier::INotifier>& t_notifier) 
+        : m_notifier(t_notifier) {
+    }
+    
+    
+    std::shared_ptr<INotifier> 
+    Notifiable::get_notifier() {
+        return m_notifier;
     }
     
     void 
     Notifiable::notify(const std::string& message) {
-        if (nullptr != notifier) {
-            notifier->notify(message);
+        if (nullptr != m_notifier) {
+            m_notifier->notify(message);
         }
     }
     
     void 
     Notifiable::notify(std::stringstream& message) {
-        if (nullptr != notifier) {
-            notifier->notify(message);
+        if (nullptr != m_notifier) {
+            m_notifier->notify(message);
         }
     }
         

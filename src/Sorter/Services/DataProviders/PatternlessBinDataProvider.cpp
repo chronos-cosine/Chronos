@@ -26,13 +26,13 @@ namespace Sorter {
         namespace DataProviders {
             
             PatternlessBinDataProvider::PatternlessBinDataProvider(const std::shared_ptr<Sorter::Data::DataContext>& t_data_context) 
-              : m_notifier(nullptr) {
+              : Notifier::Notifiable() {
                 init(t_data_context);
             }
             
             PatternlessBinDataProvider::PatternlessBinDataProvider(const std::shared_ptr<Sorter::Data::DataContext>& t_data_context,
                     const std::shared_ptr<Notifier::INotifier>& t_notifier) 
-              : m_notifier(t_notifier) {
+              : Notifier::Notifiable(t_notifier) {
                 notify("PatternlessBinDataProvider::PatternlessBinDataProvider()");
                 
                 init(t_data_context);
@@ -61,13 +61,6 @@ namespace Sorter {
                     if ((pair.second)->patterns.empty()) {
                         m_bins.insert(pair.second);
                     }
-                }
-            }
-            
-            void 
-            PatternlessBinDataProvider::notify(const std::string& t_message) {
-                if (nullptr != m_notifier) {
-                    m_notifier->notify(t_message);
                 }
             }
             

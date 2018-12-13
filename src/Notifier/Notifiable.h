@@ -32,8 +32,9 @@ namespace Notifier {
     public:
         virtual void notify(const std::string& message);
         virtual void notify(std::stringstream& message);
+        std::shared_ptr<INotifier> get_notifier();
     private:
-        std::shared_ptr<INotifier> notifier;
+        std::shared_ptr<INotifier> m_notifier;
         
     }; /* class Notifiable */
     

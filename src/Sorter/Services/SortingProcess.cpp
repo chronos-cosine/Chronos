@@ -37,7 +37,7 @@ namespace Sorter {
                     const std::shared_ptr<Sorter::Data::DataContext>& t_data_context) 
                 : m_jobs(t_jobs), 
                   m_results(t_results), 
-                  m_notifier(nullptr) {
+                  Notifier::Notifiable() {
             init(t_data_context);
         }
         
@@ -48,7 +48,7 @@ namespace Sorter {
                     const std::shared_ptr<Notifier::INotifier>& t_notifier) 
                 : m_jobs(t_jobs), 
                   m_results(t_results), 
-                  m_notifier(t_notifier) {
+                  Notifier::Notifiable(t_notifier) {
             notify("SortingProcess::SortingProcess()");
             init(t_data_context);
         }
@@ -63,12 +63,12 @@ namespace Sorter {
                 patterns.push_back(pair.second);
             }
             
-            m_data_providers.push_back(std::make_shared<DataProviders::MultiPatternMatcher>(patterns, m_notifier));
-            m_data_providers.push_back(std::make_shared<DataProviders::PatternlessBinDataProvider>(t_data_context, m_notifier));
-            m_data_validators.push_back(std::make_shared<DataValidators::NotDataValidator>(t_data_context, m_notifier));
-            m_data_validators.push_back(std::make_shared<DataValidators::OrDataValidator>(t_data_context, m_notifier));
-            m_data_validators.push_back(std::make_shared<DataValidators::AndDataValidator>(t_data_context, m_notifier));
-            m_data_validators.push_back(std::make_shared<DataValidators::HierarchyValidator>(t_data_context, m_notifier));
+            m_data_providers.push_back(std::make_shared<DataProviders::MultiPatternMatcher>(patterns, get_notifier()));
+            m_data_providers.push_back(std::make_shared<DataProviders::PatternlessBinDataProvider>(t_data_context, get_notifier()));
+            m_data_validators.push_back(std::make_shared<DataValidators::NotDataValidator>(t_data_context, get_notifier()));
+            m_data_validators.push_back(std::make_shared<DataValidators::OrDataValidator>(t_data_context, get_notifier()));
+            m_data_validators.push_back(std::make_shared<DataValidators::AndDataValidator>(t_data_context, get_notifier()));
+            m_data_validators.push_back(std::make_shared<DataValidators::HierarchyValidator>(t_data_context, get_notifier()));
         }
         
         bool 
@@ -127,12 +127,5 @@ namespace Sorter {
             File::JsonDataWriter<Sorter::Models::Job>::write(result_output, *t_job);
         }
         
-        void 
-        SortingProcess::notify(const std::string& t_message) {
-            if (nullptr != m_notifier) {
-                m_notifier->notify(t_message);
-            }
-        }
-
     } /* namespace Services */
 } /* namespace Sorter */

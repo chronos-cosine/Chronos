@@ -15,7 +15,7 @@
 #define SORTER_SERVICES_DATAPROVIDERS_MULTIPATTERNMATCHER_H
 
 #include "Collections/IMap.h"
-#include "Notifier/INotifier.h"
+#include "Notifier/Notifiable.h"
 #include "PatternMatcher/PatternMatchingMachine.h"
 #include "Sorter/Models/Bin.h"
 #include "Sorter/Models/Job.h"
@@ -31,7 +31,8 @@ namespace Sorter {
     namespace Services {
         namespace DataProviders {
     
-            class MultiPatternMatcher : public IDataProvider {
+            class MultiPatternMatcher : public IDataProvider,
+                                        public Notifier::Notifiable {
                 struct match_found {
                     void operator()(
                         MultiPatternMatcher* t_sender, 
@@ -48,13 +49,11 @@ namespace Sorter {
                 virtual void process(const std::shared_ptr<Sorter::Models::Job>& t_job);
             private:
                 void init();
-                void notify(const std::string& t_message);
             private:
                 match_found m_match_found;
                 PatternMatcher::PatternMatchingMachine<Sorter::Models::Job, 
                                                        Sorter::Models::Pattern,
                                                        MultiPatternMatcher> m_matcher;
-                std::shared_ptr<Notifier::INotifier> m_notifier;
 
             }; /* class MultiPatternMatcher */ 
     

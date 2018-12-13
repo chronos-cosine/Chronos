@@ -14,7 +14,7 @@
 #ifndef SORTER_SERVICES_DATAVALIDATORS_ANDDATAVALIDATOR_H
 #define SORTER_SERVICES_DATAVALIDATORS_ANDDATAVALIDATOR_H
 
-#include "Notifier/INotifier.h"
+#include "Notifier/Notifiable.h"
 #include "Sorter/Data/DataContext.h"
 #include "Sorter/Services/IDataValidator.h"
 
@@ -25,7 +25,8 @@ namespace Sorter {
     namespace Services {
         namespace DataValidators {
     
-            class AndDataValidator : public IDataValidator {
+            class AndDataValidator : public IDataValidator,
+                                     Notifier::Notifiable {
             public:
                 virtual ~AndDataValidator() = default;
                 AndDataValidator(const std::shared_ptr<Sorter::Data::DataContext>& t_data_context,
@@ -34,10 +35,7 @@ namespace Sorter {
 
                 virtual void process(const std::shared_ptr<Sorter::Models::Job>& t_job);
             private:
-                void notify(const std::string& t_message);
-            private:
                 std::shared_ptr<Sorter::Data::DataContext> m_data_context;
-                std::shared_ptr<Notifier::INotifier> m_notifier;
             }; /* class AndDataValidator */
     
         } /* namespace DataValidators */

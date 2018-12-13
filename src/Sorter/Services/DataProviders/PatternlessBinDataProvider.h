@@ -14,6 +14,7 @@
 #ifndef SORTER_SERVICES_DATAPROVIDERS_PATTERNLESSBINDATAPROVIDER_H
 #define SORTER_SERVICES_DATAPROVIDERS_PATTERNLESSBINDATAPROVIDER_H
 
+#include "Notifier/Notifiable.h"
 #include "Sorter/Data/DataContext.h"
 #include "Sorter/Models/Bin.h"
 #include "Sorter/Models/Job.h"
@@ -26,7 +27,8 @@ namespace Sorter {
     namespace Services {
         namespace DataProviders {
                     
-            class PatternlessBinDataProvider : public IDataProvider {
+            class PatternlessBinDataProvider : public IDataProvider,
+                                               Notifier::Notifiable {
             public:
                 virtual ~PatternlessBinDataProvider() = default;
                 PatternlessBinDataProvider(
@@ -37,9 +39,7 @@ namespace Sorter {
                 virtual void process(const std::shared_ptr<Sorter::Models::Job>& t_job);
             private:
                 void init(const std::shared_ptr<Sorter::Data::DataContext>& t_data_context);
-                void notify(const std::string& t_message);
             private:
-                std::shared_ptr<Notifier::INotifier> m_notifier;
                 std::set<std::shared_ptr<Sorter::Models::Bin>> m_bins;
             };
 

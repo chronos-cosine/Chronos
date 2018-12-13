@@ -21,19 +21,19 @@ namespace Sorter {
         namespace DataProviders {
                     
             MultiPatternMatcher::MultiPatternMatcher(
-                    const std::vector<std::shared_ptr<Sorter::Models::Pattern>>& t_patterns,
-                    const std::shared_ptr<Notifier::INotifier>& t_notifier) 
+                    const std::vector<std::shared_ptr<Sorter::Models::Pattern>>& t_patterns) 
               : m_matcher(t_patterns), 
-                m_notifier(t_notifier) {
-                notify("MultiPatternMatcher::MultiPatternMatcher()");
-                
+                Notifier::Notifiable() {
                 m_matcher.match_found = m_match_found;
             }
             
             MultiPatternMatcher::MultiPatternMatcher(
-                    const std::vector<std::shared_ptr<Sorter::Models::Pattern>>& t_patterns) 
+                    const std::vector<std::shared_ptr<Sorter::Models::Pattern>>& t_patterns,
+                    const std::shared_ptr<Notifier::INotifier>& t_notifier) 
               : m_matcher(t_patterns), 
-                m_notifier(nullptr) {
+                Notifier::Notifiable(t_notifier) {
+                notify("MultiPatternMatcher::MultiPatternMatcher()");
+                
                 m_matcher.match_found = m_match_found;
             }
             
@@ -73,13 +73,6 @@ namespace Sorter {
                 m_matcher.match(t_job, this);
             }
             
-            void 
-            MultiPatternMatcher::notify(const std::string& t_message) {
-                if (nullptr != m_notifier) {
-                    m_notifier->notify(t_message);
-                }
-            }
-          
         } /* namespace DataProviders */
     } /* namespace Services */
 } /* namespace Sorter */ 
