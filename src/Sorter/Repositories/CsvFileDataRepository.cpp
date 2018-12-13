@@ -60,7 +60,8 @@ namespace Sorter {
         CsvFileDataRepository::create_data_context() {
             notify("CsvFileDataRepository::create_data_context()");
             
-            std::shared_ptr<Sorter::Data::DataContext> data_context(std::make_shared<Sorter::Data::DataContext>(m_notifier));
+            std::shared_ptr<Sorter::Data::DataContext> data_context(
+                std::make_shared<Sorter::Data::DataContext>(get_notifier()));
             
             read_bins(data_context);
             read_patterns(data_context);

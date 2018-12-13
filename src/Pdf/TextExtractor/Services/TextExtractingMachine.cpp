@@ -26,10 +26,8 @@ namespace Pdf {
                                                const std::string& t_output_directory) 
               : m_jobs(std::make_shared<
                     Collections::Concurrent::Queue<std::shared_ptr<Pdf::TextExtractor::Models::Job>>>()),
-                m_is_running(false),
-                m_is_stopping(false),
                 m_output_directory(t_output_directory),
-                m_notifier(nullptr) {
+                Processors::ProducerConsumerBase() {
                 init(t_paths, t_sleep_time, t_consumer_count);
             }
             
@@ -40,10 +38,8 @@ namespace Pdf {
                                 const std::shared_ptr<Notifier::INotifier>& t_notifier)
               : m_jobs(std::make_shared<
                     Collections::Concurrent::Queue<std::shared_ptr<Pdf::TextExtractor::Models::Job>>>()),
-                m_is_running(false),
-                m_is_stopping(false),
                 m_output_directory(t_output_directory),
-                m_notifier(t_notifier) {
+                Processors::ProducerConsumerBase(t_notifier) {
                 notify("TextExtractingMachine::TextExtractingMachine()");
                 
                 init(t_paths, t_sleep_time, t_consumer_count);
@@ -82,96 +78,6 @@ namespace Pdf {
                 }
             }
 
-            void 
-            TextExtractingMachine::create_producer_threads() {
-                notify("TextExtractingMachine::create_producer_threads()");
-
-                for (auto& producer: m_job_producers) {
-                    std::thread thread(&Processors::IProcessor::start, producer);
-                    thread.detach();
-                    m_job_producer_threads.push_back(std::move(thread));
-                }
-            }
-                 
-            void 
-            TextExtractingMachine::create_consumer_threads() {
-                notify("TextExtractingMachine::create_consumer_threads()");
-
-                for (auto& consumer: m_job_consumers) {
-                    std::thread thread(&Processors::IProcessor::start, consumer);
-                    thread.detach();
-                    m_job_consumer_threads.push_back(std::move(thread));
-                }
-            }
-            
-            bool 
-            TextExtractingMachine::start() {
-                notify("TextExtractingMachine::start()");
-
-                std::lock_guard<std::mutex> lock(m_mutex);
-
-                if (m_is_running || m_is_stopping) { 
-                    return false;
-                }
-
-                m_is_running = true;
-                create_producer_threads();
-                create_consumer_threads();
-
-                return true;
-            }
-            
-            bool
-            TextExtractingMachine::stop() {
-                notify("TextExtractingMachine::stop()");
-
-                std::lock_guard<std::mutex> lock(m_mutex);
-
-                if (!m_is_running || m_is_stopping) {
-                    return false;
-                }
-
-                m_is_stopping = true;
-                stop_producer_threads();
-                stop_consumer_threads();
-
-                m_job_producer_threads.clear();
-                m_job_consumer_threads.clear();
-
-                m_is_stopping = false;
-                return true;
-            }
-            
-            void 
-            TextExtractingMachine::stop_producer_threads() {
-                notify("TextExtractingMachine::stop_producer_threads()");
-
-                for (auto& producer: m_job_producers) {
-                    producer->stop();
-                }
-            }
-            
-            void 
-            TextExtractingMachine::stop_consumer_threads() {
-                notify("TextExtractingMachine::stop_consumer_threads()");
-
-                for (auto& consumer: m_job_consumers) {
-                    consumer->stop();
-                }
-            }
-            
-            bool 
-            TextExtractingMachine::get_is_running() const noexcept {
-                return m_is_running && !m_is_stopping;
-            }
-           
-            void 
-            TextExtractingMachine::notify(const std::string& t_message) {
-                if (nullptr != m_notifier) {
-                    m_notifier->notify(t_message);
-                }
-            }
-            
         } /* namespace Models */
     } /* namespace TextExtractor */
 } /* namespace Pdf */
