@@ -21,33 +21,39 @@
 #ifndef PDF_TEXTEXTRACTOR_SERVICES_TEXTEXTRACTOR_H
 #define PDF_TEXTEXTRACTOR_SERVICES_TEXTEXTRACTOR_H
 
-#include "Geometry/Point.h"
+#include "Collections/ICollection.h"
+#include "Notifier/Notifiable.h"
+#include "Pdf/TextExtractor/Models/Job.h"
+#include "Processors/ProcessorBase.h"
 
-#include <map>
+#include <memory>
 #include <podofo/podofo.h> 
 
 #ifndef MAX_PATH
 #define MAX_PATH 512
 #endif // MAX_PATH
 
-
 namespace Pdf {
     namespace TextExtractor {
         namespace Services {
-            class TextExtractor {
+            
+            class TextExtractor : public Processors::ProcessorBase,
+                                  public Notifier::Notifiable {
             public:
                 virtual ~TextExtractor() = default;
-                TextExtractor() = default;
-
-                void Init( const char* pszInput );
-                std::map<Geometry::Point, std::string> data;
-
+                TextExtractor(const std::shared_ptr<Collections::ICollection<std::shared_ptr<Pdf::TextExtractor::Models::Job>>>& t_jobs);
+                TextExtractor(const std::shared_ptr<Collections::ICollection<std::shared_ptr<Pdf::TextExtractor::Models::Job>>>& t_jobs,
+                              const std::shared_ptr<Notifier::INotifier>& t_notifier);
+            protected:
+                virtual bool process();
             private: 
-                void ExtractText(PoDoFo::PdfMemDocument* pDocument, 
+                void extract_text(PoDoFo::PdfMemDocument* pDocument, 
                                  PoDoFo::PdfPage* pPage ); 
-                void AddTextElement(double dCurPosX, double dCurPosY, 
+                void add_text_element(double dCurPosX, double dCurPosY, 
                                     PoDoFo::PdfFont* pCurFont, 
                                     const PoDoFo::PdfString& rString);
+            private:
+                std::shared_ptr<Collections::ICollection<std::shared_ptr<Pdf::TextExtractor::Models::Job>>> m_jobs;
             }; /* class TextExtractor */
                     
         } /* namespace Services */

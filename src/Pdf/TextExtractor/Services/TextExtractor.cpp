@@ -18,52 +18,69 @@
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
 
-#include "TextExtractor.h"
+#include "Geometry/Point.h"
+#include "Pdf/TextExtractor/Services/TextExtractor.h"
 
+#include <map>
 #include <stack>
-
-using namespace PoDoFo;
 
 namespace Pdf {
     namespace TextExtractor {
         namespace Services {
-         
-            void TextExtractor::Init( const char* pszInput ) {
-                if( !pszInput )
-                {
-                    PODOFO_RAISE_ERROR( ePdfError_InvalidHandle );
-                }
-
-                PdfMemDocument document;
-
-                document.Load( pszInput );
-
-                int nCount = document.GetPageCount();
-                for( int i=0; i<nCount; i++ ) 
-                {
-                    PdfPage* pPage = document.GetPage( i );
-
-                    this->ExtractText( &document, pPage );
-                }
+            
+            TextExtractor::TextExtractor(const std::shared_ptr<Collections::ICollection<std::shared_ptr<Pdf::TextExtractor::Models::Job>>>& t_jobs) 
+              : Notifier::Notifiable(),
+                m_jobs(t_jobs) {    
             }
+            
+            TextExtractor::TextExtractor(const std::shared_ptr<Collections::ICollection<std::shared_ptr<Pdf::TextExtractor::Models::Job>>>& t_jobs,
+                    const std::shared_ptr<Notifier::INotifier>& t_notifier) 
+              : Notifier::Notifiable(t_notifier),
+                m_jobs(t_jobs) {
+              
+                notify("TextExtractor::TextExtractor()");
+            }
+            
+            bool 
+            TextExtractor::process() {
+                notify("TextExtractor::process()");
 
-            void TextExtractor::ExtractText( PdfMemDocument* pDocument, PdfPage* pPage ) {
-                const char*      pszToken = NULL;
-                PdfVariant       var;
-                EPdfContentsType eType;
+                auto job = std::move(m_jobs->pop());
+                 
+                PoDoFo::PdfMemDocument document; 
+                document.Load(job->filename.c_str());
 
-                PdfContentsTokenizer tokenizer( pPage );
+                int page_count = document.GetPageCount();
+                for(int i = 0; i < page_count; ++i) {
+                    PoDoFo::PdfPage* page = document.GetPage(i);
 
-                double dCurPosX     = 0.0;
-                double dCurPosY     = 0.0;
-                bool   bTextBlock   = false;
-                PdfFont* pCurFont   = NULL;
+                    extract_text(&document, page);
+                }
+                
+                return true;
+            }
+         
+            void 
+            TextExtractor::extract_text(PoDoFo::PdfMemDocument* document, 
+                                        PoDoFo::PdfPage* page) {
+                notify("TextExtractor::ExtractText()");
+                
+                const char* pszToken = NULL;
+                PoDoFo::PdfVariant var;
+                PoDoFo::EPdfContentsType eType;
 
-                std::stack<PdfVariant> stack;
+                PoDoFo::PdfContentsTokenizer tokenizer(page);
+
+                double dCurPosX = 0.0;
+                double dCurPosY = 0.0;
+                bool bTextBlock = false;
+                PoDoFo::PdfFont* pCurFont = NULL;
+
+                std::stack<PoDoFo::PdfVariant> stack;
 
                 while( tokenizer.ReadNext( eType, pszToken, var ) )
                 {
-                    if( eType == ePdfContentsType_Keyword )
+                    if( eType == PoDoFo::ePdfContentsType_Keyword )
                     {
                         // support 'l' and 'm' tokens
                         if( strcmp( pszToken, "l" ) == 0 || 
@@ -78,9 +95,6 @@ namespace Pdf {
                             }
                             else
                             {
-            //                    fprintf( stderr, "WARNING: Token '%s' expects two arguments, but %" PDF_FORMAT_INT64 " given; ignoring\n",
-            //                        pszToken, static_cast<pdf_int64>( stack.size() ) );
-
                                 while( !stack.empty() )
                                     stack.pop();
                             }
@@ -88,8 +102,6 @@ namespace Pdf {
                         else if( strcmp( pszToken, "BT" ) == 0 ) 
                         {
                             bTextBlock   = true;     
-                            // BT does not reset font
-                            // pCurFont     = NULL;
                         }
                         else if( strcmp( pszToken, "ET" ) == 0 ) 
                         {
@@ -109,19 +121,19 @@ namespace Pdf {
                                 }
 
                                 stack.pop();
-                                PdfName fontName = stack.top().GetName();
-                                PdfObject* pFont = pPage->GetFromResources( PdfName("Font"), fontName );
+                                PoDoFo::PdfName fontName = stack.top().GetName();
+                                PoDoFo::PdfObject* pFont = page->GetFromResources(PoDoFo::PdfName("Font"), fontName);
                                 if( !pFont ) 
                                 {
-                                    PODOFO_RAISE_ERROR_INFO( ePdfError_InvalidHandle, "Cannot create font!" );
+                                    PODOFO_RAISE_ERROR_INFO(PoDoFo::ePdfError_InvalidHandle, "Cannot create font!" );
                                 }
 
-                                pCurFont = pDocument->GetFont( pFont );
+                                pCurFont = document->GetFont( pFont );
                                 if( !pCurFont )
                                 {
                                     fprintf( stderr, "WARNING: Unable to create font for object %" PDF_FORMAT_INT64 " %" PDF_FORMAT_INT64 " R\n",
-                                             static_cast<pdf_int64>( pFont->Reference().ObjectNumber() ),
-                                             static_cast<pdf_int64>( pFont->Reference().GenerationNumber() ) );
+                                             static_cast<PoDoFo::pdf_int64>( pFont->Reference().ObjectNumber() ),
+                                             static_cast<PoDoFo::pdf_int64>( pFont->Reference().GenerationNumber() ) );
                                 }
                             }
                             else if( strcmp( pszToken, "Tj" ) == 0 ||
@@ -133,7 +145,7 @@ namespace Pdf {
                                     continue;
                                 }
 
-                                AddTextElement( dCurPosX, dCurPosY, pCurFont, stack.top().GetString() );
+                                add_text_element( dCurPosX, dCurPosY, pCurFont, stack.top().GetString() );
                                 stack.pop();
                             }
                             else if( strcmp( pszToken, "\"" ) == 0 )
@@ -148,7 +160,7 @@ namespace Pdf {
                                     continue;
                                 }
 
-                                AddTextElement( dCurPosX, dCurPosY, pCurFont, stack.top().GetString() );
+                                add_text_element( dCurPosX, dCurPosY, pCurFont, stack.top().GetString() );
                                 stack.pop();
                                 stack.pop(); // remove char spacing from stack
                                 stack.pop(); // remove word spacing from stack
@@ -161,31 +173,33 @@ namespace Pdf {
                                     continue;
                                 }
 
-                                PdfArray array = stack.top().GetArray();
+                                PoDoFo::PdfArray array = stack.top().GetArray();
                                 stack.pop();
 
                                 for( int i=0; i<static_cast<int>(array.GetSize()); i++ ) 
                                 {
                                     if( array[i].IsString() || array[i].IsHexString() )
-                                        AddTextElement( dCurPosX, dCurPosY, pCurFont, array[i].GetString() );
+                                        add_text_element( dCurPosX, dCurPosY, pCurFont, array[i].GetString() );
                                 }
                             }
                         }
                     }
-                    else if ( eType == ePdfContentsType_Variant )
+                    else if (eType == PoDoFo::ePdfContentsType_Variant)
                     {
-                        stack.push( var );
+                        stack.push(var);
                     }
                     else
                     {
                         // Impossible; type must be keyword or variant
-                        PODOFO_RAISE_ERROR( ePdfError_InternalLogic );
+                        PODOFO_RAISE_ERROR(PoDoFo::ePdfError_InternalLogic);
                     }
                 }
             }
 
-            void TextExtractor::AddTextElement( double dCurPosX, double dCurPosY, 
-                            PdfFont* pCurFont, const PdfString & rString ) {
+            void 
+            TextExtractor::add_text_element(const Geometry::Point& current_position, 
+                            PoDoFo::PdfFont* pCurFont, 
+                            const PoDoFo::PdfString& rString ) {
                 if( !pCurFont ) 
                 {
                     fprintf( stderr, "WARNING: Found text but do not have a current font: %s\n", rString.GetString() );
@@ -198,23 +212,14 @@ namespace Pdf {
                     return;
                 }
 
-                // For now just write to console
-                PdfString unicode = pCurFont->GetEncoding()->ConvertToUnicode( rString, pCurFont );
-            //    const char* pszData = unicode.GetStringUtf8().c_str();
-            //    while( *pszData ) {
-            //        //printf("%02x", static_cast<unsigned char>(*pszData) );
-            //        ++pszData;
-            //    }
+                PoDoFo::PdfString unicode = pCurFont->GetEncoding()->ConvertToUnicode( rString, pCurFont ); 
 
-               // printf("(%.3f,%.3f) %s \n", dCurPosX, dCurPosY, unicode.GetStringUtf8().c_str() );
-                Geometry::Point pt(dCurPosX, dCurPosY);
-
-                auto iter = data.find(pt);
-                if (iter != data.end()) {
-                    iter->second += unicode.GetStringUtf8();
-                } else {
-                    data[std::move(pt)] = unicode.GetStringUtf8();
-                }
+//                auto iter = data.find(pt);
+//                if (iter != data.end()) {
+//                    iter->second += unicode.GetStringUtf8();
+//                } else {
+//                    data[std::move(pt)] = unicode.GetStringUtf8();
+//                }
             }
 
         } /* namespace Services */
