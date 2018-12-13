@@ -27,7 +27,6 @@ int main(int argc, char** argv) {
     std::shared_ptr<Notifier::INotifier> notifier = std::make_shared<Notifier::CoutNotifier>();
     notifier->notify("Starting Chronos-LogoRecogniser...");
     
-    
     //create a gui window:
     namedWindow("Output",1);
     
