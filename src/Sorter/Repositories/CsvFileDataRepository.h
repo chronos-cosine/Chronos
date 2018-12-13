@@ -14,7 +14,7 @@
 #ifndef SORTER_SERVICES_FILEDATAREPOSITORY_H
 #define SORTER_SERVICES_FILEDATAREPOSITORY_H
 
-#include "Notifier/INotifier.h"
+#include "Notifier/Notifiable.h"
 #include "Sorter/Repositories/IDataRepository.h"
 
 #include <experimental/filesystem>
@@ -26,7 +26,8 @@ namespace fs = std::experimental::filesystem;
 namespace Sorter {
     namespace Repositories {
         
-        class CsvFileDataRepository : public IDataRepository {
+        class CsvFileDataRepository : public IDataRepository,
+                                      Notifier::Notifiable {
             CsvFileDataRepository(const CsvFileDataRepository&) = delete;
             CsvFileDataRepository& operator=(const CsvFileDataRepository&) = delete;
         public:
@@ -42,9 +43,7 @@ namespace Sorter {
         private:
             void read_bins(const std::shared_ptr<Sorter::Data::DataContext>& t_dc);
             void read_patterns(const std::shared_ptr<Sorter::Data::DataContext>& t_dc);
-            void notify(const std::string& t_message);
         private:
-            std::shared_ptr<Notifier::INotifier> m_notifier;
             fs::path m_bins_file;
             fs::path m_patterns_file;
             

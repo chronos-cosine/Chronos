@@ -22,7 +22,7 @@ namespace Sorter {
                         const fs::path t_patterns_file) 
                 : m_bins_file(t_bins_file), 
                   m_patterns_file(t_patterns_file), 
-                  m_notifier(nullptr) {
+                  Notifier::Notifiable() {
         }
         
         CsvFileDataRepository::CsvFileDataRepository(const fs::path t_bins_file,
@@ -30,7 +30,7 @@ namespace Sorter {
                               const std::shared_ptr<Notifier::INotifier>& t_notifier)
                 : m_bins_file(t_bins_file), 
                   m_patterns_file(t_patterns_file), 
-                  m_notifier(t_notifier) {
+                  Notifier::Notifiable(t_notifier) {
             notify("CsvFileDataRepository::CsvFileDataRepository()");
         }
         
@@ -69,12 +69,5 @@ namespace Sorter {
             return data_context;
         }
         
-        void 
-        CsvFileDataRepository::notify(const std::string& t_message) {
-            if (nullptr != m_notifier) {
-                m_notifier->notify(t_message);
-            }
-        }
-         
     } /* namespace Repositories */
 } /* namespace Sorter */

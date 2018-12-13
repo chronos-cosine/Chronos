@@ -19,19 +19,12 @@ namespace Sorter {
     namespace Data {
         
         DataContext::DataContext() 
-          : m_notifier(nullptr) {
+          : Notifier::Notifiable() {
         }
         
         DataContext::DataContext(const std::shared_ptr<Notifier::INotifier>& t_notifier)
-          : m_notifier(t_notifier) {
+          : Notifier::Notifiable(t_notifier) {
             notify("DataContext::DataContext()");
-        }
-        
-        void 
-        DataContext::notify(const std::string& t_message) const {
-            if (nullptr != m_notifier) {
-                m_notifier->notify(t_message);
-            }
         }
         
         void 
