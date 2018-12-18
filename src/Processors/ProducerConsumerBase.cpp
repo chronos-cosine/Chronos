@@ -64,6 +64,11 @@ namespace Processors {
     ProducerConsumerBase::get_is_running() const noexcept {
         return m_is_running && !m_is_stopping;
     }
+    
+    bool
+    ProducerConsumerBase::get_is_stopping() const noexcept {
+        return m_is_stopping;
+    }
 
     bool 
     ProducerConsumerBase::start() {

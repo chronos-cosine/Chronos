@@ -34,6 +34,7 @@ if(Boost_FOUND)
         "${CHRONOS_SOURCE_ROOT}/PatternMatcher/Node.h"
         "${CHRONOS_SOURCE_ROOT}/PatternMatcher/PatternMatchingMachine.h"
         "${CHRONOS_SOURCE_ROOT}/Processors/IProcessor.h"
+        "${CHRONOS_SOURCE_ROOT}/Processors/IRunnable.h"
         "${CHRONOS_SOURCE_ROOT}/Processors/ProcessorBase.cpp"
         "${CHRONOS_SOURCE_ROOT}/Processors/ProcessorBase.h"
         "${CHRONOS_SOURCE_ROOT}/Processors/ProducerConsumerBase.cpp" 

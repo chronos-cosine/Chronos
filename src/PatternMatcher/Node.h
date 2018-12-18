@@ -69,14 +69,17 @@ namespace PatternMatcher {
 } /* namespace PatternMatcher */
 
 namespace std {
+    
     template <typename PATTERN>
     struct hash<PatternMatcher::Node<PATTERN>> {
+        
         std::size_t 
         operator()(const PatternMatcher::Node<PATTERN> node) const {
             return std::hash<char>{}(node.value);
         }
-    };
-}
+        
+    }; /* struct hash<PatternMatcher::Node<PATTERN>> */ 
+} /* namespace std */
 
 #endif /* PATTERNMATCHER_NODE_H */
 

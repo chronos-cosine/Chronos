@@ -11,7 +11,7 @@
  * Created on 09 October 2018, 10:52 PM
  */
 
-#include "Processors/ProcessorBase.h" // <-- Header -->
+#include "Processors/ProcessorBase.h"
 #include "Processors/IProcessor.h"
  
 #include <memory>
@@ -21,26 +21,26 @@
 namespace Processors {
 
     ProcessorBase::ProcessorBase()
-            : __sleep_time(std::chrono::seconds(30)),
-              __is_running(false),
-              __is_executing(false),
-              __is_stopping(false) {
+            : m_sleep_time(std::chrono::seconds(30)),
+              m_is_running(false),
+              m_is_executing(false),
+              m_is_stopping(false) {
     }
         
     ProcessorBase::ProcessorBase(const std::chrono::seconds& sleep_time)
-            : __sleep_time(sleep_time),
-              __is_running(false),
-              __is_executing(false),
-              __is_stopping(false) {
+            : m_sleep_time(sleep_time),
+              m_is_running(false),
+              m_is_executing(false),
+              m_is_stopping(false) {
     }
     
     bool 
-    ProcessorBase::set_is_running(const bool& value) noexcept {
-        std::lock_guard<std::mutex> lock(__mutex);
+    ProcessorBase::set_is_running(const bool& t_value) noexcept {
+        std::lock_guard<std::mutex> lock(m_mutex);
         
-        if (__is_running != value && !__is_stopping) { 
-            __is_running = value;
-            __is_stopping = !__is_running;
+        if (m_is_running != t_value && !m_is_stopping) { 
+            m_is_running = t_value;
+            m_is_stopping = !m_is_running;
             return true; 
         }
         
@@ -48,11 +48,11 @@ namespace Processors {
     }
     
     bool 
-    ProcessorBase::set_is_stopping(const bool& value) noexcept {
-        std::lock_guard<std::mutex> lock (__mutex);
+    ProcessorBase::set_is_stopping(const bool& t_value) noexcept {
+        std::lock_guard<std::mutex> lock (m_mutex);
         
-        if (__is_stopping != value) {
-            __is_stopping = value;
+        if (m_is_stopping != t_value) {
+            m_is_stopping = t_value;
             return true;
         }
         
@@ -61,17 +61,17 @@ namespace Processors {
     
     bool 
     ProcessorBase::get_is_running() const noexcept {
-        return __is_running;
+        return m_is_running;
     } 
     
     bool 
     ProcessorBase::get_is_executing() const noexcept {
-        return __is_running;
+        return m_is_running;
     } 
         
     bool 
     ProcessorBase::get_is_stopping() const noexcept {
-        return __is_stopping;
+        return m_is_stopping;
     }
     
     bool
@@ -80,21 +80,21 @@ namespace Processors {
             return false;
         }
         
-        while (__is_running) {
-            __is_executing = true;
+        while (m_is_running) {
+            m_is_executing = true;
             
-            if (__is_running && !process()) {
-                __is_executing = false;
-                std::this_thread::sleep_for(__sleep_time);
+            if (m_is_running && !process()) {
+                m_is_executing = false;
+                std::this_thread::sleep_for(m_sleep_time);
             }
         }
         
-        __is_stopping = false;
+        m_is_stopping = false;
         return true;
     } 
     
     bool 
-    ProcessorBase::stop() noexcept {
+    ProcessorBase::stop() {
         return set_is_running(false);
     }
 

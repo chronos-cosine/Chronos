@@ -14,22 +14,13 @@
 #ifndef PROCESSORS_IPROCESSOR_H
 #define PROCESSORS_IPROCESSOR_H
 
+#include "Processors/IRunnable.h"
+
 namespace Processors {
 
-    class IProcessor {
-        IProcessor(const IProcessor&) = delete;
-        IProcessor& operator=(const IProcessor&) = delete;
-        IProcessor(const IProcessor&&) = delete;
-        IProcessor& operator=(const IProcessor&&) = delete;
+    class IProcessor : public IRunnable {
     public:
-        virtual ~IProcessor() = default;
-        IProcessor() = default;
-        
-        virtual bool start() = 0;
-        virtual bool stop() noexcept = 0;
-        virtual bool get_is_running() const noexcept = 0; 
         virtual bool get_is_executing() const noexcept = 0;
-        virtual bool get_is_stopping() const noexcept = 0;
     protected:
         virtual bool process() = 0;
         

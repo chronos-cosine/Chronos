@@ -11,8 +11,8 @@
  * Created on 09 October 2018, 10:52 PM
  */
 
-#ifndef CORE_PROCESSORBASE_H
-#define CORE_PROCESSORBASE_H
+#ifndef PROCESSORS_PROCESSORBASE_H
+#define PROCESSORS_PROCESSORBASE_H
 
 #include "Processors/IProcessor.h"
 
@@ -24,26 +24,26 @@ namespace Processors {
 
     class ProcessorBase : public IProcessor {
     private:
-        std::mutex __mutex;
-        bool __is_running;
-        bool __is_executing;
-        bool __is_stopping;
-        std::chrono::seconds __sleep_time;
+        std::mutex m_mutex;
+        bool m_is_running;
+        bool m_is_executing;
+        bool m_is_stopping;
+        std::chrono::seconds m_sleep_time;
     public:
         virtual ~ProcessorBase() = default;
         ProcessorBase();
-        ProcessorBase(const std::chrono::seconds& sleep_time);
+        ProcessorBase(const std::chrono::seconds& t_sleep_time);
         
         virtual bool start();
-        virtual bool stop() noexcept;
+        virtual bool stop();
         
-        bool get_is_stopping() const noexcept;
-        bool get_is_running() const noexcept; 
+        virtual bool get_is_stopping() const noexcept;
+        virtual bool get_is_running() const noexcept; 
         bool get_is_executing() const noexcept;
     protected:
-        bool set_is_stopping(const bool& value) noexcept;
+        bool set_is_stopping(const bool& t_value) noexcept;
     private:
-        bool set_is_running(const bool& value) noexcept;
+        bool set_is_running(const bool& t_value) noexcept;
         
     }; /* class ProcessorBase */
 

@@ -31,7 +31,7 @@ set(CHRONOS_VERSION_MINOR 1)
 set(CHRONOS_VERSION_PATCH 1)
 
 # ================ MAIN OBJECTS ==================
-set(CMAKE_CXX_FLAGS "-std=c++17 -pthread")
+set(CMAKE_CXX_FLAGS "-std=c++14 -pthread")
 set(CMAKE_STATIC_LIBRARY_PREFIX "")
 
 # ================ MAIN SOURCE =========================

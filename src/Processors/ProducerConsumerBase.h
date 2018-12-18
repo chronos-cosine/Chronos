@@ -17,6 +17,7 @@
 #include "Notifier/INotifier.h"
 #include "Notifier/Notifiable.h"
 #include "Processors/IProcessor.h"
+#include "Processors/IRunnable.h"
 
 #include <chrono>
 #include <memory>
@@ -26,15 +27,17 @@
 
 namespace Processors {
  
-    class ProducerConsumerBase : public Notifier::Notifiable {
+    class ProducerConsumerBase : public Notifier::Notifiable,
+                                 public IRunnable {
     public:
         virtual ~ProducerConsumerBase() = default;
         ProducerConsumerBase();
         ProducerConsumerBase(const std::shared_ptr<Notifier::INotifier>& t_notifier);
     public:
-        bool start();
-        bool stop();
-        bool get_is_running() const noexcept;
+        virtual bool start();
+        virtual bool stop();
+        virtual bool get_is_running() const noexcept;
+        virtual bool get_is_stopping() const noexcept;
     protected: 
         virtual void create_producer_threads();
         virtual void create_consumer_threads();
