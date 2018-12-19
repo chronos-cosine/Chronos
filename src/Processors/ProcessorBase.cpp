@@ -21,17 +21,17 @@
 namespace Processors {
 
     ProcessorBase::ProcessorBase()
-            : m_sleep_time(std::chrono::seconds(30)),
-              m_is_running(false),
-              m_is_executing(false),
-              m_is_stopping(false) {
+      : m_sleep_time(std::chrono::seconds(30)),
+        m_is_running(false),
+        m_is_executing(false),
+        m_is_stopping(false) {
     }
         
     ProcessorBase::ProcessorBase(const std::chrono::seconds& sleep_time)
-            : m_sleep_time(sleep_time),
-              m_is_running(false),
-              m_is_executing(false),
-              m_is_stopping(false) {
+      : m_sleep_time(sleep_time),
+        m_is_running(false),
+        m_is_executing(false),
+        m_is_stopping(false) {
     }
     
     bool 

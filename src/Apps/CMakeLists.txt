@@ -11,6 +11,7 @@
  # Created on 30 October 2018, 10:52 PM
  ##
 
-add_subdirectory(LogoRecogniser)
-add_subdirectory(Pdf)
-add_subdirectory(Sorter)
+#add_subdirectory(LogoRecogniser)
+#add_subdirectory(Pdf)
+#add_subdirectory(Sorter)
+add_subdirectory(AI)

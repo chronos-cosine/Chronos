@@ -23,12 +23,6 @@
 namespace Processors {
 
     class ProcessorBase : public IProcessor {
-    private:
-        std::mutex m_mutex;
-        bool m_is_running;
-        bool m_is_executing;
-        bool m_is_stopping;
-        std::chrono::seconds m_sleep_time;
     public:
         virtual ~ProcessorBase() = default;
         ProcessorBase();
@@ -44,6 +38,12 @@ namespace Processors {
         bool set_is_stopping(const bool& t_value) noexcept;
     private:
         bool set_is_running(const bool& t_value) noexcept;
+    private:
+        std::mutex m_mutex;
+        bool m_is_running;
+        bool m_is_executing;
+        bool m_is_stopping;
+        std::chrono::seconds m_sleep_time;
         
     }; /* class ProcessorBase */
 
