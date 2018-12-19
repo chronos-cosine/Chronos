@@ -43,11 +43,14 @@ namespace AI {
                 for (uint16_t next_level_index = 0; 
                      next_level_index < m_next_layer->get_neuron_count();
                      ++next_level_index) {
+                    T sum = 0;
                     for (uint16_t current_level_index = 0; 
-                         current_level_index< m_neuron_count; 
+                         current_level_index <= m_neuron_count; 
                          ++current_level_index) {
-                        
+                        sum += m_values[current_level_index] * m_weights(next_level_index, current_level_index);
                     }
+                    sum = m_activation_function->f(sum);
+                    m_next_layer->set_value(next_level_index, sum);
                 }
                     
             }
