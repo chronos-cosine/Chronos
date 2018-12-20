@@ -5,30 +5,30 @@
  */
 
 /* 
- * File:   IActivationFunction.h
+ * File:   INeuron.h
  * Author: user
  *
- * Created on 19 December 2018, 7:03 AM
- * https://mattmazur.com/2015/03/17/a-step-by-step-backpropagation-example/
+ * Created on 20 December 2018, 6:55 AM
  */
 
-#ifndef AI_NEURALNETWORKS_ANN_IACTIVATIONFUNCTION_H
-#define AI_NEURALNETWORKS_ANN_IACTIVATIONFUNCTION_H
+#ifndef AI_NEURALNETWORKS_ANN_INEURON_H
+#define AI_NEURALNETWORKS_ANN_INEURON_H
 
 namespace AI {
     namespace NeuralNetworks {
         namespace ANN {
             
             template <typename T>
-            class IActivationFunction {
+            class INeuron {
             public:
-                virtual T f(T input) const = 0;
+                virtual T get_value() const = 0;
+                virtual void set_value(const T& t_value) = 0;
                 
-            }; /* class IActivationFunction */
+            }; /* class INeuron */
             
         } /* namespace ANN */
     } /* namespace NeuralNetworks */
 } /* namespace AI */
 
-#endif /* AI_NEURALNETWORKS_ANN_IACTIVATIONFUNCTION_H */
+#endif /* AI_NEURALNETWORKS_ANN_INEURON_H */
 

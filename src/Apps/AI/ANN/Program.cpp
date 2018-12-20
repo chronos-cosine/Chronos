@@ -14,7 +14,7 @@
 #include <memory>
 
 #include "AI/NeuralNetworks/ANN/IActivationFunction.h"
-#include "AI/NeuralNetworks/ANN/ILayer.h"
+#include "AI/NeuralNetworks/ANN/IFeedForwardLayer.h"
 
 namespace ai = AI::NeuralNetworks::ANN;
 

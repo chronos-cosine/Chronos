@@ -16,9 +16,10 @@ find_package(Boost REQUIRED COMPONENTS filesystem)
 if(Boost_FOUND) 
     set (Sorter_SOURCES
         "${CHRONOS_SOURCE_ROOT}/AI/NeuralNetworks/ANN/IActivationFunction.h"
-        "${CHRONOS_SOURCE_ROOT}/AI/NeuralNetworks/ANN/ILayer.h"
-        "${CHRONOS_SOURCE_ROOT}/AI/NeuralNetworks/ANN/Layer.cpp"
-        "${CHRONOS_SOURCE_ROOT}/AI/NeuralNetworks/ANN/Layer.h"
+        "${CHRONOS_SOURCE_ROOT}/AI/NeuralNetworks/ANN/IFeedforwardLayer.h" 
+        "${CHRONOS_SOURCE_ROOT}/AI/NeuralNetworks/ANN/INeuron.h"
+        "${CHRONOS_SOURCE_ROOT}/AI/NeuralNetworks/ANN/ISummationFunction.h" 
+        "${CHRONOS_SOURCE_ROOT}/AI/NeuralNetworks/ANN/IWeight.h" 
         "${CMAKE_CURRENT_LIST_DIR}/Program.cpp"
     )
 
