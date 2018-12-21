@@ -5,16 +5,14 @@
  */
 
 /* 
- * File:   IActivationFunction.h
+ * File:   ILogisticFunction.h
  * Author: user
  *
- * Created on 19 December 2018, 7:03 AM
- * https://mattmazur.com/2015/03/17/a-step-by-step-backpropagation-example/
+ * Created on 21 December 2018, 6:43 AM
  */
 
 #ifndef AI_NEURALNETWORKS_ANN_IACTIVATIONFUNCTION_H
 #define AI_NEURALNETWORKS_ANN_IACTIVATIONFUNCTION_H
-
 namespace AI {
     namespace NeuralNetworks {
         namespace ANN {
@@ -23,6 +21,7 @@ namespace AI {
             class IActivationFunction {
             public:
                 virtual T f(T input) const = 0;
+                virtual T f_derivative(T input) const = 0;
                 
             }; /* class IActivationFunction */
             

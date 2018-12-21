@@ -21,10 +21,15 @@ namespace AI {
         namespace ANN {
             
             template <typename T>
+            class INeuron;
+            template <typename T>
+            class IWeight;
+            
+            template <typename T>
             class ISummationFunction {
             public:
-                virtual T f(const std::vector<T>& t_neuron_values,
-                            const std::vector<T>& t_neuron_weights) const = 0;
+                virtual T f(const std::vector<INeuron<T>>& t_neurons,
+                            const std::vector<IWeight<T>>& t_neuron_weights) const = 0;
                 
             }; /* class ISummationFunction */
             
